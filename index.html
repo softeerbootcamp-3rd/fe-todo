@@ -7,7 +7,99 @@
     <link rel="stylesheet" href="./src/styles.css" />
   </head>
   <body>
-    <p class="display-bold24">안녕~</p>
+    <div class="layout">
+      <header class="header">
+        <h1 class="logo text-strong">TODOLIST</h1>
+        <button type="button">
+          <img alt="사용기록" src="./assets/icons/history.svg" />
+        </button>
+      </header>
+      <main>
+        <section>
+          <h2>
+            <span>해야할 일</span>
+            <div>3</div>
+            <button type="button">+</button>
+            <button type="button">x</button>
+          </h2>
+          <ul>
+            <li>
+              <div>
+                <h3>GitHub 공부하기</h3>
+                <p>add, commit, push</p>
+                <span>author by jj</span>
+              </div>
+              <div>
+                <button type="button">X</button>
+                <button type="button">pencil</button>
+              </div>
+            </li>
+            <li>
+              <div>
+                <input type="text" placeholder="제목을 입력하세요" />
+                <input type="text" placeholder="내용을 입력하세요" />
+              </div>
+              <div>
+                <button type="button">취소</button>
+                <button type="button">등록</button>
+              </div>
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>
+            <span>해야할 일</span>
+            <div>3</div>
+            <button type="button">+</button>
+            <button type="button">x</button>
+          </h2>
+          <ul></ul>
+        </section>
+        <section>
+          <h2>
+            <span>해야할 일</span>
+            <div>3</div>
+            <button type="button">+</button>
+            <button type="button">x</button>
+          </h2>
+          <ul></ul>
+        </section>
+
+        <aside>
+          <div>
+            <span>사용자 활동 기록</span>
+            <button type="button">X 닫기</button>
+          </div>
+          <ul>
+            <li>
+              <div><img src="./assets/icons/history.svg" /></div>
+              <div>
+                <p>@멋진삼</p>
+                <p>
+                  블로그에 포스팅할 것을(를) 하고있는 일에서 해야할 일으로
+                  이동하였습니다.
+                </p>
+                <span>10분 전</span>
+              </div>
+            </li>
+            <li>
+              <div><img src="./assets/icons/history.svg" /></div>
+              <div>
+                <p>@멋진삼</p>
+                <p>
+                  블로그에 포스팅할 것을(를) 하고있는 일에서 해야할 일으로
+                  이동하였습니다.
+                </p>
+                <span>10분 전</span>
+              </div>
+            </li>
+          </ul>
+          <div>
+            <button type="button">기록 전체 삭제</button>
+          </div>
+        </aside>
+      </main>
+    </div>
     <script type="module" src="./src/index.js"></script>
   </body>
 </html>
