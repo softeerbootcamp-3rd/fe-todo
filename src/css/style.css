@@ -1,2 +1,165 @@
-@import "./reset.css";
 @import "./variables.css";
+@import "./reset.css";
+
+#app {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg_color);
+}
+
+.header {
+  width: 100%;
+  height: 64px;
+  padding: 0 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__title {
+  /* font-size: 24px;
+  font-weight: 700; */
+  font: 700 24px Pretendard, -apple-system, BlinkMacSystemFont, system-ui;
+}
+
+.header__history-btn {
+  width: 24px;
+  height: 24px;
+}
+
+.main {
+  width: 100%;
+  padding: 0 80px;
+  height: calc(100% - 64px);
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.main__column {
+  width: 300px;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.main__column__nav {
+  width: 100%;
+  height: 24px;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.column__nav__info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
+.column__nav__info__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gray_dark);
+}
+
+.column__nav__info__count {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  border: 1px solid var(--border_color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text_weak);
+}
+
+.column__nav__btn-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.column__nav__btn-list button {
+  width: 24px;
+  height: 24px;
+}
+.column__nav__btn-list__add-card-btn {
+  background-image: url("/assets/plus.svg");
+}
+.column__nav__btn-list__delete-cloumn-btn {
+  background-image: url("/assets/delete.svg");
+}
+
+.card-list {
+  width: 100%;
+  height: calc(100% - 34px);
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.card {
+  width: 100%;
+  min-height: 104px;
+  background-color: var(--surface_default);
+  border-radius: 8px;
+  box-shadow: 0px 1px 4px 0px rgba(110, 128, 145, 0.24);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px;
+  position: relative;
+}
+
+.card__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text_strong);
+}
+
+.card__content {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text_default);
+}
+
+.card__author {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text_weak);
+  margin-top: 8px;
+}
+
+.card__btn-list {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card__btn-list button {
+  width: 24px;
+  height: 24px;
+}
+
+.card__btn-list__delete-card-btn {
+  background-image: url("/assets/delete.svg");
+}
+
+.card__btn-list__edit-card-btn {
+  background-image: url("/assets/edit.svg");
+}
