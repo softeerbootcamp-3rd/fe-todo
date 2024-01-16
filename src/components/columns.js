@@ -1,5 +1,5 @@
 import Card from "./cards.js";
-
+import { handleRegisterStatus } from "./cards.js";
 export default function Column({ title, id, count }) {
   const column = document.createElement("div");
   column.className = "column";
@@ -31,6 +31,7 @@ function addCard(button) {
   const headerId = button.parentElement;
   const columnId = headerId.parentElement.id;
   createCard(columnId);
+  handleRegisterStatus();
 }
 
 function createCard(id) {
