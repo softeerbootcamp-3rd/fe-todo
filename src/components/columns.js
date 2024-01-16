@@ -21,12 +21,9 @@ function createCard(id) {
 }
 
 function addCard() {
-  const columnId = document.getElementById("add").parentElement.id;
-  createCard(columnId);
+  const addId = document.getElementById("add");
+  const columnId = addId.parentElement.id;
+  addId.addEventListener("click", () => createCard(columnId));
 }
 
-document.addEventListener("DOMContentLoaded", test);
-
-function test() {
-  document.getElementById("add").addEventListener("click", addCard);
-}
+document.addEventListener("DOMContentLoaded", addCard);
