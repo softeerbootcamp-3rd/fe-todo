@@ -1,13 +1,5 @@
-import Card from "./src/components/cards.js";
 import Column from "./src/components/columns.js";
 import { columns } from "./src/constants/columnData.js";
-
-function createCard(id) {
-  const column = document.getElementById(id);
-
-  const card = Card();
-  column.appendChild(card);
-}
 
 function createColumn(col) {
   const app = document.getElementById("app");
@@ -23,4 +15,4 @@ function spreadColumn() {
 }
 
 spreadColumn();
-createCard("todo");
+// createCard("todo");
