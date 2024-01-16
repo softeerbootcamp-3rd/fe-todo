@@ -18,32 +18,26 @@ export default function Column({ title, id, count }) {
   return column;
 }
 
+function handleAddClick() {
+  const buttons = document.querySelectorAll(".add");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => addCard(button));
+  });
+}
+
+function addCard(button) {
+  // 공통 이벤트 동작
+  const headerId = button.parentElement;
+  const columnId = headerId.parentElement.id;
+  createCard(columnId);
+}
+
 function createCard(id) {
-  console.log(id);
   const column = document.getElementById(id);
 
   const card = Card();
   column.appendChild(card);
 }
 
-function addCard() {
-  let buttons = document.querySelectorAll(".add");
-
-  buttons.forEach(function (button) {
-    button.addEventListener("click", function () {
-      // 공통 이벤트 동작
-      const headerId = button.parentElement;
-      const columnId = headerId.parentElement.id;
-
-      createCard(columnId);
-      console.log(columnId);
-    });
-  });
-
-  //   const addClass = document.querySelector(".add");
-  //   const headerId = document.parentElement;
-  //   const columnId = headerId.parentElement.id;
-  //   addClass.addEventListener("click", () => createCard(columnId));
-}
-
-document.addEventListener("DOMContentLoaded", addCard);
+document.addEventListener("DOMContentLoaded", handleAddClick);
