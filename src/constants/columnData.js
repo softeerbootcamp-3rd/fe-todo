@@ -1,4 +1,4 @@
-const columns = [
+export const columns = [
   {
     id: "todo",
     title: "해야할 일",

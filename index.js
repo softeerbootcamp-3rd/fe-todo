@@ -1,18 +1,26 @@
 import Card from "./src/components/cards.js";
 import Column from "./src/components/columns.js";
+import { columns } from "./src/constants/columnData.js";
 
 function createCard(id) {
-  const test2 = document.getElementById(id);
+  const column = document.getElementById(id);
 
-  const test = Card();
-  test2.appendChild(test);
+  const card = Card();
+  column.appendChild(card);
 }
 
-function createColumn(title, id) {
-  const test = document.getElementById("app");
-  const test2 = Column(title, id);
+function createColumn(col) {
+  const app = document.getElementById("app");
+  const columnElement = Column(col);
 
-  test.appendChild(test2);
+  app.appendChild(columnElement);
 }
-createColumn("해야할 일", "todo");
+
+function spreadColumn() {
+  for (let column of columns) {
+    createColumn(column);
+  }
+}
+
+spreadColumn();
 createCard("todo");
