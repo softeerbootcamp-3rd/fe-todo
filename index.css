@@ -13,10 +13,6 @@ body {
   flex-direction: row;
 }
 
-section {
-  border: 1px solid black;
-}
-
 ul {
   list-style: none;
   display: flex;

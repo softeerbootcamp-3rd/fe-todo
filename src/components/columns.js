@@ -6,19 +6,20 @@ export default function Column({ title, id, count }) {
   column.id = id;
 
   column.innerHTML = `
-  <div id = "columnHeader">
+  <header id = "columnHeader">
     <div class="columnInfo"> 
         <span>${title}</span>
         <span class="countBox">${count}</span>
     </div>
-    <span id="add"><i class="fa-solid fa-plus"></i></span>
+    <span id="add" class="add" ><i class="fa-solid fa-plus"></i></span>
     <span id="delete"><i class="fa-solid fa-xmark"></i></span>
-  </div>
+  </header>
     `;
   return column;
 }
 
 function createCard(id) {
+  console.log(id);
   const column = document.getElementById(id);
 
   const card = Card();
@@ -26,10 +27,23 @@ function createCard(id) {
 }
 
 function addCard() {
-  const addId = document.getElementById("add");
-  const columnId = addId.parentElement;
-  const header = columnId.parentElement.id;
-  addId.addEventListener("click", () => createCard(header));
+  let buttons = document.querySelectorAll(".add");
+
+  buttons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      // 공통 이벤트 동작
+      const headerId = button.parentElement;
+      const columnId = headerId.parentElement.id;
+
+      createCard(columnId);
+      console.log(columnId);
+    });
+  });
+
+  //   const addClass = document.querySelector(".add");
+  //   const headerId = document.parentElement;
+  //   const columnId = headerId.parentElement.id;
+  //   addClass.addEventListener("click", () => createCard(columnId));
 }
 
 document.addEventListener("DOMContentLoaded", addCard);
