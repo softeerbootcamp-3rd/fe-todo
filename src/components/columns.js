@@ -6,10 +6,15 @@ export default function Column({ title, id, count }) {
   column.id = id;
 
   column.innerHTML = `
-    <span>${title}</span>
-    <span>${count}</span>
-    <span id="add">+</span>
-    <span id="delete">X</span>`;
+  <div id = "columnHeader">
+    <div class="columnInfo"> 
+        <span>${title}</span>
+        <span class="countBox">${count}</span>
+    </div>
+    <span id="add"><i class="fa-solid fa-plus"></i></span>
+    <span id="delete"><i class="fa-solid fa-xmark"></i></span>
+  </div>
+    `;
   return column;
 }
 
@@ -22,8 +27,9 @@ function createCard(id) {
 
 function addCard() {
   const addId = document.getElementById("add");
-  const columnId = addId.parentElement.id;
-  addId.addEventListener("click", () => createCard(columnId));
+  const columnId = addId.parentElement;
+  const header = columnId.parentElement.id;
+  addId.addEventListener("click", () => createCard(header));
 }
 
 document.addEventListener("DOMContentLoaded", addCard);
