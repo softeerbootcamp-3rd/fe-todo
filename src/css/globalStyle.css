@@ -1,0 +1,58 @@
+@font-face {
+  font-family: "Bold";
+  src: url(/src/asset/fonts/Pretendard-Bold-hfwdkKHd.woff) format("woff");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Semibold";
+  src: url(/src/asset/fonts/Pretendard-SemiBold-EkFRp63c.woff) format("woff");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: "Medium";
+  src: url(/src/asset/fonts/Pretendard-Medium-uPR3FeGF.woff) format("woff");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Regular";
+  src: url(/src/asset/fonts/Pretendard-Regular-x0_gh3gS.woff) format("woff");
+  font-weight: 400;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Regular";
+  font-size: 16px;
+}
+
+:root {
+  --grayscale_50: #fefefe;
+  --grayscale_100: #f7f7fc;
+  --grayscale_200: #eff0f6;
+  --grayscale_300: #d9dbe9;
+  --grayscale_300: #bec1d5;
+  --grayscale_500: #a0a3bd;
+  --grayscale_600: #6e7191;
+  --grayscale_700: #4e4b66;
+  --grayscale_800: #2a2a44;
+  --grayscale_900: #14142b;
+  --accent_blue: #007aff;
+  --accent_red: #ff3b30;
+  --text-strong: var(--grayscale_900);
+  --text-bold: var(--grayscale_700);
+  --text-default: var(--grayscale_600);
+  --text-weak: var(--grayscale_500);
+  --text-white-default: var(--grayscale_50);
+  --text-white-weak: var(--grayscale_100);
+  --text-brand: var(--accent_blue);
+  --text-danger: var(--accent_red);
+  --surface-default: var(--grayscale_50);
+  --surface-alt: var(--grayscale_100);
+  --surface-brand: var(--accent_blue);
+  --surface-danger: var(--accent_red);
+  --border-default: var(--grayscale_200);
+}
