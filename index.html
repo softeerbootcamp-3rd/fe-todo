@@ -2,13 +2,176 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svgxml" href="/vite.svg" />
     <link rel="stylesheet" href="/src/css/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>todo</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <header class="header">
+        <h1 class="header__title">TODO LIST</h1>
+        <button class="header__history-btn">
+          <img src="/assets/clock.svg" />
+        </button>
+      </header>
+      <main class="main">
+        <section class="main__column">
+          <nav class="main__column__nav">
+            <div class="column__nav__info">
+              <h2 class="column__nav__info__title">해야할 일</h2>
+              <h6 class="column__nav__info__count">0</h6>
+            </div>
+            <div class="column__nav__btn-list">
+              <button class="column__nav__btn-list__add-card-btn"></button>
+              <button class="column__nav__btn-list__delete-cloumn-btn"></button>
+            </div>
+          </nav>
+          <ul class="card-list">
+            <li class="card">
+              <h3 class="card__title">Github 공부하기</h3>
+              <p class="card__content">add, commit, push</p>
+              <p class="card__author">author by web</p>
+              <div class="card__btn-list">
+                <button class="card__btn-list__delete-card-btn"></button>
+                <button class="card__btn-list__edit-card-btn"></button>
+              </div>
+            </li>
+            <li class="card">
+              <h3 class="card__title">Github 공부하기</h3>
+              <p class="card__content">add, commit, push</p>
+              <p class="card__author">author by web</p>
+              <div class="card__btn-list">
+                <button class="card__btn-list__delete-card-btn"></button>
+                <button class="card__btn-list__edit-card-btn"></button>
+              </div>
+            </li>
+            <li class="card">
+              <h3 class="card__title">Github 공부하기</h3>
+              <p class="card__content">add, commit, push</p>
+              <p class="card__author">author by web</p>
+              <div class="card__btn-list">
+                <button class="card__btn-list__delete-card-btn"></button>
+                <button class="card__btn-list__edit-card-btn"></button>
+              </div>
+            </li>
+            <li class="card">
+              <h3 class="card__title">Github 공부하기</h3>
+              <p class="card__content">add, commit, push</p>
+              <p class="card__author">author by web</p>
+              <div class="card__btn-list">
+                <button class="card__btn-list__delete-card-btn"></button>
+                <button class="card__btn-list__edit-card-btn"></button>
+              </div>
+            </li>
+            <li class="card">
+              <h3 class="card__title">Github 공부하기</h3>
+              <p class="card__content">add, commit, push</p>
+              <p class="card__author">author by web</p>
+              <div class="card__btn-list">
+                <button class="card__btn-list__delete-card-btn"></button>
+                <button class="card__btn-list__edit-card-btn"></button>
+              </div>
+            </li>
+            <li class="card">
+              <h3 class="card__title">Github 공부하기</h3>
+              <p class="card__content">add, commit, push</p>
+              <p class="card__author">author by web</p>
+              <div class="card__btn-list">
+                <button class="card__btn-list__delete-card-btn"></button>
+                <button class="card__btn-list__edit-card-btn"></button>
+              </div>
+            </li>
+            <li class="card">
+              <h3 class="card__title">Github 공부하기</h3>
+              <p class="card__content">add, commit, push</p>
+              <p class="card__author">author by web</p>
+              <div class="card__btn-list">
+                <button class="card__btn-list__delete-card-btn"></button>
+                <button class="card__btn-list__edit-card-btn"></button>
+              </div>
+            </li>
+            <li class="card">
+              <h3 class="card__title">Github 공부하기</h3>
+              <p class="card__content">add, commit, push</p>
+              <p class="card__author">author by web</p>
+              <div class="card__btn-list">
+                <button class="card__btn-list__delete-card-btn"></button>
+                <button class="card__btn-list__edit-card-btn"></button>
+              </div>
+            </li>
+            <li class="card">
+              <h3 class="card__title">Github 공부하기</h3>
+              <p class="card__content">add, commit, push</p>
+              <p class="card__author">author by web</p>
+              <div class="card__btn-list">
+                <button class="card__btn-list__delete-card-btn"></button>
+                <button class="card__btn-list__edit-card-btn"></button>
+              </div>
+            </li>
+            <li class="card">
+              <h3 class="card__title">Github 공부하기</h3>
+              <p class="card__content">add, commit, push</p>
+              <p class="card__author">author by web</p>
+              <div class="card__btn-list">
+                <button class="card__btn-list__delete-card-btn"></button>
+                <button class="card__btn-list__edit-card-btn"></button>
+              </div>
+            </li>
+          </ul>
+        </section>
+        <section class="main__column">
+          <nav class="main__column__nav">
+            <div class="column__nav__info">
+              <h2 class="column__nav__info__title">하고 있는 일</h2>
+              <h6 class="column__nav__info__count">0</h6>
+            </div>
+            <div class="column__nav__btn-list">
+              <button class="column__nav__btn-list__add-card-btn"></button>
+              <button class="column__nav__btn-list__delete-cloumn-btn"></button>
+            </div>
+          </nav>
+          <ul class="card-list">
+            <li class="card">
+              <h3 class="card__title">Github 공부하기</h3>
+              <p class="card__content">add, commit, push</p>
+              <p class="card__author">author by web</p>
+              <div class="card__btn-list">
+                <button class="card__btn-list__delete-card-btn"></button>
+                <button class="card__btn-list__edit-card-btn"></button>
+              </div>
+            </li>
+          </ul>
+        </section>
+        <section class="main__column">
+          <nav class="main__column__nav">
+            <div class="column__nav__info">
+              <h2 class="column__nav__info__title">완료한 일</h2>
+              <h6 class="column__nav__info__count">0</h6>
+            </div>
+            <div class="column__nav__btn-list">
+              <button class="column__nav__btn-list__add-card-btn"></button>
+              <button class="column__nav__btn-list__delete-cloumn-btn"></button>
+            </div>
+          </nav>
+          <ul class="card-list">
+            <li class="card">
+              <h3 class="card__title">Github 공부하기</h3>
+              <p class="card__content">
+                add, commit, push, add, commit, push, add, commit, push, add, commit, push, add,
+                commit, push, v, add, commit, push, add, commit, push, add, commit, push, add,
+                commit, push, add, commit, push, add, commit, push
+              </p>
+              <p class="card__author">author by web</p>
+              <div class="card__btn-list">
+                <button class="card__btn-list__delete-card-btn"></button>
+                <button class="card__btn-list__edit-card-btn"></button>
+              </div>
+            </li>
+          </ul>
+        </section>
+      </main>
+    </div>
     <script type="module" src="/src/index.js"></script>
   </body>
 </html>

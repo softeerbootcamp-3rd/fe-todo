@@ -1,10 +1,13 @@
 :root {
-  --bg_color: "#f7f7fc";
-  --title_color: "#14142b";
-  --content_color: "#6e7191";
-  --author_color: "a0a3bd";
-  --blue: "#007aff";
-  --blue_light: "#b9d5fb";
-  --gray_light: "f7f7fb";
-  --red: "ff3b30";
+  --bg_color: #f7f7fc;
+  --text_strong: #14142b;
+  --text_default: #6e7191;
+  --text_weak: #a0a3bd;
+  --blue: #007aff;
+  --blue_light: #b9d5fb;
+  --gray_light: #f7f7fb;
+  --red: #ff3b30;
+  --text_bold: #4e4b66;
+  --border_color: #eff0f6;
+  --surface_default: #fefefe;
 }
