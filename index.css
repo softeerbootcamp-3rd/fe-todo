@@ -1,0 +1,25 @@
+.header {
+    width: 1440px;
+    height: 64px;
+    border: 1px solid black;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.app {
+    width: 1280px;
+    margin : 0 auto;
+    display: flex;
+    flex-direction: row;
+}
+
+section {
+    border: 1px solid black;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+}
