@@ -1,0 +1,79 @@
+.column {
+  display: flex;
+  flex-direction: column;
+}
+.column__head {
+  display: flex;
+  padding: 0 16px;
+  width: 300px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.column__head-plus {
+  margin-left: auto;
+}
+
+.column__head-close {
+  margin-left: 8px;
+}
+
+.column__title {
+  margin-right: 8px;
+}
+.column__cards-container {
+  flex: 1 1 0;
+  overflow: auto;
+}
+.column__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.badge {
+  border: 1px solid #eff0f6;
+  padding: 0 8px;
+  text-align: center;
+}
+
+.card {
+  padding: 16px;
+  width: 300px;
+  display: flex;
+  gap: 16px;
+}
+.card__contents {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+}
+.card__title {
+  margin-bottom: 8px;
+}
+.card__description {
+  margin-bottom: 16px;
+}
+.card__author {
+}
+.card__buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.card__editable {
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+  padding: 16px;
+  gap: 16px;
+}
+
+.card__title-input {
+  margin-bottom: 8px;
+}
+
+.card__editable-buttons {
+  display: flex;
+  gap: 8px;
+}
