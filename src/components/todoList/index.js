@@ -9,7 +9,7 @@ export default function todoList(parent, props) {
             <div class="${styles.todoList__header}">
                 <div class="${styles.todoList__countWrapper}">
                     <h2 class="${styles.todoList__headerTitle}">${props.title}</h2>
-                    <p class="${styles.todoList__count}">${props.count}</p>
+                    <p class="${styles.todoList__count}">${props.items.length}</p>
                 </div>
                 
                 <div class="${styles.todoList__btnContainer}">
