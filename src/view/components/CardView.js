@@ -1,7 +1,7 @@
 import { cardData } from "../../model/model.js";
 
 export const CardView = (cardId) => {
-  const { title, content, author } = cardData.cardId;
+  const { title, content, author } = cardData[cardId];
   return `
     <li class="card">
     <h3 class="card__title">${title}</h3>
