@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fancy TodoList</title>
+    <link rel="stylesheet" href="./src/styles.css" />
+    <link rel="stylesheet" href="./src/components/column/styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/tailwindcss@3.4.1/src/css/preflight.css"
+    />
+  </head>
+  <body>
+    <div class="layout">
+      <header class="header surface-alt">
+        <h1 class="logo text-strong">TODOLIST</h1>
+        <button type="button">
+          <img alt="사용기록" src="./assets/icons/history.svg" />
+        </button>
+      </header>
+      <main class="columns surface-alt">
+        <section class="column">
+          <h2 class="column__head">
+            <span class="column__title text-bold display-bold16">
+              해야할 일
+            </span>
+            <div class="badge rounded-8 text-weak">3</div>
+            <button class="column__head-plus" type="button">
+              <img src="./assets/icons/plus.svg" />
+            </button>
+            <button class="column__head-close" type="button">
+              <img src="./assets/icons/close.svg" />
+            </button>
+          </h2>
+          <div class="column__cards-container">
+            <ul class="column__cards">
+              <li class="card rounded-8 surface-default shadow-normal">
+                <div class="card__contents">
+                  <h3 class="card__title text-strong display-bold14">
+                    GitHub 공부하기
+                  </h3>
+                  <p class="card__description text-default display-medium14">
+                    add, commit, push
+                  </p>
+                  <span class="card__author text-weak display-medium12"
+                    >author by jj</span
+                  >
+                </div>
+                <div class="card__buttons">
+                  <button type="button">
+                    <img src="./assets/icons/close.svg" />
+                  </button>
+                  <button type="button">
+                    <img src="./assets/icons/edit.svg" />
+                  </button>
+                </div>
+              </li>
+              <li
+                class="card__editable rounded-8 surface-default shadow-normal"
+              >
+                <div class="card__contents">
+                  <input
+                    class="card__title-input display-bold14 text-strong"
+                    type="text"
+                    placeholder="제목을 입력하세요"
+                  />
+                  <input
+                    class="card__description-input display-medium14 text-default"
+                    type="text"
+                    placeholder="내용을 입력하세요"
+                  />
+                </div>
+                <div class="card__editable-buttons">
+                  <button type="button">취소</button>
+                  <button type="button">등록</button>
+                </div>
+              </li>
+              <li class="card rounded-8 surface-default shadow-normal">
+                <div class="card__contents">
+                  <h3 class="card__title text-strong display-bold14">
+                    GitHub 공부하기
+                  </h3>
+                  <p class="card__description text-default display-medium14">
+                    add, commit, push
+                  </p>
+                  <span class="card__author text-weak display-medium12"
+                    >author by jj</span
+                  >
+                </div>
+                <div class="card__buttons">
+                  <button type="button">
+                    <img src="./assets/icons/close.svg" />
+                  </button>
+                  <button type="button">
+                    <img src="./assets/icons/edit.svg" />
+                  </button>
+                </div>
+              </li>
+              <li
+                class="card__editable rounded-8 surface-default shadow-normal"
+              >
+                <div class="card__contents">
+                  <input
+                    class="card__title-input display-bold14 text-strong"
+                    type="text"
+                    placeholder="제목을 입력하세요"
+                  />
+                  <input
+                    class="card__description-input display-medium14 text-default"
+                    type="text"
+                    placeholder="내용을 입력하세요"
+                  />
+                </div>
+                <div class="card__editable-buttons">
+                  <button type="button">취소</button>
+                  <button type="button">등록</button>
+                </div>
+              </li>
+              <li class="card rounded-8 surface-default shadow-normal">
+                <div class="card__contents">
+                  <h3 class="card__title text-strong display-bold14">
+                    GitHub 공부하기
+                  </h3>
+                  <p class="card__description text-default display-medium14">
+                    add, commit, push
+                  </p>
+                  <span class="card__author text-weak display-medium12"
+                    >author by jj</span
+                  >
+                </div>
+                <div class="card__buttons">
+                  <button type="button">
+                    <img src="./assets/icons/close.svg" />
+                  </button>
+                  <button type="button">
+                    <img src="./assets/icons/edit.svg" />
+                  </button>
+                </div>
+              </li>
+              <li
+                class="card__editable rounded-8 surface-default shadow-normal"
+              >
+                <div class="card__contents">
+                  <input
+                    class="card__title-input display-bold14 text-strong"
+                    type="text"
+                    placeholder="제목을 입력하세요"
+                  />
+                  <input
+                    class="card__description-input display-medium14 text-default"
+                    type="text"
+                    placeholder="내용을 입력하세요"
+                  />
+                </div>
+                <div class="card__editable-buttons">
+                  <button type="button">취소</button>
+                  <button type="button">등록</button>
+                </div>
+              </li>
+              <li class="card rounded-8 surface-default shadow-normal">
+                <div class="card__contents">
+                  <h3 class="card__title text-strong display-bold14">
+                    GitHub 공부하기
+                  </h3>
+                  <p class="card__description text-default display-medium14">
+                    add, commit, push
+                  </p>
+                  <span class="card__author text-weak display-medium12"
+                    >author by jj</span
+                  >
+                </div>
+                <div class="card__buttons">
+                  <button type="button">
+                    <img src="./assets/icons/close.svg" />
+                  </button>
+                  <button type="button">
+                    <img src="./assets/icons/edit.svg" />
+                  </button>
+                </div>
+              </li>
+              <li
+                class="card__editable rounded-8 surface-default shadow-normal"
+              >
+                <div class="card__contents">
+                  <input
+                    class="card__title-input display-bold14 text-strong"
+                    type="text"
+                    placeholder="제목을 입력하세요"
+                  />
+                  <input
+                    class="card__description-input display-medium14 text-default"
+                    type="text"
+                    placeholder="내용을 입력하세요"
+                  />
+                </div>
+                <div class="card__editable-buttons">
+                  <button type="button">취소</button>
+                  <button type="button">등록</button>
+                </div>
+              </li>
+              <li class="card rounded-8 surface-default shadow-normal">
+                <div class="card__contents">
+                  <h3 class="card__title text-strong display-bold14">
+                    GitHub 공부하기
+                  </h3>
+                  <p class="card__description text-default display-medium14">
+                    add, commit, push
+                  </p>
+                  <span class="card__author text-weak display-medium12"
+                    >author by jj</span
+                  >
+                </div>
+                <div class="card__buttons">
+                  <button type="button">
+                    <img src="./assets/icons/close.svg" />
+                  </button>
+                  <button type="button">
+                    <img src="./assets/icons/edit.svg" />
+                  </button>
+                </div>
+              </li>
+              <li
+                class="card__editable rounded-8 surface-default shadow-normal"
+              >
+                <div class="card__contents">
+                  <input
+                    class="card__title-input display-bold14 text-strong"
+                    type="text"
+                    placeholder="제목을 입력하세요"
+                  />
+                  <input
+                    class="card__description-input display-medium14 text-default"
+                    type="text"
+                    placeholder="내용을 입력하세요"
+                  />
+                </div>
+                <div class="card__editable-buttons">
+                  <button type="button">취소</button>
+                  <button type="button">등록</button>
+                </div>
+              </li>
+              <li class="card rounded-8 surface-default shadow-normal">
+                <div class="card__contents">
+                  <h3 class="card__title text-strong display-bold14">
+                    GitHub 공부하기
+                  </h3>
+                  <p class="card__description text-default display-medium14">
+                    add, commit, push
+                  </p>
+                  <span class="card__author text-weak display-medium12"
+                    >author by jj</span
+                  >
+                </div>
+                <div class="card__buttons">
+                  <button type="button">
+                    <img src="./assets/icons/close.svg" />
+                  </button>
+                  <button type="button">
+                    <img src="./assets/icons/edit.svg" />
+                  </button>
+                </div>
+              </li>
+              <li
+                class="card__editable rounded-8 surface-default shadow-normal"
+              >
+                <div class="card__contents">
+                  <input
+                    class="card__title-input display-bold14 text-strong"
+                    type="text"
+                    placeholder="제목을 입력하세요"
+                  />
+                  <input
+                    class="card__description-input display-medium14 text-default"
+                    type="text"
+                    placeholder="내용을 입력하세요"
+                  />
+                </div>
+                <div class="card__editable-buttons">
+                  <button type="button">취소</button>
+                  <button type="button">등록</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </section>
+        <section class="column">
+          <h2 class="column__head">
+            <span class="column__title text-bold display-bold16">
+              해야할 일
+            </span>
+            <div class="badge rounded-8 text-weak">3</div>
+            <button class="column__head-plus" type="button">
+              <img src="./assets/icons/plus.svg" />
+            </button>
+            <button class="column__head-close" type="button">
+              <img src="./assets/icons/close.svg" />
+            </button>
+          </h2>
+          <div class="column__cards-container"></div>
+        </section>
+        <section class="column">
+          <h2 class="column__head">
+            <span class="column__title text-bold display-bold16">
+              해야할 일
+            </span>
+            <div class="badge rounded-8 text-weak">3</div>
+            <button class="column__head-plus" type="button">
+              <img src="./assets/icons/plus.svg" />
+            </button>
+            <button class="column__head-close" type="button">
+              <img src="./assets/icons/close.svg" />
+            </button>
+          </h2>
+          <div class="column__cards-container"></div>
+        </section>
+
+        <aside hidden>
+          <div>
+            <span>사용자 활동 기록</span>
+            <button type="button">X 닫기</button>
+          </div>
+          <ul>
+            <li>
+              <div><img src="./assets/icons/history.svg" /></div>
+              <div>
+                <p>@멋진삼</p>
+                <p>
+                  블로그에 포스팅할 것을(를) 하고있는 일에서 해야할 일으로
+                  이동하였습니다.
+                </p>
+                <span>10분 전</span>
+              </div>
+            </li>
+            <li>
+              <div><img src="./assets/icons/history.svg" /></div>
+              <div>
+                <p>@멋진삼</p>
+                <p>
+                  블로그에 포스팅할 것을(를) 하고있는 일에서 해야할 일으로
+                  이동하였습니다.
+                </p>
+                <span>10분 전</span>
+              </div>
+            </li>
+          </ul>
+          <div>
+            <button type="button">기록 전체 삭제</button>
+          </div>
+        </aside>
+      </main>
+    </div>
+    <script type="module" src="./src/index.js"></script>
+  </body>
+</html>
