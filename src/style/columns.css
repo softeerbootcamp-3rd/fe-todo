@@ -29,3 +29,7 @@
   align-items: center;
   gap: var(--Number-100, 8px);
 }
+
+.fa-solid.fa-xmark:hover {
+  color: red;
+}
