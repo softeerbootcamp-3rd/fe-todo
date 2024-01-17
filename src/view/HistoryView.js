@@ -7,9 +7,9 @@ export const HistoryView = () => {
     <div class="history__wrapper">
     <header class="history__header">
       <h3 class="history__header__title">사용자 활동 기록</h3>
-      <button class="history__header__close">
-        <img src="/assets/close.svg" alt="close" />
-        <p>닫기</p>
+      <button class="js-closeHistory history__header__close">
+        <img class="js-closeHistory" src="/assets/close.svg" alt="close" />
+        <p class="js-closeHistory">닫기</p>
       </button>
     </header>
     <ul class="history__list">

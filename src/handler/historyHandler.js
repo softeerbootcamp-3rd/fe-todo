@@ -8,11 +8,3 @@ export const showHistory = () => {
 export const closeHistory = () => {
   history.close();
 };
-
-export const closeHistoryHandler = (target) => {
-  if (target.nodeName === "DIALOG") {
-    closeHistory();
-  } else if (target.classList.contains("modal__form--close")) {
-    closeHistory();
-  }
-};
