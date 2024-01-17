@@ -1,9 +1,22 @@
 import { CardFormView } from "../view/components/CardFormView.js";
 
-export const addCardHandler = (target) => {
-  const columnId = target.closest(".main__column").id;
-  document.querySelector(".card-form")?.remove();
+const openForm = (currentColumnId) => {
   document
-    .querySelector(`#${columnId}-list`)
+    .querySelector(`#${currentColumnId}-list`)
     .insertAdjacentHTML("afterbegin", CardFormView("addForm"));
+};
+
+const closeForm = () => {
+  document.querySelector(".card-form")?.remove();
+};
+
+export const addCardHandler = (target) => {
+  const currentColumnId = target.closest(".main__column").id;
+  const formColumn = document.querySelector(".card-form")?.closest(".main__column");
+  if (formColumn) {
+    closeForm();
+  }
+  if (formColumn?.id !== currentColumnId) {
+    openForm(currentColumnId);
+  }
 };
