@@ -1,7 +1,7 @@
 export default function Card() {
   // 300 120
   const card = document.createElement("div");
-  card.className = "card";
+  card.className = "newCard";
 
   card.innerHTML = `
     <input class="title" type="text" placeholder="제목을 입력하세요." required></input>
@@ -44,7 +44,7 @@ function checkInputs(title, content, register) {
 function register(card, title, content) {
   // 실제로 등록하는 로직을 여기에 추가할 수 있습니다.
   console.log(card);
-  card.classList.remove("card");
+  card.classList.remove("newCard");
   card.classList.add("registeredCard");
   card.innerHTML = `
     <div class="cardInfo">

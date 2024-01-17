@@ -1,5 +1,6 @@
 import Card from "./cards.js";
 import { handleRegisterStatus } from "./cards.js";
+
 export default function Column({ title, id, count }) {
   const column = document.createElement("div");
   column.className = "column";
@@ -30,15 +31,28 @@ function addCard(button) {
   // 공통 이벤트 동작
   const headerId = button.parentElement;
   const columnId = headerId.parentElement.id;
-  createCard(columnId);
-  handleRegisterStatus();
+  const checkCard = createCard(columnId);
+  if (checkCard) {
+    handleRegisterStatus();
+  }
+}
+
+function checkValid(status, parent) {
+  if (!status) {
+    const card = Card();
+    parent.appendChild(card);
+    return true;
+  }
+  parent.removeChild(status);
+  return false;
 }
 
 function createCard(id) {
   const column = document.getElementById(id);
+  const isExistCard = column.querySelector(".newCard");
 
-  const card = Card();
-  column.appendChild(card);
+  console.log(isExistCard);
+  return checkValid(isExistCard, column);
 }
 
 document.addEventListener("DOMContentLoaded", handleAddClick);
