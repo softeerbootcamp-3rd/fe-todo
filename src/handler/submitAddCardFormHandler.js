@@ -15,8 +15,14 @@ const insertNewCard = (target) => {
   target.insertAdjacentHTML("afterend", CardView(cardId++));
 };
 
+const updateListCount = (target) => {
+  const count = target.closest("section").querySelector(".column__nav__info__count");
+  count.textContent++;
+};
+
 export const submitAddCardFormHandler = (target) => {
   addFormData(target);
   insertNewCard(target);
+  updateListCount(target);
   target.remove();
 };

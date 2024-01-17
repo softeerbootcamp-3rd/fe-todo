@@ -3,7 +3,7 @@ import { CardView } from "./CardView.js";
 
 export const ColumnView = (title, idx) => {
   return `
-    <section class="main__column" id="column${idx}">
+  <section class="main__column" id="column${idx}">
     <nav class="main__column__nav">
       <div class="column__nav__info">
         <h2 class="column__nav__info__title">${title}</h2>
