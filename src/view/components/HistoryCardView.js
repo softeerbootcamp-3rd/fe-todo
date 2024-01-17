@@ -1,7 +1,7 @@
 const HistoryCardAddView = (history) => {
   return `
         <p class="history-card__content">
-        <strong>${history.cardTitle}</strong>을(를) <strong>${history.from}</strong>에서
+        <strong>${history.cardTitle}</strong>을(를) <strong>${history.from}</strong>에
         <strong>${history.type}</strong>하였습니다.
       </p>
         `;
@@ -32,19 +32,16 @@ const HistoryCardMoveView = (history) => {
         `;
 };
 
+const historyCardMap = {
+  등록: HistoryCardAddView,
+  변경: HistoryCardEditView,
+  삭제: HistoryCardDeleteView,
+  이동: HistoryCardMoveView,
+};
+
 const getHistoryContents = (history) => {
-  switch (history.type) {
-    case "등록":
-      return HistoryCardAddView(history);
-    case "변경":
-      return HistoryCardEditView(history);
-    case "삭제":
-      return HistoryCardDeleteView(history);
-    case "이동":
-      return HistoryCardMoveView(history);
-    default:
-      return null;
-  }
+  const historyFunction = historyCardMap[history.type];
+  return historyFunction ? historyFunction(history) : null;
 };
 
 export const HistoryCardView = (history) => {

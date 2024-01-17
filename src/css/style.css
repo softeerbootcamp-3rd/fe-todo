@@ -27,6 +27,7 @@
 .header__history-btn {
   width: 24px;
   height: 24px;
+  background-image: url("/assets/clock.svg");
 }
 
 .main {
@@ -93,6 +94,9 @@
 }
 .column__nav__btn-list__add-card-btn {
   background-image: url("/assets/plus.svg");
+}
+.column__nav__btn-list__add-card-btn:hover {
+  background-image: url("/assets/plus-hover.svg");
 }
 .column__nav__btn-list__delete-cloumn-btn {
   background-image: url("/assets/delete.svg");
@@ -177,17 +181,23 @@
   max-height: 680px;
   top: 64px;
   left: calc(100% - 56px - 366px);
+  border: none;
   border-radius: 16px;
   background: #fff;
+  box-shadow: 0px 16px 16px 0px rgba(110, 128, 145, 0.24), 0px 0px 4px 0px rgba(110, 128, 145, 0.08);
+}
+
+.history__wrapper {
+  width: 100%;
+  height: 100%;
   padding: 8px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   gap: 8px;
-  border: none;
-  box-shadow: 0px 16px 16px 0px rgba(110, 128, 145, 0.24), 0px 0px 4px 0px rgba(110, 128, 145, 0.08);
 }
+
 .history__header {
   width: 100%;
   padding: 8px;
@@ -296,7 +306,7 @@
   margin-right: 8px;
 }
 
-.add-form {
+.card-form {
   width: 100%;
   min-height: 104px;
   background-color: var(--surface_default);
@@ -309,7 +319,7 @@
   gap: 8px;
   padding: 16px;
 }
-.add-form__title {
+.card-form__title {
   width: 100%;
   font-size: 14px;
   font-weight: 700px;
@@ -317,11 +327,11 @@
   border: none;
 }
 
-.add-form__title::placeholder {
+.card-form__title::placeholder {
   color: var(--text_strong);
 }
 
-.add-form__content {
+.card-form__content {
   width: 100%;
   font-size: 14px;
   font-weight: 500px;
@@ -331,11 +341,11 @@
   overflow-y: hidden;
 }
 
-.add-form__content::placeholder {
+.card-form__content::placeholder {
   color: var(--text_default);
 }
 
-.add-form__btn-list {
+.card-form__btn-list {
   width: 100%;
   display: flex;
   justify-content: space-between;
