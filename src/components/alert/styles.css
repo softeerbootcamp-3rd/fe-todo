@@ -1,3 +1,7 @@
+.alert-dialog {
+  inset: 0;
+}
+
 .alert {
   width: 320px;
   display: flex;
@@ -6,7 +10,6 @@
   align-items: center;
   padding: 24px;
   gap: 24px;
-  inset: 0;
 }
 
 .alert__message {
