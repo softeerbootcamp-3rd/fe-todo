@@ -81,9 +81,19 @@ export default function todoItem(parent, props) {
     contentNode.value = props.content;
     setViewMode();
   };
+
   // 삭제 시
   const onErase = () => {
-    //TODO: 투두 삭제 로직 생성
+    document.dispatchEvent(
+      new CustomEvent("showDeleteModal", {
+        detail: {
+          msg: "선택한 카드를 삭제할까요?",
+          onDelete: () => {
+            //TODO: 투두 삭제 로직 생성
+          },
+        },
+      })
+    );
   };
 
   // 수정하고 제출 시
