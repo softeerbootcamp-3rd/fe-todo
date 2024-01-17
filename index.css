@@ -1,25 +1,21 @@
+body {
+  padding: 10px 20px 30px 20px;
+}
 .header {
-    width: 1440px;
-    height: 64px;
-    border: 1px solid black;
-    align-items: center;
-    margin: 0 auto;
+  width: 1440px;
+  height: 64px;
+  align-items: center;
 }
 
 .app {
-    width: 1280px;
-    margin : 0 auto;
-    display: flex;
-    flex-direction: row;
-}
-
-section {
-    border: 1px solid black;
+  width: 1280px;
+  display: flex;
+  flex-direction: row;
 }
 
 ul {
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    justify-items: center;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-items: center;
 }
