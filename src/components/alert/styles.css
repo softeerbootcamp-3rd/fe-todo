@@ -1,0 +1,25 @@
+.alert {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  gap: 24px;
+  inset: 0;
+}
+
+.alert__message {
+}
+
+.alert__control {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.alert::backdrop {
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 33, 43, 0.3);
+}
