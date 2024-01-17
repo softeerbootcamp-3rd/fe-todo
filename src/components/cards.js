@@ -18,8 +18,9 @@ export function handleRegisterStatus() {
   const titleInput = document.querySelector(".title");
   const contentInput = document.querySelector(".content");
   const registerButton = document.querySelector(".register");
-  const cardElement = document.querySelector(".card");
+  const cardElement = document.querySelector(".newCard");
 
+  console.log(titleInput, contentInput, registerButton, cardElement);
   // 등록 버튼을 초기에 비활성화합니다.
   registerButton.disabled = true;
 
@@ -42,14 +43,13 @@ function checkInputs(title, content, register) {
 
 // 등록 버튼을 클릭했을 때 호출되는 함수
 function register(card, title, content) {
-  // 실제로 등록하는 로직을 여기에 추가할 수 있습니다.
-  console.log(card);
   card.classList.remove("newCard");
   card.classList.add("registeredCard");
+
   card.innerHTML = `
     <div class="cardInfo">
-        <span class="title">${title.value}</span>
-        <span class="content">${content.value}</span>
+        <span class="registeredTitle">${title.value}</span>
+        <span class="registeredContent">${content.value}</span>
         <span style="font-size: 10px; margin-top: 10px"> author by Web </span> 
     </div>
     <div class="editor">
@@ -58,5 +58,3 @@ function register(card, title, content) {
     </div>
   `;
 }
-
-// document.addEventListener("DOMContentLoaded", handleRegisterStatus);

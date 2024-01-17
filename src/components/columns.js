@@ -28,7 +28,6 @@ function handleAddClick() {
 }
 
 function addCard(button) {
-  // 공통 이벤트 동작
   const headerId = button.parentElement;
   const columnId = headerId.parentElement.id;
   const checkCard = createCard(columnId);
@@ -51,7 +50,6 @@ function createCard(id) {
   const column = document.getElementById(id);
   const isExistCard = column.querySelector(".newCard");
 
-  console.log(isExistCard);
   return checkValid(isExistCard, column);
 }
 
