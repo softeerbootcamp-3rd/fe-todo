@@ -1,0 +1,14 @@
+.btn {
+  width: 132px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.btn::disabled {
+  opacity: 0.3;
+}
