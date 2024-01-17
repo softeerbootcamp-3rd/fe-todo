@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="./src/styles.css" />
     <link rel="stylesheet" href="./src/components/column/styles.css" />
     <link rel="stylesheet" href="./src/components/button/styles.css" />
+    <link
+      rel="stylesheet"
+      href="./src/components/action-history-list/styles.css"
+    />
   </head>
   <body>
     <div class="layout">
@@ -117,39 +121,56 @@
           <div class="column__cards-container"></div>
         </section>
 
-        <aside hidden>
-          <div>
-            <span>사용자 활동 기록</span>
-            <button type="button">X 닫기</button>
+        <dialog class="action-history-dialog rounded-16 shadow-floating" open>
+          <div class="action-history__header">
+            <span class="text-strong display-bold16">사용자 활동 기록</span>
+            <button
+              class="action-history__close-button text-default display-bold14"
+              type="button"
+            >
+              <img
+                src="./assets/icons/close.svg"
+                width="16"
+                height="16"
+                alt="닫기"
+              />
+              닫기
+            </button>
           </div>
-          <ul>
-            <li>
-              <div><img src="./assets/icons/history.svg" /></div>
-              <div>
-                <p>@멋진삼</p>
-                <p>
-                  블로그에 포스팅할 것을(를) 하고있는 일에서 해야할 일으로
-                  이동하였습니다.
+          <ul class="action-history__items">
+            <li class="action-history__item">
+              <img
+                src="./assets/icons/avatar.png"
+                class="rounded-1/2"
+                style="width: 40px; height: 40px"
+              />
+              <div class="action-history__item-description">
+                <p class="display-medium14 text-default">@멋진삼</p>
+                <p class="display-medium14 text-default">
+                  <strong class="display-bold14 text-bold"
+                    >블로그에 포스팅할 것</strong
+                  >을(를)
+                  <strong class="display-bold14 text-bold">하고있는 일</strong
+                  >에서
+                  <strong class="display-bold14 text-bold">해야할 일</strong
+                  >으로
+                  <strong class="display-bold14 text-bold">이동</strong
+                  >하였습니다.
                 </p>
-                <span>10분 전</span>
-              </div>
-            </li>
-            <li>
-              <div><img src="./assets/icons/history.svg" /></div>
-              <div>
-                <p>@멋진삼</p>
-                <p>
-                  블로그에 포스팅할 것을(를) 하고있는 일에서 해야할 일으로
-                  이동하였습니다.
-                </p>
-                <span>10분 전</span>
+                <span class="text-weak display-medium12">10분 전</span>
               </div>
             </li>
           </ul>
-          <div>
-            <button type="button">기록 전체 삭제</button>
+          <div class="action-history__footer">
+            <button
+              class="button text-danger display-bold14"
+              style="width: 104px"
+              type="button"
+            >
+              기록 전체 삭제
+            </button>
           </div>
-        </aside>
+        </dialog>
       </main>
     </div>
     <script type="module" src="./src/index.js"></script>
