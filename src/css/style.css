@@ -95,6 +95,9 @@
 .column__nav__btn-list__add-card-btn {
   background-image: url("/assets/plus.svg");
 }
+.column__nav__btn-list__add-card-btn:hover {
+  background-image: url("/assets/plus-hover.svg");
+}
 .column__nav__btn-list__delete-cloumn-btn {
   background-image: url("/assets/delete.svg");
 }
