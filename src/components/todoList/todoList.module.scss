@@ -1,0 +1,64 @@
+.todoList {
+  width: 300px;
+  height: 700px;
+
+  &__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+  }
+
+  &__headerTitle {
+    color: var(--text-bold, #4e4b66);
+    font-family: "Bold";
+    font-size: 16px;
+  }
+
+  &__countWrapper {
+    display: flex;
+    gap: 8px;
+    height: auto;
+    align-items: center;
+  }
+
+  &__count {
+    width: auto;
+    height: 24px;
+    line-height: 24px;
+    color: var(--text-weak, #a0a3bd);
+    font-family: "Medium";
+    font-size: 12px;
+    padding: 0 8px;
+    border-radius: 8px;
+    border: 1px solid #eff0f6;
+  }
+
+  &__actionBtn {
+    color: var(--text-weak);
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: none;
+    border: none;
+  }
+
+  &__btnContainer {
+    width: auto;
+    height: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  &__content {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+}
