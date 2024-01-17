@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./src/styles.css" />
     <link rel="stylesheet" href="./src/components/column/styles.css" />
     <link rel="stylesheet" href="./src/components/button/styles.css" />
+    <link rel="stylesheet" href="./src/components/alert/styles.css" />
     <link
       rel="stylesheet"
       href="./src/components/action-history-list/styles.css"
@@ -172,6 +173,23 @@
           </div>
         </dialog>
       </main>
+      <dialog class="alert rounded-8 shadow-up" open>
+        <p class="alert__message text-default display-medium16">
+          모든 사용자 활동 기록을 삭제할까요?
+        </p>
+        <div class="alert__control">
+          <button
+            class="button surface-alt display-bold14 text-default rounded-8"
+          >
+            취소
+          </button>
+          <button
+            class="button surface-danger display-bold14 text-white-default rounded-8"
+          >
+            삭제
+          </button>
+        </div>
+      </dialog>
     </div>
     <script type="module" src="./src/index.js"></script>
   </body>
