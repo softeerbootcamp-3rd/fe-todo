@@ -5,6 +5,7 @@ export const cardData = {
   1: { title: "Github 공부하기", content: "add, commit, push", author: "web" },
   2: { title: "Github 공부하기", content: "add, commit, push", author: "web" },
 };
+
 export const historyData = [
   {
     username: "멋진삼",

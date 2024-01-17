@@ -1,11 +1,11 @@
 import { ButtonView } from "./ButtonView.js";
 
-export const AddCardFormView = () => {
+export const CardFormView = (target) => {
   return `
-    <form class="add-form">
-    <input placeholder="제목을 변경하세요" class="add-form__title"/>
-    <textarea placeholder="내용을 입력하세요" class="add-form__content"></textarea>
-    <div class="add-form__btn-list">
+    <form class="js-${target} card-form">
+    <input placeholder="제목을 변경하세요" class="card-form__title" name="title"/>
+    <textarea placeholder="내용을 입력하세요" class="card-form__content" name="content"></textarea>
+    <div class="card-form__btn-list">
       ${ButtonView({
         color: "#6e7191",
         bgColor: "#f7f7fc",
@@ -17,6 +17,7 @@ export const AddCardFormView = () => {
         bgColor: "#007aff",
         text: "등록",
         target: "addFormSubmit",
+        type: "submit",
       })}
     </div>
   </form>    

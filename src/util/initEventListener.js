@@ -25,9 +25,10 @@ const submitHandlerMap = {
 
 const onSubmit = (event) => {
   event.preventDefault();
+  const { target } = event;
   const executeHandler = submitHandlerMap[target.classList[0]];
   if (executeHandler) {
-    executeHandler(event.target);
+    executeHandler(target);
   }
 };
 
