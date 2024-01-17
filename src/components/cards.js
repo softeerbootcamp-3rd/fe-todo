@@ -14,12 +14,13 @@ export default function Card() {
   return card;
 }
 
-export function handleRegisterStatus() {
-  const cardElement = document.querySelector(".newCard");
-  const titleInput = document.querySelector(".title");
-  const contentInput = document.querySelector(".content");
-  const cancelButton = document.querySelector(".cancel");
-  const registerButton = document.querySelector(".register");
+export function handleRegisterStatus(column) {
+  console.log(column);
+  const cardElement = column.querySelector(".newCard");
+  const titleInput = column.querySelector(".title");
+  const contentInput = column.querySelector(".content");
+  const cancelButton = column.querySelector(".cancel");
+  const registerButton = column.querySelector(".register");
 
   registerButton.disabled = true;
 

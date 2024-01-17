@@ -28,12 +28,21 @@ function handleAddClick() {
 }
 
 function addCard(button) {
-  const headerId = button.parentElement;
-  const columnId = headerId.parentElement.id;
+  const header = button.parentElement;
+  const column = header.parentElement;
+  const columnId = column.id;
+
   const checkCard = createCard(columnId);
   if (checkCard) {
-    handleRegisterStatus();
+    handleRegisterStatus(column);
   }
+}
+
+function createCard(id) {
+  const column = document.getElementById(id);
+  const isExistCard = column.querySelector(".newCard");
+
+  return checkValid(isExistCard, column);
 }
 
 function checkValid(status, parent) {
@@ -44,13 +53,6 @@ function checkValid(status, parent) {
   }
   status.remove();
   return false;
-}
-
-function createCard(id) {
-  const column = document.getElementById(id);
-  const isExistCard = column.querySelector(".newCard");
-
-  return checkValid(isExistCard, column);
 }
 
 document.addEventListener("DOMContentLoaded", handleAddClick);
