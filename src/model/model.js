@@ -1,4 +1,8 @@
-export const columnList = { "해야할 일": [0], "하고 있는 일": [1], "완료한 일": [2] };
+export const columnList = {
+  column0: { title: "해야할 일", value: [0] },
+  column1: { title: "하고 있는 일", value: [0] },
+  column2: { title: "완료한 일", value: [0] },
+};
 
 export const cardData = {
   0: { title: "Github 공부하기", content: "add, commit, push", author: "web" },
