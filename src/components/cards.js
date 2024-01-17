@@ -15,16 +15,14 @@ export default function Card() {
 }
 
 export function handleRegisterStatus() {
+  const cardElement = document.querySelector(".newCard");
   const titleInput = document.querySelector(".title");
   const contentInput = document.querySelector(".content");
+  const cancelButton = document.querySelector(".cancel");
   const registerButton = document.querySelector(".register");
-  const cardElement = document.querySelector(".newCard");
 
-  console.log(titleInput, contentInput, registerButton, cardElement);
-  // 등록 버튼을 초기에 비활성화합니다.
   registerButton.disabled = true;
 
-  // 입력값이 변경될 때마다 이벤트를 처리하는 함수를 등록합니다.
   titleInput.addEventListener("input", () =>
     checkInputs(titleInput, contentInput, registerButton)
   );
@@ -34,6 +32,7 @@ export function handleRegisterStatus() {
   registerButton.addEventListener("click", () =>
     register(cardElement, titleInput, contentInput)
   );
+  cancelButton.addEventListener("click", () => cardElement.remove());
 }
 
 function checkInputs(title, content, register) {

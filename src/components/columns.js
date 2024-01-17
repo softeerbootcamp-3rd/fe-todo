@@ -42,7 +42,7 @@ function checkValid(status, parent) {
     parent.appendChild(card);
     return true;
   }
-  parent.removeChild(status);
+  status.remove();
   return false;
 }
 
