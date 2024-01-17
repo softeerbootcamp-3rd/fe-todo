@@ -5,7 +5,7 @@ export const MainView = () => {
   return `
 <main class="main">
     ${Object.keys(columnList)
-      .map((title) => ColumnView(title))
+      .map((title, idx) => ColumnView(title, idx))
       .join("")}   
       </main>
 `;

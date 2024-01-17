@@ -1,4 +1,5 @@
 export const columnList = { "해야할 일": [0], "하고 있는 일": [1], "완료한 일": [2] };
+
 export const cardData = {
   0: { title: "Github 공부하기", content: "add, commit, push", author: "web" },
   1: { title: "Github 공부하기", content: "add, commit, push", author: "web" },
