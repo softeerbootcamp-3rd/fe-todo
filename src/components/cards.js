@@ -36,11 +36,11 @@ export function handleRegisterStatus() {
 }
 
 function checkInputs(title, content, register) {
-  // 입력값이 비어있지 않으면 등록 버튼을 활성화하고, 비어있으면 비활성화합니다.
-  register.disabled = !(title.value.trim() && content.value.trim());
+  let status = !(title.value.trim() && content.value.trim());
+  register.disabled = status;
+  register.style.opacity = status ? 0.3 : 1;
 }
 
-// 등록 버튼을 클릭했을 때 호출되는 함수
 function register(card, title, content) {
   card.classList.remove("newCard");
   card.classList.add("registeredCard");
