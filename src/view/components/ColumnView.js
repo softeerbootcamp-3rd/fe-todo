@@ -2,7 +2,6 @@ import { columnList } from "../../model/model.js";
 import { CardView } from "./CardView.js";
 
 export const ColumnView = (title) => {
-  console.log(columnList[title]);
   return `
     <section class="main__column">
     <nav class="main__column__nav">

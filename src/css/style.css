@@ -1,5 +1,6 @@
 @import "./variables.css";
 @import "./reset.css";
+@import "./button.css";
 
 #app {
   width: 100%;
@@ -293,4 +294,51 @@
   font-size: 14px;
   font-weight: 700;
   margin-right: 8px;
+}
+
+.add-form {
+  width: 100%;
+  min-height: 104px;
+  background-color: var(--surface_default);
+  border-radius: 8px;
+  box-shadow: 0px 1px 4px 0px rgba(110, 128, 145, 0.24);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px;
+}
+.add-form__title {
+  width: 100%;
+  font-size: 14px;
+  font-weight: 700px;
+  outline: unset;
+  border: none;
+}
+
+.add-form__title::placeholder {
+  color: var(--text_strong);
+}
+
+.add-form__content {
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500px;
+  outline: unset;
+  border: none;
+  resize: none;
+  overflow-y: hidden;
+}
+
+.add-form__content::placeholder {
+  color: var(--text_default);
+}
+
+.add-form__btn-list {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
 }
