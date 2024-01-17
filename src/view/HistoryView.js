@@ -3,7 +3,8 @@ import { HistoryCardView } from "./components/HistoryCardView.js";
 
 export const HistoryView = () => {
   return `
-    <dialog open class="history">
+    <dialog class="js-closeHistory history">
+    <div class="history__wrapper">
     <header class="history__header">
       <h3 class="history__header__title">사용자 활동 기록</h3>
       <button class="history__header__close">
@@ -15,6 +16,7 @@ export const HistoryView = () => {
         ${historyData.map((history) => HistoryCardView(history))}
     </ul>
     <button class="history__delete-all-btn">기록 전체 삭제</button>
+    </div>
   </dialog>
     `;
 };
