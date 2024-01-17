@@ -9,6 +9,6 @@
   font-weight: 700;
 }
 
-.btn::disabled {
+.btn:disabled {
   opacity: 0.3;
 }

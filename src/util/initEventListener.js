@@ -1,6 +1,7 @@
 import { addCardHandler } from "../handler/addCardHandler.js";
 import { closeCardFormHandler } from "../handler/closeCardFormHandler.js";
 import { closeHistory, showHistory } from "../handler/historyHandler.js";
+import { inputCardHandler } from "../handler/inputCardHandler.js";
 import { submitAddCardFormHandler } from "../handler/submitAddCardFormHandler.js";
 
 const clickHandlerMap = {
@@ -36,4 +37,5 @@ export const initEventListener = () => {
   const app = document.querySelector("#app");
   app.addEventListener("click", onClick);
   app.addEventListener("submit", onSubmit);
+  app.addEventListener("input", inputCardHandler);
 };
