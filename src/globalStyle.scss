@@ -83,4 +83,9 @@ input {
     filter: invert(30%) sepia(86%) saturate(2590%) hue-rotate(345deg)
       brightness(114%) contrast(98%);
   }
+
+  &__plus:hover {
+    filter: invert(50%) sepia(89%) saturate(6266%) hue-rotate(201deg)
+      brightness(104%) contrast(104%);
+  }
 }

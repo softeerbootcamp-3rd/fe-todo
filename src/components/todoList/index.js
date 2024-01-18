@@ -14,7 +14,7 @@ export default function todoList(parent, props) {
                 
                 <div class="${styles.todoList__btnContainer}">
                     <button class="actionBtn">
-                        <img src="${plusIcon}">
+                        <img class="actionBtn__plus" src="${plusIcon}">
                     </button>
                     <button class="actionBtn">
                         <img class="actionBtn__closed" src="${closedIcon}">
