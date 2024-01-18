@@ -1,29 +1,24 @@
+import { createEditorTemplate, createCardInfoTemplate } from "./templates.js ";
+
 export default function Card() {
   // 300 120
   const card = document.createElement("div");
-  card.className = "card";
+  card.className = "newCard";
 
-  card.innerHTML = `
-    <input class="title" type="text" placeholder="제목을 입력하세요." required></input>
-    <input class="content" type="text" placeholder="내용을 입력하세요." required></input>
-    <div class="btnbox">
-        <button class="cancel">취소</button>
-        <button class="register">등록</button>
-    </div>
-    `;
+  card.innerHTML = createEditorTemplate();
   return card;
 }
 
-export function handleRegisterStatus() {
-  const titleInput = document.querySelector(".title");
-  const contentInput = document.querySelector(".content");
-  const registerButton = document.querySelector(".register");
-  const cardElement = document.querySelector(".card");
+export function handleRegisterStatus(column) {
+  console.log(column);
+  const cardElement = column.querySelector(".newCard");
+  const titleInput = column.querySelector(".title");
+  const contentInput = column.querySelector(".content");
+  const cancelButton = column.querySelector(".cancel");
+  const registerButton = column.querySelector(".register");
 
-  // 등록 버튼을 초기에 비활성화합니다.
   registerButton.disabled = true;
 
-  // 입력값이 변경될 때마다 이벤트를 처리하는 함수를 등록합니다.
   titleInput.addEventListener("input", () =>
     checkInputs(titleInput, contentInput, registerButton)
   );
@@ -33,30 +28,73 @@ export function handleRegisterStatus() {
   registerButton.addEventListener("click", () =>
     register(cardElement, titleInput, contentInput)
   );
+  cancelButton.addEventListener("click", () => cardElement.remove());
 }
 
 function checkInputs(title, content, register) {
-  // 입력값이 비어있지 않으면 등록 버튼을 활성화하고, 비어있으면 비활성화합니다.
-  register.disabled = !(title.value.trim() && content.value.trim());
+  let status = !(title.value.trim() && content.value.trim());
+  register.disabled = status;
+  register.style.opacity = status ? 0.3 : 1;
 }
 
-// 등록 버튼을 클릭했을 때 호출되는 함수
 function register(card, title, content) {
-  // 실제로 등록하는 로직을 여기에 추가할 수 있습니다.
-  console.log(card);
-  card.classList.remove("card");
+  card.classList.remove("newCard");
   card.classList.add("registeredCard");
-  card.innerHTML = `
-    <div class="cardInfo">
-        <span class="title">${title.value}</span>
-        <span class="content">${content.value}</span>
-        <span style="font-size: 10px; margin-top: 10px"> author by Web </span> 
-    </div>
-    <div class="editor">
-        <span id="delete"><i class="fa-solid fa-xmark"></i></span>
-        <span><i class="fa-solid fa-pen"></i></span>
-    </div>
-  `;
+
+  const originalTitle = title.value;
+  const originalContent = content.value;
+
+  card.innerHTML = createCardInfoTemplate(originalTitle, originalContent);
+
+  console.log(card);
+
+  const editButton = card.querySelector("#edit");
+  editButton.addEventListener("click", () =>
+    editHandler(card, originalTitle, originalContent)
+  );
 }
 
-// document.addEventListener("DOMContentLoaded", handleRegisterStatus);
+function editHandler(card, title, content) {
+  card.classList.remove("registeredCard");
+  card.classList.add("newCard");
+  card.innerHTML = createEditorTemplate(title, content, true);
+
+  const cancelButton = card.querySelector(".cancel");
+  const saveButton = card.querySelector(".save");
+
+  cancelButton.addEventListener("click", () =>
+    cancelHandler(card, title, content)
+  );
+  saveButton.addEventListener("click", () => saveHandler(card));
+}
+
+function cancelHandler(card, title, content) {
+  card.classList.remove("newCard");
+  card.classList.add("registeredCard");
+  card.innerHTML = createCardInfoTemplate(title, content);
+
+  // 이후의 동작 또는 이벤트 처리를 추가할 수 있습니다.
+  console.log("cancel end");
+  const editButton = card.querySelector("#edit");
+  editButton.addEventListener("click", () => editHandler(card, title, content));
+
+  return;
+}
+
+function saveHandler(card) {
+  const newTitle = card.querySelector(".title").value;
+  const newContent = card.querySelector(".content").value;
+
+  card.classList.remove("newCard");
+  card.classList.add("registeredCard");
+
+  card.innerHTML = createCardInfoTemplate(newTitle, newContent);
+  // 이후의 동작 또는 이벤트 처리를 추가할 수 있습니다.
+  console.log("save end");
+  const editButton = card.querySelector("#edit");
+  editButton.addEventListener("click", () =>
+    editHandler(card, newTitle, newContent)
+  );
+
+  return;
+}

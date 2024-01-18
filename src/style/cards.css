@@ -1,6 +1,6 @@
-.card {
+.newCard,
+.registeredCard {
   display: flex;
-  flex-direction: column;
   width: 300px;
   padding: var(--Number-200, 16px);
   align-items: flex-start;
@@ -11,18 +11,13 @@
   box-shadow: 0px 1px 4px 0px rgba(110, 128, 145, 0.24);
 }
 
+.newCard {
+  flex-direction: column;
+}
+
 .registeredCard {
-  display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 300px;
-  padding: var(--Number-200, 16px);
-  align-items: flex-start;
-  gap: var(--Number-200, 16px);
-
-  border-radius: var(--Number-100, 8px);
-  background: var(--surface-default, #fefefe);
-  box-shadow: 0px 1px 4px 0px rgba(110, 128, 145, 0.24);
 }
 
 .cardInfo {
@@ -73,10 +68,6 @@ button {
   align-items: center;
   border: none;
   border-radius: var(--Number-100, 8px);
-}
-
-button:hover {
-  opacity: 1;
 }
 
 .cancel {
