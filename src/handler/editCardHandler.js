@@ -1,13 +1,15 @@
 import { cardDataTable } from "../model/model.js";
-import { CardFormView } from "../view/components/CardFormView.js";
+import { EditCardFormView } from "../view/components/CardFormView.js";
 
 const insertForm = (targetCard) => {
-  targetCard.insertAdjacentHTML("beforebegin", CardFormView("editCard"));
+  targetCard.insertAdjacentHTML("beforebegin", EditCardFormView("editCard"));
 };
 
 const fillForm = (cardId) => {
-  const cardTitle = document.querySelector(".card-form__title");
-  const cardContent = document.querySelector(".card-form__content");
+  const editCardForm = document.querySelector(".card-form--edit");
+  editCardForm.id = "form-" + cardId;
+  const cardTitle = editCardForm.querySelector(".card-form__title");
+  const cardContent = editCardForm.querySelector(".card-form__content");
   cardTitle.value = cardDataTable[cardId].title;
   cardContent.value = cardDataTable[cardId].content;
 };
@@ -17,6 +19,15 @@ const hideCard = (targetCard) => {
 };
 
 export const editCardHandler = (target) => {
+  const editForm = document.querySelector(".card-form--edit");
+  if (editForm) {
+    const hiddenCardId = editForm.id.split("-")[1];
+    const hiddenCard = document.getElementById(hiddenCardId);
+    hiddenCard.style.display = "flex";
+
+    editForm.remove();
+  }
+
   const targetCard = target.closest("li");
   const cardId = targetCard.id;
   insertForm(targetCard);

@@ -309,7 +309,8 @@
   margin-right: 8px;
 }
 
-.card-form {
+.card-form,
+.card-form--edit {
   width: 100%;
   min-height: 104px;
   background-color: var(--surface_default);
