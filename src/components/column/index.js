@@ -1,25 +1,29 @@
-import * as ColumnCards from "../column-cards/index.js";
+import * as Card from "../card/index.js";
+import * as EditableCard from "../editable-card/index.js";
 
 export function template({ column }) {
   return `
-    <section class="column" data-column-id="${column.id}">
-        <h2 class="column__head">
-        <span class="column__title text-bold display-bold16">
-            ${column.columnName}
-        </span>
-        <div class="badge rounded-8 text-weak">${column.cards.length}</div>
-        <button class="column__head-plus" data-editable=false data-column-id="${
-          column.id
-        }" type="button">
-            <img src="./assets/icons/plus.svg" />
-        <button class="column__head-close" type="button">
-            <img src="./assets/icons/close.svg" />
-        </button>
-        </h2>
-        <div class="column__cards-container" data-column-id="${column.id}">
-          ${ColumnCards.template({ column })}
-        </div>
-    </section>
+      <h2 class="column__head">
+      <span class="column__title text-bold display-bold16">
+          ${column.columnName}
+      </span>
+      <div class="badge rounded-8 text-weak">${column.cards.length}</div>
+      <button class="column__head-plus" data-editable=false data-column-id="${
+        column.id
+      }" type="button">
+          <img src="./assets/icons/plus.svg" />
+      <button class="column__head-close" type="button">
+          <img src="./assets/icons/close.svg" />
+      </button>
+      </h2>
+      <div class="column__cards-container" data-column-id="${column.id}">
+        <ul class="column__cards" data-column-id="${column.id}">
+        ${EditableCard.template({ columnId: column.id })}
+        ${column.cards
+          .map((card) => Card.template({ columnId: column.id, card }))
+          .join("")}
+        </ul>
+      </div>
     `;
 }
 

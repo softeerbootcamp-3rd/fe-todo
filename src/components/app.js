@@ -10,7 +10,6 @@ export function initializeApp() {
   Header.render(app);
   ColumnContainer.render(app);
   ActionHistoryListDialog.render(app);
-  Alert.render(app);
 }
 
 function initializeColumnData() {
