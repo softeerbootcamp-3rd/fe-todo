@@ -1,4 +1,5 @@
 import * as Column from "../column/index.js";
+import * as Alert from "../alert/index.js";
 
 export function template({ columnId, card }) {
   return `
@@ -34,24 +35,33 @@ document.querySelector("#app").addEventListener("click", (event) => {
     return;
   }
 
-  const card = target.closest(".card");
-  const columnId = card.getAttribute("data-column-id");
-  const cardId = card.getAttribute("data-card-id");
+  Alert.show({
+    message: "선택한 카드를 삭제할까요?",
+    onConfirm: () => {
+      const card = target.closest(".card");
+      const columnId = card.getAttribute("data-column-id");
+      const cardId = card.getAttribute("data-card-id");
 
-  const todolist = JSON.parse(localStorage.getItem("todolist"));
-  const selectedColumnIndex = todolist.findIndex(
-    (item) => item.id === Number(columnId)
-  );
-  todolist[selectedColumnIndex].cards = todolist[
-    selectedColumnIndex
-  ].cards.filter((card) => card.id !== Number(cardId));
-  localStorage.setItem("todolist", JSON.stringify(todolist));
+      const todolist = JSON.parse(localStorage.getItem("todolist"));
+      const selectedColumnIndex = todolist.findIndex(
+        (item) => item.id === Number(columnId)
+      );
+      todolist[selectedColumnIndex].cards = todolist[
+        selectedColumnIndex
+      ].cards.filter((card) => card.id !== Number(cardId));
+      localStorage.setItem("todolist", JSON.stringify(todolist));
 
-  // NOTE: 특정 칼럼에 대한 카드 리렌더링
-  const column = document.querySelector(
-    `.column[data-column-id="${columnId}"]`
-  );
-  column.innerHTML = `${Column.template({
-    column: JSON.parse(localStorage.getItem("todolist"))[selectedColumnIndex],
-  })}`;
+      // NOTE: 특정 칼럼에 대한 카드 리렌더링
+      const column = document.querySelector(
+        `.column[data-column-id="${columnId}"]`
+      );
+      column.innerHTML = `${Column.template({
+        column: JSON.parse(localStorage.getItem("todolist"))[
+          selectedColumnIndex
+        ],
+      })}`;
+
+      Alert.close();
+    },
+  });
 });

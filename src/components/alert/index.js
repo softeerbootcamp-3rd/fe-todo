@@ -1,20 +1,20 @@
-export function template(data) {
+export function template({ message }) {
   return `
     <dialog class="alert-dialog rounded-8 shadow-up">
         <div class="alert">
         <p class="alert__message text-default display-medium16">
-            모든 사용자 활동 기록을 삭제할까요?
+          ${message}
         </p>
         <div class="alert__control">
             <button
-            class="button surface-alt display-bold14 text-default rounded-8"
+              class="cancel-button button surface-alt display-bold14 text-default rounded-8"
             >
-            취소
+              취소
             </button>
             <button
-            class="button surface-danger display-bold14 text-white-default rounded-8"
+              class="confirm-button button surface-danger display-bold14 text-white-default rounded-8"
             >
-            삭제
+              삭제
             </button>
         </div>
         </div>
@@ -22,11 +22,20 @@ export function template(data) {
     `;
 }
 
-export function render(parent) {
-  parent.insertAdjacentHTML("beforeend", template());
-}
-
-export function show() {
+export function show({ message, onConfirm }) {
+  document
+    .querySelector("#app")
+    .insertAdjacentHTML("beforeend", template({ message }));
   const dialog = document.querySelector(".alert-dialog");
   dialog.showModal();
+
+  dialog.querySelector(".cancel-button").addEventListener("click", () => {
+    dialog.close();
+  });
+  dialog.querySelector(".confirm-button").addEventListener("click", onConfirm);
+}
+
+export function close() {
+  const dialog = document.querySelector(".alert-dialog");
+  dialog.close();
 }
