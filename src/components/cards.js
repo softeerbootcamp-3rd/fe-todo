@@ -21,18 +21,17 @@ export function handleRegisterStatus(column) {
 
   registerButton.disabled = true;
 
-  titleInput.addEventListener("input", () =>
-    checkInputs(titleInput, contentInput, registerButton)
-  );
-  contentInput.addEventListener("input", () =>
-    checkInputs(titleInput, contentInput, registerButton)
-  );
+  function handleInput() {
+    checkInputs(titleInput, contentInput, registerButton);
+  }
+
+  titleInput.addEventListener("input", handleInput);
+  contentInput.addEventListener("input", handleInput);
   registerButton.addEventListener("click", () =>
     register(column, cardElement, titleInput, contentInput)
   );
   cancelButton.addEventListener("click", () => cardElement.remove());
 }
-
 // title, content 내용 유무 판단, 등록 버튼 활성화
 function checkInputs(title, content, register) {
   let status = !(title.value.trim() && content.value.trim());

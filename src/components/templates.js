@@ -1,3 +1,15 @@
+export function createColumnTemplate(title, id, count) {
+  return `  
+  <header id = "columnHeader">
+    <div class="columnInfo"> 
+        <span>${title}</span>
+        <span class="countBox">${count}</span>
+    </div>
+    <span id="add" class="add" ><i class="fa-solid fa-plus"></i></span>
+    <span id="delete"><i class="fa-solid fa-xmark"></i></span>
+  </header>
+  `;
+}
 export function createEditorTemplate(
   title = "",
   content = "",
