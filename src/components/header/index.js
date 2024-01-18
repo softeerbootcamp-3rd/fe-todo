@@ -5,7 +5,12 @@ export default function header(parent, props) {
   parent.innerHTML = `
     <div class="${styles.header}">
       <h1 class="${styles.header__title}">TODO LIST</h1>
-      <img class="${styles.header__history}" src="${history}">
+      <img todo-data="historyBtn" class="${styles.header__history}" src="${history}">
     </div>
     `;
+
+  const historyBtn = parent.querySelector('[todo-data="historyBtn"]');
+  historyBtn.addEventListener("click", () => {
+    document.dispatchEvent(new CustomEvent("toggleHistoryList"));
+  });
 }
