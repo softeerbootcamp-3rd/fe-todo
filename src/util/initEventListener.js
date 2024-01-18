@@ -5,6 +5,7 @@ import { editCardHandler } from "../handler/editCardHandler.js";
 import { closeHistory, showHistory } from "../handler/historyHandler.js";
 import { inputCardHandler } from "../handler/inputCardHandler.js";
 import { submitAddCardFormHandler } from "../handler/submitAddCardFormHandler.js";
+import { submitEditCardFormHandler } from "../handler/submitEditCardFormHandler.js";
 
 const clickHandlerMap = {
   "js-addCardBtn": addCardHandler,
@@ -26,7 +27,7 @@ const onClick = ({ target }) => {
 //FixIt
 const submitHandlerMap = {
   "js-addForm": submitAddCardFormHandler,
-  //"js-editForm": submitEditCardFormHandler,
+  "js-editForm": submitEditCardFormHandler,
 };
 
 const onSubmit = (event) => {
