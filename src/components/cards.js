@@ -89,6 +89,8 @@ function cancelHandler(column, card, title, content) {
   editButton.addEventListener("click", () =>
     editHandler(column, card, title, content)
   );
+  const deleteButton = card.querySelector("#delete");
+  deleteButton.addEventListener("click", () => createModal(column, card));
   return;
 }
 
