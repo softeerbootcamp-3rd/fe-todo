@@ -10,15 +10,15 @@ export const CardFormView = (target) => {
           color: "#6e7191",
           bgColor: "#f7f7fc",
           text: "취소",
-          target: "addFormCancel",
+          target: target === "editCard" ? "editFormCancel" : "addFormCancel",
         })}
         ${ButtonView({
           color: "#fefefe",
           bgColor: "#007aff",
-          text: "등록",
-          target: "addFormSubmit",
+          text: target === "editCard" ? "저장" : "등록",
+          target: target === "editCard" ? "editFormSubmit" : "addFormSubmit",
           type: "submit",
-          disabled: "disabled",
+          disabled: target === "editCard" ? "" : "disabled",
         })}
       </div>
   </form>    

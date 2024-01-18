@@ -1,12 +1,14 @@
 import { addCardHandler } from "../handler/addCardHandler.js";
 import { closeCardFormHandler } from "../handler/closeCardFormHandler.js";
 import { deleteCardHandler } from "../handler/deleteCardHandler.js";
+import { editCardHandler } from "../handler/editCardHandler.js";
 import { closeHistory, showHistory } from "../handler/historyHandler.js";
 import { inputCardHandler } from "../handler/inputCardHandler.js";
 import { submitAddCardFormHandler } from "../handler/submitAddCardFormHandler.js";
 
 const clickHandlerMap = {
   "js-addCardBtn": addCardHandler,
+  "js-editCardBtn": editCardHandler,
   "js-addFormCancel": closeCardFormHandler,
   "js-closeHistory": closeHistory,
   "js-openHistory": showHistory,
