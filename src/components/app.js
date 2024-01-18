@@ -5,7 +5,7 @@ import * as Alert from "./alert/index.js";
 
 const app = document.getElementById("app");
 
-export function intilizeApp() {
+export function initializeApp() {
   Header.render(app);
   ColumnContainer.render(app);
   ActionHistoryListDialog.render(app);

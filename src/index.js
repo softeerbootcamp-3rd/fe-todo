@@ -1,3 +1,3 @@
-import { intilizeApp } from "./components/app.js";
+import { initializeApp } from "./components/app.js";
 
-intilizeApp();
+initializeApp();
