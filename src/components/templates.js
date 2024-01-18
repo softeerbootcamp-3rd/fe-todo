@@ -8,7 +8,7 @@ export function createEditorTemplate(
       title || ""
     }" required></input>
     <input class="content" type="text" placeholder="내용을 입력하세요." value="${
-      isEditMode ? content : ""
+      content || ""
     }" required></input>
     <div class="btnbox">
         <button class="cancel">취소</button>

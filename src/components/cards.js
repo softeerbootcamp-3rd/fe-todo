@@ -26,7 +26,7 @@ export function handleRegisterStatus(column) {
     checkInputs(titleInput, contentInput, registerButton)
   );
   registerButton.addEventListener("click", () =>
-    register(cardElement, titleInput, contentInput)
+    register(column, cardElement, titleInput, contentInput)
   );
   cancelButton.addEventListener("click", () => cardElement.remove());
 }
@@ -37,7 +37,11 @@ function checkInputs(title, content, register) {
   register.style.opacity = status ? 0.3 : 1;
 }
 
-function register(card, title, content) {
+function register(column, card, title, content) {
+  const countBox = column.querySelector(".countBox");
+  const newCount = Number(countBox.textContent) + 1;
+  countBox.innerHTML = newCount;
+
   card.classList.remove("newCard");
   card.classList.add("registeredCard");
 
