@@ -58,11 +58,14 @@ document.querySelector("#app").addEventListener("click", (event) => {
   const data = { id: new Date().getTime(), title, description, author: "web" };
 
   const todolist = JSON.parse(localStorage.getItem("todolist"));
-  const selectedItemIndex = todolist.findIndex(
+  const selectedColumnIndex = todolist.findIndex(
     (item) => item.id === Number(columnId)
   );
-  todolist[selectedItemIndex].cards =
-    todolist[selectedItemIndex].cards.concat(data);
+  todolist[selectedColumnIndex].cards = [
+    data,
+    ...todolist[selectedColumnIndex].cards,
+  ];
+
   localStorage.setItem("todolist", JSON.stringify(todolist));
 
   // NOTE: 특정 칼럼에 대한 카드 리렌더링
