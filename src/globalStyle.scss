@@ -40,6 +40,22 @@ input {
   background: none;
 }
 
+p {
+  font-family: "Medium";
+}
+
+button {
+  display: flex;
+  width: 132px;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--Number-100, 8px);
+  text-align: center;
+  font-family: "Bold";
+  font-size: 14px;
+}
+
 :root {
   --grayscale_50: #fefefe;
   --grayscale_100: #f7f7fc;
