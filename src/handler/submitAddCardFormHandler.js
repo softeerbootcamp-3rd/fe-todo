@@ -15,7 +15,7 @@ const createCardData = (target) => {
 
 const updateModel = ({ target, currentColumn }) => {
   const columnId = currentColumn.id;
-  columnDataTable[columnId].value.unshift(cardId);
+  columnDataTable[columnId].value.unshift(cardId + "");
   cardDataTable[cardId] = createCardData(target);
 };
 

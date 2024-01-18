@@ -171,6 +171,9 @@
 .card__btn-list__delete-card-btn {
   background-image: url("/assets/delete.svg");
 }
+.card__btn-list__delete-card-btn:hover {
+  background-image: url("/assets/delete-hover.svg");
+}
 
 .card__btn-list__edit-card-btn {
   background-image: url("/assets/edit.svg");

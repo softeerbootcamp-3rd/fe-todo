@@ -1,5 +1,6 @@
 import { addCardHandler } from "../handler/addCardHandler.js";
 import { closeCardFormHandler } from "../handler/closeCardFormHandler.js";
+import { deleteCardHandler } from "../handler/deleteCardHandler.js";
 import { closeHistory, showHistory } from "../handler/historyHandler.js";
 import { inputCardHandler } from "../handler/inputCardHandler.js";
 import { submitAddCardFormHandler } from "../handler/submitAddCardFormHandler.js";
@@ -9,6 +10,7 @@ const clickHandlerMap = {
   "js-addFormCancel": closeCardFormHandler,
   "js-closeHistory": closeHistory,
   "js-openHistory": showHistory,
+  "js-deleteCardBtn": deleteCardHandler,
 };
 
 const onClick = ({ target }) => {
