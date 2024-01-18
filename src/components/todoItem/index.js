@@ -29,7 +29,6 @@ export default function todoItem(parent, props) {
 
   const titleNode = parent.querySelector('[todo-data="title"]');
   const contentNode = parent.querySelector('[todo-data="content"]');
-
   // 수정 모드에서 취소, 제출 버튼
   const cancelBtnNode = parent.querySelector('[todo-data="cancelBtn"]');
   const submitBtnNode = parent.querySelector('[todo-data="submitBtn"]');
@@ -37,6 +36,25 @@ export default function todoItem(parent, props) {
   // 뷰 모드에서 삭제, 수정 버튼
   const eraseBtnNode = parent.querySelector('[todo-data="eraseBtn"]');
   const editBtnNode = parent.querySelector('[todo-data="editBtn"]');
+
+  function isValidated() {
+    // 제목 내용 입력해야 버튼 활성화
+    if (titleNode.value.length === 0 || contentNode.value.length === 0) {
+      submitBtnNode.setAttribute("disabled", "");
+    } else {
+      submitBtnNode.removeAttribute("disabled");
+    }
+
+    // 글자 수 제한
+    if (contentNode.value.length > 500 || titleNode.value.length > 500) {
+      contentNode.value = contentNode.value.substring(0, 500);
+      titleNode.value = titleNode.value.substring(0, 500);
+      alert("최대 500자 까지 입력 가능합니다!");
+    }
+  }
+
+  titleNode.addEventListener("input", isValidated);
+  contentNode.addEventListener("input", isValidated);
 
   const authorNode = parent.querySelector('[todo-data="author"]');
   const actionBtnContainer = parent.querySelector(
@@ -102,6 +120,7 @@ export default function todoItem(parent, props) {
 
   editBtnNode.addEventListener("click", setEditMode);
   cancelBtnNode.addEventListener("click", onCancel);
+
   eraseBtnNode.addEventListener("click", onErase);
   submitBtnNode.addEventListener("click", onSubmit);
 

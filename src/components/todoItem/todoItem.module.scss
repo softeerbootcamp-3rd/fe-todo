@@ -45,6 +45,11 @@
     font-size: 14px;
   }
 
+  &__btn--active:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
   &__btn--inactive {
     display: flex;
     width: 132px;
