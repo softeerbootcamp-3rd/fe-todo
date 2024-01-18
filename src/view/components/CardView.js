@@ -9,7 +9,7 @@ export const CardView = (cardId) => {
     <p class="card__author">author by ${author}</p>
     <div class="card__btn-list">
       <button class="js-deleteCardBtn card__btn-list__delete-card-btn"></button>
-      <button class="card__btn-list__edit-card-btn"></button>
+      <button class="js-editCardBtn card__btn-list__edit-card-btn"></button>
     </div>
   </li>    
     `;
