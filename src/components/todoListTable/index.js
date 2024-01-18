@@ -13,9 +13,13 @@ export default function todoListTable(parent, props) {
   const todoListTable = parent.querySelector('[todo-data="todoListTable"]');
   getTodoList().then((todoData) => {
     const todoDataEntries = Object.entries(todoData);
-    for (const [todoColName, todoColData] of todoDataEntries) {
+    for (const [todoColId, todoColData] of todoDataEntries) {
       const container = document.createElement("div");
-      todoList(container, { title: todoColName, items: todoColData });
+      todoList(container, {
+        id: todoColId,
+        title: todoColData.title,
+        items: todoColData.data,
+      });
       todoListTable.appendChild(container);
     }
   });

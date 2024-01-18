@@ -3,10 +3,12 @@
   "source": "src/index.html",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build",
+    "db": "npx json-server db.json"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.11.0",
+    "json-server": "^1.0.0-alpha.21",
     "parcel": "^2.11.0"
   }
 }
