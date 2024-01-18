@@ -1,5 +1,4 @@
 import styles from "./todoItem.module.scss";
-import { todoList__actionBtn } from "../todoList/todoList.module.scss";
 import closedIcon from "../../asset/img/closed.svg";
 import editIcon from "../../asset/img/edit.svg";
 
@@ -18,10 +17,10 @@ export default function todoItem(parent, props) {
 
 
             <div todo-data="actionBtnContainer" class="${styles.todoItem__actionBtnContainer}">
-                <button todo-data="eraseBtn" class="${todoList__actionBtn}">
-                    <img src="${closedIcon}">
+                <button todo-data="eraseBtn" class="actionBtn">
+                    <img class="actionBtn__closed" src="${closedIcon}">
                 </button>
-                <button todo-data="editBtn" class="${todoList__actionBtn}">
+                <button todo-data="editBtn" class="actionBtn">
                     <img src="${editIcon}">
                 </button>
             </div>

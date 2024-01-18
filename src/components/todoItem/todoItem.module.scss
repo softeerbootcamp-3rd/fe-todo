@@ -73,18 +73,6 @@
     flex-direction: column;
   }
 
-  &__actionBtn {
-    color: var(--text-weak);
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: none;
-    border: none;
-  }
-
   &__itemAuthor {
     color: var(--text-weak);
     font-family: "Medium";
