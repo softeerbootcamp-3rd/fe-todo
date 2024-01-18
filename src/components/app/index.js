@@ -7,19 +7,10 @@ import modal from "../modal";
 export default function App(parent, props) {
   parent.innerHTML = `
         <div class="${styles.app}">
-
-        <div todo-data="modalSection" class="${styles.app__modalSection}"></div>
-
-            <div todo-data="headerSection">
-
-            </div>
-            <div todo-data="todoSection">
-            
-            </div>
-            <div todo-data="historySection" class="${styles.app__historySection}">
-            
-            </div>
-
+          <div todo-data="modalSection" class="${styles.app__modalSection}"></div>
+          <div todo-data="headerSection"></div>
+          <div todo-data="todoSection"></div>
+          <div todo-data="historySection" class="${styles.app__historySection}"></div>
         </div>
     `;
 

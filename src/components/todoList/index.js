@@ -13,11 +13,11 @@ export default function todoList(parent, props) {
                 </div>
                 
                 <div class="${styles.todoList__btnContainer}">
-                    <button class="${styles.todoList__actionBtn}">
-                        <img src="${plusIcon}">
+                    <button class="actionBtn">
+                        <img class="actionBtn__plus" src="${plusIcon}">
                     </button>
-                    <button class="${styles.todoList__actionBtn}">
-                        <img src="${closedIcon}">
+                    <button class="actionBtn">
+                        <img class="actionBtn__closed" src="${closedIcon}">
                     </button>
                 </div>
             </div>
