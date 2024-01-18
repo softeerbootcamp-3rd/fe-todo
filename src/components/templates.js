@@ -5,8 +5,8 @@ export function createColumnTemplate(title, id, count) {
         <span>${title}</span>
         <span class="countBox">${count}</span>
     </div>
-    <span id="add" class="add" ><i class="fa-solid fa-plus"></i></span>
-    <span id="delete"><i class="fa-solid fa-xmark"></i></span>
+    <span class="add" ><i id="add" class="fa-solid fa-plus"></i></span>
+    <span id="delete"><i id="deleteCards" class="fa-solid fa-xmark"></i></span>
   </header>
   `;
 }
@@ -16,17 +16,17 @@ export function createEditorTemplate(
   isEditMode = false
 ) {
   return `
-    <input class="title" type="text" placeholder="제목을 입력하세요." value="${
+    <input id="inputTitle" class="title" type="text" placeholder="제목을 입력하세요." value="${
       title || ""
     }" required></input>
-    <input class="content" type="text" placeholder="내용을 입력하세요." value="${
+    <input id ="inputContent" class="content" type="text" placeholder="내용을 입력하세요." value="${
       content || ""
     }" required></input>
     <div class="btnbox">
-        <button class="cancel">취소</button>
-        <button class="${isEditMode ? "save" : "register"}">${
-    isEditMode ? "저장" : "등록"
-  }</button>
+        <button id="cancelBtn" class="cancel">취소</button>
+        <button id="${isEditMode ? "saveBtn" : "registerBtn"}" class="${
+    isEditMode ? "save" : "register"
+  }">${isEditMode ? "저장" : "등록"}</button>
     </div>
   `;
 }
@@ -39,8 +39,8 @@ export function createCardInfoTemplate(title, content) {
         <span style="font-size: 10px; margin-top: 10px"> author by Web </span> 
     </div>
     <div class="editor">
-        <span id="delete"><i class="fa-solid fa-xmark"></i></span>
-        <span id="edit"><i class="fa-solid fa-pen"></i></span>
+        <span id="delete"><i id="deleteBtn" class="fa-solid fa-xmark"></i></span>
+        <span id="edit"><i id="editBtn" class="fa-solid fa-pen"></i></span>
     </div>
   `;
 }

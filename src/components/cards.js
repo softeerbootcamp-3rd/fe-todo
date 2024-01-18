@@ -55,7 +55,7 @@ function register(column, card, title, content) {
 
   const editButton = card.querySelector("#edit");
   editButton.addEventListener("click", () =>
-    editHandler(card, originalTitle, originalContent)
+    editHandler(column, card, originalTitle, originalContent)
   );
 
   const deleteButton = card.querySelector("#delete");
@@ -63,7 +63,8 @@ function register(column, card, title, content) {
 }
 
 // 등록 완료 Card 수정 처리 함수
-function editHandler(card, title, content) {
+function editHandler(column, card, title, content) {
+  console.log(card);
   card.classList.remove("registeredCard");
   card.classList.add("newCard");
   card.innerHTML = createEditorTemplate(title, content, true);
@@ -72,27 +73,27 @@ function editHandler(card, title, content) {
   const saveButton = card.querySelector(".save");
 
   cancelButton.addEventListener("click", () =>
-    cancelHandler(card, title, content)
+    cancelHandler(column, card, title, content)
   );
-  saveButton.addEventListener("click", () => saveHandler(card));
+  saveButton.addEventListener("click", () => saveHandler(column, card));
 }
 
 // 수정 기능 내의 취소 처리 함수
-function cancelHandler(card, title, content) {
+function cancelHandler(column, card, title, content) {
   card.classList.remove("newCard");
   card.classList.add("registeredCard");
   card.innerHTML = createCardInfoTemplate(title, content);
 
   // 이후의 동작 또는 이벤트 처리를 추가할 수 있습니다.
-  console.log("cancel end");
   const editButton = card.querySelector("#edit");
-  editButton.addEventListener("click", () => editHandler(card, title, content));
-
+  editButton.addEventListener("click", () =>
+    editHandler(column, card, title, content)
+  );
   return;
 }
 
 // 수정 기능 내의 저장 처리 함수
-function saveHandler(card) {
+function saveHandler(column, card) {
   const newTitle = card.querySelector(".title").value;
   const newContent = card.querySelector(".content").value;
 
@@ -101,11 +102,11 @@ function saveHandler(card) {
 
   card.innerHTML = createCardInfoTemplate(newTitle, newContent);
   // 이후의 동작 또는 이벤트 처리를 추가할 수 있습니다.
-  console.log("save end");
   const editButton = card.querySelector("#edit");
   editButton.addEventListener("click", () =>
-    editHandler(card, newTitle, newContent)
+    editHandler(column, card, newTitle, newContent)
   );
-
+  const deleteButton = card.querySelector("#delete");
+  deleteButton.addEventListener("click", () => createModal(column, card));
   return;
 }

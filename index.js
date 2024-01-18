@@ -6,6 +6,9 @@ function createColumn(col) {
   const app = document.getElementById("app");
   const columnElement = Column(col);
 
+  columnElement.addEventListener("click", (e) => {
+    console.log(e.target.id);
+  });
   app.appendChild(columnElement);
 }
 
