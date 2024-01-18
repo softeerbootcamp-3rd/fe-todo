@@ -1,4 +1,4 @@
-import * as ColumnCards from "../column-cards/index.js";
+import * as Column from "../column/index.js";
 
 export function template({ columnId, card }) {
   return `
@@ -47,11 +47,11 @@ document.querySelector("#app").addEventListener("click", (event) => {
   ].cards.filter((card) => card.id !== Number(cardId));
   localStorage.setItem("todolist", JSON.stringify(todolist));
 
-  // 카드 리렌더링
-  const columnCardsContainer = document.querySelector(
-    `.column__cards-container[data-column-id="${columnId}"]`
+  // NOTE: 특정 칼럼에 대한 카드 리렌더링
+  const column = document.querySelector(
+    `.column[data-column-id="${columnId}"]`
   );
-  columnCardsContainer.innerHTML = `${ColumnCards.template({
+  column.innerHTML = `${Column.template({
     column: JSON.parse(localStorage.getItem("todolist"))[selectedColumnIndex],
   })}`;
 });

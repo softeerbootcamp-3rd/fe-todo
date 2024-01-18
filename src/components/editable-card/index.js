@@ -1,4 +1,4 @@
-import * as ColumnCards from "../column-cards/index.js";
+import * as Column from "../column/index.js";
 
 export function template({ columnId }) {
   return `
@@ -69,11 +69,11 @@ document.querySelector("#app").addEventListener("click", (event) => {
   localStorage.setItem("todolist", JSON.stringify(todolist));
 
   // NOTE: 특정 칼럼에 대한 카드 리렌더링
-  const columnCardsContainer = document.querySelector(
-    `.column__cards-container[data-column-id="${columnId}"]`
+  const column = document.querySelector(
+    `.column[data-column-id="${columnId}"]`
   );
-  columnCardsContainer.innerHTML = `${ColumnCards.template({
-    column: JSON.parse(localStorage.getItem("todolist"))[selectedItemIndex],
+  column.innerHTML = `${Column.template({
+    column: JSON.parse(localStorage.getItem("todolist"))[selectedColumnIndex],
   })}`;
 });
 
