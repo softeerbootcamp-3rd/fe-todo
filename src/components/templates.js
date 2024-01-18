@@ -44,3 +44,15 @@ export function createCardInfoTemplate(title, content) {
     </div>
   `;
 }
+
+export function createModalTemplate() {
+  return `
+  <div class="modal-content">
+    <p>선택한 카드를 취소할까요?</p>
+    <div class="btnbox">
+      <button id="cancelButton">취소</button>
+      <button id="deleteButton">삭제</button>
+    </div>
+  </div>
+  `;
+}

@@ -1,3 +1,4 @@
+import createModal from "./modal.js";
 import { createEditorTemplate, createCardInfoTemplate } from "./templates.js ";
 
 // Card element
@@ -12,7 +13,6 @@ export default function Card() {
 
 // Card 등록 내용 관련 이벤트 처리
 export function handleRegisterStatus(column) {
-  console.log(column);
   const cardElement = column.querySelector(".newCard");
   const titleInput = column.querySelector(".title");
   const contentInput = column.querySelector(".content");
@@ -53,12 +53,13 @@ function register(column, card, title, content) {
 
   card.innerHTML = createCardInfoTemplate(originalTitle, originalContent);
 
-  console.log(card);
-
   const editButton = card.querySelector("#edit");
   editButton.addEventListener("click", () =>
     editHandler(card, originalTitle, originalContent)
   );
+
+  const deleteButton = card.querySelector("#delete");
+  deleteButton.addEventListener("click", () => createModal(column, card));
 }
 
 // 등록 완료 Card 수정 처리 함수
