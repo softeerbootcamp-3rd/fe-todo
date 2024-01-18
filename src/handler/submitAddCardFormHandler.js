@@ -1,40 +1,29 @@
-import { cardData, columnList, historyData } from "../model/model.js";
+import { cardDataTable, columnDataTable, historyDataList } from "../model/model.js";
 import { getDeviceInfo } from "../util/getDeviceInfo.js";
 import { historyDataTemplate } from "../util/historyDataTemplate.js";
-import { CardView } from "../view/components/CardView.js";
-import { HistoryCardView } from "../view/components/HistoryCardView.js";
+import { renderCardList, renderListCount } from "../util/render.js";
 
 let cardId = 3;
 
-const updateCardData = (target) => {
+const createCardData = (target) => {
   const formData = new FormData(target);
   formData.set("author", getDeviceInfo());
-  formData.set("createdAt", Date.now()); //Todo - Real-time!!
+  formData.set("createdAt", new Date());
   formData.set("cardId", cardId);
-  cardData[cardId] = Object.fromEntries(formData);
+  return Object.fromEntries(formData);
 };
 
-const updateColumnList = (currentColumn) => {
+const updateModel = ({ target, currentColumn }) => {
   const columnId = currentColumn.id;
-  columnList[columnId].value.push(cardId);
-};
-
-const insertNewCard = (target) => {
-  target.insertAdjacentHTML("afterend", CardView(cardId));
-};
-
-const updateListCount = (currentColumn) => {
-  const count = currentColumn.querySelector(".column__nav__info__count");
-  count.textContent++;
+  columnDataTable[columnId].value.unshift(cardId + "");
+  cardDataTable[cardId] = createCardData(target);
 };
 
 // todo: make addHistoryCard util-fn
-const addHistoryCard = (currentColumn) => {
-  const historyList = document.querySelector(".history__list");
-  const { author: username, createdAt: time, title: cardTitle } = cardData[cardId++];
-  const columnId = currentColumn.id;
-  const columnTitle = columnList[columnId].title;
-  const historyData = {
+const addNewHistory = (currentColumn) => {
+  const { author: username, createdAt: time, title: cardTitle } = cardDataTable[cardId++];
+  const columnTitle = columnDataTable[currentColumn.id].title;
+  const newHistory = {
     ...historyDataTemplate(),
     username,
     time,
@@ -42,17 +31,16 @@ const addHistoryCard = (currentColumn) => {
     type: "등록",
     from: columnTitle,
   };
-  historyList.insertAdjacentHTML("afterbegin", HistoryCardView(historyData));
+  historyDataList.unshift(newHistory);
 };
 
 export const submitAddCardFormHandler = (target) => {
   const currentColumn = target.closest("section");
 
-  updateCardData(target);
-  updateColumnList(currentColumn);
-  insertNewCard(target);
-  updateListCount(currentColumn);
-  addHistoryCard(currentColumn);
+  updateModel({ target, currentColumn });
+  renderCardList(currentColumn);
+  renderListCount(currentColumn);
+  addNewHistory(currentColumn);
 
   target.remove();
 };
