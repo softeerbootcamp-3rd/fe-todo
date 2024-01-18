@@ -1,6 +1,7 @@
 import Card from "./cards.js";
 import { handleRegisterStatus } from "./cards.js";
 
+// Column element
 export default function Column({ title, id, count }) {
   const column = document.createElement("div");
   column.className = "column";
@@ -19,6 +20,7 @@ export default function Column({ title, id, count }) {
   return column;
 }
 
+// columnHeader의 '+' 클릭시 이벤트 처리
 function handleAddClick() {
   const buttons = document.querySelectorAll(".add");
 
@@ -27,6 +29,7 @@ function handleAddClick() {
   });
 }
 
+// '+' 버튼 클릭시 콜백함수
 function addCard(button) {
   const header = button.parentElement;
   const column = header.parentElement;
@@ -38,6 +41,7 @@ function addCard(button) {
   }
 }
 
+// Column 내 Card 추가 함수
 function createCard(id) {
   const column = document.getElementById(id);
   const isExistCard = column.querySelector(".newCard");
@@ -45,6 +49,7 @@ function createCard(id) {
   return checkValid(isExistCard, column);
 }
 
+// 등록 전 Card 유무 판단 후 처리 함수
 function checkValid(status, parent) {
   if (!status) {
     const card = Card();
