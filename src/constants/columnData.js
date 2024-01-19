@@ -2,7 +2,7 @@ export const columns = [
   {
     id: "todo",
     title: "해야할 일",
-    count: 2,
+    count: 0,
   },
   {
     id: "doing",
