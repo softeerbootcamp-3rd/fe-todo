@@ -11,16 +11,14 @@ export default function todoListTable(parent, props) {
 
   //데이터 API호출 후, 각 todoList에 넣어서 각각 만들어주고 그것을 마운트해준다.
   const todoListTable = parent.querySelector('[todo-data="todoListTable"]');
-  getTodoList().then((todoData) => {
-    const todoDataEntries = Object.entries(todoData);
-    for (const [todoColId, todoColData] of todoDataEntries) {
-      const container = document.createElement("div");
-      todoList(container, {
-        id: todoColId,
-        title: todoColData.title,
-        items: todoColData.data,
-      });
-      todoListTable.appendChild(container);
-    }
-  });
+  const todoData = getTodoList();
+  const todoDataEntries = Object.entries(todoData);
+  for (const [todoColTitle, todoColData] of todoDataEntries) {
+    const container = document.createElement("div");
+    todoList(container, {
+      title: todoColTitle,
+      items: todoColData,
+    });
+    todoListTable.appendChild(container);
+  }
 }
