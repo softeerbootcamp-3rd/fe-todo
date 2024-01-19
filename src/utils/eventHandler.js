@@ -47,7 +47,7 @@ export default function customEventHandler(event) {
     case targetList[4]: {
       console.log("register btn event");
 
-      register(parentTarget);
+      registerCard(parentTarget);
       break;
     }
     case targetList[5]: {
@@ -68,7 +68,7 @@ export default function customEventHandler(event) {
       console.log("edit btn event");
 
       const registeredCard = target.closest(".registeredCard");
-      editHandler(registeredCard);
+      editCard(registeredCard);
       break;
     }
     default:
@@ -76,7 +76,7 @@ export default function customEventHandler(event) {
   }
 }
 
-// '+' 버튼 클릭시 카드 추가
+// Column의 '+' 버튼 클릭시 카드 추가 함수
 function addCard(target) {
   const column = target.closest(".column");
   const isExistCard = column.querySelector(".newCard");
@@ -89,6 +89,7 @@ function addCard(target) {
   }
 }
 
+// 제목, 내용의 입력 값 유무 판단 함수
 function checkInputsFilled(title, content, register) {
   let status = !(title.value.trim() && content.value.trim());
 
@@ -96,6 +97,7 @@ function checkInputsFilled(title, content, register) {
   register.style.opacity = status ? 0.3 : 1;
 }
 
+// 등록 함수 활성화 판단 함수
 function checkRegisterStatus(parentTarget) {
   const titleInput = parentTarget.querySelector(".title");
   const contentInput = parentTarget.querySelector(".content");
@@ -105,7 +107,7 @@ function checkRegisterStatus(parentTarget) {
 }
 
 // Card 등록 함수
-function register(column) {
+function registerCard(column) {
   const title = column.querySelector(".title");
   const content = column.querySelector(".content");
   const countBox = column.querySelector(".countBox");
@@ -122,14 +124,13 @@ function register(column) {
   card.innerHTML = createCardInfoTemplate(originalTitle, originalContent);
 }
 
-function editHandler(card) {
+function editCard(card) {
   const title = card.querySelector(".registeredTitle").textContent;
   const content = card.querySelector(".registeredContent").textContent;
   localStorage.setItem("originalTitle", title);
   localStorage.setItem("originalContent", content);
 
-  card.classList.remove("registeredCard");
-  card.classList.add("newCard");
+  card.className = "newCard";
   card.innerHTML = createEditorTemplate(title, content, true);
 }
 
