@@ -4,15 +4,16 @@ import customEventHandler from "./src/utils/eventHandler.js";
 
 // Column 생성 함수
 function createColumn(col) {
+  const listenerTypes = ["click", "input"];
   const app = document.getElementById("app");
   const columnElement = Column(col);
 
-  columnElement.addEventListener("click", (e) => {
-    customEventHandler(e);
-  });
-  columnElement.addEventListener("input", (e) => {
-    customEventHandler(e);
-  });
+  for (let listenerType of listenerTypes) {
+    columnElement.addEventListener(listenerType, (e) => {
+      customEventHandler(e);
+    });
+  }
+
   app.appendChild(columnElement);
 }
 
