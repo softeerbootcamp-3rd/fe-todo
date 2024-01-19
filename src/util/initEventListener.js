@@ -1,6 +1,7 @@
 import { addCardHandler } from "../handler/addCardHandler.js";
 import { closeCardFormHandler, closeEditCardFormHandler } from "../handler/closeCardFormHandler.js";
 import { deleteCardHandler } from "../handler/deleteCardHandler.js";
+import { onDragEnd, onDragOver, onDragStart, onDrop } from "../handler/dragHandler.js";
 import { editCardHandler } from "../handler/editCardHandler.js";
 import { closeHistory, showHistory } from "../handler/historyHandler.js";
 import { inputCardHandler } from "../handler/inputCardHandler.js";
@@ -44,4 +45,8 @@ export const initEventListener = () => {
   app.addEventListener("click", onClick);
   app.addEventListener("submit", onSubmit);
   app.addEventListener("input", inputCardHandler);
+  app.addEventListener("dragstart", onDragStart);
+  app.addEventListener("dragover", onDragOver);
+  app.addEventListener("dragend", onDragEnd);
+  app.addEventListener("drop", onDrop);
 };
