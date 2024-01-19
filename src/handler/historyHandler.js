@@ -1,10 +1,10 @@
-let history = null;
+import { historyListRender } from "../util/render";
 
 export const showHistory = () => {
-  if (!history) history = document.querySelector(".history");
-  history.showModal();
+  historyListRender();
+  document.querySelector(".history").showModal();
 };
 
 export const closeHistory = () => {
-  history.close();
+  document.querySelector(".history").close();
 };

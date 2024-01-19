@@ -1,3 +1,5 @@
+import { getElapsedTime } from "../../util/getElapsedTime";
+
 const HistoryCardAddView = (history) => {
   return `
         <p class="history-card__content">
@@ -51,7 +53,7 @@ export const HistoryCardView = (history) => {
       <section class="history-card__main">
         <h5 class="history-card__username">@${history.username}</h5>
           ${getHistoryContents(history)}
-        <footer class="history-card__time">${history.time}</footer>
+        <footer class="history-card__time">${getElapsedTime(history.time)}</footer>
       </section>
     </li>
       `;
