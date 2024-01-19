@@ -56,6 +56,7 @@ export function createDeleteModal(parent, onDelete) {
         msg: "선택한 카드를 삭제할까요?",
         onDelete,
       },
+      bubbles: true,
     })
   );
 }

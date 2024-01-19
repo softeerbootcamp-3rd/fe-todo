@@ -1,8 +1,18 @@
 import { addHistory, editHistory, moveHistory, removeHistory } from "./history";
 
+let idCount = 0;
+
 export function getTodoList() {
   const todoList = localStorage.getItem("todoList");
-  if (todoList !== null) return JSON.parse(todoList);
+  if (todoList !== null) {
+    const todoObject = JSON.parse(todoList);
+    Object.values(todoObject).forEach((todoColArr) => {
+      todoColArr.forEach((todo) => {
+        idCount = Math.max(idCount, todo.id);
+      });
+    });
+    return todoObject;
+  }
 
   // 없을 경우 추가
   const initialTodoList = {
@@ -16,22 +26,34 @@ export function getTodoList() {
 }
 
 export function addTodoListItem(title, item) {
+  const newItem = { id: ++idCount, ...item };
   const todoData = JSON.parse(localStorage.getItem("todoList"));
-  todoData[title].unshift(item);
+  todoData[title].unshift(newItem);
   localStorage.setItem("todoList", JSON.stringify(todoData));
-  addHistory(title, item);
+  addHistory(title, newItem);
+  return newItem;
 }
 
-export function removeTodoListItem(title, index) {
+export function removeTodoListItem(colTitle, item) {
   const todoData = JSON.parse(localStorage.getItem("todoList"));
-  todoData[title].splice(index, 1);
+  for (let idx = 0; idx < todoData[colTitle].length; idx++) {
+    if (todoData[colTitle][idx].id === item.id) {
+      todoData[colTitle].splice(idx, 1);
+      break;
+    }
+  }
   localStorage.setItem("todoList", JSON.stringify(todoData));
-  removeHistory(title, item);
+  removeHistory(colTitle, item);
 }
 
-export function editTodoListItem(title, index, item) {
+export function editTodoListItem(colTitle, item) {
   const todoData = JSON.parse(localStorage.getItem("todoList"));
-  todoData[title][index] = item;
+  for (let idx = 0; idx < todoData[colTitle].length; idx++) {
+    if (todoData[colTitle][idx].id === item.id) {
+      todoData[colTitle][idx] = item;
+      break;
+    }
+  }
   localStorage.setItem("todoList", JSON.stringify(todoData));
   editHistory(item);
 }
