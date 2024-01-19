@@ -11,9 +11,9 @@ export function template({ column }) {
       <button class="column__head-plus" data-editable=false data-column-id="${
         column.id
       }" type="button">
-          <img src="./assets/icons/plus.svg" />
+          <img src="./assets/icons/plus.svg" width='24' height='24' />
       <button class="column__head-close" type="button">
-          <img src="./assets/icons/close.svg" />
+          <img src="./assets/icons/close.svg" width='24' height='24' />
       </button>
       </h2>
       <div class="column__cards-container" data-column-id="${column.id}">

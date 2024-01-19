@@ -22,10 +22,10 @@ export function template({ columnId, card }) {
     </div>
     <div class="card__buttons">
         <button class="card__delete-button" type="button">
-            <img src="./assets/icons/close.svg" />
+            <img src="./assets/icons/close.svg" width='24' height='24' />
         </button>
         <button class="card__edit-button" type="button">
-            <img src="./assets/icons/edit.svg" />
+            <img src="./assets/icons/edit.svg" width='24' height='24' />
         </button>
     </div>
   </li>
