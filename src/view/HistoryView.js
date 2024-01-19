@@ -22,7 +22,7 @@ export const HistoryView = () => {
 export const HistoryListView = () => {
   return `
     <ul class="history__list">
-      ${historyDataList.map((history) => HistoryCardView(history))}
+      ${historyDataList.map((history) => HistoryCardView(history)).join("")}
     </ul>
   `;
 };
