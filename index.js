@@ -8,7 +8,10 @@ function createColumn(col) {
   const columnElement = Column(col);
 
   columnElement.addEventListener("click", (e) => {
-    customEventHandler(e.target);
+    customEventHandler(e);
+  });
+  columnElement.addEventListener("input", (e) => {
+    customEventHandler(e);
   });
   app.appendChild(columnElement);
 }

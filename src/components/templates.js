@@ -24,8 +24,7 @@ export function createEditorTemplate(
     }" required></input>
     <div class="btnbox">
         <button id="cancelBtn" class="cancel">취소</button>
-        <button id="${isEditMode ? "saveBtn" : "registerBtn"}" class="${
-    isEditMode ? "save" : "register"
+        <button id="${isEditMode ? "saveBtn" : "registerBtn"}" class="register"
   }">${isEditMode ? "저장" : "등록"}</button>
     </div>
   `;

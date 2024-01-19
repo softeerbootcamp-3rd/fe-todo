@@ -1,4 +1,3 @@
-import Card, { handleRegisterStatus } from "./cards.js";
 import { createColumnTemplate } from "./templates.js";
 
 // Column element
