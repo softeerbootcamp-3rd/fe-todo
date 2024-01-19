@@ -1,4 +1,5 @@
 import Column from "./src/components/columns.js";
+import { createLogBoxTemplate } from "./src/components/templates.js";
 import { columns } from "./src/constants/columnData.js";
 import customEventHandler from "./src/utils/eventHandler.js";
 
@@ -23,5 +24,9 @@ function spreadColumn() {
     createColumn(column);
   }
 }
+
+// document.getElementById("logBox").addEventListener("click", () => {
+//   createLogBoxTemplate();
+// });
 
 spreadColumn();
