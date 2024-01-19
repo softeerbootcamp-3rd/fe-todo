@@ -1,7 +1,11 @@
 import styles from "./todoItem.module.scss";
 import closedIcon from "../../asset/img/closed.svg";
 import editIcon from "../../asset/img/edit.svg";
-import { addTodoListItem } from "../../utils/API/todoList";
+import {
+  addTodoListItem,
+  editTodoListItem,
+  removeTodoListItem,
+} from "../../utils/API/todoList";
 
 import {
   addCheckInput,
@@ -62,6 +66,7 @@ export default function todoItem(parent, props) {
   // 수정하고 제출 시
   const onSubmit_edit = () => {
     const newItem = {
+      ...props.item,
       title: titleNode.value,
       content: contentNode.value,
       createdOn: "web",
@@ -69,19 +74,25 @@ export default function todoItem(parent, props) {
 
     //투두 등록 로직
     if (props.addMode) {
-      addTodoListItem(props.todoColTitle, newItem);
+      const newReturnItem = addTodoListItem(props.todoColTitle, newItem);
       //추가하고 추가 컴포넌트 삭제 및
-      props.onAddItem(true, newItem);
+      props.onAddItem(true, newReturnItem);
     }
     //투두 수정 로직
     else {
+      editTodoListItem(props.todoColTitle, newItem);
+      setViewMode();
     }
   };
 
   // 삭제 시
   const onErase_view = () => {
+    console.log("onerase");
     createDeleteModal(parent, () => {
-      console.log("erase");
+      removeTodoListItem(props.todoColTitle, props.item);
+      parent.parentNode.removeChild(parent);
+      console.log(props);
+      props.onDeleteItem();
     });
   };
 

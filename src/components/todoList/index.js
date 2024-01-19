@@ -9,7 +9,7 @@ export default function todoList(parent, props) {
       <div class="${styles.todoList__header}">
         <div class="${styles.todoList__countWrapper}">
           <h2 class="${styles.todoList__headerTitle}">${props.title}</h2>
-          <p class="${styles.todoList__count}">${props.items.length}</p>
+          <p todo-data="itemCount" class="${styles.todoList__count}">${props.items.length}</p>
         </div>
         <div class="${styles.todoList__btnContainer}">
           <button todo-data="plusBtn" class="actionBtn">
@@ -30,15 +30,28 @@ export default function todoList(parent, props) {
     '[todo-data="newItemContainer"]'
   );
 
-  const onAddItem = (isFront, item) => {
+  const itemCount = parent.querySelector('[todo-data="itemCount"]');
+
+  const onAddItem = (isNew, item) => {
     const todoItemWrapper = document.createElement("div");
-    todoItem(todoItemWrapper, { todoColTitle: props.title, item });
-    if (isFront) {
+    todoItem(todoItemWrapper, {
+      todoColTitle: props.title,
+      item,
+      onDeleteItem,
+    });
+    if (isNew) {
+      // 새로운 아이템 등록 및 추가
       newItemContainer.insertAdjacentElement("afterend", todoItemWrapper);
       newItemContainer.style.display = "none";
+      itemCount.innerText = parseInt(itemCount.innerText) + 1;
     } else {
+      // 초기 데이터의 아이템 렌더시 사용
       itemsContainer.appendChild(todoItemWrapper);
     }
+  };
+
+  const onDeleteItem = () => {
+    itemCount.innerText = parseInt(itemCount.innerText) - 1;
   };
 
   //행 하나에 item으로 컴포넌트를 만들어서 마운트
