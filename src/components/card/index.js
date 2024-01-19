@@ -1,9 +1,11 @@
 import * as Column from "../column/index.js";
 import * as Alert from "../alert/index.js";
+import * as EditableCard from "../editable-card/index.js";
 
 export function template({ columnId, card }) {
   return `
-  <li data-column-id="${columnId}" data-card-id="${card.id}"
+  <li data-column-id="${columnId}"
+      data-card-id="${card.id}"
       class="card rounded-8 surface-default shadow-normal"
     >
     <div class="card__contents">
@@ -64,4 +66,23 @@ document.querySelector("#app").addEventListener("click", (event) => {
       Alert.close();
     },
   });
+});
+
+document.querySelector("#app").addEventListener("click", (event) => {
+  const target = event.target.closest(".card__edit-button");
+  if (target === null) {
+    return;
+  }
+
+  const card = target.closest(".card");
+  const columnId = card.getAttribute("data-column-id");
+  const cardId = card.getAttribute("data-card-id");
+  const title = card.querySelector(".card__title").innerText;
+  const description = card.querySelector(".card__description").innerText;
+  console.log({ title, description });
+  card.insertAdjacentHTML(
+    "beforebegin",
+    EditableCard.template({ columnId, cardId, title, description })
+  );
+  card.style.display = "none";
 });
