@@ -1,5 +1,5 @@
 import * as Card from "../card/index.js";
-import * as EditableCard from "../editable-card/index.js";
+import * as AddCard from "../add-card/index.js";
 
 export function template({ column }) {
   return `
@@ -18,7 +18,7 @@ export function template({ column }) {
       </h2>
       <div class="column__cards-container" data-column-id="${column.id}">
         <ul class="column__cards" data-column-id="${column.id}">
-        ${EditableCard.template({ columnId: column.id })}
+        ${AddCard.template({ columnId: column.id })}
         ${column.cards
           .map((card) => Card.template({ columnId: column.id, card }))
           .join("")}
