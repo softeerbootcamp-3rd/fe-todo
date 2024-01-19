@@ -7,129 +7,38 @@ import modal from "../modal";
 export default function App(parent, props) {
   parent.innerHTML = `
         <div class="${styles.app}">
-
-        <div todo-data="modalSection" class="${styles.app__modalSection}"></div>
-
-            <div todo-data="headerSection">
-
-            </div>
-            <div todo-data="todoSection">
-            
-            </div>
-            <div todo-data="historySection" class="${styles.app__historySection}">
-            
-            </div>
-
+          <div todo-data="headerSection"></div>
+          <div todo-data="todoSection"></div>
+          <div todo-data="historySection" class="${styles.app__historySection}"></div>
+          <div todo-data="modalSection" class="${styles.app__modalSection}"></div>
         </div>
     `;
 
-  const historySection = parent.querySelector('[todo-data="historySection"]');
-
-  todoHistory(historySection, {
-    items: [
-      {
-        id: 0,
-        authorName: "쓴 사람 이름입니다",
-        timeStamp: 18121312312,
-        actionId: 0,
-        todoTitle: "새로운 투두",
-        todoSrc: null,
-        todoDst: null,
-      },
-      {
-        id: 1,
-        authorName: "쓴 사람 이름입니다",
-        timeStamp: 18121312312,
-        actionId: 1,
-        todoTitle: " 삭제한 투두",
-        todoSrc: null,
-        todoDst: null,
-      },
-      {
-        id: 2,
-        authorName: "쓴 사람 이름입니다",
-        timeStamp: 18121312312,
-        actionId: 3,
-        todoTitle: "이동한 투두",
-        todoSrc: "하고있는 일",
-        todoDst: "해야하는 일",
-      },
-      {
-        id: 2,
-        authorName: "쓴 사람 이름입니다",
-        timeStamp: 18121312312,
-        actionId: 3,
-        todoTitle: "이동한 투두",
-        todoSrc: "하고있는 일",
-        todoDst: "해야하는 일",
-      },
-      {
-        id: 2,
-        authorName: "쓴 사람 이름입니다",
-        timeStamp: 18121312312,
-        actionId: 3,
-        todoTitle: "이동한 투두",
-        todoSrc: "하고있는 일",
-        todoDst: "해야하는 일",
-      },
-      {
-        id: 2,
-        authorName: "쓴 사람 이름입니다",
-        timeStamp: 18121312312,
-        actionId: 3,
-        todoTitle: "이동한 투두",
-        todoSrc: "하고있는 일",
-        todoDst: "해야하는 일",
-      },
-    ],
-  });
+  //헤더 컴포넌트 마운트
   const headerSection = parent.querySelector('[todo-data="headerSection"]');
   header(headerSection, {});
 
+  //todo컴포넌트 마운트
+  //=> 처음에 초기값, API 모든 데이터를 넣어줘야함.
+  //=> 생성, 수정, 삭제는 API요청은 있으나 다시 받아오지는 않음.
   const todoSection = parent.querySelector('[todo-data="todoSection"]');
-  todoListTable(todoSection, {
-    todoData: {
-      해야할일: [
-        {
-          id: 0,
-          title: "투두 아이템 제목 입니다.",
-          content: "투두 아이템 내용입니다.",
-          authorName: "쓴 사람 이름입니다",
-        },
-        {
-          id: 1,
-          title: "투두 아이템 제목 입니다.",
-          content: "투두 아이템 내용입니다.",
-          authorName: "쓴 사람 이름입니다",
-        },
-      ],
-      "하고 있는일": [
-        {
-          id: 2,
-          title: "투두 아이템 제목 입니다.",
-          content: "투두 아이템 내용입니다.",
-          authorName: "쓴 사람 이름입니다",
-        },
-        {
-          id: 3,
-          title: "투두 아이템 제목 입니다.",
-          content: "투두 아이템 내용입니다.",
-          authorName: "쓴 사람 이름입니다",
-        },
-      ],
-    },
+  todoListTable(todoSection, {});
+
+  //클릭 시 History 컴포넌트 마운트
+  const historySection = parent.querySelector('[todo-data="historySection"]');
+  document.addEventListener("toggleHistoryList", () => {
+    historySection.classList.toggle(styles["app__historySection--show"]);
+    todoHistory(historySection, {});
   });
 
+  // 모달 섹션
   const modalSection = parent.querySelector('[todo-data="modalSection"]');
+  //배경 클릭 시 모달 삭제
   modalSection.addEventListener("click", () => {
     modalSection.style.display = "none";
   });
 
-  //히스토리 클릭시 이벤트
-  document.addEventListener("toggleHistoryList", () => {
-    historySection.classList.toggle(styles["app__historySection--show"]);
-  });
-
+  //showDeleteModal 이벤트 발생 시 모달 마운트
   document.addEventListener("showDeleteModal", ({ detail }) => {
     // 모달 생성
     modalSection.style.display = "block";

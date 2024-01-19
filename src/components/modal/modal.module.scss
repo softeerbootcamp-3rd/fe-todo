@@ -17,32 +17,15 @@
     font-size: 16px;
   }
 
-  &__btn--inactive {
-    display: flex;
-    width: 132px;
-    height: 32px;
-    justify-content: center;
-    align-items: center;
-    border-radius: var(--Number-100, 8px);
-    background: #f7f7fc;
-    color: var(--text-default);
-    text-align: center;
-    font-family: "Bold";
-    font-size: 14px;
-  }
-
-  &__btn--active {
-    display: flex;
-    width: 132px;
-    height: 32px;
-    justify-content: center;
-    align-items: center;
-    border-radius: var(--Number-100, 8px);
-    background: var(--surface-danger, #ff3b30);
-    color: var(--text-white-default);
-    text-align: center;
-    font-family: "Bold";
-    font-size: 14px;
+  &__btn {
+    &--inactive {
+      background: #f7f7fc;
+      color: var(--text-default);
+    }
+    &--active {
+      background: var(--surface-danger, #ff3b30);
+      color: var(--text-white-default);
+    }
   }
 
   &__bottomContainer {

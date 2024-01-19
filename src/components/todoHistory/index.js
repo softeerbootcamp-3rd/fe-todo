@@ -1,6 +1,7 @@
 import styles from "./todoHistory.module.scss";
 import closedIcon from "../../asset/img/closed.svg";
 import todoHistoryItem from "../todoHistoryItem";
+import { getHistory } from "../../utils/API/history";
 
 export default function todoHistory(parent, props) {
   parent.innerHTML = `
@@ -39,9 +40,11 @@ export default function todoHistory(parent, props) {
     )
   );
 
-  props.items?.forEach((history) => {
-    const container = document.createElement("div");
-    todoHistoryItem(container, history);
-    historyList.appendChild(container);
+  getHistory().then((historyArr) => {
+    historyArr.forEach((history) => {
+      const container = document.createElement("div");
+      todoHistoryItem(container, history);
+      historyList.appendChild(container);
+    });
   });
 }

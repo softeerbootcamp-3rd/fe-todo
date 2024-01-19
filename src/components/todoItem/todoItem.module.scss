@@ -32,57 +32,23 @@
   }
 
   &__btn--active {
-    display: flex;
-    width: 132px;
-    height: 32px;
-    justify-content: center;
-    align-items: center;
-    border-radius: var(--Number-100, 8px);
     background: var(--surface-brand, #007aff);
     color: var(--text-white-default);
-    text-align: center;
-    font-family: "Bold";
-    font-size: 14px;
+  }
+
+  &__btn--active:disabled {
+    opacity: 0.3;
+    pointer-events: none;
   }
 
   &__btn--inactive {
-    display: flex;
-    width: 132px;
-    height: 32px;
-    justify-content: center;
-    align-items: center;
-    border-radius: var(--Number-100, 8px);
     background: #f7f7fc;
     color: var(--text-default);
-    text-align: center;
-    font-family: "Bold";
-    font-size: 14px;
-  }
-
-  &__authorItem {
-    color: var(--text-weak, #a0a3bd);
-    font-family: Pretendard;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
   }
 
   &__actionBtnContainer {
     display: flex;
     flex-direction: column;
-  }
-
-  &__actionBtn {
-    color: var(--text-weak);
-    width: 24px;
-    height: 24px;
-    flex-shrink: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: none;
-    border: none;
   }
 
   &__itemAuthor {

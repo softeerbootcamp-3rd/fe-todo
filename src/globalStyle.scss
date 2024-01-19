@@ -40,6 +40,22 @@ input {
   background: none;
 }
 
+p {
+  font-family: "Medium";
+}
+
+button {
+  display: flex;
+  width: 132px;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--Number-100, 8px);
+  text-align: center;
+  font-family: "Bold";
+  font-size: 14px;
+}
+
 :root {
   --grayscale_50: #fefefe;
   --grayscale_100: #f7f7fc;
@@ -66,4 +82,26 @@ input {
   --surface-brand: var(--accent_blue);
   --surface-danger: var(--accent_red);
   --border-default: var(--grayscale_200);
+}
+
+.actionBtn {
+  color: var(--text-weak);
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+
+  &__closed:hover {
+    filter: invert(30%) sepia(86%) saturate(2590%) hue-rotate(345deg)
+      brightness(114%) contrast(98%);
+  }
+
+  &__plus:hover {
+    filter: invert(50%) sepia(89%) saturate(6266%) hue-rotate(201deg)
+      brightness(104%) contrast(104%);
+  }
 }
