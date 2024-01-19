@@ -58,8 +58,8 @@ export default function todoItem(parent, props) {
   //필요 함수 선언 부분
   // 취소 버튼 클릭 시
   const onCancel_edit = () => {
-    titleNode.value = props.title;
-    contentNode.value = props.content;
+    titleNode.value = props.item.title;
+    contentNode.value = props.item.content;
     setViewMode();
   };
 
