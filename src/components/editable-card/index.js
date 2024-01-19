@@ -41,7 +41,9 @@ export function template({ columnId, cardId, title, description }) {
 }
 
 document.querySelector("#app").addEventListener("click", (event) => {
-  const target = event.target.closest(".cancel-button");
+  const target = event.target.closest(
+    ".card__editable-buttons > .cancel-button"
+  );
   if (target === null) {
     return;
   }
