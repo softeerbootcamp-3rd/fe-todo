@@ -1,9 +1,11 @@
-import { columnDataTable } from "../model/model";
+import { cardDataTable, columnDataTable, historyDataList } from "../model/model";
 import { renderListCount } from "../util/render";
+import { historyDataTemplate } from "../util/historyDataTemplate";
 
 export const onDragStart = (event) => {
   const { target } = event;
   event.dataTransfer.setData("startColumnId", target.closest(".main__column").id);
+  event.dataTransfer.setData("dragCardId", target.id);
   setTimeout(() => target.classList.add("dragging"), 0);
 };
 
@@ -31,6 +33,7 @@ export const onDragOver = (event) => {
   const { target } = event;
   container = target.closest(".card-list");
   if (!container) return;
+
   const afterElement = getDragAfterElement(container, event.clientY);
   const draggable = document.querySelector(".dragging");
 
@@ -45,23 +48,44 @@ export const onDragEnd = (event) => {
   event.target.classList.remove("dragging");
 };
 
+const addHistory = (targetCardId, startColumnId, endColumnId) => {
+  const { author: username, title: cardTitle } = cardDataTable[targetCardId];
+  const { title: from } = columnDataTable[startColumnId];
+  const { title: to } = columnDataTable[endColumnId];
+  const newHistory = {
+    ...historyDataTemplate,
+    username,
+    cardTitle,
+    time: new Date(),
+    from,
+    to,
+    type: "이동",
+  };
+
+  historyDataList.unshift(newHistory);
+};
+
+const updateColumnModel = (columnId) => {
+  columnDataTable[columnId].value = [...document.querySelector(`#${columnId}-list`).children].map(
+    (li) => li.id
+  );
+};
+
 export const onDrop = (event) => {
-  const { target } = event;
-  if (!target) return;
-  target.classList.remove("dragging");
-  console.log(target);
+  if (!container) return;
+
+  const targetCardId = event.dataTransfer.getData("dragCardId");
   const startColumnId = event.dataTransfer.getData("startColumnId");
   const endColumnId = container.parentElement.id;
 
-  console.log("start", startColumnId, "end", endColumnId);
-  if (!endColumnId) return;
+  updateColumnModel(endColumnId);
 
-  columnDataTable[endColumnId].value = [...container.children].map((li) => li.id);
   if (startColumnId !== endColumnId) {
-    columnDataTable[startColumnId].value = [
-      ...document.querySelector(`#${startColumnId}-list`).children,
-    ].map((li) => li.id);
+    updateColumnModel(startColumnId);
+
     renderListCount(document.querySelector(`#${startColumnId}`));
     renderListCount(document.querySelector(`#${endColumnId}`));
+
+    addHistory(targetCardId, startColumnId, endColumnId);
   }
 };
