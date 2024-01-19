@@ -18,17 +18,16 @@ const clickHandlerMap = {
   "js-deleteCardBtn": deleteCardHandler,
 };
 
+const submitHandlerMap = {
+  "js-addForm": submitAddCardFormHandler,
+  "js-editForm": submitEditCardFormHandler,
+};
+
 const onClick = ({ target }) => {
   const executeHandler = clickHandlerMap[target.classList[0]];
   if (executeHandler) {
     executeHandler(target);
   }
-};
-
-//FixIt
-const submitHandlerMap = {
-  "js-addForm": submitAddCardFormHandler,
-  "js-editForm": submitEditCardFormHandler,
 };
 
 const onSubmit = (event) => {
