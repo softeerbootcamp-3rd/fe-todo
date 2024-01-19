@@ -1,5 +1,14 @@
-import { API_BASE_URL } from "../../constants/API";
+export function getTodoList() {
+  const todoList = localStorage.getItem("todoList");
+  if (todoList !== null) return JSON.parse(todoList);
 
-export async function getTodoList() {
-  return (await fetch(`${API_BASE_URL}/todos`)).json();
+  // 없을 경우 추가
+  const initialTodoList = {
+    "해야할 일": [],
+    "하고 있는 일": [],
+    "완료한 일": [],
+  };
+  localStorage.setItem("todoList", JSON.stringify(initialTodoList));
+
+  return initialTodoList;
 }

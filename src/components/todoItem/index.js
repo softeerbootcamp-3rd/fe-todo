@@ -109,7 +109,7 @@ function template(props) {
       >${props.content}</textarea>
       <div class="${styles.todoItem__bottomContainer}">
         <p todo-data="author" class="${styles.todoItem__itemAuthor}">
-          author by ${props.authorName}
+          author by ${props.createdOn}
         </p>
         <button
           todo-data="cancelBtn"

@@ -1,5 +1,8 @@
-import { API_BASE_URL } from "../../constants/API";
-
 export async function getHistory() {
-  return (await fetch(`${API_BASE_URL}/history`, { method: "GET" })).json();
+  const historyList = localStorage.getItem("history");
+  if (historyList !== null) return JSON.parse(historyList);
+
+  // 없으면 새로 생성
+  localStorage.setItem("history", JSON.stringify([]));
+  return [];
 }
