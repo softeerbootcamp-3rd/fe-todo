@@ -1,6 +1,7 @@
 import * as Column from "../column/index.js";
 import * as Alert from "../alert/index.js";
 import * as EditableCard from "../editable-card/index.js";
+import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
 
 export function template({ columnId, card }) {
   return `
@@ -44,23 +45,21 @@ document.querySelector("#app").addEventListener("click", (event) => {
       const columnId = card.getAttribute("data-column-id");
       const cardId = card.getAttribute("data-card-id");
 
-      const todolist = JSON.parse(localStorage.getItem("todolist"));
+      const todolist = getLocalStorage("todolist");
       const selectedColumnIndex = todolist.findIndex(
         (item) => item.id === Number(columnId)
       );
       todolist[selectedColumnIndex].cards = todolist[
         selectedColumnIndex
       ].cards.filter((card) => card.id !== Number(cardId));
-      localStorage.setItem("todolist", JSON.stringify(todolist));
+      setLocalStorage("todolist", todolist);
 
       // NOTE: 특정 칼럼에 대한 카드 리렌더링
       const column = document.querySelector(
         `.column[data-column-id="${columnId}"]`
       );
       column.innerHTML = `${Column.template({
-        column: JSON.parse(localStorage.getItem("todolist"))[
-          selectedColumnIndex
-        ],
+        column: getLocalStorage("todolist")[selectedColumnIndex],
       })}`;
 
       Alert.close();
@@ -79,7 +78,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
   const cardId = card.getAttribute("data-card-id");
   const title = card.querySelector(".card__title").innerText;
   const description = card.querySelector(".card__description").innerText;
-  console.log({ title, description });
+
   card.insertAdjacentHTML(
     "beforebegin",
     EditableCard.template({ columnId, cardId, title, description })

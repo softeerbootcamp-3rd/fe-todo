@@ -1,3 +1,4 @@
+import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
 import * as Column from "../column/index.js";
 
 export function template({ columnId }) {
@@ -57,7 +58,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
   // TODO: author를 user agent에서 추출하기
   const data = { id: new Date().getTime(), title, description, author: "web" };
 
-  const todolist = JSON.parse(localStorage.getItem("todolist"));
+  const todolist = getLocalStorage("todolist");
   const selectedColumnIndex = todolist.findIndex(
     (item) => item.id === Number(columnId)
   );
@@ -66,14 +67,14 @@ document.querySelector("#app").addEventListener("click", (event) => {
     ...todolist[selectedColumnIndex].cards,
   ];
 
-  localStorage.setItem("todolist", JSON.stringify(todolist));
+  setLocalStorage("todolist", todolist);
 
   // NOTE: 특정 칼럼에 대한 카드 리렌더링
   const column = document.querySelector(
     `.column[data-column-id="${columnId}"]`
   );
   column.innerHTML = `${Column.template({
-    column: JSON.parse(localStorage.getItem("todolist"))[selectedColumnIndex],
+    column: getLocalStorage("todolist")[selectedColumnIndex],
   })}`;
 });
 

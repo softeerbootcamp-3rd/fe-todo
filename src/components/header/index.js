@@ -1,4 +1,3 @@
-// import { actionHistoryListDialog } from "../action-history-list/index.js";
 import * as ActionHistoryListDialog from "../action-history-list/index.js";
 
 export function template() {
