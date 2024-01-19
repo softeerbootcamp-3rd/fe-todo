@@ -1,3 +1,4 @@
+import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
 import * as Column from "../column/index.js";
 
 export function template({ columnId, cardId, title, description }) {
@@ -73,7 +74,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
   ).value;
 
   // 데이터 저장
-  const todolist = JSON.parse(localStorage.getItem("todolist"));
+  const todolist = getLocalStorage("todolist");
   const columnIndex = todolist.findIndex(
     (column) => column.id === Number(columnId)
   );
@@ -81,7 +82,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
   const cardIndex = cards.findIndex((card) => card.id === Number(cardId));
   const newCard = { ...cards[cardIndex], title, description };
   cards[cardIndex] = newCard;
-  localStorage.setItem("todolist", JSON.stringify(todolist));
+  setLocalStorage("todolist", todolist);
 
   const card = document.querySelector(`.card[data-card-id="${cardId}"]`);
 

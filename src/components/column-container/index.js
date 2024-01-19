@@ -1,3 +1,4 @@
+import { getLocalStorage } from "../../utils/local-storage.js";
 import * as Column from "../column/index.js";
 
 export function template({ columns }) {
@@ -17,6 +18,6 @@ export function template({ columns }) {
 export function render(parent) {
   parent.insertAdjacentHTML(
     "beforeend",
-    template({ columns: JSON.parse(localStorage.getItem("todolist")) })
+    template({ columns: getLocalStorage("todolist") })
   );
 }
