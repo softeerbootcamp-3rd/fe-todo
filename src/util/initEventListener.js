@@ -1,6 +1,7 @@
 import { addCardHandler } from "../handler/addCardHandler.js";
 import { closeCardFormHandler, closeEditCardFormHandler } from "../handler/closeCardFormHandler.js";
 import { deleteCardHandler } from "../handler/deleteCardHandler.js";
+import { onDragEnd, onDragOver, onDragStart, onDrop } from "../handler/dragHandler.js";
 import { editCardHandler } from "../handler/editCardHandler.js";
 import { closeHistory, showHistory } from "../handler/historyHandler.js";
 import { inputCardHandler } from "../handler/inputCardHandler.js";
@@ -17,17 +18,16 @@ const clickHandlerMap = {
   "js-deleteCardBtn": deleteCardHandler,
 };
 
+const submitHandlerMap = {
+  "js-addForm": submitAddCardFormHandler,
+  "js-editForm": submitEditCardFormHandler,
+};
+
 const onClick = ({ target }) => {
   const executeHandler = clickHandlerMap[target.classList[0]];
   if (executeHandler) {
     executeHandler(target);
   }
-};
-
-//FixIt
-const submitHandlerMap = {
-  "js-addForm": submitAddCardFormHandler,
-  "js-editForm": submitEditCardFormHandler,
 };
 
 const onSubmit = (event) => {
@@ -44,4 +44,8 @@ export const initEventListener = () => {
   app.addEventListener("click", onClick);
   app.addEventListener("submit", onSubmit);
   app.addEventListener("input", inputCardHandler);
+  app.addEventListener("dragstart", onDragStart);
+  app.addEventListener("dragover", onDragOver);
+  app.addEventListener("dragend", onDragEnd);
+  app.addEventListener("drop", onDrop);
 };
