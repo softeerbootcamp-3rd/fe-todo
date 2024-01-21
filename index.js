@@ -1,15 +1,20 @@
 import Column from "./src/components/columns.js";
+import { createLogBoxTemplate } from "./src/components/templates.js";
 import { columns } from "./src/constants/columnData.js";
 import customEventHandler from "./src/utils/eventHandler.js";
 
 // Column 생성 함수
 function createColumn(col) {
+  const listenerTypes = ["click", "input"];
   const app = document.getElementById("app");
   const columnElement = Column(col);
 
-  columnElement.addEventListener("click", (e) => {
-    customEventHandler(e.target);
-  });
+  for (let listenerType of listenerTypes) {
+    columnElement.addEventListener(listenerType, (e) => {
+      customEventHandler(e);
+    });
+  }
+
   app.appendChild(columnElement);
 }
 
@@ -19,5 +24,9 @@ function spreadColumn() {
     createColumn(column);
   }
 }
+
+// document.getElementById("logBox").addEventListener("click", () => {
+//   createLogBoxTemplate();
+// });
 
 spreadColumn();

@@ -24,8 +24,7 @@ export function createEditorTemplate(
     }" required></input>
     <div class="btnbox">
         <button id="cancelBtn" class="cancel">취소</button>
-        <button id="${isEditMode ? "saveBtn" : "registerBtn"}" class="${
-    isEditMode ? "save" : "register"
+        <button id="${isEditMode ? "saveBtn" : "registerBtn"}" class="register"
   }">${isEditMode ? "저장" : "등록"}</button>
     </div>
   `;
@@ -55,4 +54,40 @@ export function createModalTemplate() {
     </div>
   </div>
   `;
+}
+
+export function createLogBoxTemplate() {
+  const log = document.createElement("section");
+  log.className = "logBox";
+
+  log.innerHTML = `
+    <header>
+      사용자 활동 기록
+      <button>x 닫기</button>
+    </header>
+    <div>
+      <div>
+        <img />
+        <p>
+          <span>@멋진종호</span>
+          <span
+            >블로그에 포스팅할 것을(를) 하고있는 일에서 해야할 일으로
+            이동하였습니다.</span
+          >
+        </p>
+      </div>
+
+      <div>
+        <img />
+        <p>
+          <span>@멋진민우</span>
+          <span>Github 공부하기을(를) 변경하였습니다.</span>
+        </p>
+      </div>
+    </div>
+    <footer>
+      <button></button>
+    </footer>
+  `;
+  document.getElementById("app").appendChild(log);
 }
