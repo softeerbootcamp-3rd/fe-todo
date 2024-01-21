@@ -1,9 +1,12 @@
 import * as Column from "../column/index.js";
 import * as Alert from "../alert/index.js";
+import * as EditableCard from "../editable-card/index.js";
+import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
 
 export function template({ columnId, card }) {
   return `
-  <li data-column-id="${columnId}" data-card-id="${card.id}"
+  <li data-column-id="${columnId}"
+      data-card-id="${card.id}"
       class="card rounded-8 surface-default shadow-normal"
     >
     <div class="card__contents">
@@ -19,10 +22,10 @@ export function template({ columnId, card }) {
     </div>
     <div class="card__buttons">
         <button class="card__delete-button" type="button">
-            <img src="./assets/icons/close.svg" />
+            <img src="./assets/icons/close.svg" width='24' height='24' />
         </button>
         <button class="card__edit-button" type="button">
-            <img src="./assets/icons/edit.svg" />
+            <img src="./assets/icons/edit.svg" width='24' height='24' />
         </button>
     </div>
   </li>
@@ -42,26 +45,43 @@ document.querySelector("#app").addEventListener("click", (event) => {
       const columnId = card.getAttribute("data-column-id");
       const cardId = card.getAttribute("data-card-id");
 
-      const todolist = JSON.parse(localStorage.getItem("todolist"));
+      const todolist = getLocalStorage("todolist");
       const selectedColumnIndex = todolist.findIndex(
         (item) => item.id === Number(columnId)
       );
       todolist[selectedColumnIndex].cards = todolist[
         selectedColumnIndex
       ].cards.filter((card) => card.id !== Number(cardId));
-      localStorage.setItem("todolist", JSON.stringify(todolist));
+      setLocalStorage("todolist", todolist);
 
       // NOTE: 특정 칼럼에 대한 카드 리렌더링
       const column = document.querySelector(
         `.column[data-column-id="${columnId}"]`
       );
       column.innerHTML = `${Column.template({
-        column: JSON.parse(localStorage.getItem("todolist"))[
-          selectedColumnIndex
-        ],
+        column: getLocalStorage("todolist")[selectedColumnIndex],
       })}`;
 
       Alert.close();
     },
   });
+});
+
+document.querySelector("#app").addEventListener("click", (event) => {
+  const target = event.target.closest(".card__edit-button");
+  if (target === null) {
+    return;
+  }
+
+  const card = target.closest(".card");
+  const columnId = card.getAttribute("data-column-id");
+  const cardId = card.getAttribute("data-card-id");
+  const title = card.querySelector(".card__title").innerText;
+  const description = card.querySelector(".card__description").innerText;
+
+  card.insertAdjacentHTML(
+    "beforebegin",
+    EditableCard.template({ columnId, cardId, title, description })
+  );
+  card.style.display = "none";
 });

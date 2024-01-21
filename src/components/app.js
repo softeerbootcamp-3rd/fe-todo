@@ -2,6 +2,7 @@ import * as Header from "./header/index.js";
 import * as ColumnContainer from "./column-container/index.js";
 import * as ActionHistoryListDialog from "./action-history-list/index.js";
 import * as Alert from "./alert/index.js";
+import { getLocalStorage, setLocalStorage } from "../utils/local-storage.js";
 
 const app = document.getElementById("app");
 
@@ -10,13 +11,14 @@ export function initializeApp() {
   Header.render(app);
   ColumnContainer.render(app);
   ActionHistoryListDialog.render(app);
+  Alert.render(app);
 }
 
 function initializeColumnData() {
-  if (localStorage.getItem("todolist")) {
+  if (getLocalStorage("todolist")) {
     return;
   }
-  localStorage.setItem("todolist", JSON.stringify(initialColumnData));
+  setLocalStorage("todolist", initialColumnData);
 }
 
 const initialColumnData = [

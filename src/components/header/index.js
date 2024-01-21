@@ -1,4 +1,3 @@
-// import { actionHistoryListDialog } from "../action-history-list/index.js";
 import * as ActionHistoryListDialog from "../action-history-list/index.js";
 
 export function template() {
@@ -6,7 +5,7 @@ export function template() {
     <header class="header surface-alt">
         <h1 class="logo text-strong">TODOLIST</h1>
         <button class="action-history-open-button" type="button">
-            <img alt="사용기록" src="./assets/icons/history.svg" />
+            <img alt="사용기록" src="./assets/icons/history.svg" width='24' height='24' />
         </button>
     </header>
   `;

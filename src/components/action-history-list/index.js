@@ -43,13 +43,13 @@ export function render(parent) {
 
   const dialog = document.querySelector(".action-history-dialog");
 
-  document
+  dialog
     .querySelector(".action-history__close-button")
     .addEventListener("click", () => {
       dialog.close();
     });
 
-  document
+  dialog
     .querySelector(".action-history__footer > button")
     .addEventListener("click", removeAllActionHistory);
 }
@@ -61,5 +61,10 @@ export function show() {
 export function updateActionHistory() {}
 
 export function removeAllActionHistory() {
-  Alert.show();
+  Alert.show({
+    message: "모든 사용자 활동 기록을 삭제할까요?",
+    onConfirm: () => {
+      console.log("사용자 활동 기록 삭제");
+    },
+  });
 }
