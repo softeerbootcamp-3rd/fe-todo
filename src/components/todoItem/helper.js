@@ -20,7 +20,7 @@ function checkInput(checkArr, statusNode) {
 // checkArr에 있는 노드들에 checkInput함수 이벤트를 추가해주는 함수
 export function addCheckInput(checkArr, statusNode) {
   checkArr.forEach((element) => {
-    element.addEventListener("input", checkInput(checkArr, statusNode));
+    element.addEventListener("input", () => checkInput(checkArr, statusNode));
   });
 }
 
@@ -56,6 +56,7 @@ export function createDeleteModal(parent, onDelete) {
         msg: "선택한 카드를 삭제할까요?",
         onDelete,
       },
+      bubbles: true,
     })
   );
 }

@@ -2,6 +2,12 @@ import styles from "./todoItem.module.scss";
 import closedIcon from "../../asset/img/closed.svg";
 import editIcon from "../../asset/img/edit.svg";
 import {
+  addTodoListItem,
+  editTodoListItem,
+  removeTodoListItem,
+} from "../../utils/API/todoList";
+
+import {
   addCheckInput,
   dynamicTextAreaHeight,
   switchMode,
@@ -9,7 +15,7 @@ import {
 } from "./helper";
 
 export default function todoItem(parent, props) {
-  parent.innerHTML = template(props);
+  parent.innerHTML = template(props.item);
 
   // 입력 제목, 내용 노드
   const titleNode = parent.querySelector('[todo-data="title"]');
@@ -52,24 +58,49 @@ export default function todoItem(parent, props) {
   //필요 함수 선언 부분
   // 취소 버튼 클릭 시
   const onCancel_edit = () => {
-    titleNode.value = props.title;
-    contentNode.value = props.content;
+    titleNode.value = props.item.title;
+    contentNode.value = props.item.content;
     setViewMode();
   };
 
   // 수정하고 제출 시
   const onSubmit_edit = () => {
-    //TODO: 투두 등록 로직 생성
+    const newItem = {
+      ...props.item,
+      title: titleNode.value,
+      content: contentNode.value,
+      createdOn: "web",
+    };
+
+    //투두 등록 로직
+    if (props.addMode) {
+      const newReturnItem = addTodoListItem(props.todoColTitle, newItem);
+      //추가하고 추가 컴포넌트 삭제 및
+      props.onAddItem(true, newReturnItem);
+    }
+    //투두 수정 로직
+    else {
+      editTodoListItem(props.todoColTitle, newItem);
+      setViewMode();
+    }
   };
 
   // 삭제 시
   const onErase_view = () => {
+    console.log("onerase");
     createDeleteModal(parent, () => {
-      console.log("erase");
+      removeTodoListItem(props.todoColTitle, props.item);
+      parent.parentNode.removeChild(parent);
+      console.log(props);
+      props.onDeleteItem();
     });
   };
 
   ////////////////////////////////////////////////////////
+
+  // textArea의 높이 자동 설정
+  dynamicTextAreaHeight(titleNode);
+  dynamicTextAreaHeight(contentNode);
 
   // 함수 이벤트 핸들러 추가하는 부분
   // 뷰모드 액션 버튼 핸들러 추가
@@ -77,15 +108,11 @@ export default function todoItem(parent, props) {
   eraseBtnNode_view.addEventListener("click", onErase_view);
 
   // 편집모드 버튼 핸들러 추가
-  cancelBtnNode_edit.addEventListener("click", onCancel_edit);
+  cancelBtnNode_edit.addEventListener("click", props.onCancel ?? onCancel_edit);
   submitBtnNode_edit.addEventListener("click", onSubmit_edit);
 
-  // textArea의 높이 자동 설정
-  dynamicTextAreaHeight(titleNode);
-  dynamicTextAreaHeight(contentNode);
-
   // 투두 아이템의 초기 모드를 뷰 모드로 설정
-  setViewMode();
+  props.addMode ? setEditMode() : setViewMode();
 }
 
 // todoItem 컴포넌트 템플릿
@@ -99,17 +126,17 @@ function template(props) {
         todo-data="title"
         class="${styles.todoItem__itemTitle}"
         placeholder="제목을 입력하세요"
-      >${props.title}</textarea>
+      >${props?.title ?? ""}</textarea>
       <textarea
         type="text"
         rows="1"
         todo-data="content"
         class="${styles.todoItem__itemContent}"
         placeholder="내용을 입력하세요"
-      >${props.content}</textarea>
+      >${props?.content ?? ""}</textarea>
       <div class="${styles.todoItem__bottomContainer}">
         <p todo-data="author" class="${styles.todoItem__itemAuthor}">
-          author by ${props.authorName}
+          author by ${props?.createdOn}
         </p>
         <button
           todo-data="cancelBtn"
@@ -120,8 +147,9 @@ function template(props) {
         <button
           todo-data="submitBtn"
           class="${styles["todoItem__btn--active"]}"
+          disabled
         >
-          등록
+          ${props?.addMode ? "등록" : "저장"}
         </button>
       </div>
     </div>
