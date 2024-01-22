@@ -40,7 +40,16 @@ export default function customEventHandler(event) {
       break;
     }
     case targetList[4]: {
-      registerCard(parentTarget);
+      const card = registerCard(parentTarget);
+      const registeredTitle =
+        card.querySelector(".registeredTitle").textContent;
+      const registeredContent =
+        card.querySelector(".registeredContent").textContent;
+
+      columnData.addCardData(parentTarget.id, {
+        title: registeredTitle,
+        content: registeredContent,
+      });
       break;
     }
     case targetList[5]: {
@@ -70,7 +79,6 @@ function addCard(target) {
   if (!isExistCard) {
     const card = Card();
     column.appendChild(card);
-    // handleRegisterStatus(column);
   } else {
     isExistCard.remove();
   }
@@ -109,6 +117,7 @@ function registerCard(column) {
   const originalContent = content.value;
 
   card.innerHTML = createCardInfoTemplate(originalTitle, originalContent);
+  return card;
 }
 
 function editCard(card) {
