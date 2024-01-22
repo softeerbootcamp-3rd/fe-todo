@@ -1,7 +1,4 @@
-import { cardDataTable } from "../../../../model/model.js";
-
-export const CardView = (cardId) => {
-  const { title, content, author } = cardDataTable[cardId];
+export const CardView = ({ title, content, author }, cardId) => {
   return `
     <li class="card" id="${cardId}" draggable="true">
     <h3 class="card__title">${title}</h3>

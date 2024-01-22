@@ -1,10 +1,8 @@
-import { columnDataTable } from "../../../model/model.js";
-import { CardListView } from "./CardListView.js";
+import { CardListView } from "./CardListView";
 
-const ColumnView = (columnId, idx) => {
-  const { title, value } = columnDataTable[columnId];
+const ColumnView = ({ title, value }, columnId) => {
   return `
-  <section class="main__column" id="column${idx}">
+  <section class="main__column" id="${columnId}">
     <nav class="main__column__nav">
       <div class="column__nav__info">
         <h2 class="column__nav__info__title">${title}</h2>
@@ -15,9 +13,9 @@ const ColumnView = (columnId, idx) => {
         <button class="js-deleteColumnBtn column__nav__btn-list__delete-cloumn-btn"></button>
       </div>
     </nav>
-   ${CardListView(columnId)}
-  </section>    
-    `;
+   ${CardListView({ value, columnId })}
+  </section>
+  `;
 };
 
 export default ColumnView;

@@ -43,6 +43,7 @@ export const initEventListener = () => {
   const app = document.querySelector("#app");
   app.addEventListener("click", onClick);
   app.addEventListener("submit", onSubmit);
+
   app.addEventListener("input", inputCardHandler);
   app.addEventListener("dragstart", onDragStart);
   app.addEventListener("dragover", onDragOver);
