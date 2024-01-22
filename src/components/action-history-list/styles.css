@@ -1,0 +1,53 @@
+.action-history-dialog {
+  margin-top: 64px;
+  margin-right: 56px;
+}
+
+.action-history__container {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  gap: 8px;
+  padding: 8px;
+  min-height: 105px;
+  max-height: 664px;
+}
+
+.action-history__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 8px 8px 8px 16px;
+}
+
+.action-history__close-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5px;
+}
+
+.action-history__items {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.action-history__item {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+}
+
+.action-history__item-description {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.action-history__footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 4px 8px;
+  width: 100%;
+}

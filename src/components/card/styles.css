@@ -1,0 +1,40 @@
+.card {
+  padding: 16px;
+  width: 300px;
+  display: flex;
+  gap: 16px;
+}
+.card__contents {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+}
+.card__title {
+  margin-bottom: 8px;
+}
+.card__description {
+  margin-bottom: 16px;
+}
+.card__author {
+}
+.card__buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.card__editable {
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+  padding: 16px;
+  gap: 16px;
+}
+
+.card__title-input {
+  margin-bottom: 8px;
+}
+
+.card__editable-buttons {
+  display: flex;
+  gap: 8px;
+}
