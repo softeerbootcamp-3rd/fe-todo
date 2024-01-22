@@ -1,6 +1,6 @@
-import { historyListRender } from "../../util/render";
+import { renderHistoryList } from "../../view/History/renderHistoryList";
 
 export const showHistory = () => {
-  historyListRender();
+  renderHistoryList();
   document.querySelector(".history").showModal();
 };

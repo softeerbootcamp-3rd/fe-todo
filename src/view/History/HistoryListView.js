@@ -1,10 +1,9 @@
-import { historyDataList } from "../../model/model.js";
 import HistoryCardView from "./Card/index.js";
 
-export const HistoryListView = () => {
+export const HistoryListView = (historyList) => {
   return `
       <ul class="history__list">
-        ${historyDataList.map((history) => HistoryCardView(history)).join("")}
+        ${historyList.map((history) => HistoryCardView(history)).join("")}
       </ul>
     `;
 };

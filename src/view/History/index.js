@@ -11,7 +11,7 @@ const HistoryView = () => {
         <p class="js-closeHistory">닫기</p>
       </button>
     </header>
-      ${HistoryListView()}
+      ${HistoryListView([])}
     <button class="history__delete-all-btn">기록 전체 삭제</button>
     </div>
   </dialog>
