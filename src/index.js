@@ -1,4 +1,4 @@
-import { initEventListener } from "./util/initEventListener.js";
+import { initEventListener } from "./init/initEventListener.js";
 import HeaderView from "./view/Header/index.js";
 import HistoryView from "./view/History";
 import MainView from "./view/Main/index.js";
