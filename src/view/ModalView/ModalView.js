@@ -28,7 +28,7 @@ export const confirmHandlerInjector = (func) => {
     document.querySelector('.js-modalConfirm').addEventListener('click', confirmModalHandlerMaker(func));
 }
 
-export const confirmModalHandlerMaker = (func) => {
+const confirmModalHandlerMaker = (func) => {
     return ({target}) => {
         func();
         const modal = target.closest("#modal");

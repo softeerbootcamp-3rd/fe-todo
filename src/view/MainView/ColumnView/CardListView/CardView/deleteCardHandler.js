@@ -1,7 +1,7 @@
 import {cardDataTable, columnDataTable, historyDataList } from "../../../../../model/model.js";
 import { historyDataTemplate } from "../../../../../model/historyDataTemplate.js";
 import { renderCardList, renderListCount } from "../../../../render.js";
-import { ModalView, confirmModalHandlerMaker } from "../../../../ModalView/ModalView.js";
+import { ModalView, confirmHandlerInjector } from "../../../../ModalView/ModalView.js";
 
 const addNewHistory = (currentCardId) => {
   const { author: username, title: cardTitle } = cardDataTable[currentCardId];
@@ -38,7 +38,5 @@ export const deleteCardHandler = (target) => {
   }
   */
   document.querySelector('#app').insertAdjacentHTML('afterbegin', ModalView({content:"선택한 카드를 삭제할까요?", btnText:"삭제"}));
-  document.querySelector('.js-modalConfirm').addEventListener('click', confirmModalHandlerMaker(()=>{
-    deleteCard(target);
-  }));
+  confirmHandlerInjector(()=>deleteCard(target));
 };

@@ -1,4 +1,4 @@
-import { ModalView, confirmHandlerInjector, confirmModalHandlerMaker } from "../ModalView/ModalView.js";
+import { ModalView, confirmHandlerInjector } from "../ModalView/ModalView.js";
 import { historyListRender } from "../render.js";
 import { historyDataList } from "../../model/model.js";
 
