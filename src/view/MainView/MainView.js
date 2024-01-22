@@ -1,4 +1,5 @@
-import { cardDataTable, columnDataTable } from "../../model/model.js";
+import { columnIdToCardList } from "../../model/helper.js";
+import { columnDataTable } from "../../model/model.js";
 import { ColumnView } from "./ColumnView/ColumnView.js";
 
 export const MainView = () => {
@@ -6,9 +7,7 @@ export const MainView = () => {
 <main class="main">
     ${Object.keys(columnDataTable)
       .map((columnId, idx) => {
-        const cardIdList = columnDataTable[columnId].value;
-        const cardDataList = cardIdList.map((cardId) => [cardId, cardDataTable[cardId]]);
-        return ColumnView(idx, columnDataTable[columnId].title, cardDataList);
+        return ColumnView(idx, columnDataTable[columnId].title, columnIdToCardList(columnId));
       })
       .join("")}   
   </main>

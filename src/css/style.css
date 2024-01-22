@@ -68,6 +68,18 @@
   color: var(--gray_dark);
 }
 
+.column__nav__info__title__input{
+  display: flex;
+  height: 24px;
+  padding: 0px 8px;
+  align-items: center;
+  gap: 8px;
+
+  border-radius: 6px;
+  border: 1px solid var(--border_default);
+  background-color: var(--surface_default);
+}
+
 .column__nav__info__count {
   width: 24px;
   height: 24px;
