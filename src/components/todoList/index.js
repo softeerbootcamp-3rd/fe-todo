@@ -1,4 +1,5 @@
 import styles from "./todoList.module.scss";
+import todoItemStyles from "../todoItem/todoItem.module.scss";
 import plusIcon from "../../asset/img/plus.svg";
 import closedIcon from "../../asset/img/closed.svg";
 import todoItem from "../todoItem";
@@ -15,33 +16,58 @@ function controller(target, data) {
 
   const itemCount = target.querySelector('[data-node="itemCount"]');
 
-  const onAddItem = (isNew, item) => {
+  const createAndAddItem = (item, beforeElement) => {
     const todoItemWrapper = document.createElement("div");
     todoItem(todoItemWrapper, {
       todoColTitle: data.title,
       item,
-      onDeleteItem,
+      createAndAddItem,
     });
-    if (isNew) {
+    if (beforeElement === undefined) {
       // 새로운 아이템 등록 및 추가
       newItemContainer.insertAdjacentElement("afterend", todoItemWrapper);
       newItemContainer.style.display = "none";
-      itemCount.innerText = parseInt(itemCount.innerText) + 1;
+      updateItemCount();
     } else {
-      // 초기 데이터의 아이템 렌더시 사용
-      itemsContainer.appendChild(todoItemWrapper);
+      beforeElement.insertAdjacentElement("beforebegin", todoItemWrapper);
     }
   };
 
-  const onDeleteItem = () => {
-    itemCount.innerText = parseInt(itemCount.innerText) - 1;
+  const updateItemCount = () => {
+    itemCount.innerText = itemsContainer.childElementCount - 1;
   };
 
-  //행 하나에 item으로 컴포넌트를 만들어서 마운트
+  target.addEventListener("updateItemCount", (e) => {
+    if (e.detail.propagate) {
+      return;
+    }
+    e.stopPropagation();
+    updateItemCount();
+  });
+
+  document.addEventListener("updateItemCount", updateItemCount);
+
+  // 행 하나에 item으로 컴포넌트를 만들어서 마운트
   const itemsContainer = target.querySelector('[data-node="items"]');
   for (const item of data.items) {
-    onAddItem(false, item);
+    const todoItemWrapper = document.createElement("div");
+    todoItem(todoItemWrapper, {
+      todoColTitle: data.title,
+      item,
+      createAndAddItem,
+    });
+    itemsContainer.appendChild(todoItemWrapper);
   }
+
+  // drag events
+  target.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    const dragging = document.querySelector(
+      `div.${todoItemStyles["todoItem--dragging"]}`
+    ).parentNode;
+    itemsContainer.appendChild(dragging);
+    updateItemCount();
+  });
 
   //추가 컴포넌트 등장 이벤트 추가
   const plusBtn = target.querySelector('[data-node="plusBtn"]');
@@ -54,7 +80,7 @@ function controller(target, data) {
         onCancel: () => {
           newItemContainer.style.display = "none";
         },
-        onAddItem,
+        createAndAddItem,
       });
     } else {
       newItemContainer.style.display = "none";
@@ -63,8 +89,8 @@ function controller(target, data) {
 }
 
 function template(data) {
-  return `
-    <div class="${styles.todoList}">
+  return /*html*/ `
+    <div data-node="todoList" data-title="${data.title}" class="${styles.todoList}">
       <div class="${styles.todoList__header}">
         <div class="${styles.todoList__countWrapper}">
           <h2 class="${styles.todoList__headerTitle}">${data.title}</h2>
