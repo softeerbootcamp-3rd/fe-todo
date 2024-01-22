@@ -1,6 +1,7 @@
 import { columnDataTable } from "../model/model.js";
 import { HistoryListView, HistoryPurgeBtnView } from "./HistoryView/HistoryView.js";
 import { CardListView } from "../view/MainView/ColumnView/CardListView/CardListView.js";
+import { ColumnTitleView, ColumnCountView } from "./MainView/ColumnView/ColumnView.js";
 
 export const historyListRender = () => {
   const historyList = document.querySelector(".history__list");
@@ -19,8 +20,14 @@ export const renderCardList = (currentColumn) => {
   currentColumn.insertAdjacentHTML("beforeend", CardListView(currentColumn.id));
 };
 
+export const renderListTitle = (currentColumn) => {
+  const columnNav = currentColumn.querySelector(".column__nav__info");
+  columnNav.querySelector(".column__nav__info__title").remove();
+  columnNav.insertAdjacentHTML("afterbegin", ColumnTitleView(columnDataTable[currentColumn.id].title));
+}
+
 export const renderListCount = (currentColumn) => {
-  const countElement = currentColumn.querySelector(".column__nav__info__count");
-  const count = columnDataTable[currentColumn.id].value.length;
-  countElement.textContent = count;
+  const columnNav = currentColumn.querySelector(".column__nav__info");
+  columnNav.querySelector(".column__nav__info__count").remove();
+  columnNav.insertAdjacentHTML("beforeend", ColumnCountView(columnDataTable[currentColumn.id].value.length));
 };
