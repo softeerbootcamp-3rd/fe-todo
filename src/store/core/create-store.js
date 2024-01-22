@@ -1,7 +1,11 @@
 // FIXME: use ES class
-export const createStore = (reducer, enhancer, initialState = {}) => {
+export const createStore = (reducer, initialState, enhancer) => {
+  if (typeof initialState === "function" && typeof enhancer === "undefined") {
+    enhancer = initialState;
+    initialState = undefined;
+  }
   if (typeof enhancer === "function") {
-    enhancer(createStore)(reducer, initialState);
+    return enhancer(createStore)(reducer, initialState);
   }
   let currentState = initialState;
   let listeners = [];
