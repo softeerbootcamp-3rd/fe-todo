@@ -5,7 +5,8 @@ import editIcon from "../../asset/img/edit.svg";
 // todoItem 컴포넌트 템플릿
 export function todoItemtemplate(props) {
   return `
-    <div class="${styles.todoItem}">
+    <div todo-data="todoItem" class="${styles.todoItem}"
+    value=${props.id}" draggable="true">
       <div>
         <textarea
           type="text"

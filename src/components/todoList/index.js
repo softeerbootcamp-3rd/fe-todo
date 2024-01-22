@@ -13,6 +13,7 @@ export default function todoList(parent, props) {
 
   const onAddItem = (isNew, item) => {
     const todoItemWrapper = document.createElement("div");
+
     todoItem(todoItemWrapper, {
       todoColTitle: props.title,
       item,
@@ -53,5 +54,10 @@ export default function todoList(parent, props) {
     } else {
       newItemContainer.style.display = "none";
     }
+  });
+
+  //Drag And Drop
+  parent.addEventListener("dragstart", (e) => {
+    console.log(e);
   });
 }

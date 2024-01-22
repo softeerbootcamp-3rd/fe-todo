@@ -44,4 +44,15 @@ export default function App(parent, props) {
     modalSection.style.display = "block";
     modal(modalSection, { msg: detail.msg, onDelete: detail.onDelete });
   });
+
+  const draggables = parent.querySelectorAll('[todo-data="todoItem"]');
+  draggables.forEach((draggable) => {
+    draggable.addEventListener("dragstart", () => {
+      draggable.style.opacity = "0.4";
+    });
+
+    draggable.addEventListener("dragend", () => {
+      draggable.style.opacity = "1";
+    });
+  });
 }
