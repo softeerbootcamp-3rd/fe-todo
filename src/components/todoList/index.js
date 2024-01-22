@@ -3,17 +3,17 @@ import plusIcon from "../../asset/img/plus.svg";
 import closedIcon from "../../asset/img/closed.svg";
 import todoItem from "../todoItem";
 
-export default function todoList(parent, data) {
-  parent.innerHTML = template(data);
-  controller(parent, data);
+export default function todoList(target, data) {
+  target.innerHTML = template(data);
+  controller(target, data);
 }
 
-function controller(parent, data) {
-  const newItemContainer = parent.querySelector(
+function controller(target, data) {
+  const newItemContainer = target.querySelector(
     '[data-node="newItemContainer"]'
   );
 
-  const itemCount = parent.querySelector('[data-node="itemCount"]');
+  const itemCount = target.querySelector('[data-node="itemCount"]');
 
   const onAddItem = (isNew, item) => {
     const todoItemWrapper = document.createElement("div");
@@ -38,13 +38,13 @@ function controller(parent, data) {
   };
 
   //행 하나에 item으로 컴포넌트를 만들어서 마운트
-  const itemsContainer = parent.querySelector('[data-node="items"]');
+  const itemsContainer = target.querySelector('[data-node="items"]');
   for (const item of data.items) {
     onAddItem(false, item);
   }
 
   //추가 컴포넌트 등장 이벤트 추가
-  const plusBtn = parent.querySelector('[data-node="plusBtn"]');
+  const plusBtn = target.querySelector('[data-node="plusBtn"]');
   plusBtn.addEventListener("click", () => {
     if (newItemContainer.style.display === "none") {
       newItemContainer.style.display = "block";

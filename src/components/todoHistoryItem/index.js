@@ -1,10 +1,10 @@
 import styles from "./todoHistoryItem.module.scss";
 import userImage from "../../asset/img/userImage.png";
-export default function todoHistoryItem(parent, data) {
-  parent.innerHTML = template(parent, data);
+export default function todoHistoryItem(target, data) {
+  target.innerHTML = template(target, data);
 }
 
-function template(parent, data) {
+function template(target, data) {
   return `
     <div class="${styles.todoHistoryItem}">
       <img class="${

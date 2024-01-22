@@ -1,9 +1,9 @@
 import history from "../../asset/img/history.svg";
 import styles from "./header.module.scss";
 
-export default function header(parent, data) {
-  parent.innerHTML = template(data);
-  controller(parent, data);
+export default function header(target, data) {
+  target.innerHTML = template(data);
+  controller(target, data);
 }
 
 function template(data) {
@@ -15,8 +15,8 @@ function template(data) {
     `;
 }
 
-function controller(parent, data) {
-  const historyBtn = parent.querySelector('[data-node="historyBtn"]');
+function controller(target, data) {
+  const historyBtn = target.querySelector('[data-node="historyBtn"]');
   historyBtn.addEventListener("click", () => {
     document.dispatchEvent(new CustomEvent("toggleHistoryList"));
   });

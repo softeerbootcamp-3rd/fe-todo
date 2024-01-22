@@ -3,9 +3,9 @@ import closedIcon from "../../asset/img/closed.svg";
 import todoHistoryItem from "../todoHistoryItem";
 import { getHistory } from "../../utils/API/history";
 
-export default function todoHistory(parent, data) {
-  parent.innerHTML = template(data);
-  controller(parent, data);
+export default function todoHistory(target, data) {
+  target.innerHTML = template(data);
+  controller(target, data);
 }
 
 function template(data) {
@@ -26,14 +26,14 @@ function template(data) {
   </div>`;
 }
 
-function controller(parent, data) {
-  const historyList = parent.querySelector('[data-node="history_list"]');
-  const historyCloseBtn = parent.querySelector('[data-node="historyCloseBtn"]');
+function controller(target, data) {
+  const historyList = target.querySelector('[data-node="history_list"]');
+  const historyCloseBtn = target.querySelector('[data-node="historyCloseBtn"]');
   historyCloseBtn.addEventListener("click", () => {
     document.dispatchEvent(new CustomEvent("toggleHistoryList"));
   });
 
-  const historyClearBtn = parent.querySelector('[data-node="historyClearBtn"]');
+  const historyClearBtn = target.querySelector('[data-node="historyClearBtn"]');
   historyClearBtn.addEventListener("click", () =>
     document.dispatchEvent(
       new CustomEvent("showDeleteModal", {
