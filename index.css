@@ -4,14 +4,12 @@ body {
 .header {
     display: flex;
     flex-direction: row;
-    width: 1440px;
     height: 64px;
     align-items: center;
     justify-content: space-between;
 }
 
 .app {
-    width: 1280px;
     display: flex;
     flex-direction: row;
 }
