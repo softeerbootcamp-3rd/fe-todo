@@ -24,23 +24,15 @@ export const ModalView = ({ content, btnText }) => {
     `;
 };
 
-export const modalOkayHandlerMaker = (func) => {
-    const modalOkayHandler = ({target}) => {
+export const confirmModalHandlerMaker = (func) => {
+    return ({target}) => {
+        func();
         const modal = target.closest(".modal__container");
         modal.remove();
-        func();
-    }
-    return modalOkayHandler;
-}
+    };
+};
 
-/*
-const modalOkayHandler = ({target}) => {
+export const cancelModalHandler = (target) => {
     const modal = target.closest(".modal__container");
     modal.remove();
-}
-*/
-
-export const modalCancelHandler = ({target}) => {
-    const modal = target.closest(".modal__container");
-    modal.remove();
-}
+};

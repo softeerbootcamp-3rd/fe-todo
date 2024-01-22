@@ -7,6 +7,7 @@ import { closeHistory, showHistory } from "./HistoryView/historyHandler.js";
 import { inputCardHandler } from "./MainView/ColumnView/CardListView/CardFormView/inputCardHandler.js";
 import { submitAddCardFormHandler } from "./MainView/ColumnView/CardListView/CardFormView/submitAddCardFormHandler.js";
 import { submitEditCardFormHandler } from "./MainView/ColumnView/CardListView/CardFormView/submitEditCardFormHandler.js";
+import { cancelModalHandler } from "./ModalView/ModalView.js";
 
 const clickHandlerMap = {
   "js-addCardBtn": addCardHandler,
@@ -16,6 +17,7 @@ const clickHandlerMap = {
   "js-closeHistory": closeHistory,
   "js-openHistory": showHistory,
   "js-deleteCardBtn": deleteCardHandler,
+  "js-modalCancel": cancelModalHandler,
 };
 
 const submitHandlerMap = {
