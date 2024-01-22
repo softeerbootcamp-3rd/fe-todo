@@ -1,6 +1,3 @@
-import styles from "./todoItem.module.scss";
-import closedIcon from "../../asset/img/closed.svg";
-import editIcon from "../../asset/img/edit.svg";
 import {
   addTodoListItem,
   editTodoListItem,
@@ -15,8 +12,10 @@ import {
   detectDeviceType,
 } from "./helper";
 
+import { todoItemtemplate } from "./template";
+
 export default function todoItem(parent, props) {
-  parent.innerHTML = template(props.item);
+  parent.innerHTML = todoItemtemplate(props.item);
 
   // 입력 제목, 내용 노드
   const titleNode = parent.querySelector('[todo-data="title"]');
@@ -114,58 +113,4 @@ export default function todoItem(parent, props) {
 
   // 투두 아이템의 초기 모드를 뷰 모드로 설정
   props.addMode ? setEditMode() : setViewMode();
-}
-
-// todoItem 컴포넌트 템플릿
-function template(props) {
-  return `
-  <div class="${styles.todoItem}">
-    <div>
-      <textarea
-        type="text"
-        rows="1"
-        todo-data="title"
-        class="${styles.todoItem__itemTitle}"
-        placeholder="제목을 입력하세요"
-      >${props?.title ?? ""}</textarea>
-      <textarea
-        type="text"
-        rows="1"
-        todo-data="content"
-        class="${styles.todoItem__itemContent}"
-        placeholder="내용을 입력하세요"
-      >${props?.content ?? ""}</textarea>
-      <div class="${styles.todoItem__bottomContainer}">
-        <p todo-data="author" class="${styles.todoItem__itemAuthor}">
-          author by ${props?.createdOn}
-        </p>
-        <button
-          todo-data="cancelBtn"
-          class="${styles["todoItem__btn--inactive"]}"
-        >
-          취소
-        </button>
-        <button
-          todo-data="submitBtn"
-          class="${styles["todoItem__btn--active"]}"
-          disabled
-        >
-          ${props?.addMode ? "등록" : "저장"}
-        </button>
-      </div>
-    </div>
-
-    <div
-      todo-data="actionBtnContainer"
-      class="${styles.todoItem__actionBtnContainer}"
-    >
-      <button todo-data="eraseBtn" class="actionBtn">
-        <img class="actionBtn__closed" src="${closedIcon}" />
-      </button>
-      <button todo-data="editBtn" class="actionBtn">
-        <img src="${editIcon}" />
-      </button>
-    </div>
-  </div>
-`;
 }

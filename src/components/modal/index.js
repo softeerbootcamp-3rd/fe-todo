@@ -1,17 +1,7 @@
-import styles from "./modal.module.scss";
-
-// props: detail....
+import { modalTemplate } from "./template";
 
 export default function modal(parent, props) {
-  parent.innerHTML = `
-    <div todo-data="modalSection" class="${styles.modal}">
-      <p class="${styles.modal__modalText}">${props.msg}</p>
-      <div class="${styles.modal__bottomContainer}">
-        <button todo-data="cancelBtn" class="${styles["modal__btn"]} ${styles["modal__btn--inactive"]}">취소</button>
-        <button todo-data="deleteBtn" class="${styles["modal__btn"]} ${styles["modal__btn--active"]}">삭제</button>
-      </div>
-    </div>
-  `;
+  parent.innerHTML = modalTemplate(props);
 
   const modalSection = parent.querySelector('[todo-data="modalSection"]');
   modalSection.addEventListener("click", (e) => {

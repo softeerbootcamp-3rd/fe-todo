@@ -1,24 +1,8 @@
-import styles from "./todoHistoryItem.module.scss";
-import userImage from "../../asset/img/userImage.png";
+import { todoHistoryItemTemplate } from "./template";
 export default function todoHistoryItem(parent, props) {
-  parent.innerHTML = `
-    <div class="${styles.todoHistoryItem}">
-        <img class="${
-          styles.todoHistoryItem__userImage
-        }" src="${userImage}"></img>
-        <div class="${styles.todoHistoryItem__contentContainer}">
-            <p class="${styles.todoHistoryItem__author}">@${
-    props.authorName
-  }</p>
-            <p class="${styles.todoHistoryItem__content}">${formatHistoryText(
-    props
-  )}</p>
-            <p class="${
-              styles.todoHistoryItem__timeStamp
-            }">${currentTimestampReturn(props.timeStamp)}</p>
-        </div>
-    </div>
-  `;
+  props.timeStamp = currentTimestampReturn(props.timeStamp);
+  props.text = formatHistoryText(props);
+  parent.innerHTML = todoHistoryItemTemplate(props);
 }
 
 function formatHistoryText(props) {
