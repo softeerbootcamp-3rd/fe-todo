@@ -1,13 +1,16 @@
-// TODO: columns and history reducer
-// TODO: reducer must be a pure function
-const todoReducer = (state, action) => {};
-const historyReducer = (state, action) => {};
+import { reducers } from "./reducers/index.js";
+import { thunk } from "./thunk.js";
+import { applyMiddleware } from "./utils/apply-middleware.js";
 
 // TODO: implement createStore
 // FIXME: use ES class
-const createStore = (reducer, initialState, middleware) => {
+const createStore = (reducer, enhancer, initialState = {}) => {
+  if (typeof enhancer === "function") {
+    enhancer(createStore)(reducer, initialState);
+  }
   let currentState = initialState;
   let listeners = [];
+  let isDispatchingAction = false;
 
   const getState = () => {
     return currentState;
@@ -16,22 +19,38 @@ const createStore = (reducer, initialState, middleware) => {
   const subscribe = (listener) => {
     listeners.push(listener);
 
-    return () => {
+    return function unsubscribe() {
       const index = listeners.indexOf(listener);
       listeners.slice(index, 1);
     };
   };
 
   const dispatch = (action) => {
-    currentState = reducer(currentState, action);
+    if (isDispatchingAction) {
+      throw new Error("The action is dispatching");
+    }
+    try {
+      isDispatchingAction = true;
+      currentState = reducer(currentState, action);
+    } finally {
+      isDispatchingAction = false;
+    }
 
     listeners.forEach((listener) => listener());
     return action;
   };
 
-  return { getState, subscribe, dispatch };
+  const store = { getState, subscribe, dispatch };
+  return store;
 };
 
-const reducers = combineReducer(todoReducer, historyReducer);
+const initialState = {
+  todolist: [],
+  history: [],
+};
 
-export const store = createStore(reducers);
+export const store = createStore(
+  reducers,
+  initialState,
+  applyMiddleware(thunk)
+);

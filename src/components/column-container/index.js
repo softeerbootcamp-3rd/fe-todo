@@ -16,6 +16,8 @@ export function template({ columns }) {
     `;
 }
 export function render(parent) {
+  // TODO: fetch initial todolist data
+  // store.dispatch({ type: 'INIT_TODOLIST' })
   parent.insertAdjacentHTML(
     "beforeend",
     template({ columns: getLocalStorage("todolist") })
