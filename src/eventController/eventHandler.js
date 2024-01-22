@@ -16,63 +16,32 @@ const targetList = [
     "editBtn",
 ];
 
+const eventHandlers = {
+    add: addCard,
+    inputTitle: checkRegisterStatus,
+    inputContent: checkRegisterStatus,
+    registerBtn: registerCard,
+    cancelBtn: cancelHandler,
+    saveBtn: (target) => saveHandler(target.closest(".newCard")),
+    deleteBtn: (parentTarget, target) => createModal(parentTarget, target),
+    editBtn: (target) => editCard(target.closest(".registeredCard")),
+};
+
 export default function customEventHandler(event) {
     const target = event.target;
     const parentTarget = event.currentTarget;
 
-    switch (target.id) {
-        case targetList[0]: {
-            addCard(target);
-            break;
-        }
-        case targetList[1]: {
-            console.log("input title event");
+    const handler = eventHandlers[target.id];
 
-            checkRegisterStatus(parentTarget);
-            break;
+    if (handler) {
+        if (["add", "cancelBtn", "saveBtn", "editBtn"].includes(target.id)) {
+            handler(target);
+            return;
+        } else if (target.id === "deleteBtn") {
+            handler(parentTarget, target.closest(".registeredCard"));
+            return;
         }
-        case targetList[2]: {
-            console.log("input content event");
-
-            checkRegisterStatus(parentTarget);
-            break;
-        }
-        case targetList[3]: {
-            console.log("cancel btn event");
-
-            const cardElement = parentTarget.querySelector(".newCard");
-            cancelHandler(cardElement);
-            break;
-        }
-        case targetList[4]: {
-            console.log("register btn event");
-
-            registerCard(parentTarget);
-            break;
-        }
-        case targetList[5]: {
-            console.log("save btn event");
-
-            const registeredCard = target.closest(".newCard");
-            saveHandler(registeredCard);
-            break;
-        }
-        case targetList[6]: {
-            console.log("delete btn event");
-
-            const registeredCard = target.closest(".registeredCard");
-            createModal(parentTarget, registeredCard);
-            break;
-        }
-        case targetList[7]: {
-            console.log("edit btn event");
-
-            const registeredCard = target.closest(".registeredCard");
-            editCard(registeredCard);
-            break;
-        }
-        default:
-            break;
+        handler(parentTarget);
     }
 }
 
@@ -113,7 +82,7 @@ function registerCard(column) {
     const countBox = column.querySelector(".countBox");
     const card = column.querySelector(".newCard");
 
-    const newCount = Number(countBox.textContent) + 1;
+    const newCount = parseInt(countBox.textContent) + 1;
     countBox.innerHTML = newCount;
 
     card.className = "registeredCard";
