@@ -1,12 +1,13 @@
-import { addCardHandler } from "../handler/addCardHandler.js";
-import { closeCardFormHandler, closeEditCardFormHandler } from "../handler/closeCardFormHandler.js";
-import { deleteCardHandler } from "../handler/deleteCardHandler.js";
-import { onDragEnd, onDragOver, onDragStart, onDrop } from "../handler/dragHandler.js";
-import { editCardHandler } from "../handler/editCardHandler.js";
-import { closeHistory, showHistory } from "../handler/historyHandler.js";
-import { inputCardHandler } from "../handler/inputCardHandler.js";
-import { submitAddCardFormHandler } from "../handler/submitAddCardFormHandler.js";
-import { submitEditCardFormHandler } from "../handler/submitEditCardFormHandler.js";
+import { addCardHandler } from "./MainView/ColumnView/addCardHandler.js";
+import { closeCardFormHandler, closeEditCardFormHandler } from "./MainView/ColumnView/CardListView/CardFormView/closeCardFormHandler.js";
+import { deleteCardHandler } from "./MainView/ColumnView/CardListView/CardView/deleteCardHandler.js";
+import { onDragEnd, onDragOver, onDragStart, onDrop } from "./MainView/dragHandler.js";
+import { editCardHandler } from "./MainView/ColumnView/CardListView/CardView/editCardHandler.js";
+import { closeHistory, showHistory } from "./HistoryView/historyHandler.js";
+import { inputCardHandler } from "./MainView/ColumnView/CardListView/CardFormView/inputCardHandler.js";
+import { submitAddCardFormHandler } from "./MainView/ColumnView/CardListView/CardFormView/submitAddCardFormHandler.js";
+import { submitEditCardFormHandler } from "./MainView/ColumnView/CardListView/CardFormView/submitEditCardFormHandler.js";
+import { cancelModalHandler } from "./ModalView/ModalView.js";
 
 const clickHandlerMap = {
   "js-addCardBtn": addCardHandler,
@@ -16,6 +17,7 @@ const clickHandlerMap = {
   "js-closeHistory": closeHistory,
   "js-openHistory": showHistory,
   "js-deleteCardBtn": deleteCardHandler,
+  "js-modalCancel": cancelModalHandler,
 };
 
 const submitHandlerMap = {

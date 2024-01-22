@@ -1,5 +1,5 @@
-import { historyDataList } from "../model/model.js";
-import { HistoryCardView } from "./components/HistoryCardView.js";
+import { historyDataList } from "../../model/model.js";
+import { HistoryCardView } from "./HistoryCardView/HistoryCardView.js";
 
 export const HistoryView = () => {
   return `

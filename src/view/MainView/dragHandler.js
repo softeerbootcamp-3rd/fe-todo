@@ -1,6 +1,6 @@
-import { cardDataTable, columnDataTable, historyDataList } from "../model/model";
-import { renderListCount } from "../util/render";
-import { historyDataTemplate } from "../util/historyDataTemplate";
+import { cardDataTable, columnDataTable, historyDataList } from "../../model/model.js";
+import { renderListCount } from "../render.js";
+import { historyDataTemplate } from "../../model/historyDataTemplate.js";
 
 export const onDragStart = (event) => {
   const { target } = event;
