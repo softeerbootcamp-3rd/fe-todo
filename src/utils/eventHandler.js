@@ -133,7 +133,6 @@ function editCard(card) {
 function saveHandler(card) {
   const newTitle = card.querySelector(".title").value;
   const newContent = card.querySelector(".content").value;
-
   card.classList.remove("newCard");
   card.classList.add("registeredCard");
 
