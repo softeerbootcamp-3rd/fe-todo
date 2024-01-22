@@ -6,6 +6,12 @@
   box-shadow: 0px 1px 4px 0px rgba(110, 128, 145, 0.24);
   padding: 16px;
   justify-content: space-between;
+  transition: margin-top 0.5s;
+  margin-top: 10px;
+
+  &--dragging {
+    opacity: 0.3;
+  }
 
   &__itemTitle {
     color: var(--text-strong);

@@ -5,7 +5,7 @@ export default function todoHistoryItem(target, data) {
 }
 
 function template(target, data) {
-  return `
+  return /*html*/ `
     <div class="${styles.todoHistoryItem}">
       <img class="${
         styles.todoHistoryItem__userImage

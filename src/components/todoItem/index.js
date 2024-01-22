@@ -15,11 +15,13 @@ import {
 } from "./helper";
 
 export default function todoItem(target, data) {
-  target.innerHTML = template(data.item);
+  target.innerHTML = template(data);
   controller(target, data);
 }
 
 function controller(target, data) {
+  const todoItem = target.querySelector('[data-node="todoItem"]');
+
   // 입력 제목, 내용 노드
   const titleNode = target.querySelector('[data-node="title"]');
   const contentNode = target.querySelector('[data-node="content"]');
@@ -58,7 +60,7 @@ function controller(target, data) {
     });
 
   ////////////////////////////////////////////////////////
-  //필요 함수 선언 부분
+  // 필요 함수 선언 부분
   // 취소 버튼 클릭 시
   const onCancel_edit = () => {
     titleNode.value = data.item.title;
@@ -66,7 +68,7 @@ function controller(target, data) {
     setViewMode();
   };
 
-  // 수정하고 제출 시
+  // 수정/등록 하고 제출 시
   const onSubmit_edit = () => {
     const newItem = {
       ...data.item,
@@ -79,8 +81,9 @@ function controller(target, data) {
     if (data.addMode) {
       const newReturnItem = addTodoListItem(data.todoColTitle, newItem);
       //추가하고 추가 컴포넌트 삭제 및
-      data.onAddItem(true, newReturnItem);
+      data.createAndAddItem(newReturnItem);
     }
+
     //투두 수정 로직
     else {
       editTodoListItem(data.todoColTitle, newItem);
@@ -90,11 +93,11 @@ function controller(target, data) {
 
   // 삭제 시
   const onErase_view = () => {
-    console.log("onerase");
     createDeleteModal(target, () => {
       removeTodoListItem(data.todoColTitle, data.item);
+      const parentNode = target.parentNode;
       target.parentNode.removeChild(target);
-      data.onDeleteItem();
+      requestUpdateItemCount(parentNode);
     });
   };
 
@@ -113,6 +116,38 @@ function controller(target, data) {
   cancelBtnNode_edit.addEventListener("click", data.onCancel ?? onCancel_edit);
   submitBtnNode_edit.addEventListener("click", onSubmit_edit);
 
+  // 드래그 이벤트 처리 (생성 카드 제외)
+  if (!data.addMode) {
+    target.addEventListener("dragstart", (e) => {
+      e.dataTransfer.setData(
+        "text/plain",
+        JSON.stringify({ ...data.item, todoColTitle: data.todoColTitle })
+      );
+      e.dataTransfer.dropEffect = "move";
+      todoItem.classList.add(styles["todoItem--dragging"]);
+    });
+
+    target.addEventListener("dragend", (e) => {
+      e.preventDefault();
+      todoItem.classList.remove(styles["todoItem--dragging"]);
+      requestUpdateItemCount(target, true);
+    });
+
+    target.addEventListener("dragover", (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const elem = getClosestElement(
+        [...target.parentNode.querySelectorAll(`[data-node="todoItem"]`)],
+        e.clientY
+      );
+      const dragging = document.querySelector(
+        `div.${styles["todoItem--dragging"]}`
+      ).parentNode;
+      target.parentNode.insertBefore(dragging, elem?.parentNode);
+      requestUpdateItemCount(target, true);
+    });
+  }
+
   // 투두 아이템의 초기 모드를 뷰 모드로 설정
   if (data.addMode) setEditMode();
   else setViewMode();
@@ -120,8 +155,10 @@ function controller(target, data) {
 
 // todoItem 컴포넌트 템플릿
 function template(data) {
-  return `
-  <div class="${styles.todoItem}">
+  return /*html*/ `
+  <div data-node="todoItem" class="${styles.todoItem}" ${
+    data?.addMode ? "" : 'draggable="true"'
+  }>
     <div>
       <textarea
         type="text"
@@ -129,17 +166,17 @@ function template(data) {
         data-node="title"
         class="${styles.todoItem__itemTitle}"
         placeholder="제목을 입력하세요"
-      >${data?.title ?? ""}</textarea>
+      >${data.item?.title ?? ""}</textarea>
       <textarea
         type="text"
         rows="1"
         data-node="content"
         class="${styles.todoItem__itemContent}"
         placeholder="내용을 입력하세요"
-      >${data?.content ?? ""}</textarea>
+      >${data.item?.content ?? ""}</textarea>
       <div class="${styles.todoItem__bottomContainer}">
         <p data-node="author" class="${styles.todoItem__itemAuthor}">
-          author by ${data?.createdOn}
+          author by ${data.item?.createdOn}
         </p>
         <button
           data-node="cancelBtn"
@@ -170,4 +207,26 @@ function template(data) {
     </div>
   </div>
 `;
+}
+
+function getClosestElement(elements, y) {
+  return elements.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      // console.log(offset);
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    },
+    { offset: Number.NEGATIVE_INFINITY }
+  ).element;
+}
+
+function requestUpdateItemCount(target, propagate) {
+  target.dispatchEvent(
+    new CustomEvent("updateItemCount", { bubbles: true, detail: { propagate } })
+  );
 }

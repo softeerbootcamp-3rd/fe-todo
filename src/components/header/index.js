@@ -7,7 +7,7 @@ export default function header(target, data) {
 }
 
 function template(data) {
-  return `
+  return /*html*/ `
     <div class="${styles.header}">
       <h1 class="${styles.header__title}">TODO LIST</h1>
       <img data-node="historyBtn" class="${styles.header__history}" src="${history}">

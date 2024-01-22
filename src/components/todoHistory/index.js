@@ -9,12 +9,12 @@ export default function todoHistory(target, data) {
 }
 
 function template(data) {
-  return `
+  return /*html*/ `
   <div class="${styles["todoHistory"]}">
     <div class="${styles.todoHistory__header}">
       <h2 class="${styles.todoHistory__title}">사용자 활동 기록</h2>
       <button data-node="historyCloseBtn" class="${styles.todoHistory__closedBtn}">
-        <img class="${styles.todoHistory__closedIcon}" src="${closedIcon}"></img>
+        <img class="${styles.todoHistory__closedIcon}" src="${closedIcon}"/>
         닫기
       </button>
     </div>
