@@ -1,7 +1,6 @@
-import { historyDataList } from "../model/model.js";
-import { HistoryCardView } from "./components/HistoryCardView.js";
+import { HistoryListView } from "./HistoryListView.js";
 
-export const HistoryView = () => {
+const HistoryView = () => {
   return `
     <dialog class="js-closeHistory history">
     <div class="history__wrapper">
@@ -12,17 +11,10 @@ export const HistoryView = () => {
         <p class="js-closeHistory">닫기</p>
       </button>
     </header>
-      ${HistoryListView()}
+      ${HistoryListView([])}
     <button class="history__delete-all-btn">기록 전체 삭제</button>
     </div>
   </dialog>
     `;
 };
-
-export const HistoryListView = () => {
-  return `
-    <ul class="history__list">
-      ${historyDataList.map((history) => HistoryCardView(history)).join("")}
-    </ul>
-  `;
-};
+export default HistoryView;

@@ -1,7 +1,8 @@
-import { cardDataTable, columnDataTable, historyDataList } from "../model/model.js";
-import { getDeviceInfo } from "../util/getDeviceInfo.js";
-import { historyDataTemplate } from "../util/historyDataTemplate.js";
-import { renderCardList, renderListCount } from "../util/render.js";
+import { cardDataTable, columnDataTable, historyDataList } from "../../../../model/model.js";
+import { getDeviceInfo } from "../../../../util/getDeviceInfo.js";
+import { historyDataTemplate } from "../../../../util/historyDataTemplate.js";
+import { renderCardList } from "../../../../view/Main/Column/renderCardList.js";
+import { renderListCount } from "../../../../view/Main/Column/renderListCount.js";
 
 let cardId = 3;
 
@@ -34,7 +35,7 @@ const addNewHistory = (currentColumn) => {
   historyDataList.unshift(newHistory);
 };
 
-export const submitAddCardFormHandler = (target) => {
+export const submitAddCardForm = (target) => {
   const currentColumn = target.closest("section");
 
   updateModel({ target, currentColumn });
