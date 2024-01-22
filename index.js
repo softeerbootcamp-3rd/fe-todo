@@ -1,5 +1,8 @@
 import { mainColumns } from "./src/components/columns.js";
+import { createLogBox } from "./src/components/log.js";
 
 (function () {
-    mainColumns(document.getElementById("app"));
+    const app = document.getElementById("app");
+    mainColumns(app);
+    createLogBox(app);
 })();
