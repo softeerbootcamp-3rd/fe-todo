@@ -1,12 +1,30 @@
-import { createColumnTemplate } from "./templates.js";
+import { createColumnTemplate } from "../components/templates.js";
+import { columns } from "../constants/columnData.js";
+import customEventHandler from "../utils/eventHandler.js";
 
-// Column element
-export default function Column({ title, id, count }) {
-    const column = document.createElement("div");
-    column.className = "column";
-    column.id = id;
+// Column 동적 생성 함수
+export function mainColumns(baseElement) {
+    for (let column of columns) {
+        createColumn(baseElement, column);
+    }
+}
 
-    column.innerHTML = createColumnTemplate(title, id, count);
+// Column 생성 함수
+function createColumn(baseElement, columns) {
+    const newColumn = document.createElement("div");
+    newColumn.className = "column";
+    newColumn.id = columns.id;
+    newColumn.innerHTML = createColumnTemplate(columns);
 
-    return column;
+    eventRegister(newColumn);
+    baseElement.appendChild(newColumn);
+}
+
+function eventRegister(columnElement) {
+    const eventTypes = ["click", "input"];
+    for (let eventType of eventTypes) {
+        columnElement.addEventListener(eventType, (e) => {
+            customEventHandler(e);
+        });
+    }
 }
