@@ -24,15 +24,19 @@ export const ModalView = ({ content, btnText }) => {
     `;
 };
 
+export const confirmHandlerInjector = (func) => {
+    document.querySelector('.js-modalConfirm').addEventListener('click', confirmModalHandlerMaker(func));
+}
+
 export const confirmModalHandlerMaker = (func) => {
     return ({target}) => {
         func();
-        const modal = target.closest(".modal__container");
+        const modal = target.closest("#modal");
         modal.remove();
     };
 };
 
 export const cancelModalHandler = (target) => {
-    const modal = target.closest(".modal__container");
+    const modal = target.closest("#modal");
     modal.remove();
 };

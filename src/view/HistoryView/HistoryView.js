@@ -3,7 +3,7 @@ import { HistoryCardView } from "./HistoryCardView/HistoryCardView.js";
 
 export const HistoryView = () => {
   return `
-    <dialog class="js-closeHistory history">
+    <dialog class="js-closeHistory history" id='history'>
     <div class="history__wrapper">
     <header class="history__header">
       <h3 class="history__header__title">사용자 활동 기록</h3>
@@ -13,16 +13,31 @@ export const HistoryView = () => {
       </button>
     </header>
       ${HistoryListView()}
-    <button class="history__delete-all-btn">기록 전체 삭제</button>
+      ${HistoryPurgeBtnView()}
     </div>
   </dialog>
     `;
 };
 
 export const HistoryListView = () => {
-  return `
-    <ul class="history__list">
-      ${historyDataList.map((history) => HistoryCardView(history)).join("")}
-    </ul>
-  `;
+  if(historyDataList.length === 0) {
+    return `
+    <section class='history__list--empty'>
+      <p>사용자 활동 기록이 없습니다.</p>
+    </section>
+    `
+  }
+  else{
+    return `
+      <ul class="history__list">
+        ${historyDataList.map((history) => HistoryCardView(history)).join("")}
+      </ul>
+    `;
+  }
 };
+
+
+export const HistoryPurgeBtnView = () => 
+{
+  return historyDataList.length === 0 ? '' : '<button class="js-deleteHistory history__delete-all-btn">기록 전체 삭제</button>'
+}

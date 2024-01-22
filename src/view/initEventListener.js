@@ -3,7 +3,7 @@ import { closeCardFormHandler, closeEditCardFormHandler } from "./MainView/Colum
 import { deleteCardHandler } from "./MainView/ColumnView/CardListView/CardView/deleteCardHandler.js";
 import { onDragEnd, onDragOver, onDragStart, onDrop } from "./MainView/dragHandler.js";
 import { editCardHandler } from "./MainView/ColumnView/CardListView/CardView/editCardHandler.js";
-import { closeHistory, showHistory } from "./HistoryView/historyHandler.js";
+import { closeHistory, deleteHistoryHandler, showHistory } from "./HistoryView/historyHandler.js";
 import { inputCardHandler } from "./MainView/ColumnView/CardListView/CardFormView/inputCardHandler.js";
 import { submitAddCardFormHandler } from "./MainView/ColumnView/CardListView/CardFormView/submitAddCardFormHandler.js";
 import { submitEditCardFormHandler } from "./MainView/ColumnView/CardListView/CardFormView/submitEditCardFormHandler.js";
@@ -18,6 +18,7 @@ const clickHandlerMap = {
   "js-openHistory": showHistory,
   "js-deleteCardBtn": deleteCardHandler,
   "js-modalCancel": cancelModalHandler,
+  "js-deleteHistory": deleteHistoryHandler,
 };
 
 const submitHandlerMap = {

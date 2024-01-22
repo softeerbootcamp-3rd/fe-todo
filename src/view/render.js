@@ -1,11 +1,16 @@
 import { columnDataTable } from "../model/model.js";
-import { HistoryListView } from "./HistoryView/HistoryView.js";
+import { HistoryListView, HistoryPurgeBtnView } from "./HistoryView/HistoryView.js";
 import { CardListView } from "../view/MainView/ColumnView/CardListView/CardListView.js";
 
 export const historyListRender = () => {
   const historyList = document.querySelector(".history__list");
-  historyList.remove();
+  const historyEmptyList = document.querySelector(".history__list--empty");
+  const historyDeleteBtn = document.querySelector(".history__delete-all-btn");
+  historyList?.remove();
+  historyEmptyList?.remove();
+  historyDeleteBtn?.remove();
   document.querySelector(".history__header").insertAdjacentHTML("afterend", HistoryListView());
+  document.querySelector(".history__list")?.insertAdjacentHTML("afterend", HistoryPurgeBtnView());
 };
 
 export const renderCardList = (currentColumn) => {
