@@ -1,4 +1,4 @@
-import { ButtonView } from "../../../components/ButtonView.js";
+import { ButtonView } from "../../../Button";
 
 //Todo - remove target
 export const AddCardFormView = (target) => {

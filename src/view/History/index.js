@@ -1,7 +1,6 @@
-import { historyDataList } from "../model/model.js";
-import { HistoryCardView } from "./components/HistoryCardView.js";
+import { HistoryListView } from "./HistoryListView.js";
 
-export const HistoryView = () => {
+const HistoryView = () => {
   return `
     <dialog class="js-closeHistory history">
     <div class="history__wrapper">
@@ -18,11 +17,4 @@ export const HistoryView = () => {
   </dialog>
     `;
 };
-
-export const HistoryListView = () => {
-  return `
-    <ul class="history__list">
-      ${historyDataList.map((history) => HistoryCardView(history)).join("")}
-    </ul>
-  `;
-};
+export default HistoryView;

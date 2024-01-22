@@ -1,5 +1,6 @@
 import { columnDataTable } from "../model/model.js";
-import { HistoryListView } from "../view/HistoryView.js";
+import { HistoryListView } from "../view/History/HistoryListView.js";
+
 import { CardListView } from "../view/Main/Column/CardListView.js";
 
 export const historyListRender = () => {

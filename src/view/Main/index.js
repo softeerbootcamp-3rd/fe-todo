@@ -7,7 +7,7 @@ const MainView = () => {
     ${Object.keys(columnDataTable)
       .map((columnId, idx) => ColumnView(columnId, idx))
       .join("")}   
-      </main>
+</main>
 `;
 };
 
