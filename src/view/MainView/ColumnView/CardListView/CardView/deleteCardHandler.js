@@ -1,6 +1,6 @@
-import { cardDataTable, columnDataTable, historyDataList } from "../../../../model/model.js";
-import { historyDataTemplate } from "../../../../util/historyDataTemplate.js";
-import { renderCardList, renderListCount } from "../../../../util/render.js";
+import { cardDataTable, columnDataTable, historyDataList } from "../../../../../model/model.js";
+import { historyDataTemplate } from "../../../../../util/historyDataTemplate.js";
+import { renderCardList, renderListCount } from "../../../../../util/render.js";
 import { ModalView } from "../view/components/modalView.js";
 
 const addNewHistory = (currentCardId) => {
