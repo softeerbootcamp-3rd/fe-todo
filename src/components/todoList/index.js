@@ -2,6 +2,7 @@ import styles from "./todoList.module.scss";
 import plusIcon from "../../asset/img/plus.svg";
 import closedIcon from "../../asset/img/closed.svg";
 import todoItem from "../todoItem";
+import { onAddCountUp, onDeleteCountDown } from "./helper";
 
 export default function todoList(parent, props) {
   parent.innerHTML = `
@@ -37,21 +38,19 @@ export default function todoList(parent, props) {
     todoItem(todoItemWrapper, {
       todoColTitle: props.title,
       item,
-      onDeleteItem,
+      onDeleteItem: () => {
+        onDeleteCountDown(itemCount);
+      },
     });
     if (isNew) {
       // 새로운 아이템 등록 및 추가
       newItemContainer.insertAdjacentElement("afterend", todoItemWrapper);
       newItemContainer.style.display = "none";
-      itemCount.innerText = parseInt(itemCount.innerText) + 1;
+      onAddCountUp(itemCount);
     } else {
       // 초기 데이터의 아이템 렌더시 사용
       itemsContainer.appendChild(todoItemWrapper);
     }
-  };
-
-  const onDeleteItem = () => {
-    itemCount.innerText = parseInt(itemCount.innerText) - 1;
   };
 
   //행 하나에 item으로 컴포넌트를 만들어서 마운트
