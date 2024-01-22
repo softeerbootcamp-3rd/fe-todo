@@ -1,5 +1,5 @@
 export function createColumnTemplate(title, id, count) {
-  return `  
+    return `  
   <header id = "columnHeader">
     <div class="columnInfo"> 
         <span>${title}</span>
@@ -11,16 +11,16 @@ export function createColumnTemplate(title, id, count) {
   `;
 }
 export function createEditorTemplate(
-  title = "",
-  content = "",
-  isEditMode = false
+    title = "",
+    content = "",
+    isEditMode = false
 ) {
-  return `
+    return `
     <input id="inputTitle" class="title" type="text" placeholder="제목을 입력하세요." value="${
-      title || ""
+        title || ""
     }" required></input>
     <input id ="inputContent" class="content" type="text" placeholder="내용을 입력하세요." value="${
-      content || ""
+        content || ""
     }" required></input>
     <div class="btnbox">
         <button id="cancelBtn" class="cancel">취소</button>
@@ -31,7 +31,7 @@ export function createEditorTemplate(
 }
 
 export function createCardInfoTemplate(title, content) {
-  return `
+    return `
     <div class="cardInfo">
         <span class="registeredTitle">${title}</span>
         <span class="registeredContent">${content}</span>
@@ -45,7 +45,7 @@ export function createCardInfoTemplate(title, content) {
 }
 
 export function createModalTemplate() {
-  return `
+    return `
   <div class="modal-content">
     <p>선택한 카드를 취소할까요?</p>
     <div class="btnbox">
@@ -57,10 +57,10 @@ export function createModalTemplate() {
 }
 
 export function createLogBoxTemplate() {
-  const log = document.createElement("section");
-  log.className = "logBox";
+    const log = document.createElement("section");
+    log.className = "logBox";
 
-  log.innerHTML = `
+    log.innerHTML = `
     <header>
       사용자 활동 기록
       <button>x 닫기</button>
@@ -89,5 +89,5 @@ export function createLogBoxTemplate() {
       <button></button>
     </footer>
   `;
-  document.getElementById("app").appendChild(log);
+    document.getElementById("app").appendChild(log);
 }

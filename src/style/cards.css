@@ -1,89 +1,89 @@
 .newCard,
 .registeredCard {
-  display: flex;
-  width: 300px;
-  padding: var(--Number-200, 16px);
-  align-items: flex-start;
-  gap: var(--Number-200, 16px);
+    display: flex;
+    width: 300px;
+    padding: var(--Number-200, 16px);
+    align-items: flex-start;
+    gap: var(--Number-200, 16px);
 
-  border-radius: var(--Number-100, 8px);
-  background: var(--surface-default, #fefefe);
-  box-shadow: 0px 1px 4px 0px rgba(110, 128, 145, 0.24);
+    border-radius: var(--Number-100, 8px);
+    background: var(--surface-default, #fefefe);
+    box-shadow: 0px 1px 4px 0px rgba(110, 128, 145, 0.24);
 }
 
 .newCard {
-  flex-direction: column;
+    flex-direction: column;
 }
 
 .registeredCard {
-  flex-direction: row;
-  justify-content: space-between;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .cardInfo {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }
 
 .cardInfo span {
-  margin: 6px;
+    margin: 6px;
 }
 
 .title,
 .content {
-  align-self: stretch;
-  border: none;
-  color: var(--text-strong, #14142b);
-  font-family: Pretendard;
-  font-size: 14px;
-  font-style: normal;
-  line-height: normal;
+    align-self: stretch;
+    border: none;
+    color: var(--text-strong, #14142b);
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    line-height: normal;
 }
 
 .title {
-  font-weight: 700;
+    font-weight: 700;
 }
 
 .title::placeholder {
-  color: #111;
+    color: #111;
 }
 
 .content {
-  font-weight: 500;
+    font-weight: 500;
 }
 
 .btnbox {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: var(--Number-100, 8px);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--Number-100, 8px);
 }
 
 button {
-  display: flex;
-  width: 132px;
-  height: 32px;
-  padding: 0px var(--Number-100, 8px);
-  justify-content: center;
-  align-items: center;
-  border: none;
-  border-radius: var(--Number-100, 8px);
+    display: flex;
+    width: 132px;
+    height: 32px;
+    padding: 0px var(--Number-100, 8px);
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: var(--Number-100, 8px);
 }
 
 .cancel {
-  color: #6e7191;
-  background: var(--surface-default, #fefefe);
-  box-shadow: 0px 1px 4px 0px rgba(110, 128, 145, 0.24);
+    color: #6e7191;
+    background: var(--surface-default, #fefefe);
+    box-shadow: 0px 1px 4px 0px rgba(110, 128, 145, 0.24);
 }
 
 .register {
-  color: #fefefe;
-  background: var(--surface-default, #007aff);
-  opacity: 0.3;
+    color: #fefefe;
+    background: var(--surface-default, #007aff);
+    opacity: 0.3;
 }
 
 .editor {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

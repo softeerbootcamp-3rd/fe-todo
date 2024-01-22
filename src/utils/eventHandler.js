@@ -1,160 +1,160 @@
 import Card from "../components/cards.js";
 import {
-  createCardInfoTemplate,
-  createEditorTemplate,
+    createCardInfoTemplate,
+    createEditorTemplate,
 } from "../components/templates.js";
 import createModal from "../components/modal.js";
 
 const targetList = [
-  "add",
-  "inputTitle",
-  "inputContent",
-  "cancelBtn",
-  "registerBtn",
-  "saveBtn",
-  "deleteBtn",
-  "editBtn",
+    "add",
+    "inputTitle",
+    "inputContent",
+    "cancelBtn",
+    "registerBtn",
+    "saveBtn",
+    "deleteBtn",
+    "editBtn",
 ];
 
 export default function customEventHandler(event) {
-  const target = event.target;
-  const parentTarget = event.currentTarget;
+    const target = event.target;
+    const parentTarget = event.currentTarget;
 
-  switch (target.id) {
-    case targetList[0]: {
-      addCard(target);
-      break;
-    }
-    case targetList[1]: {
-      console.log("input title event");
+    switch (target.id) {
+        case targetList[0]: {
+            addCard(target);
+            break;
+        }
+        case targetList[1]: {
+            console.log("input title event");
 
-      checkRegisterStatus(parentTarget);
-      break;
-    }
-    case targetList[2]: {
-      console.log("input content event");
+            checkRegisterStatus(parentTarget);
+            break;
+        }
+        case targetList[2]: {
+            console.log("input content event");
 
-      checkRegisterStatus(parentTarget);
-      break;
-    }
-    case targetList[3]: {
-      console.log("cancel btn event");
+            checkRegisterStatus(parentTarget);
+            break;
+        }
+        case targetList[3]: {
+            console.log("cancel btn event");
 
-      const cardElement = parentTarget.querySelector(".newCard");
-      cancelHandler(cardElement);
-      break;
-    }
-    case targetList[4]: {
-      console.log("register btn event");
+            const cardElement = parentTarget.querySelector(".newCard");
+            cancelHandler(cardElement);
+            break;
+        }
+        case targetList[4]: {
+            console.log("register btn event");
 
-      registerCard(parentTarget);
-      break;
-    }
-    case targetList[5]: {
-      console.log("save btn event");
+            registerCard(parentTarget);
+            break;
+        }
+        case targetList[5]: {
+            console.log("save btn event");
 
-      const registeredCard = target.closest(".newCard");
-      saveHandler(registeredCard);
-      break;
-    }
-    case targetList[6]: {
-      console.log("delete btn event");
+            const registeredCard = target.closest(".newCard");
+            saveHandler(registeredCard);
+            break;
+        }
+        case targetList[6]: {
+            console.log("delete btn event");
 
-      const registeredCard = target.closest(".registeredCard");
-      createModal(parentTarget, registeredCard);
-      break;
-    }
-    case targetList[7]: {
-      console.log("edit btn event");
+            const registeredCard = target.closest(".registeredCard");
+            createModal(parentTarget, registeredCard);
+            break;
+        }
+        case targetList[7]: {
+            console.log("edit btn event");
 
-      const registeredCard = target.closest(".registeredCard");
-      editCard(registeredCard);
-      break;
+            const registeredCard = target.closest(".registeredCard");
+            editCard(registeredCard);
+            break;
+        }
+        default:
+            break;
     }
-    default:
-      break;
-  }
 }
 
 // Column의 '+' 버튼 클릭시 카드 추가 함수
 function addCard(target) {
-  const column = target.closest(".column");
-  const isExistCard = column.querySelector(".newCard");
-  if (!isExistCard) {
-    const card = Card();
-    column.appendChild(card);
-    // handleRegisterStatus(column);
-  } else {
-    isExistCard.remove();
-  }
+    const column = target.closest(".column");
+    const isExistCard = column.querySelector(".newCard");
+    if (!isExistCard) {
+        const card = Card();
+        column.appendChild(card);
+        // handleRegisterStatus(column);
+    } else {
+        isExistCard.remove();
+    }
 }
 
 // 제목, 내용의 입력 값 유무 판단 함수
 function checkInputsFilled(title, content, register) {
-  let status = !(title.value.trim() && content.value.trim());
+    let status = !(title.value.trim() && content.value.trim());
 
-  register.disabled = status;
-  register.style.opacity = status ? 0.3 : 1;
+    register.disabled = status;
+    register.style.opacity = status ? 0.3 : 1;
 }
 
 // 등록 함수 활성화 판단 함수
 function checkRegisterStatus(parentTarget) {
-  const titleInput = parentTarget.querySelector(".title");
-  const contentInput = parentTarget.querySelector(".content");
-  const registerButton = parentTarget.querySelector(".register");
+    const titleInput = parentTarget.querySelector(".title");
+    const contentInput = parentTarget.querySelector(".content");
+    const registerButton = parentTarget.querySelector(".register");
 
-  checkInputsFilled(titleInput, contentInput, registerButton);
+    checkInputsFilled(titleInput, contentInput, registerButton);
 }
 
 // Card 등록 함수
 function registerCard(column) {
-  const title = column.querySelector(".title");
-  const content = column.querySelector(".content");
-  const countBox = column.querySelector(".countBox");
-  const card = column.querySelector(".newCard");
+    const title = column.querySelector(".title");
+    const content = column.querySelector(".content");
+    const countBox = column.querySelector(".countBox");
+    const card = column.querySelector(".newCard");
 
-  const newCount = Number(countBox.textContent) + 1;
-  countBox.innerHTML = newCount;
+    const newCount = Number(countBox.textContent) + 1;
+    countBox.innerHTML = newCount;
 
-  card.className = "registeredCard";
+    card.className = "registeredCard";
 
-  const originalTitle = title.value;
-  const originalContent = content.value;
+    const originalTitle = title.value;
+    const originalContent = content.value;
 
-  card.innerHTML = createCardInfoTemplate(originalTitle, originalContent);
+    card.innerHTML = createCardInfoTemplate(originalTitle, originalContent);
 }
 
 function editCard(card) {
-  const title = card.querySelector(".registeredTitle").textContent;
-  const content = card.querySelector(".registeredContent").textContent;
-  localStorage.setItem("originalTitle", title);
-  localStorage.setItem("originalContent", content);
+    const title = card.querySelector(".registeredTitle").textContent;
+    const content = card.querySelector(".registeredContent").textContent;
+    localStorage.setItem("originalTitle", title);
+    localStorage.setItem("originalContent", content);
 
-  card.className = "newCard";
-  card.innerHTML = createEditorTemplate(title, content, true);
+    card.className = "newCard";
+    card.innerHTML = createEditorTemplate(title, content, true);
 }
 
 function saveHandler(card) {
-  const newTitle = card.querySelector(".title").value;
-  const newContent = card.querySelector(".content").value;
+    const newTitle = card.querySelector(".title").value;
+    const newContent = card.querySelector(".content").value;
 
-  card.classList.remove("newCard");
-  card.classList.add("registeredCard");
+    card.classList.remove("newCard");
+    card.classList.add("registeredCard");
 
-  card.innerHTML = createCardInfoTemplate(newTitle, newContent);
+    card.innerHTML = createCardInfoTemplate(newTitle, newContent);
 }
 
 function cancelHandler(card) {
-  const currentStatus = card.querySelector(".register").textContent;
-  const status = currentStatus === "저장";
+    const currentStatus = card.querySelector(".register").textContent;
+    const status = currentStatus === "저장";
 
-  if (status) {
-    const title = localStorage.getItem("originalTitle");
-    const content = localStorage.getItem("originalContent");
-    card.classList.remove("newCard");
-    card.classList.add("registeredCard");
-    card.innerHTML = createCardInfoTemplate(title, content);
-    return;
-  }
-  card.remove();
+    if (status) {
+        const title = localStorage.getItem("originalTitle");
+        const content = localStorage.getItem("originalContent");
+        card.classList.remove("newCard");
+        card.classList.add("registeredCard");
+        card.innerHTML = createCardInfoTemplate(title, content);
+        return;
+    }
+    card.remove();
 }
