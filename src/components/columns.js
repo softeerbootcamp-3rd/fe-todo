@@ -1,6 +1,6 @@
 import { createColumnTemplate } from "../components/templates.js";
 import { columns } from "../constants/columnData.js";
-import customEventHandler from "../utils/eventHandler.js";
+import customEventHandler from "../eventController/eventHandler.js";
 
 // Column 동적 생성 함수
 export function mainColumns(baseElement) {

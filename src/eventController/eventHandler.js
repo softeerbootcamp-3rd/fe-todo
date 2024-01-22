@@ -5,23 +5,12 @@ import {
 } from "../components/templates.js";
 import createModal from "../components/modal.js";
 
-const targetList = [
-    "add",
-    "inputTitle",
-    "inputContent",
-    "cancelBtn",
-    "registerBtn",
-    "saveBtn",
-    "deleteBtn",
-    "editBtn",
-];
-
 const eventHandlers = {
     add: addCard,
     inputTitle: checkRegisterStatus,
     inputContent: checkRegisterStatus,
     registerBtn: registerCard,
-    cancelBtn: cancelHandler,
+    cancelBtn: (target) => cancelHandler(target.closest(".newCard")),
     saveBtn: (target) => saveHandler(target.closest(".newCard")),
     deleteBtn: (parentTarget, target) => createModal(parentTarget, target),
     editBtn: (target) => editCard(target.closest(".registeredCard")),
