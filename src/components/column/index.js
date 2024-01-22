@@ -32,11 +32,16 @@ document.querySelector("#app").addEventListener("click", (event) => {
   if (target === null) {
     return;
   }
+
   const columnId = target.getAttribute("data-column-id");
   const editable = target.getAttribute("data-editable") === "true";
-  const editableCard = document.querySelector(
+  const addCard = document.querySelector(
     `.card__editable[data-column-id="${columnId}"]`
   );
-  editableCard.style.display = editable ? "none" : "flex";
+  // addCard 초기화
+  addCard.querySelector(".card__title-input").value = "";
+  addCard.querySelector(".card__description-input").value = "";
+
+  addCard.style.display = editable ? "none" : "flex";
   target.setAttribute("data-editable", !editable);
 });

@@ -1,5 +1,6 @@
 import { getLocalStorage } from "../../utils/local-storage.js";
 import * as Column from "../column/index.js";
+import { observe } from "../../store/observer.js";
 
 export function template({ columns }) {
   return `
@@ -15,7 +16,9 @@ export function template({ columns }) {
     </main>
     `;
 }
+
 export function render(parent) {
+  console.log("render column");
   parent.insertAdjacentHTML(
     "beforeend",
     template({ columns: getLocalStorage("todolist") })
