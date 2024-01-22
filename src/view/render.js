@@ -1,5 +1,5 @@
 import { columnDataTable } from "../model/model.js";
-import { HistoryListView, HistoryPurgeBtnView } from "./HistoryView/HistoryView.js";
+import { HistoryListView } from "./HistoryView/HistoryView.js";
 import { CardListView } from "../view/MainView/ColumnView/CardListView/CardListView.js";
 import { ColumnTitleView, ColumnCountView } from "./MainView/ColumnView/ColumnView.js";
 
@@ -11,7 +11,6 @@ export const historyListRender = () => {
   historyEmptyList?.remove();
   historyDeleteBtn?.remove();
   document.querySelector(".history__header").insertAdjacentHTML("afterend", HistoryListView());
-  document.querySelector(".history__list")?.insertAdjacentHTML("afterend", HistoryPurgeBtnView());
 };
 
 export const renderCardList = (currentColumn) => {
