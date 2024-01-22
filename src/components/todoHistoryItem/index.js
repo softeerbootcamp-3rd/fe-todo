@@ -1,22 +1,22 @@
 import styles from "./todoHistoryItem.module.scss";
 import userImage from "../../asset/img/userImage.png";
 export default function todoHistoryItem(parent, props) {
-  parent.innerHTML = `
+  parent.innerHTML = template(parent, props);
+}
+
+function template(parent, props) {
+  return `
     <div class="${styles.todoHistoryItem}">
-        <img class="${
-          styles.todoHistoryItem__userImage
-        }" src="${userImage}"></img>
-        <div class="${styles.todoHistoryItem__contentContainer}">
-            <p class="${styles.todoHistoryItem__author}">@${
-    props.authorName
-  }</p>
-            <p class="${styles.todoHistoryItem__content}">${formatHistoryText(
+      <img class="${
+        styles.todoHistoryItem__userImage
+      }" src="${userImage}"></img>
+      <div class="${styles.todoHistoryItem__contentContainer}">
+        <p class="${styles.todoHistoryItem__author}">@${props.authorName}</p>
+        <p class="${styles.todoHistoryItem__content}">${formatHistoryText(
     props
   )}</p>
-            <p class="${styles.todoHistoryItem__timeStamp}">${
-    props.timeStamp
-  }</p>
-        </div>
+        <p class="${styles.todoHistoryItem__timeStamp}">${props.timeStamp}</p>
+      </div>
     </div>
   `;
 }

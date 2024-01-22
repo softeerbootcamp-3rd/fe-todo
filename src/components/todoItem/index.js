@@ -16,24 +16,27 @@ import {
 
 export default function todoItem(parent, props) {
   parent.innerHTML = template(props.item);
+  controller(parent, props);
+}
 
+function controller(parent, props) {
   // 입력 제목, 내용 노드
-  const titleNode = parent.querySelector('[todo-data="title"]');
-  const contentNode = parent.querySelector('[todo-data="content"]');
+  const titleNode = parent.querySelector('[data-node="title"]');
+  const contentNode = parent.querySelector('[data-node="content"]');
 
   // 뷰 모드에서만 보이는 삭제, 수정 버튼
-  const eraseBtnNode_view = parent.querySelector('[todo-data="eraseBtn"]');
-  const editBtnNode_view = parent.querySelector('[todo-data="editBtn"]');
+  const eraseBtnNode_view = parent.querySelector('[data-node="eraseBtn"]');
+  const editBtnNode_view = parent.querySelector('[data-node="editBtn"]');
   // author by [어디서 썼는지]
-  const authorByNode_view = parent.querySelector('[todo-data="author"]');
+  const authorByNode_view = parent.querySelector('[data-node="author"]');
   // 우측에 있는 작은 액션 버튼들의 컨테이너
   const actionBtnContainer_view = parent.querySelector(
-    '[todo-data="actionBtnContainer"]'
+    '[data-node="actionBtnContainer"]'
   );
 
   // 수정 모드에서만 보이는 취소, 제출 버튼
-  const cancelBtnNode_edit = parent.querySelector('[todo-data="cancelBtn"]');
-  const submitBtnNode_edit = parent.querySelector('[todo-data="submitBtn"]');
+  const cancelBtnNode_edit = parent.querySelector('[data-node="cancelBtn"]');
+  const submitBtnNode_edit = parent.querySelector('[data-node="submitBtn"]');
 
   // input에 입력이 될때마다 checkInput
   addCheckInput([titleNode, contentNode], submitBtnNode_edit);
@@ -112,7 +115,8 @@ export default function todoItem(parent, props) {
   submitBtnNode_edit.addEventListener("click", onSubmit_edit);
 
   // 투두 아이템의 초기 모드를 뷰 모드로 설정
-  props.addMode ? setEditMode() : setViewMode();
+  if (props.addMode) setEditMode();
+  else setViewMode();
 }
 
 // todoItem 컴포넌트 템플릿
@@ -123,29 +127,29 @@ function template(props) {
       <textarea
         type="text"
         rows="1"
-        todo-data="title"
+        data-node="title"
         class="${styles.todoItem__itemTitle}"
         placeholder="제목을 입력하세요"
       >${props?.title ?? ""}</textarea>
       <textarea
         type="text"
         rows="1"
-        todo-data="content"
+        data-node="content"
         class="${styles.todoItem__itemContent}"
         placeholder="내용을 입력하세요"
       >${props?.content ?? ""}</textarea>
       <div class="${styles.todoItem__bottomContainer}">
-        <p todo-data="author" class="${styles.todoItem__itemAuthor}">
+        <p data-node="author" class="${styles.todoItem__itemAuthor}">
           author by ${props?.createdOn}
         </p>
         <button
-          todo-data="cancelBtn"
+          data-node="cancelBtn"
           class="${styles["todoItem__btn--inactive"]}"
         >
           취소
         </button>
         <button
-          todo-data="submitBtn"
+          data-node="submitBtn"
           class="${styles["todoItem__btn--active"]}"
           disabled
         >
@@ -155,13 +159,13 @@ function template(props) {
     </div>
 
     <div
-      todo-data="actionBtnContainer"
+      data-node="actionBtnContainer"
       class="${styles.todoItem__actionBtnContainer}"
     >
-      <button todo-data="eraseBtn" class="actionBtn">
+      <button data-node="eraseBtn" class="actionBtn">
         <img class="actionBtn__closed" src="${closedIcon}" />
       </button>
-      <button todo-data="editBtn" class="actionBtn">
+      <button data-node="editBtn" class="actionBtn">
         <img src="${editIcon}" />
       </button>
     </div>

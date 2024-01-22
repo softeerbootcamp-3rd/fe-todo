@@ -4,29 +4,36 @@ import todoHistoryItem from "../todoHistoryItem";
 import { getHistory } from "../../utils/API/history";
 
 export default function todoHistory(parent, props) {
-  parent.innerHTML = `
+  parent.innerHTML = template(props);
+  controller(parent, props);
+}
+
+function template(props) {
+  return `
   <div class="${styles["todoHistory"]}">
     <div class="${styles.todoHistory__header}">
-        <h2 class="${styles.todoHistory__title}">사용자 활동 기록</h2>
-        <button todo-data="historyCloseBtn" class="${styles.todoHistory__closedBtn}">
-            <img class="${styles.todoHistory__closedIcon}" src="${closedIcon}"></img>
-            닫기
-        </button>
+      <h2 class="${styles.todoHistory__title}">사용자 활동 기록</h2>
+      <button data-node="historyCloseBtn" class="${styles.todoHistory__closedBtn}">
+        <img class="${styles.todoHistory__closedIcon}" src="${closedIcon}"></img>
+        닫기
+      </button>
     </div>
-    <div todo-data="history_list" class="${styles.todoHistory__historyList}">
+    <div data-node="history_list" class="${styles.todoHistory__historyList}">
     </div>
     <div class="${styles.todoHistory__footer}">
-        <button todo-data="historyClearBtn" class="${styles.todoHistory__clearBtn}">기록 전체 삭제</button>
+      <button data-node="historyClearBtn" class="${styles.todoHistory__clearBtn}">기록 전체 삭제</button>
     </div>
   </div>`;
+}
 
-  const historyList = parent.querySelector('[todo-data="history_list"]');
-  const historyCloseBtn = parent.querySelector('[todo-data="historyCloseBtn"]');
+function controller(parent, props) {
+  const historyList = parent.querySelector('[data-node="history_list"]');
+  const historyCloseBtn = parent.querySelector('[data-node="historyCloseBtn"]');
   historyCloseBtn.addEventListener("click", () => {
     document.dispatchEvent(new CustomEvent("toggleHistoryList"));
   });
 
-  const historyClearBtn = parent.querySelector('[todo-data="historyClearBtn"]');
+  const historyClearBtn = parent.querySelector('[data-node="historyClearBtn"]');
   historyClearBtn.addEventListener("click", () =>
     document.dispatchEvent(
       new CustomEvent("showDeleteModal", {
