@@ -1,4 +1,4 @@
-import { historyListRender } from "../util/render";
+import { historyListRender } from "../../util/render";
 
 export const showHistory = () => {
   historyListRender();

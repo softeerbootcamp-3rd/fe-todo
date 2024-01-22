@@ -1,4 +1,4 @@
-import { cardDataTable } from "../model/model.js";
+import { cardDataTable } from "../../../../model/model.js";
 import { EditCardFormView } from "../view/components/CardFormView.js";
 
 const insertForm = (targetCard) => {

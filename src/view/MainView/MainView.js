@@ -1,4 +1,4 @@
-import { columnDataTable } from "../model/model.js";
+import { columnDataTable } from "../../model/model.js";
 import { ColumnView } from "./components/ColumnView.js";
 
 export const MainView = () => {
