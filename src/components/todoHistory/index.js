@@ -44,7 +44,7 @@ export default function todoHistory(parent, props) {
   const historyArr = getHistory();
   historyArr.forEach((history) => {
     const container = document.createElement("div");
-    console.log(history);
+
     todoHistoryItem(container, history);
     historyList.appendChild(container);
   });
