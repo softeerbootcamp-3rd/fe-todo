@@ -8,6 +8,7 @@ import { inputCardHandler } from "./MainView/ColumnView/CardListView/CardFormVie
 import { submitAddCardFormHandler } from "./MainView/ColumnView/CardListView/CardFormView/submitAddCardFormHandler.js";
 import { submitEditCardFormHandler } from "./MainView/ColumnView/CardListView/CardFormView/submitEditCardFormHandler.js";
 import { cancelModalHandler } from "./ModalView/ModalView.js";
+import { editColumnHandler, focusOutHandler } from "./MainView/ColumnView/editColumnHandler.js";
 
 const clickHandlerMap = {
   "js-addCardBtn": addCardHandler,
@@ -42,6 +43,7 @@ const onSubmit = (event) => {
   }
 };
 
+
 export const initEventListener = () => {
   const app = document.querySelector("#app");
   app.addEventListener("click", onClick);
@@ -51,4 +53,6 @@ export const initEventListener = () => {
   app.addEventListener("dragover", onDragOver);
   app.addEventListener("dragend", onDragEnd);
   app.addEventListener("drop", onDrop);
+  app.addEventListener('dblclick', editColumnHandler);
+  app.addEventListener('focusout', focusOutHandler);
 };

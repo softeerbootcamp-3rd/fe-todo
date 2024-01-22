@@ -1,4 +1,5 @@
 export const inputCardHandler = ({ target }) => {
+  if(target.classList[0] !== 'js-card-form__input') return ;
   const [titleInput, contentTextarea, submitButtonList] = [...target.parentElement.children];
   const submitButton = submitButtonList.children[1];
 

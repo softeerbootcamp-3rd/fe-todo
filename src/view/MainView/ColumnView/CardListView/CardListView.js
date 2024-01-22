@@ -1,11 +1,9 @@
-import { columnDataTable } from "../../../../model/model.js";
 import { CardView } from "./CardView/CardView.js";
 
-export const CardListView = (columnId) => {
-  const { value: cardList } = columnDataTable[columnId];
+export const CardListView = (cardDataList, idx) => {
   return `
-  <ul class="card-list" id="${columnId}-list">
-    ${cardList.map((cardId) => CardView(cardId)).join("")}
+  <ul class="card-list" id="column${idx}-list">
+    ${cardDataList.map((cardData) => CardView(cardData)).join("")}
   </ul>
     `;
 };

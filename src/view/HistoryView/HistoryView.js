@@ -13,7 +13,6 @@ export const HistoryView = () => {
       </button>
     </header>
       ${HistoryListView()}
-      ${HistoryPurgeBtnView()}
     </div>
   </dialog>
     `;
@@ -32,12 +31,7 @@ export const HistoryListView = () => {
       <ul class="history__list">
         ${historyDataList.map((history) => HistoryCardView(history)).join("")}
       </ul>
+      <button class="js-deleteHistory history__delete-all-btn">기록 전체 삭제</button>
     `;
   }
 };
-
-
-export const HistoryPurgeBtnView = () => 
-{
-  return historyDataList.length === 0 ? '' : '<button class="js-deleteHistory history__delete-all-btn">기록 전체 삭제</button>'
-}
