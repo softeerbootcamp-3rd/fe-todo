@@ -1,3 +1,4 @@
+//히스토리 전체 불러오기
 function getHistory() {
   const historyList = localStorage.getItem("history");
   if (historyList) return JSON.parse(historyList);
@@ -7,11 +8,13 @@ function getHistory() {
   return [];
 }
 
+// actionId = 0: 등록 / 1: 삭제 / 2: 변경 / 3: 이동
+
+//0번 - 아이템 등록하기 히스토리 저장
 function addHistory(colTitle, item) {
   const historyData = localStorage.getItem("history");
   const historyList = historyData ? JSON.parse(historyData) : [];
-
-  // actionId = 0: 등록 / 1: 삭제 / 2: 변경 / 3: 이동
+  // actionId = 0: 등록 / 1: 삭제 / 2: 수정 / 3: 이동
   const historyItem = {
     authorName: "멋진삼",
     timeStamp: new Date().getTime(),
@@ -24,10 +27,10 @@ function addHistory(colTitle, item) {
   localStorage.setItem("history", JSON.stringify(historyList));
 }
 
+//1번 - 아이템 삭제하기 히스토리 저장
 function removeHistory(colTitle, item) {
   const historyData = localStorage.getItem("history");
   const historyList = historyData ? JSON.parse(historyData) : [];
-  // actionId = 0: 등록 / 1: 삭제 / 2: 변경 / 3: 이동
   const historyItem = {
     authorName: "멋진삼",
     timeStamp: new Date().getTime(),
@@ -36,14 +39,13 @@ function removeHistory(colTitle, item) {
     todoSrc: colTitle,
     todoDst: null,
   };
-
   historyList.unshift(historyItem);
   localStorage.setItem("history", JSON.stringify(historyList));
 }
 
+//2번 - 아이템 수정하기 히스토리 저장
 function editHistory(item) {
   const historyList = JSON.parse(localStorage.getItem("history")) ?? [];
-  // actionId = 0: 등록 / 1: 삭제 / 2: 변경 / 3: 이동
   const historyItem = {
     authorName: "멋진삼",
     timeStamp: new Date().getTime(),
@@ -57,9 +59,9 @@ function editHistory(item) {
   localStorage.setItem("history", JSON.stringify(historyList));
 }
 
+//3번 - 아이템 이동하기 히스토리 저장
 function moveHistory(colTitleSrc, colTitleDst, item) {
   const historyList = JSON.parse(localStorage.getItem("history")) ?? [];
-  // actionId = 0: 등록 / 1: 삭제 / 2: 변경 / 3: 이동
   const historyItem = {
     authorName: "멋진삼",
     timeStamp: new Date().getTime(),

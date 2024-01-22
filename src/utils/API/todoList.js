@@ -1,7 +1,9 @@
 import { addHistory, editHistory, moveHistory, removeHistory } from "./history";
 
+//list에 고유한 번호를 부여하기 위한 임시 변수
 let idCount = 0;
 
+// 전체 투두리스트 불러와서 리턴
 function getTodoList() {
   const todoList = localStorage.getItem("todoList");
   if (todoList !== null) {
@@ -25,6 +27,7 @@ function getTodoList() {
   return initialTodoList;
 }
 
+// 투두 리스트 아이템 추가
 function addTodoListItem(title, item) {
   const newItem = { id: ++idCount, ...item };
   const todoData = JSON.parse(localStorage.getItem("todoList"));
@@ -34,6 +37,7 @@ function addTodoListItem(title, item) {
   return newItem;
 }
 
+// 투두 리스트 아이템 제거
 function removeTodoListItem(colTitle, item) {
   const todoData = JSON.parse(localStorage.getItem("todoList"));
   for (let idx = 0; idx < todoData[colTitle].length; idx++) {
@@ -46,6 +50,7 @@ function removeTodoListItem(colTitle, item) {
   removeHistory(colTitle, item);
 }
 
+// 투두 리스트 아이템 수정
 function editTodoListItem(colTitle, item) {
   const todoData = JSON.parse(localStorage.getItem("todoList"));
   for (let idx = 0; idx < todoData[colTitle].length; idx++) {
@@ -58,6 +63,7 @@ function editTodoListItem(colTitle, item) {
   editHistory(item);
 }
 
+// FIXME: 투두 리스트 아이템 옮기기
 function moveTodoListItem(titleSrc, indexSrc, titleDst, indexDst) {
   const todoData = JSON.parse(localStorage.getItem("todoList"));
   const item = todoData[titleSrc].splice(indexSrc, 1)[0];
