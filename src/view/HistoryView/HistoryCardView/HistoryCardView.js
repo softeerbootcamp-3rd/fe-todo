@@ -1,4 +1,4 @@
-import { getElapsedTime } from "../../util/getElapsedTime";
+import { getElapsedTime } from "../../../util/getElapsedTime.js";
 
 const HistoryCardAddView = (history) => {
   return `

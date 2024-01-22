@@ -1,5 +1,5 @@
-import { columnDataTable } from "../../model/model.js";
-import { CardListView } from "./CardListView.js";
+import { columnDataTable } from "../../../model/model.js";
+import { CardListView } from "./CardListView/CardListView.js";
 
 export const ColumnView = (columnId, idx) => {
   const { title, value } = columnDataTable[columnId];

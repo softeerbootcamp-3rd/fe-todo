@@ -1,6 +1,6 @@
-import { cardDataTable, historyDataList } from "../../../../model/model.js";
-import { historyDataTemplate } from "../../../../util/historyDataTemplate.js";
-import { renderCardList, renderListCount } from "../../../../util/render.js";
+import { cardDataTable, historyDataList } from "../../../../../model/model.js";
+import { historyDataTemplate } from "../../../../../model/historyDataTemplate.js";
+import { renderCardList, renderListCount } from "../../../../render.js";
 
 const createCardData = (target) => {
   const formData = new FormData(target);

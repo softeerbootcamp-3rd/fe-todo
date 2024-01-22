@@ -1,7 +1,7 @@
-import { cardDataTable, columnDataTable, historyDataList } from "../../../../model/model.js";
-import { getDeviceInfo } from "../../../../util/getDeviceInfo.js";
-import { historyDataTemplate } from "../../../../util/historyDataTemplate.js";
-import { renderCardList, renderListCount } from "../../../../util/render.js";
+import { cardDataTable, columnDataTable, historyDataList } from "../../../../../model/model.js";
+import { getDeviceInfo } from "../../../../../util/getDeviceInfo.js";
+import { historyDataTemplate } from "../../../../../model/historyDataTemplate.js";
+import { renderCardList, renderListCount } from "../../../../render.js";
 
 let cardId = 3;
 
