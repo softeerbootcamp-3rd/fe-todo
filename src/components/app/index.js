@@ -39,7 +39,7 @@ export default function App(parent, props) {
   });
 
   //showDeleteModal 이벤트 발생 시 모달 마운트
-  parent.addEventListener("showDeleteModal", ({ detail }) => {
+  document.addEventListener("showDeleteModal", ({ detail }) => {
     // 모달 생성
     modalSection.style.display = "block";
     modal(modalSection, { msg: detail.msg, onDelete: detail.onDelete });

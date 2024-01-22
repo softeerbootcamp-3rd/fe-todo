@@ -1,7 +1,7 @@
 import styles from "./todoHistory.module.scss";
 import closedIcon from "../../asset/img/closed.svg";
 import todoHistoryItem from "../todoHistoryItem";
-import { getHistory } from "../../utils/API/history";
+import { getHistory, moveAllHistory } from "../../utils/API/history";
 
 export default function todoHistory(parent, props) {
   parent.innerHTML = `
@@ -27,18 +27,20 @@ export default function todoHistory(parent, props) {
   });
 
   const historyClearBtn = parent.querySelector('[todo-data="historyClearBtn"]');
-  historyClearBtn.addEventListener("click", () =>
+  historyClearBtn.addEventListener("click", () => {
     document.dispatchEvent(
       new CustomEvent("showDeleteModal", {
         detail: {
           msg: "모든 사용자 활동 기록을 삭제할까요?",
           onDelete: () => {
             //TODO: 사용자 활동 기록을 삭제할까요?
+            moveAllHistory();
+            historyList.innerHTML = "";
           },
         },
       })
-    )
-  );
+    );
+  });
 
   const historyArr = getHistory();
   historyArr.forEach((history) => {

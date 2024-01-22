@@ -1,6 +1,6 @@
 export function getHistory() {
   const historyList = localStorage.getItem("history");
-  if (historyList !== null) return JSON.parse(historyList);
+  if (historyList) return JSON.parse(historyList);
 
   // 없으면 새로 생성
   localStorage.setItem("history", JSON.stringify([]));
@@ -8,7 +8,9 @@ export function getHistory() {
 }
 
 export function addHistory(colTitle, item) {
-  const historyList = JSON.parse(localStorage.getItem("history")) ?? [];
+  const historyData = localStorage.getItem("history");
+  const historyList = historyData ? JSON.parse(historyData) : [];
+
   // actionId = 0: 등록 / 1: 삭제 / 2: 변경 / 3: 이동
   const historyItem = {
     authorName: "멋진삼",
@@ -23,7 +25,8 @@ export function addHistory(colTitle, item) {
 }
 
 export function removeHistory(colTitle, item) {
-  const historyList = JSON.parse(localStorage.getItem("history")) ?? [];
+  const historyData = localStorage.getItem("history");
+  const historyList = historyData ? JSON.parse(historyData) : [];
   // actionId = 0: 등록 / 1: 삭제 / 2: 변경 / 3: 이동
   const historyItem = {
     authorName: "멋진삼",
@@ -65,7 +68,11 @@ export function moveHistory(colTitleSrc, colTitleDst, item) {
     todoSrc: colTitleSrc,
     todoDst: colTitleDst,
   };
-
   historyList.unshift(historyItem);
   localStorage.setItem("history", JSON.stringify(historyList));
+}
+
+// 모든 히스토리를 초기화하는 함수
+export function moveAllHistory() {
+  localStorage.setItem("history", []);
 }
