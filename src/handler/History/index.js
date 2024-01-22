@@ -1,0 +1,1 @@
+export { closeHistory } from "./closeHistory";

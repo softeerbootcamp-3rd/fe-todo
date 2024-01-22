@@ -1,8 +1,8 @@
-export const closeCardFormHandler = (target) => {
+export const closeAddCardForm = (target) => {
   target.closest(".card-form").remove();
 };
 
-export const closeEditCardFormHandler = (target) => {
+export const closeEditCardForm = (target) => {
   const form = target.closest(".card-form--edit");
   const formId = form.id.split("-")[1];
   form.remove();

@@ -1,26 +1,18 @@
-import { addCardHandler } from "../handler/addCardHandler.js";
-import { closeCardFormHandler, closeEditCardFormHandler } from "../handler/closeCardFormHandler.js";
-import { deleteCardHandler } from "../handler/deleteCardHandler.js";
-import { onDragEnd, onDragOver, onDragStart, onDrop } from "../handler/dragHandler.js";
-import { editCardHandler } from "../handler/editCardHandler.js";
-import { closeHistory, showHistory } from "../handler/historyHandler.js";
-import { inputCardHandler } from "../handler/inputCardHandler.js";
-import { submitAddCardFormHandler } from "../handler/submitAddCardFormHandler.js";
-import { submitEditCardFormHandler } from "../handler/submitEditCardFormHandler.js";
+import * as handler from "../handler";
 
 const clickHandlerMap = {
-  "js-addCardBtn": addCardHandler,
-  "js-editCardBtn": editCardHandler,
-  "js-addFormCancel": closeCardFormHandler,
-  "js-editFormCancel": closeEditCardFormHandler,
-  "js-closeHistory": closeHistory,
-  "js-openHistory": showHistory,
-  "js-deleteCardBtn": deleteCardHandler,
+  "js-openHistory": handler.header.showHistory,
+  "js-closeHistory": handler.history.closeHistory,
+  "js-addCardBtn": handler.main.column.openAddCardForm,
+  "js-editCardBtn": handler.main.column.card.openEditCardForm,
+  "js-deleteCardBtn": handler.main.column.card.clickDeleteCard,
+  "js-addFormCancel": handler.main.column.cardForm.closeAddCardForm,
+  "js-editFormCancel": handler.main.column.cardForm.closeEditCardForm,
 };
 
 const submitHandlerMap = {
-  "js-addForm": submitAddCardFormHandler,
-  "js-editForm": submitEditCardFormHandler,
+  "js-addForm": handler.main.column.cardForm.submitAddCardForm,
+  "js-editForm": handler.main.column.cardForm.submitEditCardForm,
 };
 
 const onClick = ({ target }) => {
@@ -39,14 +31,19 @@ const onSubmit = (event) => {
   }
 };
 
+const eventListeners = [
+  { type: "click", handler: onClick },
+  { type: "submit", handler: onSubmit },
+  { type: "input", handler: handler.main.column.cardForm.toggleSubmitBtn },
+  { type: "dragstart", handler: handler.main.column.card.onDragStart },
+  { type: "dragover", handler: handler.main.column.card.onDragOver },
+  { type: "dragend", handler: handler.main.column.card.onDragEnd },
+  { type: "drop", handler: handler.main.column.card.onDrop },
+];
+
 export const initEventListener = () => {
   const app = document.querySelector("#app");
-  app.addEventListener("click", onClick);
-  app.addEventListener("submit", onSubmit);
-
-  app.addEventListener("input", inputCardHandler);
-  app.addEventListener("dragstart", onDragStart);
-  app.addEventListener("dragover", onDragOver);
-  app.addEventListener("dragend", onDragEnd);
-  app.addEventListener("drop", onDrop);
+  eventListeners.forEach(({ type, handler }) => {
+    app.addEventListener(type, handler);
+  });
 };

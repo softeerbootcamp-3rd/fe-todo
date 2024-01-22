@@ -26,7 +26,7 @@ const removeOpenedForm = (editForm) => {
   editForm.remove();
 };
 
-export const editCardHandler = (target) => {
+export const openEditCardForm = (target) => {
   const editForm = document.querySelector(".card-form--edit");
   const targetCard = target.closest("li");
   const cardId = targetCard.id;
