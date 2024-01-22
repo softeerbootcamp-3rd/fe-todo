@@ -43,7 +43,7 @@ function controller(target, data) {
 }
 
 function template(data) {
-  return `
+  return /*html*/ `
     <div class="${styles.app}">
       <div data-node="headerSection" class=${styles.app__headerSection}></div>
       <div data-node="todoSection" class=${styles.app__todoSection}></div>
