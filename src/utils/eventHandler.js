@@ -4,6 +4,7 @@ import {
   createEditorTemplate,
 } from "../components/templates.js";
 import createModal from "../components/modal.js";
+import { columnData } from "../../index.js";
 
 const targetList = [
   "add",

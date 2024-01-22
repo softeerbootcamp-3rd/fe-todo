@@ -2,6 +2,7 @@ import Column from "./src/components/columns.js";
 import { createLogBoxTemplate } from "./src/components/templates.js";
 import { columns } from "./src/constants/columnData.js";
 import customEventHandler from "./src/utils/eventHandler.js";
+import Store from "./src/components/Store.js";
 
 // Column 생성 함수
 function createColumn(col) {
@@ -29,4 +30,5 @@ document.getElementById("logBox").addEventListener("click", () => {
   createLogBoxTemplate();
 });
 
+export const columnData = new Store();
 spreadColumn();
