@@ -3,6 +3,7 @@ import header from "../header";
 import todoHistory from "../todoHistory";
 import todoListTable from "../todoListTable";
 import modal from "../modal";
+import { applyDragAndDrop } from "../../utils/dragAndDrop";
 
 export default function App(parent, props) {
   parent.innerHTML = `
@@ -45,14 +46,8 @@ export default function App(parent, props) {
     modal(modalSection, { msg: detail.msg, onDelete: detail.onDelete });
   });
 
+  //drag and drop 구현 부분
   const draggables = parent.querySelectorAll('[todo-data="todoItem"]');
-  draggables.forEach((draggable) => {
-    draggable.addEventListener("dragstart", () => {
-      draggable.style.opacity = "0.4";
-    });
-
-    draggable.addEventListener("dragend", () => {
-      draggable.style.opacity = "1";
-    });
-  });
+  const containers = parent.querySelectorAll("[todo-data='items']");
+  applyDragAndDrop(draggables, containers);
 }
