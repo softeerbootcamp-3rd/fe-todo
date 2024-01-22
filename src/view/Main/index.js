@@ -1,11 +1,10 @@
-import { columnDataTable } from "../../model/model.js";
 import ColumnView from "./Column";
 
-const MainView = () => {
+const MainView = (columnDataTable) => {
   return `
 <main class="main">
     ${Object.keys(columnDataTable)
-      .map((columnId) => ColumnView(columnDataTable[columnId], columnId))
+      .map((columnId) => ColumnView(columnDataTable[columnId].title, columnId))
       .join("")}   
 </main>
 `;
