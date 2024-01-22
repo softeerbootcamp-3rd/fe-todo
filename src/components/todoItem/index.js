@@ -93,8 +93,7 @@ function controller(target, data) {
     console.log("onerase");
     createDeleteModal(target, () => {
       removeTodoListItem(data.todoColTitle, data.item);
-      target.targetNode.removeChild(target);
-      console.log(data);
+      target.parentNode.removeChild(target);
       data.onDeleteItem();
     });
   };
