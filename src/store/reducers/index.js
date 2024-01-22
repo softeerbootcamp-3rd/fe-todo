@@ -1,6 +1,5 @@
 import { todoReducer } from "./todo-reducer.js";
-import { historyReducer } from "./history-reducer.js";
-import { combineReducer } from "../utils/combine-reducers.js";
+import { combineReducer } from "../core/combine-reducers.js";
 
 export const reducers = combineReducer({
   todolist: todoReducer,
