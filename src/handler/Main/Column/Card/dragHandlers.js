@@ -1,6 +1,7 @@
 import { cardDataTable, columnDataTable, historyDataList } from "../../../../model/model";
-import { renderListCount } from "../../../../util/render";
+
 import { historyDataTemplate } from "../../../../util/historyDataTemplate";
+import { renderListCount } from "../../../../view/Main/Column/renderListCount";
 
 export const onDragStart = (event) => {
   const { target } = event;
