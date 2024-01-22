@@ -2,13 +2,13 @@ import todoList from "../todoList";
 import styles from "./todoListTable.module.scss";
 import { getTodoList } from "../../utils/API/todoList";
 
-export default function todoListTable(parent, props) {
+export default function todoListTable(parent, data) {
   //행 + 데이터를 모두 감싸고 있는 컨테이너 (테이블)
-  parent.innerHTML = template(props);
-  controller(parent, props);
+  parent.innerHTML = template(data);
+  controller(parent, data);
 }
 
-function controller(parent, props) {
+function controller(parent, data) {
   //데이터 API호출 후, 각 todoList에 넣어서 각각 만들어주고 그것을 마운트해준다.
   const todoListTable = parent.querySelector('[data-node="todoListTable"]');
   const todoData = getTodoList();
@@ -23,7 +23,7 @@ function controller(parent, props) {
   }
 }
 
-function template(props) {
+function template(data) {
   return `
     <div data-node="todoListTable" class="${styles.todoListTable}">
     </div>

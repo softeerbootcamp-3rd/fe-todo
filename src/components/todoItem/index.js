@@ -14,12 +14,12 @@ import {
   createDeleteModal,
 } from "./helper";
 
-export default function todoItem(parent, props) {
-  parent.innerHTML = template(props.item);
-  controller(parent, props);
+export default function todoItem(parent, data) {
+  parent.innerHTML = template(data.item);
+  controller(parent, data);
 }
 
-function controller(parent, props) {
+function controller(parent, data) {
   // 입력 제목, 내용 노드
   const titleNode = parent.querySelector('[data-node="title"]');
   const contentNode = parent.querySelector('[data-node="content"]');
@@ -61,29 +61,29 @@ function controller(parent, props) {
   //필요 함수 선언 부분
   // 취소 버튼 클릭 시
   const onCancel_edit = () => {
-    titleNode.value = props.item.title;
-    contentNode.value = props.item.content;
+    titleNode.value = data.item.title;
+    contentNode.value = data.item.content;
     setViewMode();
   };
 
   // 수정하고 제출 시
   const onSubmit_edit = () => {
     const newItem = {
-      ...props.item,
+      ...data.item,
       title: titleNode.value,
       content: contentNode.value,
       createdOn: "web",
     };
 
     //투두 등록 로직
-    if (props.addMode) {
-      const newReturnItem = addTodoListItem(props.todoColTitle, newItem);
+    if (data.addMode) {
+      const newReturnItem = addTodoListItem(data.todoColTitle, newItem);
       //추가하고 추가 컴포넌트 삭제 및
-      props.onAddItem(true, newReturnItem);
+      data.onAddItem(true, newReturnItem);
     }
     //투두 수정 로직
     else {
-      editTodoListItem(props.todoColTitle, newItem);
+      editTodoListItem(data.todoColTitle, newItem);
       setViewMode();
     }
   };
@@ -92,10 +92,10 @@ function controller(parent, props) {
   const onErase_view = () => {
     console.log("onerase");
     createDeleteModal(parent, () => {
-      removeTodoListItem(props.todoColTitle, props.item);
+      removeTodoListItem(data.todoColTitle, data.item);
       parent.parentNode.removeChild(parent);
-      console.log(props);
-      props.onDeleteItem();
+      console.log(data);
+      data.onDeleteItem();
     });
   };
 
@@ -111,16 +111,16 @@ function controller(parent, props) {
   eraseBtnNode_view.addEventListener("click", onErase_view);
 
   // 편집모드 버튼 핸들러 추가
-  cancelBtnNode_edit.addEventListener("click", props.onCancel ?? onCancel_edit);
+  cancelBtnNode_edit.addEventListener("click", data.onCancel ?? onCancel_edit);
   submitBtnNode_edit.addEventListener("click", onSubmit_edit);
 
   // 투두 아이템의 초기 모드를 뷰 모드로 설정
-  if (props.addMode) setEditMode();
+  if (data.addMode) setEditMode();
   else setViewMode();
 }
 
 // todoItem 컴포넌트 템플릿
-function template(props) {
+function template(data) {
   return `
   <div class="${styles.todoItem}">
     <div>
@@ -130,17 +130,17 @@ function template(props) {
         data-node="title"
         class="${styles.todoItem__itemTitle}"
         placeholder="제목을 입력하세요"
-      >${props?.title ?? ""}</textarea>
+      >${data?.title ?? ""}</textarea>
       <textarea
         type="text"
         rows="1"
         data-node="content"
         class="${styles.todoItem__itemContent}"
         placeholder="내용을 입력하세요"
-      >${props?.content ?? ""}</textarea>
+      >${data?.content ?? ""}</textarea>
       <div class="${styles.todoItem__bottomContainer}">
         <p data-node="author" class="${styles.todoItem__itemAuthor}">
-          author by ${props?.createdOn}
+          author by ${data?.createdOn}
         </p>
         <button
           data-node="cancelBtn"
@@ -153,7 +153,7 @@ function template(props) {
           class="${styles["todoItem__btn--active"]}"
           disabled
         >
-          ${props?.addMode ? "등록" : "저장"}
+          ${data?.addMode ? "등록" : "저장"}
         </button>
       </div>
     </div>

@@ -3,12 +3,12 @@ import closedIcon from "../../asset/img/closed.svg";
 import todoHistoryItem from "../todoHistoryItem";
 import { getHistory } from "../../utils/API/history";
 
-export default function todoHistory(parent, props) {
-  parent.innerHTML = template(props);
-  controller(parent, props);
+export default function todoHistory(parent, data) {
+  parent.innerHTML = template(data);
+  controller(parent, data);
 }
 
-function template(props) {
+function template(data) {
   return `
   <div class="${styles["todoHistory"]}">
     <div class="${styles.todoHistory__header}">
@@ -26,7 +26,7 @@ function template(props) {
   </div>`;
 }
 
-function controller(parent, props) {
+function controller(parent, data) {
   const historyList = parent.querySelector('[data-node="history_list"]');
   const historyCloseBtn = parent.querySelector('[data-node="historyCloseBtn"]');
   historyCloseBtn.addEventListener("click", () => {

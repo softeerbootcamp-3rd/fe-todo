@@ -4,12 +4,12 @@ import todoHistory from "../todoHistory";
 import todoListTable from "../todoListTable";
 import modal from "../modal";
 
-export default function App(parent, props) {
-  parent.innerHTML = template(props);
-  controller(parent, props);
+export default function App(parent, data) {
+  parent.innerHTML = template(data);
+  controller(parent, data);
 }
 
-function controller(parent, props) {
+function controller(parent, data) {
   //헤더 컴포넌트 마운트
   const headerSection = parent.querySelector('[data-node="headerSection"]');
   header(headerSection, {});
@@ -42,7 +42,7 @@ function controller(parent, props) {
   });
 }
 
-function template(props) {
+function template(data) {
   return `
     <div class="${styles.app}">
       <div data-node="headerSection"></div>

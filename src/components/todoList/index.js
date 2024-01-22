@@ -3,12 +3,12 @@ import plusIcon from "../../asset/img/plus.svg";
 import closedIcon from "../../asset/img/closed.svg";
 import todoItem from "../todoItem";
 
-export default function todoList(parent, props) {
-  parent.innerHTML = template(props);
-  controller(parent, props);
+export default function todoList(parent, data) {
+  parent.innerHTML = template(data);
+  controller(parent, data);
 }
 
-function controller(parent, props) {
+function controller(parent, data) {
   const newItemContainer = parent.querySelector(
     '[data-node="newItemContainer"]'
   );
@@ -18,7 +18,7 @@ function controller(parent, props) {
   const onAddItem = (isNew, item) => {
     const todoItemWrapper = document.createElement("div");
     todoItem(todoItemWrapper, {
-      todoColTitle: props.title,
+      todoColTitle: data.title,
       item,
       onDeleteItem,
     });
@@ -39,7 +39,7 @@ function controller(parent, props) {
 
   //행 하나에 item으로 컴포넌트를 만들어서 마운트
   const itemsContainer = parent.querySelector('[data-node="items"]');
-  for (const item of props.items) {
+  for (const item of data.items) {
     onAddItem(false, item);
   }
 
@@ -49,7 +49,7 @@ function controller(parent, props) {
     if (newItemContainer.style.display === "none") {
       newItemContainer.style.display = "block";
       todoItem(newItemContainer, {
-        todoColTitle: props.title,
+        todoColTitle: data.title,
         addMode: true,
         onCancel: () => {
           newItemContainer.style.display = "none";
@@ -62,13 +62,13 @@ function controller(parent, props) {
   });
 }
 
-function template(props) {
+function template(data) {
   return `
     <div class="${styles.todoList}">
       <div class="${styles.todoList__header}">
         <div class="${styles.todoList__countWrapper}">
-          <h2 class="${styles.todoList__headerTitle}">${props.title}</h2>
-          <p data-node="itemCount" class="${styles.todoList__count}">${props.items.length}</p>
+          <h2 class="${styles.todoList__headerTitle}">${data.title}</h2>
+          <p data-node="itemCount" class="${styles.todoList__count}">${data.items.length}</p>
         </div>
         <div class="${styles.todoList__btnContainer}">
           <button data-node="plusBtn" class="actionBtn">

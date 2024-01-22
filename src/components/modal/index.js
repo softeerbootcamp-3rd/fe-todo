@@ -1,11 +1,11 @@
 import styles from "./modal.module.scss";
 
-// props: detail....
+// data: detail....
 
-export default function modal(parent, props) {
+export default function modal(parent, data) {
   parent.innerHTML = `
     <div data-node="modalSection" class="${styles.modal}">
-      <p class="${styles.modal__modalText}">${props.msg}</p>
+      <p class="${styles.modal__modalText}">${data.msg}</p>
       <div class="${styles.modal__bottomContainer}">
         <button data-node="cancelBtn" class="${styles["modal__btn"]} ${styles["modal__btn--inactive"]}">취소</button>
         <button data-node="deleteBtn" class="${styles["modal__btn"]} ${styles["modal__btn--active"]}">삭제</button>
@@ -28,6 +28,6 @@ export default function modal(parent, props) {
   const deleteBtn = parent.querySelector('[data-node="deleteBtn"]');
   deleteBtn.addEventListener("click", () => {
     parent.click();
-    props.onDelete();
+    data.onDelete();
   });
 }
