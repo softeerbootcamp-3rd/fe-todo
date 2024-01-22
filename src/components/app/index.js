@@ -45,8 +45,8 @@ function controller(target, data) {
 function template(data) {
   return `
     <div class="${styles.app}">
-      <div data-node="headerSection"></div>
-      <div data-node="todoSection"></div>
+      <div data-node="headerSection" class=${styles.app__headerSection}></div>
+      <div data-node="todoSection" class=${styles.app__todoSection}></div>
       <div data-node="historySection" class="${styles.app__historySection}"></div>
       <div data-node="modalSection" class="${styles.app__modalSection}"></div>
     </div>
