@@ -1,5 +1,5 @@
 import { cardDataTable } from "../model/model.js";
-import { EditCardFormView } from "../view/components/CardFormView.js";
+import { EditCardFormView } from "../view/Main/Column/Card/CardFormView.js";
 
 const insertForm = (targetCard) => {
   targetCard.insertAdjacentHTML("beforebegin", EditCardFormView("editCard"));

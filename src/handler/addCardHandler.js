@@ -1,9 +1,9 @@
-import { CardFormView } from "../view/components/CardFormView.js";
+import { AddCardFormView } from "../view/Main/Column/Card/CardFormView.js";
 
 const openForm = (currentColumnId) => {
   document
     .querySelector(`#${currentColumnId}-list`)
-    .insertAdjacentHTML("afterbegin", CardFormView("addForm"));
+    .insertAdjacentHTML("afterbegin", AddCardFormView("addForm"));
 };
 
 const closeForm = () => {

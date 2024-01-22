@@ -1,7 +1,7 @@
-import { columnDataTable } from "../../model/model.js";
+import { columnDataTable } from "../../../model/model.js";
 import { CardListView } from "./CardListView.js";
 
-export const ColumnView = (columnId, idx) => {
+const ColumnView = (columnId, idx) => {
   const { title, value } = columnDataTable[columnId];
   return `
   <section class="main__column" id="column${idx}">
@@ -19,3 +19,5 @@ export const ColumnView = (columnId, idx) => {
   </section>    
     `;
 };
+
+export default ColumnView;

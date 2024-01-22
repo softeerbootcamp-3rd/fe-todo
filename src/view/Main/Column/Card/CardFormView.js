@@ -1,7 +1,7 @@
-import { ButtonView } from "./ButtonView.js";
+import { ButtonView } from "../../../components/ButtonView.js";
 
 //Todo - remove target
-export const CardFormView = (target) => {
+export const AddCardFormView = (target) => {
   return `
     <form class="js-${target} card-form">
       <input placeholder="제목을 변경하세요" class="card-form__title" name="title" type="text" required/>
