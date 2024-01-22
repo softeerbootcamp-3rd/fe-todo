@@ -2,6 +2,7 @@ import * as Column from "../column/index.js";
 import * as Alert from "../alert/index.js";
 import * as EditableCard from "../editable-card/index.js";
 import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
+import { store } from "../../store/index.js";
 
 export function template({ columnId, card }) {
   return `
@@ -32,6 +33,9 @@ export function template({ columnId, card }) {
     `;
 }
 
+const render = () => {};
+store.subscribe(render);
+
 document.querySelector("#app").addEventListener("click", (event) => {
   const target = event.target.closest(".card__delete-button");
   if (target === null) {
@@ -45,6 +49,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
       const columnId = card.getAttribute("data-column-id");
       const cardId = card.getAttribute("data-card-id");
 
+      // FIXME: replace with store.dispatch and middleware
       const todolist = getLocalStorage("todolist");
       const selectedColumnIndex = todolist.findIndex(
         (item) => item.id === Number(columnId)
@@ -53,6 +58,9 @@ document.querySelector("#app").addEventListener("click", (event) => {
         selectedColumnIndex
       ].cards.filter((card) => card.id !== Number(cardId));
       setLocalStorage("todolist", todolist);
+
+      // TODO: use dispatch and middleware
+      store.dispatch(deleteCard({ columnId, cardId }));
 
       // NOTE: 특정 칼럼에 대한 카드 리렌더링
       const column = document.querySelector(
