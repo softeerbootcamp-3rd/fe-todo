@@ -60,3 +60,20 @@ export function createDeleteModal(parent, onDelete) {
     })
   );
 }
+
+//이 실행 기기가 모바일인지 ,웹인지 리턴하는 함수
+export function detectDeviceType() {
+  const userAgent = navigator.userAgent;
+
+  const mobileRegex =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+
+  const isMobile = mobileRegex.test(userAgent);
+
+  // 결과 출력
+  if (isMobile) {
+    return "mobile";
+  } else {
+    return "web";
+  }
+}

@@ -12,6 +12,7 @@ import {
   dynamicTextAreaHeight,
   switchMode,
   createDeleteModal,
+  detectDeviceType,
 } from "./helper";
 
 export default function todoItem(parent, props) {
@@ -69,7 +70,7 @@ export default function todoItem(parent, props) {
       ...props.item,
       title: titleNode.value,
       content: contentNode.value,
-      createdOn: "web",
+      createdOn: detectDeviceType(),
     };
 
     //투두 등록 로직

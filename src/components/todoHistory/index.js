@@ -33,7 +33,6 @@ export default function todoHistory(parent, props) {
         detail: {
           msg: "모든 사용자 활동 기록을 삭제할까요?",
           onDelete: () => {
-            //TODO: 사용자 활동 기록을 삭제할까요?
             moveAllHistory();
             historyList.innerHTML = "";
           },
@@ -45,6 +44,7 @@ export default function todoHistory(parent, props) {
   const historyArr = getHistory();
   historyArr.forEach((history) => {
     const container = document.createElement("div");
+    console.log(history);
     todoHistoryItem(container, history);
     historyList.appendChild(container);
   });
