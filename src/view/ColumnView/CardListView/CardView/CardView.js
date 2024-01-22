@@ -1,4 +1,4 @@
-import { cardDataTable } from "../../model/model.js";
+import { cardDataTable } from "../../../../model/model.js";
 
 export const CardView = (cardId) => {
   const { title, content, author } = cardDataTable[cardId];
