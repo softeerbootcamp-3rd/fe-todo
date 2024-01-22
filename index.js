@@ -25,8 +25,8 @@ function spreadColumn() {
   }
 }
 
-// document.getElementById("logBox").addEventListener("click", () => {
-//   createLogBoxTemplate();
-// });
+document.getElementById("logBox").addEventListener("click", () => {
+  createLogBoxTemplate();
+});
 
 spreadColumn();

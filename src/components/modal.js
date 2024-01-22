@@ -12,6 +12,7 @@ export default function createModal(column, card) {
     modal.remove();
   });
 
+  const deleteButton = document.getElementById("deleteButton");
   deleteButton.addEventListener("click", () => {
     modal.remove();
     card.remove();
