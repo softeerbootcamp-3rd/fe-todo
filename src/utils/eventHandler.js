@@ -31,7 +31,6 @@ export default function customEventHandler(event) {
 function addCard({ target }) {
   const column = target.closest(".column");
   const cardList = column.querySelector("#cardList");
-  console.log(cardList);
   const isExistCard = column.querySelector(".newCard");
   if (!isExistCard) {
     const card = Card();

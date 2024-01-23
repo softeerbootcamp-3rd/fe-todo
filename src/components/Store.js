@@ -14,10 +14,10 @@ export default class Store {
     return this.cardId++;
   }
 
-  removeCardData(columnId, cardData) {
+  removeCardData(columnId, cardId) {
     if (this.#columnData[columnId]) {
       this.#columnData[columnId] = this.#columnData[columnId].filter(
-        (obj) => obj !== cardData
+        (card) => card.id !== +cardId
       );
     }
   }
