@@ -1,5 +1,5 @@
 import { addHistory, editHistory, moveHistory, removeHistory } from "./history";
-
+import { store } from "../../store/todoStore";
 //list에 고유한 번호를 부여하기 위한 임시 변수
 let idCount = 0;
 

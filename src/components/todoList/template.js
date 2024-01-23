@@ -18,7 +18,7 @@ export function todoListTemplate(props) {
         </button>
       </div>
     </div>
-    <div todo-data="items" class="${styles.todoList__content}">
+    <div todo-data="items" id="todoCol_${props.title}" class="${styles.todoList__content}">
       <div todo-data="newItemContainer" style="display:none"></div>
     </div>
   </div>

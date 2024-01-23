@@ -1,3 +1,5 @@
+import todoItem from "../components/todoItem";
+
 export function createStore(initStore, reducer) {
   let state = {
     ...initStore,
@@ -7,7 +9,22 @@ export function createStore(initStore, reducer) {
 
   const dispatch = (action) => {
     state = reducer(state, action);
-    listeners.forEach((fn) => fn());
+
+    if (action.type === "plusTodoItem") {
+      const todoColTitle = action.payload.todoColTitle;
+
+      const colContainer = document.getElementById(`todoCol_${todoColTitle}`);
+      state.todoList[todoColTitle].forEach((todo) => {
+        todoItem(colContainer, {
+          todoColTitle: todo.title,
+          todo,
+          onDeleteItem: () => {
+            onDeleteCountDown(itemCount);
+          },
+        });
+      });
+    }
+    //listeners.forEach((fn) => fn());
   };
 
   const getState = () => ({ ...state });

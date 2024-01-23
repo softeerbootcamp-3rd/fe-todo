@@ -4,6 +4,16 @@ import todoHistory from "../todoHistory";
 import todoListTable from "../todoListTable";
 import modal from "../modal";
 import { applyDragAndDrop } from "../../utils/dragAndDrop";
+import { store } from "../../store/todoStore";
+
+const newTodoItem = {
+  colName: "해야할 일",
+  item: {
+    title: "추가",
+    content: "추가",
+    createdOn: "Mobile",
+  },
+};
 
 export default function App(parent, props) {
   parent.innerHTML = `
@@ -17,13 +27,17 @@ export default function App(parent, props) {
 
   //헤더 컴포넌트 마운트
   const headerSection = parent.querySelector('[todo-data="headerSection"]');
+  headerSection.addEventListener("click", () => {
+    store.dispatch({ type: "plusTodoItem", payload: newTodoItem });
+  });
   header(headerSection, {});
 
   //todo컴포넌트 마운트
   //=> 처음에 초기값, API 모든 데이터를 넣어줘야함.
   //=> 생성, 수정, 삭제는 API요청은 있으나 다시 받아오지는 않음.
+
   const todoSection = parent.querySelector('[todo-data="todoSection"]');
-  todoListTable(todoSection, {});
+  todoListTable(todoSection, { todoList: store.getTodoList() });
 
   //클릭 시 History 컴포넌트 마운트
   const historySection = parent.querySelector('[todo-data="historySection"]');

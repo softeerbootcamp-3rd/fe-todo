@@ -1,3 +1,4 @@
+import { store } from "../../store/todoStore";
 import {
   addTodoListItem,
   editTodoListItem,
@@ -83,6 +84,12 @@ export default function todoItem(parent, props) {
       editTodoListItem(props.todoColTitle, newItem);
       setViewMode();
     }
+    //디스패치 실행
+    //payload로 행 이름과 아이템 입력해줌
+    store.dispatch({
+      type: "plusTodoItem",
+      payload: { todoColTitle: props.todoColTitle, item: newItem },
+    });
   };
 
   // 삭제 시
