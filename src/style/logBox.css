@@ -1,5 +1,4 @@
 .logBox {
-    min-height: 300px;
     max-height: 500px;
     display: inline-flex;
     padding: var(--Number-100, 8px);
