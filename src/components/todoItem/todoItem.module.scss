@@ -1,0 +1,65 @@
+.todoItem {
+  display: flex;
+  width: 100%;
+  border-radius: 8px;
+  background: var(--surface-default);
+  box-shadow: 0px 1px 4px 0px rgba(110, 128, 145, 0.24);
+  padding: 16px;
+  justify-content: space-between;
+  transition: margin-top 0.5s;
+  margin-top: 10px;
+
+  &--dragging {
+    opacity: 0.3;
+  }
+
+  &__itemTitle {
+    color: var(--text-strong);
+    width: 100%;
+    resize: none;
+    font-family: "Bold";
+    font-size: 14px;
+  }
+
+  &__itemContent {
+    color: var(--text-default);
+    width: 100%;
+    resize: none;
+    margin-top: 8px;
+    font-family: "Medium";
+    font-size: 14px;
+  }
+
+  &__bottomContainer {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  &__btn--active {
+    background: var(--surface-brand, #007aff);
+    color: var(--text-white-default);
+  }
+
+  &__btn--active:disabled {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  &__btn--inactive {
+    background: #f7f7fc;
+    color: var(--text-default);
+  }
+
+  &__actionBtnContainer {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__itemAuthor {
+    color: var(--text-weak);
+    font-family: "Medium";
+    font-size: 12px;
+  }
+}

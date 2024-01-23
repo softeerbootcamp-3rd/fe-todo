@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 17px 80px;
+}
+
+.header__title {
+  color: var(--text-strong);
+  font-family: "Bold";
+  font-size: 24px;
+}
+
+.header__history {
+  width: 24px;
+}
