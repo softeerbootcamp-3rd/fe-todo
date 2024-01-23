@@ -1,5 +1,7 @@
 import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
 import * as Column from "../column/index.js";
+import { observe } from "../../store/observer.js";
+import todoStore from "../../store/todoStore.js";
 
 export function template({ columnId }) {
   return `
@@ -12,17 +14,19 @@ export function template({ columnId }) {
             class="card__title-input display-bold14 text-strong"
             type="text"
             placeholder="제목을 입력하세요"
+            value=""
         />
         <input
             class="card__description-input display-medium14 text-default"
             type="text"
             placeholder="내용을 입력하세요"
+            value=""
         />
       </div>
       <div class="card__editable-buttons">
         <button 
             data-column-id=${columnId}
-            class="cancel-button button rounded-8 surface-alt display-bold14 text-default"
+            class="add-cancel-button button rounded-8 surface-alt display-bold14 text-default"
             type="button"
         >
           취소
@@ -66,23 +70,31 @@ document.querySelector("#app").addEventListener("click", (event) => {
     data,
     ...todolist[selectedColumnIndex].cards,
   ];
-
   setLocalStorage("todolist", todolist);
 
-  // NOTE: 특정 칼럼에 대한 카드 리렌더링
+  render(columnId, selectedColumnIndex);
+});
+
+document.querySelector("#app").addEventListener("click", (event) => {
+  const target = event.target.closest(".add-cancel-button");
+  if (target === null) {
+    return;
+  }
+
+  const columnId = target.getAttribute("data-column-id");
+  const addCard = document.querySelector(
+    `.card__editable[data-column-id="${columnId}"]`
+  );
+  addCard.style.display = "none";
+  addCard.setAttribute("editable", "false");
+});
+
+// NOTE: 특정 칼럼에 대한 카드 리렌더링
+function render(columnId, selectedColumnIndex) {
   const column = document.querySelector(
     `.column[data-column-id="${columnId}"]`
   );
   column.innerHTML = `${Column.template({
     column: getLocalStorage("todolist")[selectedColumnIndex],
   })}`;
-});
-
-document.querySelector("#app").addEventListener("click", (event) => {
-  const target = event.target.closest(".cancel-button");
-  if (target === null) {
-    return;
-  }
-
-  const columnId = target.getAttribute("data-column-id");
-});
+}
