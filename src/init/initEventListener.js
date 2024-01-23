@@ -1,18 +1,24 @@
 import * as handler from "../handler";
 
+const {
+  main: { column },
+  history,
+  header,
+} = handler;
+
 const clickHandlerMap = {
-  "js-openHistory": handler.header.showHistory,
-  "js-closeHistory": handler.history.closeHistory,
-  "js-addCardBtn": handler.main.column.openAddCardForm,
-  "js-editCardBtn": handler.main.column.card.openEditCardForm,
-  "js-deleteCardBtn": handler.main.column.card.clickDeleteCard,
-  "js-addFormCancel": handler.main.column.cardForm.closeAddCardForm,
-  "js-editFormCancel": handler.main.column.cardForm.closeEditCardForm,
+  "js-openHistory": header.showHistory,
+  "js-closeHistory": history.closeHistory,
+  "js-addCardBtn": column.openAddCardForm,
+  "js-editCardBtn": column.card.openEditCardForm,
+  "js-deleteCardBtn": column.card.clickDeleteCard,
+  "js-addFormCancel": column.cardForm.closeAddCardForm,
+  "js-editFormCancel": column.cardForm.closeEditCardForm,
 };
 
 const submitHandlerMap = {
-  "js-addForm": handler.main.column.cardForm.submitAddCardForm,
-  "js-editForm": handler.main.column.cardForm.submitEditCardForm,
+  "js-addForm": column.cardForm.submitAddCardForm,
+  "js-editForm": column.cardForm.submitEditCardForm,
 };
 
 const onClick = ({ target }) => {
@@ -34,11 +40,11 @@ const onSubmit = (event) => {
 const eventListeners = [
   { type: "click", handler: onClick },
   { type: "submit", handler: onSubmit },
-  { type: "input", handler: handler.main.column.cardForm.toggleSubmitBtn },
-  { type: "dragstart", handler: handler.main.column.card.onDragStart },
-  { type: "dragover", handler: handler.main.column.card.onDragOver },
-  { type: "dragend", handler: handler.main.column.card.onDragEnd },
-  { type: "drop", handler: handler.main.column.card.onDrop },
+  { type: "input", handler: column.cardForm.toggleSubmitBtn },
+  { type: "dragstart", handler: column.card.onDragStart },
+  { type: "dragover", handler: column.card.onDragOver },
+  { type: "dragend", handler: column.card.onDragEnd },
+  { type: "drop", handler: column.card.onDrop },
 ];
 
 export const initEventListener = () => {
