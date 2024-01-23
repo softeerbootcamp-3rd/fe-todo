@@ -88,9 +88,9 @@ document.querySelector("#app").addEventListener("click", (event) => {
   cards[cardIndex] = newCard;
   setLocalStorage("todolist", todolist);
 
-  store.dispatch({ type: "EDIT_CARD", payload: {} });
+  // store.dispatch({ type: "EDIT_CARD", payload: {} });
   // or
-  store.dispatch(editCard({ columnId, cardId, title, description }));
+  // store.dispatch(editCard({ columnId, cardId, title, description }));
 
   // render
   const card = document.querySelector(`.card[data-card-id="${cardId}"]`);
