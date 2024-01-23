@@ -21,7 +21,10 @@ export default function customEventHandler(event) {
   const target = event.target;
   const parentTarget = event.currentTarget;
 
-  targetIdList[target.id]({ target, parentTarget });
+  const handleTarget = targetIdList[target.id];
+  if (handleTarget) {
+    handleTarget({ target, parentTarget });
+  }
 }
 
 // Column의 '+' 버튼 클릭시 카드 추가 함수
