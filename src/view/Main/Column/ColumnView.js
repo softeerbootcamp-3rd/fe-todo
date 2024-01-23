@@ -1,6 +1,6 @@
 import { CardListView } from "./CardListView";
 
-const ColumnView = (title, columnId) => {
+export const ColumnView = (title, columnId) => {
   return `
   <section class="main__column" id="${columnId}">
     <nav class="main__column__nav">
@@ -17,5 +17,3 @@ const ColumnView = (title, columnId) => {
   </section>
   `;
 };
-
-export default ColumnView;

@@ -1,4 +1,4 @@
-const HeaderView = () => {
+export const HeaderView = () => {
   return ` 
     <header class="header">
         <h1 class="header__title">TODO LIST</h1>
@@ -7,5 +7,3 @@ const HeaderView = () => {
     </header>
     `;
 };
-
-export default HeaderView;

@@ -1,7 +1,9 @@
 import { columnDataTable } from "../model/model.js";
-import HeaderView from "../view/Header/index.js";
-import HistoryView from "../view/History";
-import MainView from "../view/Main/index.js";
+import { HeaderView } from "../view/Header/HeaderView.js";
+
+import { HistoryView } from "../view/History/HistoryView.js";
+
+import { MainView } from "../view/Main/MainView.js";
 
 export const initViews = () => {
   const app = document.getElementById("app");

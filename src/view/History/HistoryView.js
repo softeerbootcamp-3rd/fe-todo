@@ -1,6 +1,6 @@
 import { HistoryListView } from "./HistoryListView.js";
 
-const HistoryView = () => {
+export const HistoryView = () => {
   return `
     <dialog class="js-closeHistory history">
     <div class="history__wrapper">
@@ -17,4 +17,3 @@ const HistoryView = () => {
   </dialog>
     `;
 };
-export default HistoryView;
