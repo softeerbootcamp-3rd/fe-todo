@@ -4,13 +4,12 @@ import { getTodoList } from "../../utils/API/todoList";
 
 export default function todoListTable(target, data) {
   //행 + 데이터를 모두 감싸고 있는 컨테이너 (테이블)
-  target.innerHTML = template(data);
-  controller(target, data);
+  const views = mount(target, data);
+  attachHandlers(views, data);
 }
 
-function controller(target, data) {
+function attachHandlers({ target, todoListTable }, data) {
   //데이터 API호출 후, 각 todoList에 넣어서 각각 만들어주고 그것을 마운트해준다.
-  const todoListTable = target.querySelector('[data-node="todoListTable"]');
   const todoData = getTodoList();
   const todoDataEntries = Object.entries(todoData);
   for (const [todoColTitle, todoColData] of todoDataEntries) {
@@ -23,9 +22,12 @@ function controller(target, data) {
   }
 }
 
-function template(data) {
-  return `
+function mount(target, data) {
+  target.innerHTML = /*html*/ `
     <div data-node="todoListTable" class="${styles.todoListTable}">
     </div>
   `;
+
+  const todoListTable = target.querySelector('[data-node="todoListTable"]');
+  return { target, todoListTable };
 }

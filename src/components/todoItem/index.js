@@ -15,31 +15,25 @@ import {
 } from "./helper";
 
 export default function todoItem(target, data) {
-  target.innerHTML = template(data);
-  controller(target, data);
+  const views = mount(target, data);
+  attachHandlers(views, data);
 }
 
-function controller(target, data) {
-  const todoItem = target.querySelector('[data-node="todoItem"]');
-
-  // 입력 제목, 내용 노드
-  const titleNode = target.querySelector('[data-node="title"]');
-  const contentNode = target.querySelector('[data-node="content"]');
-
-  // 뷰 모드에서만 보이는 삭제, 수정 버튼
-  const eraseBtnNode_view = target.querySelector('[data-node="eraseBtn"]');
-  const editBtnNode_view = target.querySelector('[data-node="editBtn"]');
-  // author by [어디서 썼는지]
-  const authorByNode_view = target.querySelector('[data-node="author"]');
-  // 우측에 있는 작은 액션 버튼들의 컨테이너
-  const actionBtnContainer_view = target.querySelector(
-    '[data-node="actionBtnContainer"]'
-  );
-
-  // 수정 모드에서만 보이는 취소, 제출 버튼
-  const cancelBtnNode_edit = target.querySelector('[data-node="cancelBtn"]');
-  const submitBtnNode_edit = target.querySelector('[data-node="submitBtn"]');
-
+function attachHandlers(
+  {
+    target,
+    todoItem,
+    titleNode,
+    contentNode,
+    eraseBtnNode_view,
+    editBtnNode_view,
+    authorByNode_view,
+    actionBtnContainer_view,
+    cancelBtnNode_edit,
+    submitBtnNode_edit,
+  },
+  data
+) {
   // input에 입력이 될때마다 checkInput
   addCheckInput([titleNode, contentNode], submitBtnNode_edit);
 
@@ -154,8 +148,8 @@ function controller(target, data) {
 }
 
 // todoItem 컴포넌트 템플릿
-function template(data) {
-  return /*html*/ `
+function mount(target, data) {
+  target.innerHTML = /*html*/ `
   <div data-node="todoItem" class="${styles.todoItem}" ${
     data?.addMode ? "" : 'draggable="true"'
   }>
@@ -206,7 +200,32 @@ function template(data) {
       </button>
     </div>
   </div>
-`;
+  `;
+
+  const todoItem = target.querySelector('[data-node="todoItem"]');
+  const titleNode = target.querySelector('[data-node="title"]');
+  const contentNode = target.querySelector('[data-node="content"]');
+  const eraseBtnNode_view = target.querySelector('[data-node="eraseBtn"]');
+  const editBtnNode_view = target.querySelector('[data-node="editBtn"]');
+  const authorByNode_view = target.querySelector('[data-node="author"]');
+  const actionBtnContainer_view = target.querySelector(
+    '[data-node="actionBtnContainer"]'
+  );
+  const cancelBtnNode_edit = target.querySelector('[data-node="cancelBtn"]');
+  const submitBtnNode_edit = target.querySelector('[data-node="submitBtn"]');
+
+  return {
+    target,
+    todoItem,
+    titleNode,
+    contentNode,
+    eraseBtnNode_view,
+    editBtnNode_view,
+    authorByNode_view,
+    actionBtnContainer_view,
+    cancelBtnNode_edit,
+    submitBtnNode_edit,
+  };
 }
 
 function getClosestElement(elements, y) {
