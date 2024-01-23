@@ -5,17 +5,14 @@ import closedIcon from "../../asset/img/closed.svg";
 import todoItem from "../todoItem";
 
 export default function todoList(target, data) {
-  target.innerHTML = template(data);
-  controller(target, data);
+  const views = mount(target, data);
+  attachHandlers(views, data);
 }
 
-function controller(target, data) {
-  const newItemContainer = target.querySelector(
-    '[data-node="newItemContainer"]'
-  );
-
-  const itemCount = target.querySelector('[data-node="itemCount"]');
-
+function attachHandlers(
+  { target, newItemContainer, itemCount, itemsContainer, plusBtn },
+  data
+) {
   const createAndAddItem = (item, beforeElement) => {
     const todoItemWrapper = document.createElement("div");
     todoItem(todoItemWrapper, {
@@ -48,7 +45,6 @@ function controller(target, data) {
   document.addEventListener("updateItemCount", updateItemCount);
 
   // 행 하나에 item으로 컴포넌트를 만들어서 마운트
-  const itemsContainer = target.querySelector('[data-node="items"]');
   for (const item of data.items) {
     const todoItemWrapper = document.createElement("div");
     todoItem(todoItemWrapper, {
@@ -70,7 +66,6 @@ function controller(target, data) {
   });
 
   //추가 컴포넌트 등장 이벤트 추가
-  const plusBtn = target.querySelector('[data-node="plusBtn"]');
   plusBtn.addEventListener("click", () => {
     if (newItemContainer.style.display === "none") {
       newItemContainer.style.display = "block";
@@ -88,8 +83,8 @@ function controller(target, data) {
   });
 }
 
-function template(data) {
-  return /*html*/ `
+function mount(target, data) {
+  target.innerHTML = /*html*/ `
     <div data-node="todoList" data-title="${data.title}" class="${styles.todoList}">
       <div class="${styles.todoList__header}">
         <div class="${styles.todoList__countWrapper}">
@@ -110,4 +105,13 @@ function template(data) {
       </div>
     </div>
   `;
+
+  const newItemContainer = target.querySelector(
+    '[data-node="newItemContainer"]'
+  );
+  const itemCount = target.querySelector('[data-node="itemCount"]');
+  const itemsContainer = target.querySelector('[data-node="items"]');
+  const plusBtn = target.querySelector('[data-node="plusBtn"]');
+
+  return { target, newItemContainer, itemCount, itemsContainer, plusBtn };
 }

@@ -1,15 +1,13 @@
 import styles from "./todoHistoryItem.module.scss";
 import userImage from "../../asset/img/userImage.png";
 export default function todoHistoryItem(target, data) {
-  target.innerHTML = template(target, data);
+  mount(target, data);
 }
 
-function template(target, data) {
-  return /*html*/ `
+function mount(target, data) {
+  target.innerHTML = /*html*/ `
     <div class="${styles.todoHistoryItem}">
-      <img class="${
-        styles.todoHistoryItem__userImage
-      }" src="${userImage}"></img>
+      <img class="${styles.todoHistoryItem__userImage}" src="${userImage}"/>
       <div class="${styles.todoHistoryItem__contentContainer}">
         <p class="${styles.todoHistoryItem__author}">@${data.authorName}</p>
         <p class="${styles.todoHistoryItem__content}">${formatHistoryText(
