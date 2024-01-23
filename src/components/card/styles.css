@@ -38,3 +38,7 @@
   display: flex;
   gap: 8px;
 }
+
+.dragging {
+  opacity: 0.5;
+}
