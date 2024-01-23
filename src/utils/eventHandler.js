@@ -30,10 +30,12 @@ export default function customEventHandler(event) {
 // Column의 '+' 버튼 클릭시 카드 추가 함수
 function addCard({ target }) {
   const column = target.closest(".column");
+  const cardList = column.querySelector("#cardList");
+  console.log(cardList);
   const isExistCard = column.querySelector(".newCard");
   if (!isExistCard) {
     const card = Card();
-    column.appendChild(card);
+    cardList.insertAdjacentElement("afterbegin", card);
   } else {
     isExistCard.remove();
   }
