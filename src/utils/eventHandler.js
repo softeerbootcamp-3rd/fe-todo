@@ -38,6 +38,7 @@ function addCard({ target }) {
   } else {
     isExistCard.remove();
   }
+  console.log(columnData.getCardData(column.id));
 }
 
 // 등록 함수 활성화 판단 함수
@@ -58,8 +59,8 @@ function cancelHandler({ target }) {
   const status = currentStatus === "저장";
 
   if (status) {
-    const title = localStorage.getItem(`originalTitle-${columnId}`);
-    const content = localStorage.getItem(`originalContent-${columnId}`);
+    const title = localStorage.getItem(`originalTitle-${card.id}`);
+    const content = localStorage.getItem(`originalContent-${card.id}`);
     card.className = "registeredCard";
     card.innerHTML = createCardInfoTemplate(title, content);
     return;
@@ -70,8 +71,8 @@ function cancelHandler({ target }) {
 // Card 등록 함수
 function registerCard({ target, parentTarget }) {
   const card = target.closest(".newCard");
-  const title = card.querySelector(".title");
-  const content = card.querySelector(".content");
+  const title = card.querySelector(".title").value;
+  const content = card.querySelector(".content").value;
   const countBox = parentTarget.querySelector(".countBox");
 
   const newCount = Number(countBox.textContent) + 1;
@@ -79,24 +80,23 @@ function registerCard({ target, parentTarget }) {
 
   card.className = "registeredCard";
 
-  const originalTitle = title.value;
-  const originalContent = content.value;
   const cardId = columnData.addCardData(parentTarget.id, {
-    originalTitle,
-    originalContent,
+    title,
+    content,
   });
   card.id = cardId;
-  card.innerHTML = createCardInfoTemplate(originalTitle, originalContent);
+  card.innerHTML = createCardInfoTemplate(title, content);
   return card;
 }
 
-function saveHandler({ target }) {
+function saveHandler({ target, parentTarget }) {
   const card = target.closest(".newCard");
   const newTitle = card.querySelector(".title").value;
   const newContent = card.querySelector(".content").value;
   card.className = "registeredCard";
 
   card.innerHTML = createCardInfoTemplate(newTitle, newContent);
+  columnData.editCardData(parentTarget.id, card.id, newTitle, newContent);
 }
 
 function deleteHandler({ target, parentTarget }) {
@@ -105,12 +105,12 @@ function deleteHandler({ target, parentTarget }) {
 }
 
 function editCard({ target }) {
-  const columnId = target.closest(".column").id;
   const card = target.closest(".registeredCard");
   const title = card.querySelector(".registeredTitle").textContent;
   const content = card.querySelector(".registeredContent").textContent;
-  localStorage.setItem(`originalTitle-${columnId}`, title);
-  localStorage.setItem(`originalContent-${columnId}`, content);
+
+  localStorage.setItem(`originalTitle-${card.id}`, title);
+  localStorage.setItem(`originalContent-${card.id}`, content);
 
   card.className = "newCard";
   card.innerHTML = createEditorTemplate(title, content, true);

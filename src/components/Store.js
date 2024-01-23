@@ -22,6 +22,19 @@ export default class Store {
     }
   }
 
+  editCardData(columnId, cardId, newTitle, newContent) {
+    if (this.#columnData[columnId]) {
+      const index = this.#columnData[columnId].findIndex(
+        (card) => card.id === +cardId
+      );
+
+      if (index !== -1) {
+        this.#columnData[columnId][index].title = newTitle;
+        this.#columnData[columnId][index].content = newContent;
+      }
+    }
+  }
+
   getCardData(columnId) {
     return this.#columnData[columnId];
   }
