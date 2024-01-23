@@ -5,7 +5,6 @@ export function applyDragAndDrop(draggables, containers) {
     return height > max ? height : max;
   }, 0);
 
-  // 모든 컨테이너의 높이를 설정합니다.
   containers.forEach((container) => {
     container.style.height = `${maxHeight}px`;
   });
