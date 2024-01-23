@@ -1,6 +1,5 @@
-import { getLocalStorage } from "../../utils/local-storage.js";
+import todoStore from "../../store/todoStore.js";
 import * as Column from "../column/index.js";
-import { observe } from "../../store/observer.js";
 
 export function template({ columns }) {
   return `
@@ -18,9 +17,15 @@ export function template({ columns }) {
 }
 
 export function render(parent) {
-  console.log("render column");
   parent.insertAdjacentHTML(
     "beforeend",
-    template({ columns: getLocalStorage("todolist") })
+    template({ columns: todoStore.getState() })
   );
+}
+
+export function renderColumn(columnId) {
+  const target = document.querySelector(`.column[data-column-id="${columnId}"`);
+  target.innerHTML = Column.template({
+    column: todoStore.getState().find(({ id }) => id === columnId),
+  });
 }

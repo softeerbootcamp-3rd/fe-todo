@@ -1,7 +1,6 @@
-import * as Column from "../column/index.js";
 import * as Alert from "../alert/index.js";
 import * as EditableCard from "../editable-card/index.js";
-import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
+import todoStore from "../../store/todoStore.js";
 
 export function template({ columnId, card }) {
   return `
@@ -45,22 +44,11 @@ document.querySelector("#app").addEventListener("click", (event) => {
       const columnId = card.getAttribute("data-column-id");
       const cardId = card.getAttribute("data-card-id");
 
-      const todolist = getLocalStorage("todolist");
-      const selectedColumnIndex = todolist.findIndex(
-        (item) => item.id === Number(columnId)
-      );
-      todolist[selectedColumnIndex].cards = todolist[
-        selectedColumnIndex
-      ].cards.filter((card) => card.id !== Number(cardId));
-      setLocalStorage("todolist", todolist);
-
-      // NOTE: 특정 칼럼에 대한 카드 리렌더링
-      const column = document.querySelector(
-        `.column[data-column-id="${columnId}"]`
-      );
-      column.innerHTML = `${Column.template({
-        column: getLocalStorage("todolist")[selectedColumnIndex],
-      })}`;
+      todoStore.dispatch({
+        type: "DELETE_TODO",
+        columnId: columnId,
+        payload: cardId,
+      });
 
       Alert.close();
     },
