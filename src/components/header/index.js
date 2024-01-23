@@ -1,6 +1,7 @@
 import * as ActionHistoryListDialog from "../action-history-list/index.js";
 import { setEvent } from "../../utils/set-event.js";
 
+// FIXME app 전역에 하나 만들어두고 참조하게 할 수는 없을까?
 const app = document.getElementById("app");
 
 export function template() {
@@ -18,7 +19,6 @@ export function render(parent) {
   parent.insertAdjacentHTML("afterbegin", template());
 }
 
-// FIXME 이벤트 위임이 괜찮은가?
 setEvent(app, "click", (e) => {
   const target = e.target.closest("button");
   if (target && target.classList.contains("action-history-open-button")) {
