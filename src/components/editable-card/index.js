@@ -1,6 +1,8 @@
 import { store } from "../../store/index.js";
 import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
-import * as Column from "../column/index.js";
+import { setEvent } from "../../utils/set-event.js";
+
+const app = document.getElementById("app");
 
 export function template({ columnId, cardId, title, description }) {
   return `
@@ -45,7 +47,7 @@ export function template({ columnId, cardId, title, description }) {
 const render = () => {};
 store.subscribe(render);
 
-document.querySelector("#app").addEventListener("click", (event) => {
+setEvent(app, "click", (event) => {
   const target = event.target.closest(
     ".card__editable-buttons > .cancel-button"
   );
@@ -61,7 +63,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
   card.style.display = "flex";
 });
 
-document.querySelector("#app").addEventListener("click", (event) => {
+setEvent(app, "click", (event) => {
   const target = event.target.closest(".edit-button");
   if (target === null) {
     return;

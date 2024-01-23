@@ -1,5 +1,8 @@
 import * as Card from "../card/index.js";
 import * as AddCard from "../add-card/index.js";
+import { setEvent } from "../../utils/set-event.js";
+
+const app = document.getElementById("app");
 
 export function template({ column }) {
   return `
@@ -27,7 +30,7 @@ export function template({ column }) {
     `;
 }
 
-document.querySelector("#app").addEventListener("click", (event) => {
+setEvent(app, "click", (event) => {
   const target = event.target.closest(".column__head-plus");
   if (target === null) {
     return;

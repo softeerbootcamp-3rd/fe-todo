@@ -1,4 +1,7 @@
 import * as ActionHistoryListDialog from "../action-history-list/index.js";
+import { setEvent } from "../../utils/set-event.js";
+
+const app = document.getElementById("app");
 
 export function template() {
   return `      
@@ -16,9 +19,9 @@ export function render(parent) {
 }
 
 // FIXME 이벤트 위임이 괜찮은가?
-document.querySelector("#app").onclick = (e) => {
+setEvent(app, "click", (e) => {
   const target = e.target.closest("button");
   if (target && target.classList.contains("action-history-open-button")) {
     ActionHistoryListDialog.show();
   }
-};
+});

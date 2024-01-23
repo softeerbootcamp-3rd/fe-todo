@@ -4,6 +4,9 @@ import * as EditableCard from "../editable-card/index.js";
 import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
 import { store } from "../../store/index.js";
 import { getDragAfterElement } from "../../utils/get-drag-after-element.js";
+import { setEvent } from "../../utils/set-event.js";
+
+const app = document.getElementById("app");
 
 export function template({ columnId, card }) {
   return `
@@ -38,7 +41,7 @@ export function template({ columnId, card }) {
 const render = () => {};
 store.subscribe(render);
 
-document.getElementById("app").addEventListener("click", (event) => {
+setEvent(app, "click", (event) => {
   const cardDeleteButton = event.target.closest(".card__delete-button");
   if (cardDeleteButton === null) {
     return;
@@ -77,7 +80,7 @@ document.getElementById("app").addEventListener("click", (event) => {
   });
 });
 
-document.getElementById("app").addEventListener("click", (event) => {
+setEvent(app, "click", (event) => {
   const cardEeleteButton = event.target.closest(".card__edit-button");
   if (cardEeleteButton === null) {
     return;
@@ -96,7 +99,7 @@ document.getElementById("app").addEventListener("click", (event) => {
   card.style.display = "none";
 });
 
-document.getElementById("app").addEventListener("dragstart", (event) => {
+setEvent(app, "dragstart", (event) => {
   const draggable = event.target.closest(".card");
   draggable.classList.add("dragging");
 
@@ -105,7 +108,7 @@ document.getElementById("app").addEventListener("dragstart", (event) => {
 
   // TODO: render todo
 });
-document.getElementById("app").addEventListener("dragend", (event) => {
+setEvent(app, "dragend", (event) => {
   const draggable = event.target.closest(".card");
   draggable.classList.remove("dragging");
 
@@ -115,7 +118,7 @@ document.getElementById("app").addEventListener("dragend", (event) => {
   // TODO: render todo
 });
 
-document.getElementById("app").addEventListener("dragover", (event) => {
+setEvent(app, "dragover", (event) => {
   const column = event.target.closest(".column__cards");
   if (column === null) {
     return;
