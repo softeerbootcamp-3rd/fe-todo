@@ -38,6 +38,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
   const addCard = document.querySelector(
     `.card__editable[data-column-id="${columnId}"]`
   );
+
   // addCard 초기화
   addCard.querySelector(".card__title-input").value = "";
   addCard.querySelector(".card__description-input").value = "";
