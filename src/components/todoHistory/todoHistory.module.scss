@@ -1,0 +1,75 @@
+.todoHistory {
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  width: 350px;
+  padding: 8px;
+  border-radius: 16px;
+  background: var(--surface-default);
+  box-shadow: 0px 16px 16px 0px rgba(110, 128, 145, 0.24),
+    0px 0px 4px 0px rgba(110, 128, 145, 0.08);
+
+  &__historyList {
+    overflow: auto;
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+  }
+
+  &__closedBtn {
+    height: 32px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 4px;
+    padding: 0 8px;
+    color: var(--text-default);
+    font-family: "Bold";
+    font-size: 14px;
+    background-color: var(--surface-default);
+  }
+
+  &__closedIcon {
+    width: 16px;
+    height: 16px;
+  }
+
+  &__title {
+    color: var(--text-strong);
+    font-family: "Bold";
+    font-size: 16px;
+  }
+
+  &__footer {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 4px 8px;
+  }
+
+  &__clearBtn {
+    display: flex;
+    height: 32px;
+    padding: 0px 8px;
+    justify-content: flex-end;
+    align-items: center;
+    color: var(--accent_red);
+    background-color: var(--surface-default);
+    font-family: "Bold";
+    font-size: 14px;
+    padding: 0px 8px;
+  }
+}
