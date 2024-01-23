@@ -47,6 +47,22 @@ function checkRegisterStatus({ parentTarget }) {
   register.style.opacity = status ? 0.3 : 1;
 }
 
+function cancelHandler({ target }) {
+  const columnId = target.closest(".column").id;
+  const card = target.closest(".newCard");
+  const currentStatus = card.querySelector(".register").textContent;
+  const status = currentStatus === "저장";
+
+  if (status) {
+    const title = localStorage.getItem(`originalTitle-${columnId}`);
+    const content = localStorage.getItem(`originalContent-${columnId}`);
+    card.className = "registeredCard";
+    card.innerHTML = createCardInfoTemplate(title, content);
+    return;
+  }
+  card.remove();
+}
+
 // Card 등록 함수
 function registerCard({ target, parentTarget }) {
   const card = target.closest(".newCard");
@@ -66,6 +82,20 @@ function registerCard({ target, parentTarget }) {
   return card;
 }
 
+function saveHandler({ target }) {
+  const card = target.closest(".newCard");
+  const newTitle = card.querySelector(".title").value;
+  const newContent = card.querySelector(".content").value;
+  card.className = "registeredCard";
+
+  card.innerHTML = createCardInfoTemplate(newTitle, newContent);
+}
+
+function deleteHandler({ target, parentTarget }) {
+  const registeredCard = target.closest(".registeredCard");
+  createModal(parentTarget, registeredCard);
+}
+
 function editCard({ target }) {
   const columnId = target.closest(".column").id;
   const card = target.closest(".registeredCard");
@@ -76,34 +106,4 @@ function editCard({ target }) {
 
   card.className = "newCard";
   card.innerHTML = createEditorTemplate(title, content, true);
-}
-
-function saveHandler({ target }) {
-  const card = target.closest(".newCard");
-  const newTitle = card.querySelector(".title").value;
-  const newContent = card.querySelector(".content").value;
-  card.className = "registeredCard";
-
-  card.innerHTML = createCardInfoTemplate(newTitle, newContent);
-}
-
-function cancelHandler({ target }) {
-  const columnId = target.closest(".column").id;
-  const card = target.closest(".newCard");
-  const currentStatus = card.querySelector(".register").textContent;
-  const status = currentStatus === "저장";
-
-  if (status) {
-    const title = localStorage.getItem(`originalTitle-${columnId}`);
-    const content = localStorage.getItem(`originalContent-${columnId}`);
-    card.className = "registeredCard";
-    card.innerHTML = createCardInfoTemplate(title, content);
-    return;
-  }
-  card.remove();
-}
-
-function deleteHandler({ target, parentTarget }) {
-  const registeredCard = target.closest(".registeredCard");
-  createModal(parentTarget, registeredCard);
 }
