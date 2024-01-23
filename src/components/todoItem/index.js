@@ -14,14 +14,14 @@ import {
   createDeleteModal,
 } from "./helper";
 
-export default function todoItem(target, data) {
-  const views = mount(target, data);
-  attachHandlers(views, data);
+export default function todoItem(renderTarget, initialData) {
+  const views = mount(renderTarget, initialData);
+  attachHandlers(views, initialData);
 }
 
 function attachHandlers(
   {
-    target,
+    renderTarget,
     todoItem,
     titleNode,
     contentNode,
@@ -32,7 +32,7 @@ function attachHandlers(
     cancelBtnNode_edit,
     submitBtnNode_edit,
   },
-  data
+  initialData
 ) {
   // input에 입력이 될때마다 checkInput
   addCheckInput([titleNode, contentNode], submitBtnNode_edit);
@@ -57,40 +57,40 @@ function attachHandlers(
   // 필요 함수 선언 부분
   // 취소 버튼 클릭 시
   const onCancel_edit = () => {
-    titleNode.value = data.item.title;
-    contentNode.value = data.item.content;
+    titleNode.value = initialData.item.title;
+    contentNode.value = initialData.item.content;
     setViewMode();
   };
 
   // 수정/등록 하고 제출 시
   const onSubmit_edit = () => {
     const newItem = {
-      ...data.item,
+      ...initialData.item,
       title: titleNode.value,
       content: contentNode.value,
       createdOn: "web",
     };
 
     //투두 등록 로직
-    if (data.addMode) {
-      const newReturnItem = addTodoListItem(data.todoColTitle, newItem);
+    if (initialData.addMode) {
+      const newReturnItem = addTodoListItem(initialData.todoColTitle, newItem);
       //추가하고 추가 컴포넌트 삭제 및
-      data.createAndAddItem(newReturnItem);
+      initialData.createAndAddItem(newReturnItem);
     }
 
     //투두 수정 로직
     else {
-      editTodoListItem(data.todoColTitle, newItem);
+      editTodoListItem(initialData.todoColTitle, newItem);
       setViewMode();
     }
   };
 
   // 삭제 시
   const onErase_view = () => {
-    createDeleteModal(target, () => {
-      removeTodoListItem(data.todoColTitle, data.item);
-      const parentNode = target.parentNode;
-      target.parentNode.removeChild(target);
+    createDeleteModal(renderTarget, () => {
+      removeTodoListItem(initialData.todoColTitle, initialData.item);
+      const parentNode = renderTarget.parentNode;
+      renderTarget.parentNode.removeChild(renderTarget);
       requestUpdateItemCount(parentNode);
     });
   };
@@ -107,51 +107,57 @@ function attachHandlers(
   eraseBtnNode_view.addEventListener("click", onErase_view);
 
   // 편집모드 버튼 핸들러 추가
-  cancelBtnNode_edit.addEventListener("click", data.onCancel ?? onCancel_edit);
+  cancelBtnNode_edit.addEventListener(
+    "click",
+    initialData.onCancel ?? onCancel_edit
+  );
   submitBtnNode_edit.addEventListener("click", onSubmit_edit);
 
   // 드래그 이벤트 처리 (생성 카드 제외)
-  if (!data.addMode) {
-    target.addEventListener("dragstart", (e) => {
+  if (!initialData.addMode) {
+    renderTarget.addEventListener("dragstart", (e) => {
       e.dataTransfer.setData(
         "text/plain",
-        JSON.stringify({ ...data.item, todoColTitle: data.todoColTitle })
+        JSON.stringify({
+          ...initialData.item,
+          todoColTitle: initialData.todoColTitle,
+        })
       );
       e.dataTransfer.dropEffect = "move";
       todoItem.classList.add(styles["todoItem--dragging"]);
     });
 
-    target.addEventListener("dragend", (e) => {
+    renderTarget.addEventListener("dragend", (e) => {
       e.preventDefault();
       todoItem.classList.remove(styles["todoItem--dragging"]);
-      requestUpdateItemCount(target, true);
+      requestUpdateItemCount(renderTarget, true);
     });
 
-    target.addEventListener("dragover", (e) => {
+    renderTarget.addEventListener("dragover", (e) => {
       e.stopPropagation();
       e.preventDefault();
       const elem = getClosestElement(
-        [...target.parentNode.querySelectorAll(`[data-node="todoItem"]`)],
+        [...renderTarget.parentNode.querySelectorAll(`[data-node="todoItem"]`)],
         e.clientY
       );
       const dragging = document.querySelector(
         `div.${styles["todoItem--dragging"]}`
       ).parentNode;
-      target.parentNode.insertBefore(dragging, elem?.parentNode);
-      requestUpdateItemCount(target, true);
+      renderTarget.parentNode.insertBefore(dragging, elem?.parentNode);
+      requestUpdateItemCount(renderTarget, true);
     });
   }
 
   // 투두 아이템의 초기 모드를 뷰 모드로 설정
-  if (data.addMode) setEditMode();
+  if (initialData.addMode) setEditMode();
   else setViewMode();
 }
 
 // todoItem 컴포넌트 템플릿
-function mount(target, data) {
-  target.innerHTML = /*html*/ `
+function mount(renderTarget, initialData) {
+  renderTarget.innerHTML = /*html*/ `
   <div data-node="todoItem" class="${styles.todoItem}" ${
-    data?.addMode ? "" : 'draggable="true"'
+    initialData?.addMode ? "" : 'draggable="true"'
   }>
     <div>
       <textarea
@@ -160,17 +166,17 @@ function mount(target, data) {
         data-node="title"
         class="${styles.todoItem__itemTitle}"
         placeholder="제목을 입력하세요"
-      >${data.item?.title ?? ""}</textarea>
+      >${initialData.item?.title ?? ""}</textarea>
       <textarea
         type="text"
         rows="1"
         data-node="content"
         class="${styles.todoItem__itemContent}"
         placeholder="내용을 입력하세요"
-      >${data.item?.content ?? ""}</textarea>
+      >${initialData.item?.content ?? ""}</textarea>
       <div class="${styles.todoItem__bottomContainer}">
         <p data-node="author" class="${styles.todoItem__itemAuthor}">
-          author by ${data.item?.createdOn}
+          author by ${initialData.item?.createdOn}
         </p>
         <button
           data-node="cancelBtn"
@@ -183,7 +189,7 @@ function mount(target, data) {
           class="${styles["todoItem__btn--active"]}"
           disabled
         >
-          ${data?.addMode ? "등록" : "저장"}
+          ${initialData?.addMode ? "등록" : "저장"}
         </button>
       </div>
     </div>
@@ -202,20 +208,26 @@ function mount(target, data) {
   </div>
   `;
 
-  const todoItem = target.querySelector('[data-node="todoItem"]');
-  const titleNode = target.querySelector('[data-node="title"]');
-  const contentNode = target.querySelector('[data-node="content"]');
-  const eraseBtnNode_view = target.querySelector('[data-node="eraseBtn"]');
-  const editBtnNode_view = target.querySelector('[data-node="editBtn"]');
-  const authorByNode_view = target.querySelector('[data-node="author"]');
-  const actionBtnContainer_view = target.querySelector(
+  const todoItem = renderTarget.querySelector('[data-node="todoItem"]');
+  const titleNode = renderTarget.querySelector('[data-node="title"]');
+  const contentNode = renderTarget.querySelector('[data-node="content"]');
+  const eraseBtnNode_view = renderTarget.querySelector(
+    '[data-node="eraseBtn"]'
+  );
+  const editBtnNode_view = renderTarget.querySelector('[data-node="editBtn"]');
+  const authorByNode_view = renderTarget.querySelector('[data-node="author"]');
+  const actionBtnContainer_view = renderTarget.querySelector(
     '[data-node="actionBtnContainer"]'
   );
-  const cancelBtnNode_edit = target.querySelector('[data-node="cancelBtn"]');
-  const submitBtnNode_edit = target.querySelector('[data-node="submitBtn"]');
+  const cancelBtnNode_edit = renderTarget.querySelector(
+    '[data-node="cancelBtn"]'
+  );
+  const submitBtnNode_edit = renderTarget.querySelector(
+    '[data-node="submitBtn"]'
+  );
 
   return {
-    target,
+    renderTarget,
     todoItem,
     titleNode,
     contentNode,

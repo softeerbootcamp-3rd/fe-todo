@@ -4,14 +4,14 @@ import todoHistory from "../todoHistory";
 import todoListTable from "../todoListTable";
 import modal from "../modal";
 
-export default function App(target, data) {
-  const views = mount(target, data);
-  attachHandlers(views, data);
+export default function App(renderTarget, initialData) {
+  const views = mount(renderTarget, initialData);
+  attachHandlers(views, initialData);
 }
 
 function attachHandlers(
-  { target, headerSection, todoSection, historySection, modalSection },
-  data
+  { renderTarget, headerSection, todoSection, historySection, modalSection },
+  initialData
 ) {
   document.addEventListener("toggleHistoryList", () => {
     historySection.classList.toggle(styles["app__historySection--show"]);
@@ -22,14 +22,14 @@ function attachHandlers(
     modalSection.style.display = "none";
   });
 
-  target.addEventListener("showDeleteModal", ({ detail }) => {
+  renderTarget.addEventListener("showDeleteModal", ({ detail }) => {
     modalSection.style.display = "block";
     modal(modalSection, { msg: detail.msg, onDelete: detail.onDelete });
   });
 }
 
-function mount(target, data) {
-  target.innerHTML = /*html*/ `
+function mount(renderTarget, initialData) {
+  renderTarget.innerHTML = /*html*/ `
     <div class="${styles.app}">
       <div data-node="headerSection" class=${styles.app__headerSection}></div>
       <div data-node="todoSection" class=${styles.app__todoSection}></div>
@@ -38,13 +38,23 @@ function mount(target, data) {
     </div>
   `;
 
-  const headerSection = target.querySelector('[data-node="headerSection"]');
-  const todoSection = target.querySelector('[data-node="todoSection"]');
-  const historySection = target.querySelector('[data-node="historySection"]');
-  const modalSection = target.querySelector('[data-node="modalSection"]');
+  const headerSection = renderTarget.querySelector(
+    '[data-node="headerSection"]'
+  );
+  const todoSection = renderTarget.querySelector('[data-node="todoSection"]');
+  const historySection = renderTarget.querySelector(
+    '[data-node="historySection"]'
+  );
+  const modalSection = renderTarget.querySelector('[data-node="modalSection"]');
 
   header(headerSection, {});
   todoListTable(todoSection, {});
 
-  return { target, headerSection, todoSection, historySection, modalSection };
+  return {
+    renderTarget,
+    headerSection,
+    todoSection,
+    historySection,
+    modalSection,
+  };
 }
