@@ -1,24 +1,23 @@
 import todoStore from "../../store/todoStore.js";
 
 export function template({ columnId, cardId, title, description }) {
-  return `
+  return /*html*/ `
     <li class="card__editable rounded-8 surface-default shadow-normal"
         data-card-id=${cardId}
         data-column-id=${columnId}
     >
       <div class="card__contents" data-column-id=${columnId}>
-        <input
-            class="card__title-input display-bold14 text-strong"
-            type="text"
-            value="${title}"
-            placeholder="제목을 입력하세요"
-            />
-            <input
-            class="card__description-input display-medium14 text-default"
-            type="text"
-            value="${description}"
-            placeholder="내용을 입력하세요"
-        />
+      <textarea
+          class="card__title-input display-bold14 text-strong"
+          placeholder="제목을 입력하세요"
+          rows="1"
+        >${title}</textarea>
+        
+        <textarea
+          class="card__description-input display-medium14 text-default"
+          placeholder="내용을 입력하세요"
+          rows="1"
+        >${description}</textarea>
       </div>
       <div class="card__editable-buttons">
         <button 

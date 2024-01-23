@@ -71,5 +71,24 @@ document.querySelector("#app").addEventListener("click", (event) => {
     "beforebegin",
     EditableCard.template({ columnId, cardId, title, description })
   );
+
+  document.querySelectorAll("textarea").forEach((element) => {
+    autoTextareaHeight(element);
+  });
+
   card.style.display = "none";
 });
+
+document.querySelectorAll("#app").forEach((element) => {
+  element.addEventListener("keyup", (event) => {
+    const target = event.target.closest("textarea");
+    if (target) {
+      autoTextareaHeight(target);
+    }
+  });
+});
+
+const autoTextareaHeight = (element) => {
+  element.style.height = "auto";
+  element.style.height = element.scrollHeight + "px";
+};

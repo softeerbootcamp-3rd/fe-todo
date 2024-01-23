@@ -7,18 +7,16 @@ export function template({ columnId }) {
         data-column-id=${columnId}
     >
       <div class="card__contents" data-column-id=${columnId}>
-        <input
+          <textarea
             class="card__title-input display-bold14 text-strong"
-            type="text"
             placeholder="제목을 입력하세요"
-            value=""
-        />
-        <input
+            rows="1">
+          </textarea>
+          <textarea
             class="card__description-input display-medium14 text-default"
-            type="text"
             placeholder="내용을 입력하세요"
-            value=""
-        />
+            rows="1">
+          </textarea>
       </div>
       <div class="card__editable-buttons">
         <button 
@@ -95,12 +93,14 @@ document.querySelector("#app").addEventListener("input", (event) => {
     button = target.querySelector(".edit-button");
   }
 
+  // 입력 중인 글자 가져오기
   const cardContent = target.querySelector(".card__contents");
   const title = cardContent.querySelector(".card__title-input").value;
   const description = cardContent.querySelector(
     ".card__description-input"
   ).value;
 
+  // 글자 수 확인
   if (title.length === 0 || description.length === 0) {
     button.disabled = true;
   } else {
