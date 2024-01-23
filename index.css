@@ -1,0 +1,22 @@
+body {
+    padding: 10px 20px 30px 20px;
+}
+.header {
+    display: flex;
+    flex-direction: row;
+    height: 64px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.app {
+    display: flex;
+    flex-direction: row;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+}
