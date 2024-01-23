@@ -13,9 +13,10 @@ export const todoStore = createStore((set, get) => ({
   todoList: getTodoList(), // initial todolist data
   add: (title, item) => {
     // add new Item to todoList
-    const newItem = addTodoListItem(title, item); // returns newly created item (with id)
+    const newItem = addTodoListItem(title, item);
+    // returns newly created item (with id)
     set((state) => {
-      const newTodoList = { ...todoList };
+      const newTodoList = { ...state.todoList };
       newTodoList[title].unshift(newItem);
       return { ...state, todoList: newTodoList };
     });
@@ -24,7 +25,7 @@ export const todoStore = createStore((set, get) => ({
     // find and remove item from todoList
     removeTodoListItem(title, item);
     set((state) => {
-      const newTodoList = { ...todoList };
+      const newTodoList = { ...state.todoList };
       for (let i = 0; i < newTodoList[title].length; i++) {
         if (newTodoList[title][i].id === item.id) {
           newTodoList[title].splice(i, 1);

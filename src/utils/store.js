@@ -6,17 +6,25 @@ export function createStore(initializer) {
   let state;
   const listeners = new Set();
   const getState = () => state;
-  const subscribe = (listener, selector = getState) => {
+  const subscribe = (
+    listener,
+    selector = getState,
+    equalityFunction = Object.is
+  ) => {
     // create listener
     let prevSlice = selector(state);
     function newListener() {
       const newSlice = selector(state);
-      if (!Object.is(prevSlice, newSlice)) {
+      if (!equalityFunction(prevSlice, newSlice)) {
         prevSlice = newSlice;
         listener(newSlice);
       }
     }
     listeners.add(newListener);
+
+    // run on subscribe
+    newListener();
+
     // returns unsubscribe callback
     return () => listeners.delete(newListener);
   };

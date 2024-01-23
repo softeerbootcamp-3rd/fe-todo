@@ -5,18 +5,18 @@ import { getHistory } from "../../utils/API/history";
 
 export default function todoHistory(renderTarget, initialData) {
   const views = mount(renderTarget, initialData);
-  attachHandlers(views, initialData);
+  return attachHandlers(views, initialData);
 }
 
 function attachHandlers(
   { renderTarget, historyList, historyCloseBtn, historyClearBtn },
   initialData
 ) {
-  historyCloseBtn.addEventListener("click", () => {
+  const historyCloseBtnClick = () => {
     document.dispatchEvent(new CustomEvent("toggleHistoryList"));
-  });
+  };
 
-  historyClearBtn.addEventListener("click", () =>
+  const historyClearBtnClick = () => {
     document.dispatchEvent(
       new CustomEvent("showDeleteModal", {
         detail: {
@@ -26,15 +26,25 @@ function attachHandlers(
           },
         },
       })
-    )
-  );
+    );
+  };
 
   const historyArr = getHistory();
+  let historyDestroyers = [];
   historyArr.forEach((history) => {
     const container = document.createElement("div");
-    todoHistoryItem(container, history);
+    historyDestroyers.push(todoHistoryItem(container, history));
     historyList.appendChild(container);
   });
+
+  historyCloseBtn.addEventListener("click", historyCloseBtnClick);
+  historyClearBtn.addEventListener("click", historyClearBtnClick);
+
+  return () => {
+    historyCloseBtn.removeEventListener("click", historyCloseBtnClick);
+    historyClearBtn.removeEventListener("click", historyClearBtnClick);
+    historyDestroyers.forEach((v) => v());
+  };
 }
 
 function mount(renderTarget, initialData) {

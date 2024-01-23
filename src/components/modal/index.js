@@ -4,27 +4,37 @@ import styles from "./modal.module.scss";
 
 export default function modal(renderTarget, initialData) {
   const views = mount(renderTarget, initialData);
-  attachHandlers(views, initialData);
+  return attachHandlers(views, initialData);
 }
 
 function attachHandlers(
   { renderTarget, modalSection, cancelBtn, deleteBtn },
   initialData
 ) {
-  modalSection.addEventListener("click", (e) => {
+  const modalSectionClick = (e) => {
     //app/index.js에서 선언해준 modal전체 영역을 눌렀을 때, 모달이 꺼지는 함수를 방지
     e.stopPropagation();
-  });
+  };
 
-  cancelBtn.addEventListener("click", () => {
+  const cancelBtnClick = () => {
     //밖에 클릭하면 나가는 함수를 취소 버튼에도 적용
     renderTarget.click();
-  });
+  };
 
-  deleteBtn.addEventListener("click", () => {
+  const deleteBtnClick = () => {
     renderTarget.click();
     initialData.onDelete();
-  });
+  };
+
+  modalSection.addEventListener("click", modalSectionClick);
+  cancelBtn.addEventListener("click", cancelBtnClick);
+  deleteBtn.addEventListener("click", deleteBtnClick);
+
+  return () => {
+    modalSection.removeEventListener("click", modalSectionClick);
+    cancelBtn.removeEventListener("click", cancelBtnClick);
+    deleteBtn.removeEventListener("click", deleteBtnClick);
+  };
 }
 
 function mount(renderTarget, initialData) {
