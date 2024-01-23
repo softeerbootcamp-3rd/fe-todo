@@ -1,21 +1,24 @@
 import styles from "./todoHistoryItem.module.scss";
 import userImage from "../../asset/img/userImage.png";
-export default function todoHistoryItem(target, data) {
-  target.innerHTML = template(target, data);
+
+export default function todoHistoryItem(renderTarget, initialData) {
+  mount(renderTarget, initialData);
 }
 
-function template(target, data) {
-  return /*html*/ `
+function mount(renderTarget, initialData) {
+  renderTarget.innerHTML = /*html*/ `
     <div class="${styles.todoHistoryItem}">
-      <img class="${
-        styles.todoHistoryItem__userImage
-      }" src="${userImage}"></img>
+      <img class="${styles.todoHistoryItem__userImage}" src="${userImage}"/>
       <div class="${styles.todoHistoryItem__contentContainer}">
-        <p class="${styles.todoHistoryItem__author}">@${data.authorName}</p>
+        <p class="${styles.todoHistoryItem__author}">@${
+    initialData.authorName
+  }</p>
         <p class="${styles.todoHistoryItem__content}">${formatHistoryText(
-    data
+    initialData
   )}</p>
-        <p class="${styles.todoHistoryItem__timeStamp}">${data.timeStamp}</p>
+        <p class="${styles.todoHistoryItem__timeStamp}">${
+    initialData.timeStamp
+  }</p>
       </div>
     </div>
   `;

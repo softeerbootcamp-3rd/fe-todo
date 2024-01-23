@@ -1,22 +1,24 @@
 import history from "../../asset/img/history.svg";
 import styles from "./header.module.scss";
 
-export default function header(target, data) {
-  target.innerHTML = template(data);
-  controller(target, data);
+export default function header(renderTarget, initialData) {
+  const views = mount(renderTarget, initialData);
+  attachHandlers(views, initialData);
 }
 
-function template(data) {
-  return /*html*/ `
+function mount(renderTarget, initialData) {
+  renderTarget.innerHTML = /*html*/ `
     <div class="${styles.header}">
       <h1 class="${styles.header__title}">TODO LIST</h1>
       <img data-node="historyBtn" class="${styles.header__history}" src="${history}">
     </div>
     `;
+
+  const historyBtn = renderTarget.querySelector('[data-node="historyBtn"]');
+  return { renderTarget, historyBtn };
 }
 
-function controller(target, data) {
-  const historyBtn = target.querySelector('[data-node="historyBtn"]');
+function attachHandlers({ renderTarget, historyBtn }, initialData) {
   historyBtn.addEventListener("click", () => {
     document.dispatchEvent(new CustomEvent("toggleHistoryList"));
   });
