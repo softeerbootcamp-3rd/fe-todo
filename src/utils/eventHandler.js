@@ -4,6 +4,7 @@ import {
   createEditorTemplate,
 } from "../components/templates.js";
 import createModal from "../components/modal.js";
+import { columnData } from "../../index.js";
 
 const targetList = [
   "add",
@@ -26,47 +27,42 @@ export default function customEventHandler(event) {
       break;
     }
     case targetList[1]: {
-      console.log("input title event");
-
       checkRegisterStatus(parentTarget);
       break;
     }
     case targetList[2]: {
-      console.log("input content event");
-
       checkRegisterStatus(parentTarget);
       break;
     }
     case targetList[3]: {
-      console.log("cancel btn event");
-
       const cardElement = parentTarget.querySelector(".newCard");
       cancelHandler(cardElement);
       break;
     }
     case targetList[4]: {
-      console.log("register btn event");
+      const card = registerCard(parentTarget);
+      const registeredTitle =
+        card.querySelector(".registeredTitle").textContent;
+      const registeredContent =
+        card.querySelector(".registeredContent").textContent;
 
-      registerCard(parentTarget);
+      columnData.addCardData(parentTarget.id, {
+        title: registeredTitle,
+        content: registeredContent,
+      });
       break;
     }
     case targetList[5]: {
-      console.log("save btn event");
-
       const registeredCard = target.closest(".newCard");
       saveHandler(registeredCard);
       break;
     }
     case targetList[6]: {
-      console.log("delete btn event");
-
       const registeredCard = target.closest(".registeredCard");
       createModal(parentTarget, registeredCard);
       break;
     }
     case targetList[7]: {
-      console.log("edit btn event");
-
       const registeredCard = target.closest(".registeredCard");
       editCard(registeredCard);
       break;
@@ -83,7 +79,6 @@ function addCard(target) {
   if (!isExistCard) {
     const card = Card();
     column.appendChild(card);
-    // handleRegisterStatus(column);
   } else {
     isExistCard.remove();
   }
@@ -122,6 +117,7 @@ function registerCard(column) {
   const originalContent = content.value;
 
   card.innerHTML = createCardInfoTemplate(originalTitle, originalContent);
+  return card;
 }
 
 function editCard(card) {
@@ -137,7 +133,6 @@ function editCard(card) {
 function saveHandler(card) {
   const newTitle = card.querySelector(".title").value;
   const newContent = card.querySelector(".content").value;
-
   card.classList.remove("newCard");
   card.classList.add("registeredCard");
 
