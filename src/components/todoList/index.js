@@ -1,6 +1,7 @@
 import todoItem from "../todoItem";
 import { onAddCountUp, onDeleteCountDown } from "./helper";
 import { todoListTemplate } from "./template";
+import { applyDragAndDrop } from "../../utils/dragAndDrop";
 
 export default function todoList(parent, props) {
   parent.innerHTML = todoListTemplate(props);
@@ -26,9 +27,14 @@ export default function todoList(parent, props) {
     });
     if (isNew) {
       // 새로운 아이템 등록 및 추가
-      newItemContainer.insertAdjacentElement("afterend", todoItemWrapper);
+      const referenceNode = newItemContainer.nextSibling;
+      itemsContainer.insertBefore(todoItemWrapper, referenceNode);
       newItemContainer.style.display = "none";
       onAddCountUp(itemCount);
+
+      const draggables = parent.querySelectorAll('[todo-data="todoItem"]');
+      const containers = parent.querySelectorAll("[todo-data='items']");
+      applyDragAndDrop(draggables, containers);
     } else {
       // 초기 데이터의 아이템 렌더시 사용
       itemsContainer.appendChild(todoItemWrapper);
