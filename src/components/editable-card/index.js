@@ -1,3 +1,4 @@
+import { store } from "../../store/index.js";
 import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
 import * as Column from "../column/index.js";
 
@@ -41,6 +42,9 @@ export function template({ columnId, cardId, title, description }) {
     `;
 }
 
+const render = () => {};
+store.subscribe(render);
+
 document.querySelector("#app").addEventListener("click", (event) => {
   const target = event.target.closest(
     ".card__editable-buttons > .cancel-button"
@@ -73,7 +77,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
     ".card__description-input"
   ).value;
 
-  // 데이터 저장
+  // FIXME: replace with store.dispatch and middleware
   const todolist = getLocalStorage("todolist");
   const columnIndex = todolist.findIndex(
     (column) => column.id === Number(columnId)
@@ -84,8 +88,12 @@ document.querySelector("#app").addEventListener("click", (event) => {
   cards[cardIndex] = newCard;
   setLocalStorage("todolist", todolist);
 
-  const card = document.querySelector(`.card[data-card-id="${cardId}"]`);
+  store.dispatch({ type: "EDIT_CARD", payload: {} });
+  // or
+  store.dispatch(editCard({ columnId, cardId, title, description }));
 
+  // render
+  const card = document.querySelector(`.card[data-card-id="${cardId}"]`);
   editableCard.remove();
   card.style.display = "flex";
   card.querySelector(".card__title").innerHTML = title;
