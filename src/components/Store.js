@@ -1,18 +1,22 @@
 export default class Store {
   #columnData = {};
 
-  constructor() {}
-
-  addCardData(key, cardData) {
-    if (!this.#columnData[key]) {
-      this.#columnData[key] = [];
-    }
-    this.#columnData[key].push(cardData);
+  constructor() {
+    this.cardId = 0;
   }
 
-  removeCardData(key, cardData) {
-    if (this.#columnData[key]) {
-      this.#columnData[key] = this.#columnData[key].filter(
+  addCardData(columnId, cardData) {
+    if (!this.#columnData[columnId]) {
+      this.#columnData[columnId] = [];
+    }
+    cardData["id"] = this.cardId;
+    this.#columnData[columnId].push(cardData);
+    return this.cardId++;
+  }
+
+  removeCardData(columnId, cardData) {
+    if (this.#columnData[columnId]) {
+      this.#columnData[columnId] = this.#columnData[columnId].filter(
         (obj) => obj !== cardData
       );
     }

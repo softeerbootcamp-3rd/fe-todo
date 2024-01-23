@@ -80,7 +80,11 @@ function registerCard({ target, parentTarget }) {
 
   const originalTitle = title.value;
   const originalContent = content.value;
-
+  const cardId = columnData.addCardData(parentTarget.id, {
+    originalTitle,
+    originalContent,
+  });
+  card.id = cardId;
   card.innerHTML = createCardInfoTemplate(originalTitle, originalContent);
   return card;
 }
