@@ -48,11 +48,11 @@ function checkRegisterStatus({ parentTarget }) {
 }
 
 // Card 등록 함수
-function registerCard({ parentTarget }) {
-  const title = parentTarget.querySelector(".title");
-  const content = parentTarget.querySelector(".content");
+function registerCard({ target, parentTarget }) {
+  const card = target.closest(".newCard");
+  const title = card.querySelector(".title");
+  const content = card.querySelector(".content");
   const countBox = parentTarget.querySelector(".countBox");
-  const card = parentTarget.querySelector(".newCard");
 
   const newCount = Number(countBox.textContent) + 1;
   countBox.innerHTML = newCount;
@@ -67,12 +67,14 @@ function registerCard({ parentTarget }) {
 }
 
 function editCard({ target }) {
+  const columnId = target.closest(".column").id;
   const card = target.closest(".registeredCard");
   const title = card.querySelector(".registeredTitle").textContent;
   const content = card.querySelector(".registeredContent").textContent;
-  localStorage.setItem("originalTitle", title);
-  localStorage.setItem("originalContent", content);
+  localStorage.setItem(`originalTitle-${columnId}`, title);
+  localStorage.setItem(`originalContent-${columnId}`, content);
 
+  console.log(title, content);
   card.className = "newCard";
   card.innerHTML = createEditorTemplate(title, content, true);
 }
@@ -81,22 +83,22 @@ function saveHandler({ target }) {
   const card = target.closest(".newCard");
   const newTitle = card.querySelector(".title").value;
   const newContent = card.querySelector(".content").value;
-  card.classList.remove("newCard");
-  card.classList.add("registeredCard");
+  card.className = "registeredCard";
 
   card.innerHTML = createCardInfoTemplate(newTitle, newContent);
 }
 
-function cancelHandler({ parentTarget }) {
-  const card = parentTarget.querySelector(".newCard");
+function cancelHandler({ target }) {
+  const columnId = target.closest(".column").id;
+  const card = target.closest(".newCard");
   const currentStatus = card.querySelector(".register").textContent;
   const status = currentStatus === "저장";
 
   if (status) {
-    const title = localStorage.getItem("originalTitle");
-    const content = localStorage.getItem("originalContent");
-    card.classList.remove("newCard");
-    card.classList.add("registeredCard");
+    const title = localStorage.getItem(`originalTitle-${columnId}`);
+    const content = localStorage.getItem(`originalContent-${columnId}`);
+    console.log(title, content);
+    card.className = "registeredCard";
     card.innerHTML = createCardInfoTemplate(title, content);
     return;
   }
