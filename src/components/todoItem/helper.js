@@ -60,3 +60,24 @@ export function createDeleteModal(target, onDelete) {
     })
   );
 }
+
+export function getClosestElement(elements, y) {
+  return elements.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    },
+    { offset: Number.NEGATIVE_INFINITY }
+  ).element;
+}
+
+export function requestUpdateItemCount(target, propagate) {
+  target.dispatchEvent(
+    new CustomEvent("updateItemCount", { bubbles: true, detail: { propagate } })
+  );
+}

@@ -2,8 +2,8 @@ import history from "../../asset/img/history.svg";
 import styles from "./header.module.scss";
 
 export default function header(renderTarget, initialData) {
-  const views = mount(initialData);
-  attachHandlers(renderTarget, initialData);
+  const views = mount(renderTarget, initialData);
+  attachHandlers(views, initialData);
 }
 
 function mount(renderTarget, initialData) {
