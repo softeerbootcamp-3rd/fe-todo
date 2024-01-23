@@ -38,7 +38,7 @@ const getHistoryContents = (history) => {
   return historyFunction ? historyFunction(history) : null;
 };
 
-const HistoryCardView = (history) => {
+export const HistoryCardView = (history) => {
   return `
 <li class="history-card">
   <img src="/assets/frog.svg" alt="profile" class="history-card__profile" />
@@ -52,5 +52,3 @@ const HistoryCardView = (history) => {
 </li>
       `;
 };
-
-export default HistoryCardView;

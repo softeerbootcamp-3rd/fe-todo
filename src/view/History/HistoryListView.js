@@ -1,4 +1,4 @@
-import HistoryCardView from "./Card/index.js";
+import { HistoryCardView } from "./HistoryCard/HistoryCardView.js";
 
 export const HistoryListView = (historyList) => {
   return `

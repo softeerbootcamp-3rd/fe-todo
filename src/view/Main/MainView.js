@@ -1,6 +1,6 @@
-import ColumnView from "./Column";
+import { ColumnView } from "./Column/ColumnView";
 
-const MainView = (columnDataTable) => {
+export const MainView = (columnDataTable) => {
   return `
 <main class="main">
     ${Object.keys(columnDataTable)
@@ -9,5 +9,3 @@ const MainView = (columnDataTable) => {
 </main>
 `;
 };
-
-export default MainView;

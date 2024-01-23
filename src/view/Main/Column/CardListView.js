@@ -1,4 +1,4 @@
-import { CardView } from "./Card/CardView.js";
+import { CardView } from "./Card/CardView";
 
 export const CardListView = ({ cardList, columnId, cardDataTable }) => {
   return `
