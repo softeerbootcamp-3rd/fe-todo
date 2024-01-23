@@ -1,8 +1,6 @@
 import { columnDataTable } from "../model/model.js";
 import { HeaderView } from "../view/Header/HeaderView.js";
-
 import { HistoryView } from "../view/History/HistoryView.js";
-
 import { MainView } from "../view/Main/MainView.js";
 
 export const initViews = () => {
