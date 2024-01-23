@@ -6,74 +6,26 @@ import {
 import createModal from "../components/modal.js";
 import { columnData } from "../../index.js";
 
-const targetList = [
-  "add",
-  "inputTitle",
-  "inputContent",
-  "cancelBtn",
-  "registerBtn",
-  "saveBtn",
-  "deleteBtn",
-  "editBtn",
-];
+const targetIdList = {
+  add: addCard,
+  inputTitle: checkRegisterStatus,
+  inputContent: checkRegisterStatus,
+  cancelBtn: cancelHandler,
+  registerBtn: registerCard,
+  saveBtn: saveHandler,
+  deleteBtn: deleteHandler,
+  editBtn: editCard,
+};
 
 export default function customEventHandler(event) {
   const target = event.target;
   const parentTarget = event.currentTarget;
 
-  switch (target.id) {
-    case targetList[0]: {
-      addCard(target);
-      break;
-    }
-    case targetList[1]: {
-      checkRegisterStatus(parentTarget);
-      break;
-    }
-    case targetList[2]: {
-      checkRegisterStatus(parentTarget);
-      break;
-    }
-    case targetList[3]: {
-      const cardElement = parentTarget.querySelector(".newCard");
-      cancelHandler(cardElement);
-      break;
-    }
-    case targetList[4]: {
-      const card = registerCard(parentTarget);
-      const registeredTitle =
-        card.querySelector(".registeredTitle").textContent;
-      const registeredContent =
-        card.querySelector(".registeredContent").textContent;
-
-      columnData.addCardData(parentTarget.id, {
-        title: registeredTitle,
-        content: registeredContent,
-      });
-      break;
-    }
-    case targetList[5]: {
-      const registeredCard = target.closest(".newCard");
-      saveHandler(registeredCard);
-      break;
-    }
-    case targetList[6]: {
-      const registeredCard = target.closest(".registeredCard");
-      createModal(parentTarget, registeredCard);
-      break;
-    }
-    case targetList[7]: {
-      const registeredCard = target.closest(".registeredCard");
-      editCard(registeredCard);
-      break;
-    }
-    default:
-      break;
-  }
+  targetIdList[target.id]({ target, parentTarget });
 }
 
 // Column의 '+' 버튼 클릭시 카드 추가 함수
-function addCard(target) {
+function addCard({ target }) {
   const column = target.closest(".column");
   const isExistCard = column.querySelector(".newCard");
   if (!isExistCard) {
@@ -84,29 +36,23 @@ function addCard(target) {
   }
 }
 
-// 제목, 내용의 입력 값 유무 판단 함수
-function checkInputsFilled(title, content, register) {
+// 등록 함수 활성화 판단 함수
+function checkRegisterStatus({ parentTarget }) {
+  const title = parentTarget.querySelector(".title");
+  const content = parentTarget.querySelector(".content");
+  const register = parentTarget.querySelector(".register");
   let status = !(title.value.trim() && content.value.trim());
 
   register.disabled = status;
   register.style.opacity = status ? 0.3 : 1;
 }
 
-// 등록 함수 활성화 판단 함수
-function checkRegisterStatus(parentTarget) {
-  const titleInput = parentTarget.querySelector(".title");
-  const contentInput = parentTarget.querySelector(".content");
-  const registerButton = parentTarget.querySelector(".register");
-
-  checkInputsFilled(titleInput, contentInput, registerButton);
-}
-
 // Card 등록 함수
-function registerCard(column) {
-  const title = column.querySelector(".title");
-  const content = column.querySelector(".content");
-  const countBox = column.querySelector(".countBox");
-  const card = column.querySelector(".newCard");
+function registerCard({ parentTarget }) {
+  const title = parentTarget.querySelector(".title");
+  const content = parentTarget.querySelector(".content");
+  const countBox = parentTarget.querySelector(".countBox");
+  const card = parentTarget.querySelector(".newCard");
 
   const newCount = Number(countBox.textContent) + 1;
   countBox.innerHTML = newCount;
@@ -120,7 +66,8 @@ function registerCard(column) {
   return card;
 }
 
-function editCard(card) {
+function editCard({ target }) {
+  const card = target.closest(".registeredCard");
   const title = card.querySelector(".registeredTitle").textContent;
   const content = card.querySelector(".registeredContent").textContent;
   localStorage.setItem("originalTitle", title);
@@ -130,7 +77,8 @@ function editCard(card) {
   card.innerHTML = createEditorTemplate(title, content, true);
 }
 
-function saveHandler(card) {
+function saveHandler({ target }) {
+  const card = target.closest(".newCard");
   const newTitle = card.querySelector(".title").value;
   const newContent = card.querySelector(".content").value;
   card.classList.remove("newCard");
@@ -139,7 +87,8 @@ function saveHandler(card) {
   card.innerHTML = createCardInfoTemplate(newTitle, newContent);
 }
 
-function cancelHandler(card) {
+function cancelHandler({ parentTarget }) {
+  const card = parentTarget.querySelector(".newCard");
   const currentStatus = card.querySelector(".register").textContent;
   const status = currentStatus === "저장";
 
@@ -152,4 +101,9 @@ function cancelHandler(card) {
     return;
   }
   card.remove();
+}
+
+function deleteHandler({ target, parentTarget }) {
+  const registeredCard = target.closest(".registeredCard");
+  createModal(parentTarget, registeredCard);
 }
