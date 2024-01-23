@@ -59,30 +59,46 @@ export function createModalTemplate() {
 
 export function createLogBoxTemplate() {
     return `
-    <header>
-      사용자 활동 기록
-      <button>x 닫기</button>
-    </header>
-    <div>
-      <div>
-        <img />
-        <p>
-          <span>@멋진종호</span>
-          <span>블로그에 포스팅할 것을(를) 하고있는 일에서 해야할 일으로
+    <div class="logHeader">
+      <span>사용자 활동 기록 </span>
+      <button>X 닫기</button>
+    </div>
+
+      <div class="logContent">
+        <img src="src/img/Image.png" />
+        <div>
+          <span class="userName">@멋사</span>
+          <span class="log">블로그에 포스팅할 것을(를) 하고있는 일에서 해야할 일으로
             이동하였습니다.</span>
-        </p>
+          <span class="time">3분전</span>
+        </div>
       </div>
 
-      <div>
-        <img />
-        <p>
-          <span>@멋진민우</span>
-          <span>Github 공부하기을(를) 변경하였습니다.</span>
-        </p>
+      <div class="logContent">
+        <img src="src/img/Image.png" />
+        <div>
+          <span class="userName">@멋사</span>
+          <span class="log">블로그에 포스팅할 것을(를) 하고있는 일에서 해야할 일으로
+            이동하였습니다.</span>
+          <span class="time">3분전</span>
+        </div>
       </div>
-    </div>
+
     <footer>
       <button>전체기록 삭제</button>
     </footer>
+  `;
+}
+
+export function logContent({ userName = "멋사", title, action, time }) {
+    return `
+      <div class="logContent">
+        <img src="src/img/Image.png" />
+        <div>
+          <span class="userName">@${userName}</span>
+          <span class="log">${title}을(를) ${action} 하였습니다.</span>
+          <span class="time">${time}</span>
+        </div>
+      </div>
   `;
 }
