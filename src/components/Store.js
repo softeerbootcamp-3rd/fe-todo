@@ -10,7 +10,7 @@ export default class Store {
       this.#columnData[columnId] = [];
     }
     cardData["id"] = this.cardId;
-    this.#columnData[columnId].push(cardData);
+    this.#columnData[columnId].unshift(cardData);
     return this.cardId++;
   }
 
