@@ -1,6 +1,8 @@
 import { createModalTemplate } from "./templates.js";
+import { createLogContent } from "./log.js";
 
 export default function createModal(column, card) {
+    const DEL = "을(를) 삭제";
     const modal = document.createElement("div");
     modal.classList.add("modal");
 
@@ -19,5 +21,8 @@ export default function createModal(column, card) {
         const countBox = column.querySelector(".countBox");
         const newCount = Number(countBox.textContent) - 1;
         countBox.innerHTML = newCount;
+
+        const cardTitle = card.querySelector(".registeredTitle").textContent;
+        createLogContent(cardTitle, `${DEL}`, Date.now());
     });
 }

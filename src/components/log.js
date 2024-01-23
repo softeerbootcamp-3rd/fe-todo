@@ -1,4 +1,5 @@
-import { createLogBoxTemplate } from "./templates.js";
+import { calculatorTime } from "../utils/history.js";
+import { createLogBoxTemplate, logContent } from "./templates.js";
 
 const NONE = "none";
 const FLEX = "flex";
@@ -26,4 +27,16 @@ const eventRegister = (element, target) => {
 
 const toggleElement = (target) => {
     target.style.display = target.style.display === NONE ? FLEX : NONE;
+};
+
+export const createLogContent = (title, action, time) => {
+    const afterTime = calculatorTime(time);
+    //제목, 유저 엑션(추가, 삭제, 수정), 생성시간, 파라미터로 받아오기
+    const logInfo = {
+        title: title,
+        action: action,
+        time: afterTime,
+    };
+    const newLog = logContent(logInfo);
+    document.querySelector(".wrapper").insertAdjacentHTML("afterbegin", newLog);
 };
