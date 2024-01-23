@@ -6,26 +6,36 @@ import modal from "../modal";
 
 export default function App(renderTarget, initialData) {
   const views = mount(renderTarget, initialData);
-  attachHandlers(views, initialData);
+  return attachHandlers(views, initialData);
 }
 
 function attachHandlers(
   { renderTarget, headerSection, todoSection, historySection, modalSection },
   initialData
 ) {
-  document.addEventListener("toggleHistoryList", () => {
+  const toggleHistoryList = () => {
     historySection.classList.toggle(styles["app__historySection--show"]);
     todoHistory(historySection, {});
-  });
+  };
 
-  modalSection.addEventListener("click", () => {
+  const modalSectionClick = () => {
     modalSection.style.display = "none";
-  });
+  };
 
-  renderTarget.addEventListener("showDeleteModal", ({ detail }) => {
+  const showDeleteModal = ({ detail }) => {
     modalSection.style.display = "block";
     modal(modalSection, { msg: detail.msg, onDelete: detail.onDelete });
-  });
+  };
+
+  renderTarget.addEventListener("showDeleteModal", showDeleteModal);
+  modalSection.addEventListener("click", modalSectionClick);
+  document.addEventListener("toggleHistoryList", toggleHistoryList);
+
+  return () => {
+    renderTarget.removeEventListener("showDeleteModal", showDeleteModal);
+    modalSection.removeEventListener("click", modalSectionClick);
+    document.removeEventListener("toggleHistoryList", toggleHistoryList);
+  };
 }
 
 function mount(renderTarget, initialData) {

@@ -18,7 +18,7 @@ import {
 
 export default function todoItem(renderTarget, initialData) {
   const views = mount(renderTarget, initialData);
-  attachHandlers(views, initialData);
+  return attachHandlers(views, initialData);
 }
 
 function attachHandlers(
@@ -65,6 +65,7 @@ function attachHandlers(
   };
 
   // 수정/등록 하고 제출 시
+
   const onSubmit_edit = () => {
     const newItem = {
       ...initialData.item,
@@ -153,6 +154,8 @@ function attachHandlers(
   // 투두 아이템의 초기 모드를 뷰 모드로 설정
   if (initialData.addMode) setEditMode();
   else setViewMode();
+
+  return () => {};
 }
 
 // todoItem 컴포넌트 템플릿
