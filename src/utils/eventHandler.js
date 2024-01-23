@@ -74,7 +74,6 @@ function editCard({ target }) {
   localStorage.setItem(`originalTitle-${columnId}`, title);
   localStorage.setItem(`originalContent-${columnId}`, content);
 
-  console.log(title, content);
   card.className = "newCard";
   card.innerHTML = createEditorTemplate(title, content, true);
 }
@@ -97,7 +96,6 @@ function cancelHandler({ target }) {
   if (status) {
     const title = localStorage.getItem(`originalTitle-${columnId}`);
     const content = localStorage.getItem(`originalContent-${columnId}`);
-    console.log(title, content);
     card.className = "registeredCard";
     card.innerHTML = createCardInfoTemplate(title, content);
     return;
