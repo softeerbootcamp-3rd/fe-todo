@@ -1,6 +1,7 @@
-import { cardDataTable, columnDataTable, historyDataList } from "../model/model.js";
-import { historyDataTemplate } from "../util/historyDataTemplate.js";
-import { renderCardList, renderListCount } from "../util/render.js";
+import { cardDataTable, columnDataTable, historyDataList } from "../../../../model/model.js";
+import { historyDataTemplate } from "../../../../util/historyDataTemplate.js";
+import { renderCardList } from "../../../../view/Main/Column/renderCardList.js";
+import { renderListCount } from "../../../../view/Main/Column/renderListCount.js";
 
 const addNewHistory = (currentCardId) => {
   const { author: username, title: cardTitle } = cardDataTable[currentCardId];
@@ -29,7 +30,7 @@ const deleteCard = (target) => {
   renderListCount(currentColumn);
 };
 
-export const deleteCardHandler = (target) => {
+export const clickDeleteCard = (target) => {
   const confirmDelete = confirm("정말로 삭제하시겠습니까?");
   if (confirmDelete) {
     deleteCard(target);

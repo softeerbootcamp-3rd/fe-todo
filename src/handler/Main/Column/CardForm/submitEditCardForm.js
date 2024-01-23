@@ -1,6 +1,7 @@
-import { cardDataTable, historyDataList } from "../model/model.js";
-import { historyDataTemplate } from "../util/historyDataTemplate.js";
-import { renderCardList, renderListCount } from "../util/render.js";
+import { cardDataTable, historyDataList } from "../../../../model/model.js";
+import { historyDataTemplate } from "../../../../util/historyDataTemplate.js";
+import { renderCardList } from "../../../../view/Main/Column/renderCardList.js";
+import { renderListCount } from "../../../../view/Main/Column/renderListCount.js";
 
 const createCardData = (target) => {
   const formData = new FormData(target);
@@ -27,7 +28,7 @@ const addNewHistory = (cardId) => {
   historyDataList.unshift(newHistory);
 };
 
-export const submitEditCardFormHandler = (target) => {
+export const submitEditCardForm = (target) => {
   const currentColumn = target.closest("section");
   const cardId = target.id.split("-")[1];
   updateModel({ target, cardId });
