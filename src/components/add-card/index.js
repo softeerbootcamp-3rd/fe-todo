@@ -1,10 +1,7 @@
-import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
-import * as Column from "../column/index.js";
-import { observe } from "../../store/observer.js";
 import todoStore from "../../store/todoStore.js";
 
 export function template({ columnId }) {
-  return `
+  return /*html*/ `
     <li class="card__editable rounded-8 surface-default shadow-normal"
         style="display: none;"
         data-column-id=${columnId}
@@ -62,17 +59,11 @@ document.querySelector("#app").addEventListener("click", (event) => {
   // TODO: author를 user agent에서 추출하기
   const data = { id: new Date().getTime(), title, description, author: "web" };
 
-  const todolist = getLocalStorage("todolist");
-  const selectedColumnIndex = todolist.findIndex(
-    (item) => item.id === Number(columnId)
-  );
-  todolist[selectedColumnIndex].cards = [
-    data,
-    ...todolist[selectedColumnIndex].cards,
-  ];
-  setLocalStorage("todolist", todolist);
-
-  render(columnId, selectedColumnIndex);
+  todoStore.dispatch({
+    type: "ADD_TODO",
+    columnId: columnId,
+    payload: data,
+  });
 });
 
 document.querySelector("#app").addEventListener("click", (event) => {
@@ -88,13 +79,3 @@ document.querySelector("#app").addEventListener("click", (event) => {
   addCard.style.display = "none";
   addCard.setAttribute("editable", "false");
 });
-
-// NOTE: 특정 칼럼에 대한 카드 리렌더링
-function render(columnId, selectedColumnIndex) {
-  const column = document.querySelector(
-    `.column[data-column-id="${columnId}"]`
-  );
-  column.innerHTML = `${Column.template({
-    column: getLocalStorage("todolist")[selectedColumnIndex],
-  })}`;
-}

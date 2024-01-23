@@ -3,6 +3,7 @@ import * as ColumnContainer from "./column-container/index.js";
 import * as ActionHistoryListDialog from "./action-history-list/index.js";
 import * as Alert from "./alert/index.js";
 import { getLocalStorage, setLocalStorage } from "../utils/local-storage.js";
+import todoStore from "../store/todoStore.js";
 
 const app = document.getElementById("app");
 
@@ -15,10 +16,24 @@ export function initializeApp() {
 }
 
 function initializeColumnData() {
-  if (getLocalStorage("todolist")) {
-    return;
+  if (!getLocalStorage("todolist")) {
+    setLocalStorage("todolist", initialColumnData);
   }
-  setLocalStorage("todolist", initialColumnData);
+
+  const todolist = getLocalStorage("todolist");
+  for (let i = 0; i < todolist.length; i++) {
+    todoStore.subscribe("ADD_TODO" + todolist[i].id, () => {
+      ColumnContainer.renderColumn(todolist[i].id);
+    });
+    todoStore.subscribe("DELETE_TODO" + todolist[i].id, () => {
+      ColumnContainer.renderColumn(todolist[i].id);
+    });
+    todoStore.subscribe("EDIT_TODO" + todolist[i].id, () => {
+      ColumnContainer.renderColumn(todolist[i].id);
+    });
+  }
+
+  todoStore.setState(todolist);
 }
 
 const initialColumnData = [
