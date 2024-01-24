@@ -42,7 +42,7 @@ export function template({ columnId }) {
 // 카드 등록
 document.querySelector("#app").addEventListener("click", (event) => {
   const target = event.target.closest(".add-button");
-  if (target === null) {
+  if (!target) {
     return;
   }
 
@@ -71,7 +71,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
 // 카드 등록 취소
 document.querySelector("#app").addEventListener("click", (event) => {
   const target = event.target.closest(".add-cancel-button");
-  if (target === null) {
+  if (!target) {
     return;
   }
 
@@ -86,15 +86,13 @@ document.querySelector("#app").addEventListener("click", (event) => {
 // 글자 수 확인 (버튼 활성화)
 document.querySelector("#app").addEventListener("input", (event) => {
   const target = event.target.closest(".card__editable");
-  if (target === null) {
+  if (!target) {
     return;
   }
 
   // 추가 버튼 혹은 수정 버튼
-  let button = target.querySelector(".add-button");
-  if (!button) {
-    button = target.querySelector(".edit-button");
-  }
+  const button =
+    target.querySelector(".add-button") || target.querySelector(".edit-button");
 
   // 입력 중인 글자 가져오기
   const cardContent = target.querySelector(".card__contents");
@@ -104,9 +102,5 @@ document.querySelector("#app").addEventListener("input", (event) => {
   ).value;
 
   // 글자 수 확인
-  if (title.length === 0 || description.length === 0) {
-    button.disabled = true;
-  } else {
-    button.disabled = false;
-  }
+  button.disabled = !(title.length > 0 && description.length > 0);
 });

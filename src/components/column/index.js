@@ -30,7 +30,7 @@ export function template({ column }) {
 
 document.querySelector("#app").addEventListener("click", (event) => {
   const target = event.target.closest(".column__head-plus");
-  if (target === null) {
+  if (!target) {
     return;
   }
 
