@@ -5,7 +5,7 @@ import { getHistory } from "../../utils/API/history";
 
 export default function todoHistory(renderTarget, initialData) {
   const views = mount(renderTarget, initialData);
-  return attachHandlers(views, initialData);
+  attachHandlers(views, initialData);
 }
 
 function attachHandlers(
@@ -39,12 +39,6 @@ function attachHandlers(
 
   historyCloseBtn.addEventListener("click", historyCloseBtnClick);
   historyClearBtn.addEventListener("click", historyClearBtnClick);
-
-  return () => {
-    historyCloseBtn.removeEventListener("click", historyCloseBtnClick);
-    historyClearBtn.removeEventListener("click", historyClearBtnClick);
-    historyDestroyers.forEach((v) => v());
-  };
 }
 
 function mount(renderTarget, initialData) {
