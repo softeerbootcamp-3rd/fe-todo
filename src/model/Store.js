@@ -8,24 +8,27 @@ class Store {
 
   async initDataFromServer() {
     const BASE_URL = "http://localhost:3000";
-    try {
-      const columnDataResponse = await fetch(`${BASE_URL}/columns`);
-      const cardDataResponse = await fetch(`${BASE_URL}/cards`);
-      const historyDataResponse = await fetch(`${BASE_URL}/history`);
+    const fetchData = async (url, name) => {
+      const response = await fetch(`${BASE_URL}${url}`);
 
-      if (!columnDataResponse.ok || !cardDataResponse.ok || !historyDataResponse.ok) {
-        throw new Error("Failed to fetch data from the server.");
+      if (!response.ok) {
+        throw new Error(`Failed to fetch ${name} data from the server.`);
       }
 
-      const columnData = await columnDataResponse.json();
-      const cardData = await cardDataResponse.json();
-      const historyData = await historyDataResponse.json();
+      return response.json();
+    };
+
+    try {
+      const dataUrls = ["/columns", "/cards", "/history"];
+      const [columnData, cardData, historyData] = await Promise.all(
+        dataUrls.map((url, index) => fetchData(url, ["column", "card", "history"][index]))
+      );
 
       this._columns = columnData;
       this._cards = cardData;
-      this._history = historyData;
+      this._histories = historyData;
     } catch (error) {
-      console.error("Error fetching data from the server:", error);
+      console.error("Error fetching data from the server:", error.message);
     }
   }
 
