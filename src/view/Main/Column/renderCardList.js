@@ -7,7 +7,7 @@ export const renderCardList = (currentColumn) => {
   currentColumn.insertAdjacentHTML(
     "beforeend",
     CardListView({
-      cardList: store.getColumn(currentColumn.id).value,
+      cardList: store.columnData[currentColumn.id].value,
       columnId: currentColumn.id,
       cardDataTable: store.cardData,
     })
