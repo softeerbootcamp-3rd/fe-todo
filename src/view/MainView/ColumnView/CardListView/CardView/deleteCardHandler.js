@@ -1,19 +1,18 @@
-import { historyDataList } from "../../../../../model/model.js";
 import { historyDataTemplate } from "../../../../../model/historyDataTemplate.js";
 import { renderCardList, renderListCount } from "../../../../render.js";
 import { ModalView, confirmHandlerInjector } from "../../../../ModalView/ModalView.js";
 import { store } from "../../../../../model/store.js";
 
 const addNewHistory = (currentCardId) => {
-  const { author: username, title: cardTitle } = store.getCard(currentCardId)
+  const card = store.getCard(currentCardId)
   const newHistory = {
     ...historyDataTemplate(),
-    username,
+    username: card.getAuthor(),
     time: Date.now(),
-    cardTitle,
+    cardTitle: card.getTitle(),
     type: "삭제",
   };
-  historyDataList.unshift(newHistory);
+  store.setHistory(newHistory);
 };
 
 const updateModel = ({ currentColumnId, currentCardId }) => {

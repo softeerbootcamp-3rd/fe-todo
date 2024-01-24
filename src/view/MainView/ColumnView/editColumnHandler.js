@@ -1,6 +1,8 @@
+import { store } from "../../../model/store.js";
 import { renderListCount, renderListTitle } from "../../render.js";
 
 export const editColumnHandler = ({target}) => {
+    if(target.classList[0] !== 'column__nav__info__title') return;
     const columnId = target.closest(".main__column").id;
     const title = store.getColumnTitle(columnId)
     const columnNavInfo = target.closest(".column__nav__info");

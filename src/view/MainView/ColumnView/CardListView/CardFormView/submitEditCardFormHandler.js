@@ -1,6 +1,6 @@
-import { historyDataList } from "../../../../../model/model.js";
 import { historyDataTemplate } from "../../../../../model/historyDataTemplate.js";
 import { renderCardList, renderListCount } from "../../../../render.js";
+import { createCard, store } from "../../../../../model/store.js";
 
 const createCardData = (target) => {
   const formData = new FormData(target);
@@ -9,22 +9,22 @@ const createCardData = (target) => {
 };
 
 const updateModel = ({ target, cardId }) => {
-  let oldCardData = store.getCard(cardId)
+  let oldCardData = store.getCard(cardId);
   let newCardData = createCardData(target);
-  store.setCard(cardId, { ...oldCardData, ...newCardData });
+  store.editCard(cardId, newCardData);
 };
 
 // todo: make addHistoryCard util-fn
 const addNewHistory = (cardId) => {
-  const { author: username, updatedAt: time, title: cardTitle } = store.getCard(cardId)
+  const card = store.getCard(cardId);
   const newHistory = {
     ...historyDataTemplate(),
-    username,
-    time,
-    cardTitle,
+    username: card.getAuthor(),
+    time: new Date(),
+    cardTitle: card.getTitle(),
     type: "변경",
   };
-  historyDataList.unshift(newHistory);
+  store.setHistory(newHistory);
 };
 
 export const submitEditCardFormHandler = (target) => {

@@ -17,7 +17,7 @@ export const historyListRender = () => {
 export const renderCardList = (currentColumn) => {
   const oldCardList = currentColumn.querySelector(".card-list");
   oldCardList.remove();
-  currentColumn.insertAdjacentHTML("beforeend", CardListView(columnIdToCardList(currentColumn.id), columnIdToIdx(currentColumn.id)));
+  currentColumn.insertAdjacentHTML("beforeend", CardListView(columnIdToCardList(currentColumn.id), currentColumn.id));
 };
 
 export const renderListTitle = (currentColumn) => {

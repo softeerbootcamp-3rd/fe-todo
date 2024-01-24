@@ -1,7 +1,6 @@
 import { store } from "../../model/store.js";
 import { renderListCount } from "../render.js";
 import { historyDataTemplate } from "../../model/historyDataTemplate.js";
-import { historyDataList } from "../../model/model.js";
 
 //Fixme: 이동이 취소되었을 때 Ghost 위치로 View가 이동하지만 Store는 갱신되지 않는다.
 
@@ -52,31 +51,36 @@ export const onDragEnd = (event) => {
 };
 
 const addHistory = (targetCardId, startColumnId, endColumnId) => {
-  const { author: username, title: cardTitle } = store.getCard(targetCardId)
-  const { title: from } = store.getColumnTitle(startColumnId)
-  const { title: to } = store.getColumnTitle(endColumnId)
+  const card = store.getCard(targetCardId);
+  const from = store.getColumnTitle(startColumnId)
+  const to = store.getColumnTitle(endColumnId)
   const newHistory = {
     ...historyDataTemplate,
-    username,
-    cardTitle,
+    username: card.getAuthor(),
+    cardTitle: card.getTitle(),
     time: new Date(),
     from,
     to,
     type: "이동",
   };
 
-  historyDataList.unshift(newHistory);
+  store.setHistory(newHistory);
 };
 
 const getMovedIndex = (cardId, columnId) => {
-  return [...document.querySelector(`#${columnId}-list`).children].map(
-    (li, idx) => {if(li.id === cardId) return idx;}
-  ).filter((idx) => idx !== undefined)[0];
+  return [...document.querySelector(`#${columnId}-list`).children].findIndex(
+    (li) => li.id === cardId
+  );
   //store.moveCard()
 };
 
 const updateCard = (cardId, endColumnId, index) => {
   store.moveCard(cardId, endColumnId, index);
+}
+
+const updateColumnModel = (columnId) => {
+  const column = store.getColumn(columnId);
+  store.shuffleColumn(columnId, [...document.querySelector(`#${columnId}-list`).children].map(li => li.id));
 }
 
 export const onDrop = (event) => {
@@ -86,7 +90,7 @@ export const onDrop = (event) => {
   const startColumnId = event.dataTransfer.getData("startColumnId");
   const endColumnId = container.parentElement.id;
 
-  //updateColumnModel(endColumnId);
+  
 
   if (startColumnId !== endColumnId) {
     const index = getMovedIndex(targetCardId, endColumnId);
@@ -96,5 +100,8 @@ export const onDrop = (event) => {
     renderListCount(document.querySelector(`#${endColumnId}`));
 
     addHistory(targetCardId, startColumnId, endColumnId);
+  }
+  else{
+    updateColumnModel(endColumnId);
   }
 };

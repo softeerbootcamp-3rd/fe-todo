@@ -10,7 +10,8 @@ const fillForm = (cardId) => {
   editCardForm.id = "form-" + cardId;
   const cardTitle = editCardForm.querySelector(".card-form__title");
   const cardContent = editCardForm.querySelector(".card-form__content");
-  ({title: cardTitle.value, content: cardContent.value} = store.getCard(cardId));
+  const card = store.getCard(cardId);
+  cardTitle.value = card.getTitle(), cardContent.value = card.getContent();
 };
 
 const hideCard = (targetCard) => {
