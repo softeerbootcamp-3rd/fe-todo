@@ -11,6 +11,7 @@ export default function todoListTable(parent, props) {
 
   for (const [todoColTitle, todoColData] of todoDataEntries) {
     const container = document.createElement("div");
+    container.id = `container_${todoColTitle}`;
     todoList(container, {
       title: todoColTitle,
       items: todoColData,

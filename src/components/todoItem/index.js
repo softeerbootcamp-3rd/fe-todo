@@ -73,23 +73,18 @@ export default function todoItem(parent, props) {
       createdOn: detectDeviceType(),
     };
 
-    //투두 등록 로직
+    //투두 등록 로직 => 디스패치 발생
     if (props.addMode) {
-      const newReturnItem = addTodoListItem(props.todoColTitle, newItem);
-      //추가하고 추가 컴포넌트 삭제 및
-      props.onAddItem(true, newReturnItem);
+      store.dispatch({
+        type: "plusTodoItem",
+        payload: { todoColTitle: props.todoColTitle, item: newItem },
+      });
     }
     //투두 수정 로직
     else {
       editTodoListItem(props.todoColTitle, newItem);
       setViewMode();
     }
-    //디스패치 실행
-    //payload로 행 이름과 아이템 입력해줌
-    store.dispatch({
-      type: "plusTodoItem",
-      payload: { todoColTitle: props.todoColTitle, item: newItem },
-    });
   };
 
   // 삭제 시

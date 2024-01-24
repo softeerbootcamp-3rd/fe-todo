@@ -1,46 +1,33 @@
 import { createStore } from "./store";
+import { addTodoListItem } from "../utils/API/todoList";
 
-let initStore = {
-  todoList: {
-    "해야할 일": [
-      {
-        title: "투두 아이템 제목 입니다.",
-        content: "투두 아이템 내용입니다.",
-        createdOn: "Web",
-      },
-      {
-        title: "투두 아이템 제목 입니다.",
-        content: "투두 아이템 내용입니다.",
-        createdOn: "Web",
-      },
-    ],
-    "하고 있는 일": [],
-    "완료한 일": [],
-  },
-  history: [
-    {
-      authorName: "쓴 사람 이름입니다",
-      timeStamp: 18121312312,
-      actionId: 0,
-      todoTitle: "새로운 투두",
-      todoSrc: null,
-      todoDst: null,
-    },
-  ],
+let initTodoList = {
+  "해야할 일": [],
+  "하고 있는 일": [],
+  "완료한 일": [],
 };
 
-localStorage.setItem("data", JSON.stringify(initStore));
+const existenceTodoList = JSON.parse(localStorage.getItem("todoList"));
+const existenceHistory = JSON.parse(localStorage.getItem("history"));
+let inStoreData;
+//이미 존재하는 값이 없으면 초기값으로 설정
+if (!existenceTodoList) {
+  localStorage.setItem("todoList", JSON.stringify(initTodoList));
+  inStoreData = { initStore, history: existenceHistory };
+} else {
+  inStoreData = { todoList: existenceTodoList, history: existenceHistory };
+}
 
-const store = createStore(initStore, reducer);
+const store = createStore(inStoreData, reducer);
 
 // reducer함수 구현
 function reducer(state = {}, action) {
   //값을 받아서 state에 추가
   if (action.type === "plusTodoItem") {
-    const item = action.payload.item;
     const todoColTitle = action.payload.todoColTitle;
-    state.todoList[todoColTitle].unshift(item);
-
+    const item = action.payload.item;
+    store.setPlusItem(todoColTitle, item);
+    addTodoListItem(todoColTitle, item);
     return {
       ...state,
     };

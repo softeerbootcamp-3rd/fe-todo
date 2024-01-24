@@ -10,7 +10,9 @@ export default function todoList(parent, props) {
     '[todo-data="newItemContainer"]'
   );
 
+  //행 하나에 item으로 컴포넌트를 만들어서 마운트
   const itemCount = parent.querySelector('[todo-data="itemCount"]');
+  const itemsContainer = parent.querySelector(`[todo-data="items"]`);
 
   const onAddItem = (isNew, item) => {
     const todoItemWrapper = document.createElement("div");
@@ -41,8 +43,6 @@ export default function todoList(parent, props) {
     }
   };
 
-  //행 하나에 item으로 컴포넌트를 만들어서 마운트
-  const itemsContainer = parent.querySelector('[todo-data="items"]');
   for (const item of props.items) {
     onAddItem(false, item);
   }
