@@ -31,6 +31,9 @@ function initializeColumnData() {
     todoStore.subscribe("EDIT_TODO" + todolist[i].id, () => {
       ColumnContainer.renderColumn(todolist[i].id);
     });
+    todoStore.subscribe("MOVE_TODO", () => {
+      ColumnContainer.renderColumn(todolist[i].id);
+    });
   }
 
   todoStore.setState(todolist);

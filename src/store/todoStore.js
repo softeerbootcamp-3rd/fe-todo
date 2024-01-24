@@ -3,6 +3,7 @@ import { createStore } from "./store.js";
 export const ADD_TODO = "ADD_TODO";
 export const DELETE_TODO = "DELETE_TODO";
 export const EDIT_TODO = "EDIT_TODO";
+export const MOVE_TODO = "MOVE_TODO";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -12,6 +13,9 @@ const reducer = (state, action) => {
       return deleteTodo(state, action);
     case EDIT_TODO:
       return editTodo(state, action);
+    case MOVE_TODO:
+      console.log("case MOVE_TODO");
+      return moveTodo(state, action);
     default:
       return state;
   }
@@ -49,5 +53,29 @@ const editTodo = (state, action) => {
     ...targetColumn.cards[targetCardIndex],
     ...action.payload.editedCard,
   };
+  return state;
+};
+
+// 투두 카드 이동
+const moveTodo = (state, action) => {
+  console.log("movetodo");
+  console.log(action);
+  const originColumn = state.find(
+    ({ id }) => id == action.payload.originColumnId
+  );
+  const movedColumn = state.find(
+    ({ id }) => id == action.payload.movedColumnId
+  );
+
+  const movedCard = originColumn.cards.find(
+    ({ id }) => id == action.payload.cardId
+  );
+  originColumn.cards = originColumn.cards.filter((card) => movedCard !== card);
+
+  console.log(movedColumn.cards);
+  console.log(movedCard);
+  movedColumn.cards.splice(action.payload.movedIndex, 0, movedCard);
+
+  console.log(movedColumn.cards);
   return state;
 };

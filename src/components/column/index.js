@@ -1,5 +1,6 @@
 import * as Card from "../card/index.js";
 import * as AddCard from "../add-card/index.js";
+import todoStore from "../../store/todoStore.js";
 
 export function template({ column }) {
   return `
@@ -61,18 +62,29 @@ document.querySelector("#app").addEventListener("dragstart", (event) => {
 });
 
 document.querySelector("#app").addEventListener("dragend", (event) => {
-  const draggingCard = event.target.closest(".dragging");
-  const column = event.target.closest(".column__cards");
-  if (draggingCard === null) {
+  const movedCard = event.target.closest(".dragging");
+  const movedColumn = event.target.closest(".column__cards");
+  if (movedCard === null || movedColumn == null) {
     return;
   }
 
-  draggingCard.classList.remove("dragging");
-  const columnId = draggingCard.getAttribute("data-column-id");
-  const cardId = draggingCard.getAttribute("data-card-id");
-  console.log(
-    "dragend" + columnId + "->" + column.getAttribute("data-column-id")
-  );
+  movedCard.classList.remove("dragging");
+  const originColumnId = movedCard.getAttribute("data-column-id");
+  const cardId = movedCard.getAttribute("data-card-id");
+
+  const cards = [...movedColumn.querySelectorAll("li.card")];
+  const movedIndex = cards.findIndex((card) => card === movedCard);
+
+  // 보내줘야할 데이터: 기존 컬럼, 이동한 컬럼, 추가된 위치(인덱스)
+  todoStore.dispatch({
+    type: "MOVE_TODO",
+    payload: {
+      originColumnId: originColumnId,
+      movedColumnId: movedColumn.getAttribute("data-column-id"),
+      movedIndex: movedIndex,
+      cardId: cardId,
+    },
+  });
 });
 
 document.querySelector("#app").addEventListener("dragover", (event) => {
@@ -84,9 +96,11 @@ document.querySelector("#app").addEventListener("dragover", (event) => {
 
   event.preventDefault();
 
+  console.log("dragover");
   const afterElement = getDragAfterElement(column, event.clientY);
   if (afterElement === undefined) {
     column.appendChild(draggingCard);
+    console.log("ssss");
   } else {
     column.insertBefore(draggingCard, afterElement);
   }
