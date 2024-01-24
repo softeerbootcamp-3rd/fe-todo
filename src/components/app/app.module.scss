@@ -3,6 +3,8 @@
   width: 100%;
   height: 100%;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
 
   &__headerSection {
     width: 100%;
@@ -19,6 +21,7 @@
   }
   &__todoSection {
     width: 100%;
+    flex-grow: 1;
     overflow-x: auto;
   }
 
