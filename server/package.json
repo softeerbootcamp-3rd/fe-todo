@@ -1,0 +1,27 @@
+{
+  "name": "todo-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon --inspect ./index.js 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ojj1123/fancy-fe-todo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ojj1123/fancy-fe-todo/issues"
+  },
+  "homepage": "https://github.com/ojj1123/fancy-fe-todo#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3"
+  }
+}
