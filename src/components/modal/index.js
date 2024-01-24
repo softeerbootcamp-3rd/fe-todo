@@ -4,7 +4,7 @@ import styles from "./modal.module.scss";
 
 export default function modal(renderTarget, initialData) {
   const views = mount(renderTarget, initialData);
-  return attachHandlers(views, initialData);
+  attachHandlers(views, initialData);
 }
 
 function attachHandlers(
@@ -29,12 +29,6 @@ function attachHandlers(
   modalSection.addEventListener("click", modalSectionClick);
   cancelBtn.addEventListener("click", cancelBtnClick);
   deleteBtn.addEventListener("click", deleteBtnClick);
-
-  return () => {
-    modalSection.removeEventListener("click", modalSectionClick);
-    cancelBtn.removeEventListener("click", cancelBtnClick);
-    deleteBtn.removeEventListener("click", deleteBtnClick);
-  };
 }
 
 function mount(renderTarget, initialData) {

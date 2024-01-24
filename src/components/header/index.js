@@ -3,7 +3,7 @@ import styles from "./header.module.scss";
 
 export default function header(renderTarget, initialData) {
   const views = mount(renderTarget, initialData);
-  return attachHandlers(views, initialData);
+  attachHandlers(views, initialData);
 }
 
 function mount(renderTarget, initialData) {
@@ -23,8 +23,4 @@ function attachHandlers({ renderTarget, historyBtn }, initialData) {
     document.dispatchEvent(new CustomEvent("toggleHistoryList"));
   };
   historyBtn.addEventListener("click", historyBtnClick);
-
-  return () => {
-    historyBtn.removeEventListener("click", historyBtnClick);
-  };
 }

@@ -6,7 +6,7 @@ import modal from "../modal";
 
 export default function App(renderTarget, initialData) {
   const views = mount(renderTarget, initialData);
-  return attachHandlers(views, initialData);
+  attachHandlers(views, initialData);
 }
 
 function attachHandlers(
@@ -30,12 +30,6 @@ function attachHandlers(
   renderTarget.addEventListener("showDeleteModal", showDeleteModal);
   modalSection.addEventListener("click", modalSectionClick);
   document.addEventListener("toggleHistoryList", toggleHistoryList);
-
-  return () => {
-    renderTarget.removeEventListener("showDeleteModal", showDeleteModal);
-    modalSection.removeEventListener("click", modalSectionClick);
-    document.removeEventListener("toggleHistoryList", toggleHistoryList);
-  };
 }
 
 function mount(renderTarget, initialData) {

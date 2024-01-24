@@ -3,7 +3,6 @@ import userImage from "../../asset/img/userImage.png";
 
 export default function todoHistoryItem(renderTarget, initialData) {
   mount(renderTarget, initialData);
-  return () => {};
 }
 
 function mount(renderTarget, initialData) {
