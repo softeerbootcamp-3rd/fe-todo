@@ -39,7 +39,8 @@ function addTodoListItem(title, item) {
 
 // 투두 리스트 아이템 제거
 function removeTodoListItem(colTitle, item) {
-  const todoData = JSON.parse(localStorage.getItem("todoList"));
+  const todos = localStorage.getItem("todoList");
+  const todoData = JSON.parse(todos);
   for (let idx = 0; idx < todoData[colTitle].length; idx++) {
     if (todoData[colTitle][idx].id === item.id) {
       todoData[colTitle].splice(idx, 1);
