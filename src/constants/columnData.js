@@ -2,11 +2,8 @@ export const columnList = [
     {
         id: "todo",
         title: "해야할 일",
-        count: 2,
-        cardList: [
-            { title: "GitHub 공부하기", content: "add, commit, push" },
-            { title: "GitHub 공부하기", content: "add, commit, push" },
-        ],
+        count: 1,
+        cardList: [{ title: "GitHub 공부하기", content: "add, commit, push" }],
     },
     {
         id: "doing",
@@ -20,10 +17,7 @@ export const columnList = [
     {
         id: "complete",
         title: "완료한 일",
-        count: 2,
-        cardList: [
-            { title: "GitHub 공부하기", content: "add, commit, push" },
-            { title: "GitHub 공부하기", content: "add, commit, push" },
-        ],
+        count: 0,
+        cardList: [],
     },
 ];

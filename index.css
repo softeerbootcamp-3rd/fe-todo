@@ -1,9 +1,11 @@
 body {
+    width: fit-content;
     padding: 10px 20px 30px 20px;
 }
 .header {
     display: flex;
     flex-direction: row;
+    width: 1440px;
     height: 64px;
     align-items: center;
     justify-content: space-between;

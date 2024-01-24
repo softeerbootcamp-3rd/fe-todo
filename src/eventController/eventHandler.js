@@ -4,6 +4,7 @@ import {
     createEditorTemplate,
 } from "../components/templates.js";
 import createModal from "../components/modal.js";
+import { createLogContent } from "../components/log.js";
 
 const eventHandlers = {
     add: addCard,
@@ -14,6 +15,11 @@ const eventHandlers = {
     saveBtn: (target) => saveHandler(target.closest(".newCard")),
     deleteBtn: (parentTarget, target) => createModal(parentTarget, target),
     editBtn: (target) => editCard(target.closest(".registeredCard")),
+};
+
+const action = {
+    ADD: "에 등록",
+    EDIT: "로 변경",
 };
 
 export default function customEventHandler(event) {
@@ -41,7 +47,6 @@ function addCard(target) {
     if (!isExistCard) {
         const card = Card();
         column.appendChild(card);
-        // handleRegisterStatus(column);
     } else {
         isExistCard.remove();
     }
@@ -66,6 +71,7 @@ function checkRegisterStatus(parentTarget) {
 
 // Card 등록 함수
 function registerCard(column) {
+    const columnTitle = column.querySelector(".columnTitle").textContent;
     const title = column.querySelector(".title");
     const content = column.querySelector(".content");
     const countBox = column.querySelector(".countBox");
@@ -80,6 +86,11 @@ function registerCard(column) {
     const originalContent = content.value;
 
     card.innerHTML = createCardInfoTemplate(originalTitle, originalContent);
+    createLogContent(
+        `${originalTitle}을(를)`,
+        `${columnTitle}${action.ADD}`,
+        Date.now()
+    );
 }
 
 function editCard(card) {
@@ -100,6 +111,7 @@ function saveHandler(card) {
     card.classList.add("registeredCard");
 
     card.innerHTML = createCardInfoTemplate(newTitle, newContent);
+    createLogContent(newTitle, `${action.EDIT}`, Date.now());
 }
 
 function cancelHandler(card) {
