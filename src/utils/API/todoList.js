@@ -1,17 +1,11 @@
 import { addHistory, editHistory, moveHistory, removeHistory } from "./history";
 //list에 고유한 번호를 부여하기 위한 임시 변수
-let idCount = 0;
 
 // 전체 투두리스트 불러와서 리턴
 function getTodoList() {
   const todoList = localStorage.getItem("todoList");
   if (todoList !== null) {
     const todoObject = JSON.parse(todoList);
-    Object.values(todoObject).forEach((todoColArr) => {
-      todoColArr.forEach((todo) => {
-        idCount = Math.max(idCount, todo.id);
-      });
-    });
     return todoObject;
   }
 
@@ -28,7 +22,7 @@ function getTodoList() {
 
 // 투두 리스트 아이템 추가
 function addTodoListItem(title, item) {
-  const newItem = { id: ++idCount, ...item };
+  const newItem = { id: new Date().getTime(), ...item };
   const todoData = JSON.parse(localStorage.getItem("todoList"));
   todoData[title].unshift(newItem);
   localStorage.setItem("todoList", JSON.stringify(todoData));
