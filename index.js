@@ -1,8 +1,16 @@
 import { createColumns } from "./src/components/columns.js";
 import { createLogBox } from "./src/components/log.js";
+import { TodoStore } from "./src/Store/store.js";
 
-(function () {
+(() => {
     const app = document.getElementById("app");
-    createColumns(app);
-    createLogBox(app);
+
+    async function initializeApp() {
+        const store = new TodoStore();
+        await store.fetchInitialData();
+        createColumns(app, store);
+        createLogBox(app);
+    }
+
+    initializeApp();
 })();

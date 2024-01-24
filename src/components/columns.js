@@ -5,9 +5,9 @@ import { getData } from "../services/http.js";
 import { createCard } from "./cards.js";
 
 // Column 동적 생성 함수
-export async function createColumns(baseElement) {
-    const data = await getData();
-    for (let column of data) {
+export function createColumns(baseElement, store) {
+    let columnData = store.columnList;
+    for (let column of columnData) {
         createSingleColumn(baseElement, column);
     }
 }
