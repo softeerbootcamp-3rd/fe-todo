@@ -1,16 +1,38 @@
 {
-  "columns": {
-    "column0": { "title": "해야할 일", "value": ["0"] },
-    "column1": { "title": "하고 있는 일", "value": ["1"] },
-    "column2": { "title": "완료한 일", "value": ["2"] }
-  },
-
-  "cards": {
-    "0": { "title": "Github 공부하기", "content": "add, commit, push", "author": "web" },
-    "1": { "title": "Store", "content": "class 문법", "author": "web" },
-    "2": { "title": "비동기", "content": "프로미스, async await", "author": "web" }
-  },
-
+  "columns": [
+    {
+      "id": "column0",
+      "title": "해야할 일",
+      "value": ["0"]
+    },
+    {
+      "id": "column1",
+      "title": "하고 있는 일",
+      "value": ["1"]
+    },
+    {
+      "id": "column2",
+      "title": "완료한 일",
+      "value": ["2"]
+    }
+  ],
+  "cards": [
+    {
+      "title": "Github 공부하기",
+      "content": "add, commit, push",
+      "author": "web"
+    },
+    {
+      "title": "Store",
+      "content": "class 문법",
+      "author": "web"
+    },
+    {
+      "title": "비동기",
+      "content": "프로미스, async await",
+      "author": "web"
+    }
+  ],
   "history": [
     {
       "username": "멋진삼",
