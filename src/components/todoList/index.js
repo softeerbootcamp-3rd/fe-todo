@@ -13,6 +13,10 @@ export default function todoList(parent, props) {
 
   const onAddItem = (isNew, item) => {
     const todoItemWrapper = document.createElement("div");
+    todoItemWrapper.setAttribute("todo-data", "todoItem");
+    todoItemWrapper.setAttribute("draggable", "true");
+    todoItemWrapper.setAttribute("value", item.id);
+
     todoItem(todoItemWrapper, {
       todoColTitle: props.title,
       item,
