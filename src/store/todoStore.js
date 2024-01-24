@@ -53,12 +53,21 @@ function reducer(state = {}, action) {
       ...state,
     };
   } else if (action.type === "changeTodoItem") {
-    const todoId = action.payload.todoId;
-    const todoColTitle = action.payload.todoColTitle.replace("todoCol_", "");
-    const whereColIdx = action.payload.whereColIdx;
+    const { startColIndex, todoColTitleSrc, endColIndex, todoColTitleDst } =
+      action.payload;
 
-    store.setChangeItem(todoId, todoColTitle, whereColIdx);
-    moveTodoListItem(todoId, todoColTitle, whereColIdx);
+    store.setChangeItem(
+      startColIndex,
+      todoColTitleSrc,
+      endColIndex,
+      todoColTitleDst
+    );
+    moveTodoListItem(
+      startColIndex,
+      todoColTitleSrc,
+      endColIndex,
+      todoColTitleDst
+    );
   }
 
   return state;

@@ -58,27 +58,16 @@ function editTodoListItem(colTitle, item) {
 }
 
 // 투두 리스트 아이템 옮기기
-function moveTodoListItem(todoId, todoColTitle, whereColIdx) {
+function moveTodoListItem(
+  startColIndex,
+  todoColTitleSrc,
+  endColIndex,
+  todoColTitleDst
+) {
   let todoList = JSON.parse(localStorage.getItem("todoList"));
-  let findColTitle;
-  let item;
-
-  todoList = Object.entries(todoList);
-  for (let colIdx = 0; colIdx < todoList.length; colIdx++) {
-    const todoColList = todoList[colIdx][1];
-    for (let itemIdx = 0; itemIdx < todoColList.length; itemIdx++) {
-      if (todoColList[itemIdx].id === +todoId) {
-        findColTitle = todoList[colIdx][0];
-        item = todoColList[itemIdx];
-        todoList[colIdx][1].splice(itemIdx, 1);
-        todoList = Object.fromEntries(todoList);
-        //수정 진행
-        todoList[todoColTitle].splice(whereColIdx, 0, item);
-        localStorage.setItem("todoList", JSON.stringify(todoList));
-        return;
-      }
-    }
-  }
+  const moveItem = todoList[todoColTitleSrc].splice(startColIndex, 1);
+  todoList[todoColTitleDst].splice(endColIndex, 0, ...moveItem);
+  localStorage.setItem("todoList", JSON.stringify(todoList));
 }
 
 export {

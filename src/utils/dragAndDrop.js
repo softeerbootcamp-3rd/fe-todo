@@ -11,8 +11,12 @@ export function applyDragAndDrop(draggables, containers) {
     container.style.height = `${maxHeight}px`;
   });
 
+  let todoColTitleSrc, startColIndex;
   draggables.forEach((draggable) => {
-    draggable.addEventListener("dragstart", () => {
+    draggable.addEventListener("dragstart", ({ target }) => {
+      const childrenNodeArr = Array.from(target.parentNode.children);
+      todoColTitleSrc = target.parentNode.id;
+      startColIndex = childrenNodeArr.indexOf(target) - 1;
       draggable.classList.add("dragging");
       draggable.style.opacity = 0.4;
     });
@@ -21,15 +25,15 @@ export function applyDragAndDrop(draggables, containers) {
       //자식 노드 객체를 배열로 바꿈.
       const childrenNodeArr = Array.from(target.parentNode.children);
 
-      const colTitleDst = target.parentNode.id;
-      const moveIndex = childrenNodeArr.indexOf(target);
-      const moveTodoId = target.getAttribute("value");
+      const todoColTitleDst = target.parentNode.id;
+      const endColIndex = childrenNodeArr.indexOf(target) - 1;
       store.dispatch({
         type: "changeTodoItem",
         payload: {
-          todoId: moveTodoId,
-          todoColTitle: colTitleDst,
-          whereColIdx: moveIndex,
+          startColIndex: startColIndex,
+          todoColTitleSrc: todoColTitleSrc.replace("todoCol_", ""),
+          endColIndex: endColIndex,
+          todoColTitleDst: todoColTitleDst.replace("todoCol_", ""),
         },
       });
 

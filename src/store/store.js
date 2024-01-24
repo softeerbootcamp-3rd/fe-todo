@@ -1,4 +1,5 @@
 import { todoColListRender } from "../utils/render/todoColListRender";
+import { todoCountRender } from "../utils/render/todoCountRender";
 
 export function createStore(initStore, reducer) {
   let state = {
@@ -8,27 +9,35 @@ export function createStore(initStore, reducer) {
   //리스너에선 어떤 액션일때 어떤 렌더링 함수를 시킬지 정함
   const listeners = {
     plusTodoItem: [
-      (todoColTitle, todoList) => todoColListRender(todoColTitle, todoList),
+      ({ todoColTitle }) => {
+        const colTodoList = getColTodoList(todoColTitle);
+        todoColListRender(todoColTitle, colTodoList);
+      },
     ],
     updateTodoItem: [
-      (todoColTitle, todoList) => todoColListRender(todoColTitle, todoList),
+      ({ todoColTitle }) => {
+        const colTodoList = getColTodoList(todoColTitle);
+        todoColListRender(todoColTitle, colTodoList);
+      },
     ],
     deleteTodoItem: [
-      (todoId, todoColTitle, whereColIdx) =>
-        todoColListRender(todoColTitle, todoList),
+      ({ todoColTitle }) => {
+        const colTodoList = getColTodoList(todoColTitle);
+        todoColListRender(todoColTitle, colTodoList);
+      },
     ],
-    moveTodoItem: [],
+    changeTodoItem: [
+      ({ todoColTitleSrc, todoColTitleDst }) => {
+        todoCountRender(todoColTitleSrc, getColTodoCount(todoColTitleSrc));
+        todoCountRender(todoColTitleDst, getColTodoCount(todoColTitleDst));
+      },
+    ],
   };
 
   //디스패치에선 reducer와 리스너를 실행
   const dispatch = (action) => {
     state = reducer(state, action);
-    listeners[action.type]?.forEach((fn) =>
-      fn(
-        action.payload.todoColTitle,
-        getColTodoList(action.payload.todoColTitle)
-      )
-    );
+    listeners[action.type]?.forEach((fn) => fn(action.payload));
   };
 
   //get함수
@@ -38,6 +47,9 @@ export function createStore(initStore, reducer) {
   const getColTodoList = (todoColTitle) => ({
     ...state.todoList[todoColTitle],
   });
+  const getColTodoCount = (todoColTitle) => {
+    return state.todoList[todoColTitle].length;
+  };
 
   //set함수
   const setPlusItem = (todoColTitle, item) => {
@@ -59,27 +71,20 @@ export function createStore(initStore, reducer) {
       const todo = todoList[idx];
       if (item.id === todo.id) {
         state.todoList[todoColTitle].splice(idx, 1);
+        console.log(state.todoList[todoColTitle]);
         break;
       }
     }
   };
-  const setChangeItem = (todoId, todoColTitle, whereColIdx) => {
-    const todoList = Object.entries(getTodoList());
-    let findColTitle, item;
-    for (let colIdx = 0; colIdx < todoList.length; colIdx++) {
-      const todoColList = todoList[colIdx][1];
-      for (let itemIdx = 0; itemIdx < todoColList.length; itemIdx++) {
-        if (todoColList[itemIdx].id === +todoId) {
-          findColTitle = todoList[colIdx][0];
-          item = todoColList[itemIdx];
-          //삭제 진행
-          state.todoList[findColTitle].splice(itemIdx, 1);
-          //수정 진행
-          state.todoList[todoColTitle].splice(whereColIdx, 0, item);
-          return;
-        }
-      }
-    }
+  const setChangeItem = (
+    startColIndex,
+    todoColTitleSrc,
+    endColIndex,
+    todoColTitleDst
+  ) => {
+    //const todoList = getTodoList();
+    const moveItem = state.todoList[todoColTitleSrc].splice(startColIndex, 1);
+    state.todoList[todoColTitleDst].splice(endColIndex, 0, ...moveItem);
   };
 
   return {
