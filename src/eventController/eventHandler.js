@@ -18,12 +18,10 @@ const eventHandlers = {
 };
 
 export default function customEventHandler(event) {
-    const target = event.target;
-    const parentTarget = event.currentTarget;
-
+    const { target, currentTarget } = event;
     const handler = eventHandlers[target.id];
     if (handler) {
-        handler({ target, parentTarget });
+        handler({ target, parentTarget: currentTarget });
     }
 }
 
