@@ -19,7 +19,7 @@ export function template({ columns }) {
 export function render(parent) {
   parent.insertAdjacentHTML(
     "beforeend",
-    template({ columns: todoStore.getState() })
+    template({ columns: todoStore.getState().columnData })
   );
 }
 
@@ -32,7 +32,7 @@ export function renderColumns(parameter) {
   parameter.forEach((columnId) => {
     const column = todoStore
       .getState()
-      .find(({ id }) => id === Number(columnId));
+      .columnData.find(({ id }) => id === columnId);
 
     renderColumn(columnId, column);
   });

@@ -66,9 +66,9 @@ document.querySelector("#app").addEventListener("dragend", (event) => {
   }
 
   movedCard.classList.remove("dragging");
-  const originColumnId = movedCard.getAttribute("data-column-id");
-  const movedColumnId = movedColumn.getAttribute("data-column-id");
-  const cardId = movedCard.getAttribute("data-card-id");
+  const originColumnId = Number(movedCard.getAttribute("data-column-id"));
+  const movedColumnId = Number(movedColumn.getAttribute("data-column-id"));
+  const cardId = Number(movedCard.getAttribute("data-card-id"));
 
   const cards = [...movedColumn.querySelectorAll("li.card")];
   const movedIndex = cards.findIndex((card) => card === movedCard);
@@ -76,7 +76,10 @@ document.querySelector("#app").addEventListener("dragend", (event) => {
   // 보내줘야할 데이터: 기존 컬럼, 이동한 컬럼, 추가된 위치(인덱스)
   todoStore.dispatch({
     type: "MOVE_TODO",
-    parameter: [originColumnId, movedColumnId],
+    parameter:
+      originColumnId === movedColumnId
+        ? [originColumnId]
+        : [originColumnId, movedColumnId],
     payload: {
       originColumnId: originColumnId,
       movedColumnId: movedColumnId,

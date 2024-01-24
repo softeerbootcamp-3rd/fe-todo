@@ -62,8 +62,8 @@ document.querySelector("#app").addEventListener("click", (event) => {
   }
 
   const editableCard = target.closest(".card__editable[data-card-id]");
-  const cardId = editableCard.getAttribute("data-card-id");
-  const columnId = editableCard.getAttribute("data-column-id");
+  const cardId = Number(editableCard.getAttribute("data-card-id"));
+  const columnId = Number(editableCard.getAttribute("data-column-id"));
 
   // 수정된 데이터 가져오기
   const title = editableCard.querySelector(".card__title-input").value;
