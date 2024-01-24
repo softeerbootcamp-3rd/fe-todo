@@ -1,24 +1,23 @@
-import {cardDataTable, columnDataTable, historyDataList } from "../../../../../model/model.js";
 import { historyDataTemplate } from "../../../../../model/historyDataTemplate.js";
 import { renderCardList, renderListCount } from "../../../../render.js";
 import { ModalView, confirmHandlerInjector } from "../../../../ModalView/ModalView.js";
+import { store } from "../../../../../model/store.js";
 
 const addNewHistory = (currentCardId) => {
-  const { author: username, title: cardTitle } = cardDataTable[currentCardId];
+  const card = store.getCard(currentCardId)
   const newHistory = {
     ...historyDataTemplate(),
-    username,
+    username: card.getAuthor(),
     time: Date.now(),
-    cardTitle,
+    cardTitle: card.getTitle(),
     type: "삭제",
   };
-  historyDataList.unshift(newHistory);
+  store.setHistory(newHistory);
 };
 
 const updateModel = ({ currentColumnId, currentCardId }) => {
-  const colList = columnDataTable[currentColumnId].value;
-  columnDataTable[currentColumnId].value = colList.filter((cardId) => cardId !== currentCardId);
-  delete cardDataTable[currentCardId];
+  const colList = store.getColumnIdList(currentColumnId);
+  store.deleteCard(currentCardId);
 };
 
 const deleteCard = (target) => {

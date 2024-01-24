@@ -1,6 +1,6 @@
 import { ModalView, confirmHandlerInjector } from "../ModalView/ModalView.js";
 import { historyListRender } from "../render.js";
-import { historyDataList } from "../../model/model.js";
+import { store } from "../../model/store.js";
 
 export const showHistory = () => {
   historyListRender();
@@ -12,7 +12,7 @@ export const closeHistory = () => {
 };
 
 const deleteHistory = () => {
-  historyDataList.splice(0, historyDataList.length);
+  store.purgeHistory();
   historyListRender();
 }
 

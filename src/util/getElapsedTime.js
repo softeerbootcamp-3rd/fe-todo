@@ -1,7 +1,7 @@
 export function getElapsedTime(start) {
   const end = new Date();
 
-  const diff = (end - start) / 1000;
+  const diff = (start - end) / 1000;
 
   const formatter = new Intl.RelativeTimeFormat("ko", {
     numeric: "auto",

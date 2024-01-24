@@ -1,6 +1,8 @@
-import { cardDataTable, columnDataTable, historyDataList } from "../../model/model.js";
+import { store } from "../../model/store.js";
 import { renderListCount } from "../render.js";
 import { historyDataTemplate } from "../../model/historyDataTemplate.js";
+
+//Fixme: 이동이 취소되었을 때 Ghost 위치로 View가 이동하지만 Store는 갱신되지 않는다.
 
 export const onDragStart = (event) => {
   const { target } = event;
@@ -49,27 +51,37 @@ export const onDragEnd = (event) => {
 };
 
 const addHistory = (targetCardId, startColumnId, endColumnId) => {
-  const { author: username, title: cardTitle } = cardDataTable[targetCardId];
-  const { title: from } = columnDataTable[startColumnId];
-  const { title: to } = columnDataTable[endColumnId];
+  const card = store.getCard(targetCardId);
+  const from = store.getColumnTitle(startColumnId)
+  const to = store.getColumnTitle(endColumnId)
   const newHistory = {
     ...historyDataTemplate,
-    username,
-    cardTitle,
+    username: card.getAuthor(),
+    cardTitle: card.getTitle(),
     time: new Date(),
     from,
     to,
     type: "이동",
   };
 
-  historyDataList.unshift(newHistory);
+  store.setHistory(newHistory);
 };
 
-const updateColumnModel = (columnId) => {
-  columnDataTable[columnId].value = [...document.querySelector(`#${columnId}-list`).children].map(
-    (li) => li.id
+const getMovedIndex = (cardId, columnId) => {
+  return [...document.querySelector(`#${columnId}-list`).children].findIndex(
+    (li) => li.id === cardId
   );
+  //store.moveCard()
 };
+
+const updateCard = (cardId, endColumnId, index) => {
+  store.moveCard(cardId, endColumnId, index);
+}
+
+const updateColumnModel = (columnId) => {
+  const column = store.getColumn(columnId);
+  store.shuffleColumn(columnId, [...document.querySelector(`#${columnId}-list`).children].map(li => li.id));
+}
 
 export const onDrop = (event) => {
   if (!container) return;
@@ -78,14 +90,18 @@ export const onDrop = (event) => {
   const startColumnId = event.dataTransfer.getData("startColumnId");
   const endColumnId = container.parentElement.id;
 
-  updateColumnModel(endColumnId);
+  
 
   if (startColumnId !== endColumnId) {
-    updateColumnModel(startColumnId);
+    const index = getMovedIndex(targetCardId, endColumnId);
+    updateCard(targetCardId, endColumnId, index);
 
     renderListCount(document.querySelector(`#${startColumnId}`));
     renderListCount(document.querySelector(`#${endColumnId}`));
 
     addHistory(targetCardId, startColumnId, endColumnId);
+  }
+  else{
+    updateColumnModel(endColumnId);
   }
 };

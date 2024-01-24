@@ -1,7 +1,7 @@
-import { cardDataTable, columnDataTable, historyDataList } from "../../../../../model/model.js";
 import { getDeviceInfo } from "../../../../../util/getDeviceInfo.js";
 import { historyDataTemplate } from "../../../../../model/historyDataTemplate.js";
 import { renderCardList, renderListCount } from "../../../../render.js";
+import { store, createCard } from "../../../../../model/store.js";
 
 let cardId = 3;
 
@@ -9,29 +9,29 @@ const createCardData = (target) => {
   const formData = new FormData(target);
   formData.set("author", getDeviceInfo());
   formData.set("createdAt", new Date());
-  formData.set("cardId", cardId);
+  formData.set("cardId", String(cardId));
   return Object.fromEntries(formData);
 };
 
 const updateModel = ({ target, currentColumn }) => {
   const columnId = currentColumn.id;
-  columnDataTable[columnId].value.unshift(cardId + "");
-  cardDataTable[cardId] = createCardData(target);
+  const card = {...createCardData(target), columnId};
+  store.setCard(String(cardId), createCard(card));
 };
 
 // todo: make addHistoryCard util-fn
 const addNewHistory = (currentColumn) => {
-  const { author: username, createdAt: time, title: cardTitle } = cardDataTable[cardId++];
-  const columnTitle = columnDataTable[currentColumn.id].title;
+  const card = store.getCard(String(cardId++));
+  const columnTitle = store.getColumnTitle(currentColumn.id);
   const newHistory = {
     ...historyDataTemplate(),
-    username,
-    time,
-    cardTitle,
+    username: card.getAuthor(),
+    time: new Date(),
+    cardTitle: card.getTitle(),
     type: "등록",
     from: columnTitle,
   };
-  historyDataList.unshift(newHistory);
+  store.setHistory(newHistory);
 };
 
 export const submitAddCardFormHandler = (target) => {
