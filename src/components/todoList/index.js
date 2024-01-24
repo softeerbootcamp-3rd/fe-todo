@@ -1,5 +1,4 @@
 import todoItem from "../todoItem";
-import { onAddCountUp, onDeleteCountDown } from "./helper";
 import { todoListTemplate } from "./template";
 import { applyDragAndDrop } from "../../utils/dragAndDrop";
 
@@ -11,7 +10,6 @@ export default function todoList(parent, props) {
   );
 
   //행 하나에 item으로 컴포넌트를 만들어서 마운트
-  const itemCount = parent.querySelector('[todo-data="itemCount"]');
   const itemsContainer = parent.querySelector(`[todo-data="items"]`);
 
   const onAddItem = (isNew, item) => {
@@ -23,16 +21,12 @@ export default function todoList(parent, props) {
     todoItem(todoItemWrapper, {
       todoColTitle: props.title,
       item,
-      onDeleteItem: () => {
-        onDeleteCountDown(itemCount);
-      },
     });
     if (isNew) {
       // 새로운 아이템 등록 및 추가
       const referenceNode = newItemContainer.nextSibling;
       itemsContainer.insertBefore(todoItemWrapper, referenceNode);
       newItemContainer.style.display = "none";
-      onAddCountUp(itemCount);
 
       const draggables = parent.querySelectorAll('[todo-data="todoItem"]');
       const containers = parent.querySelectorAll("[todo-data='items']");

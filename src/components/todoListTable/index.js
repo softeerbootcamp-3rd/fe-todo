@@ -1,4 +1,3 @@
-import { store } from "../../store/todoStore";
 import todoList from "../todoList";
 import { todoListTableTemplate } from "./template";
 export default function todoListTable(parent, props) {
