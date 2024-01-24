@@ -1,6 +1,5 @@
 class Store {
   constructor() {
-    // 초기 cardId를 0으로 설정
     this.cardId = 0;
     this._columns = {};
     this._cards = {};
@@ -51,7 +50,7 @@ class Store {
   }
 
   addCard({ columnId, cardData }) {
-    const column = this.getColumn(columnId);
+    const column = this._columns[columnId];
     if (column) {
       column.value.unshift(this.cardId);
       this._cards[this.cardId] = cardData;
@@ -61,7 +60,7 @@ class Store {
   }
 
   deleteCard({ columnId, cardId }) {
-    const column = this.getColumn(columnId);
+    const column = this._columns[columnId];
     if (column) {
       column.value = column.value.filter((id) => id !== cardId);
     } else {
@@ -78,13 +77,9 @@ class Store {
     }
   }
 
-  moveCard({ sourceColumnId, destinationColumnId, cardId }) {
-    const sourceColumn = this.getColumn(sourceColumnId);
-    const destinationColumn = this.getColumn(destinationColumnId);
-
-    if (sourceColumn && destinationColumn) {
-      this.deleteCard({ columnId: sourceColumnId, cardId });
-      this.addCard({ columnId: destinationColumnId, cardId });
+  moveCard({ columnId, newColumnValue }) {
+    if (columnId && newColumnValue) {
+      this._columns[columnId].value = newColumnValue;
     } else {
       console.error(`Column with ID ${sourceColumnId} or ${destinationColumnId} does not exist.`);
     }
@@ -102,7 +97,7 @@ class Store {
   }
 
   setDeleteCardHistory(cardId) {
-    const { author: username, title: cardTitle } = this.getCard(cardId);
+    const { author: username, title: cardTitle } = this._cards[cardId];
     const newHistory = {
       ...this.getHistoryTemplate(),
       username,
@@ -114,8 +109,8 @@ class Store {
   }
 
   setAddCardHistory(columnId) {
-    const { author: username, createdAt: time, title: cardTitle } = this.getCard(this.cardId++);
-    const columnTitle = this.getColumn(columnId).title;
+    const { author: username, createdAt: time, title: cardTitle } = this._cards[this.cardId++];
+    const columnTitle = this._columns[columnId].title;
     const newHistory = {
       ...this.getHistoryTemplate(),
       username,
@@ -128,7 +123,7 @@ class Store {
   }
 
   setEditCardHistory(cardId) {
-    const { author: username, updatedAt: time, title: cardTitle } = this.getCard(cardId);
+    const { author: username, updatedAt: time, title: cardTitle } = this._cards[cardId];
     const newHistory = {
       ...this.getHistoryTemplate(),
       username,
@@ -136,6 +131,23 @@ class Store {
       cardTitle,
       type: "변경",
     };
+    this._history.unshift(newHistory);
+  }
+
+  setMoveCardHistory({ cardId, startColumnId, endColumnId }) {
+    const { author: username, title: cardTitle } = this._cards[cardId];
+    const { title: from } = this._columns[startColumnId];
+    const { title: to } = this._columns[endColumnId];
+    const newHistory = {
+      ...this.getHistoryTemplate(),
+      username,
+      cardTitle,
+      time: new Date(),
+      from,
+      to,
+      type: "이동",
+    };
+
     this._history.unshift(newHistory);
   }
 }
