@@ -1,7 +1,8 @@
 import * as ActionHistoryItem from "../action-history-item/index.js";
 import * as Alert from "../alert/index.js";
+import todoStore from "../../store/todoStore.js";
 
-export function template(data) {
+export function template({ actionHistorys }) {
   return `
     <dialog class="action-history-dialog rounded-16 shadow-floating">
       <div class="action-history__container">
@@ -21,14 +22,17 @@ export function template(data) {
           </button>
         </div>
         <ul class="action-history__items">
-          ${data.map((item) => ActionHistoryItem.template()).join("")}
+          ${actionHistorys
+            .map((actionHistory) =>
+              ActionHistoryItem.template({ actionHistory })
+            )
+            .join("")}
         </ul>
         <div class="action-history__footer">
           <button
             class="button text-danger display-bold14"
             style="width: 104px"
-            type="button"
-          >
+            type="button">
             기록 전체 삭제
           </button>
         </div>
@@ -39,7 +43,11 @@ export function template(data) {
 
 export function render(parent) {
   // FIXME 초기 데이터 받아서 넣어주기
-  parent.insertAdjacentHTML("beforeend", template([1, 2, 3]));
+
+  parent.insertAdjacentHTML(
+    "beforeend",
+    template({ actionHistorys: todoStore.getState().actionHistory })
+  );
 
   const dialog = document.querySelector(".action-history-dialog");
 
@@ -54,8 +62,17 @@ export function render(parent) {
     .addEventListener("click", removeAllActionHistory);
 }
 
+export function renderActionHistoryItems() {
+  const historyItems = document.querySelector(".action-history__items");
+  const actionHistory = todoStore.getState().actionHistory;
+  historyItems.innerHTML = actionHistory
+    .map((actionHistory) => ActionHistoryItem.template({ actionHistory }))
+    .join("");
+}
+
 export function show() {
   const dialog = document.querySelector(".action-history-dialog");
+  renderActionHistoryItems();
   dialog.showModal();
 }
 

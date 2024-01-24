@@ -26,47 +26,51 @@ export default todoStore;
 
 // 투두 카드 추가
 const addTodo = (state, payload) => {
-  const targetColumn = state.find(({ id }) => id == payload.columnId);
+  const columnData = state.columnData;
+  const targetColumn = columnData.find(({ id }) => id === payload.columnId);
   targetColumn.cards = [payload.newCard, ...targetColumn.cards];
-  return state;
-};
 
-// todoStore.dispatch({
-//   type: "DELETE_TODO",
-//   parameter: [columnId],
-//   payload: {
-//     columnId: columnId,
-//     cardId: cardId,
-//   }
-// });
+  // actionHistory state 변경
+  const newActionHistory = {
+    actionType: ADD_TODO,
+    cardTitle: payload.newCard.title,
+    prevColumn: targetColumn.columnName,
+    curColumn: targetColumn.columnName,
+    createdAt: new Date().getTime(),
+  };
+  return {
+    columnData: columnData,
+    actionHistory: [newActionHistory, ...state.actionHistory],
+  };
+};
 
 // 투두 카드 삭제
 const deleteTodo = (state, payload) => {
-  const targetColumn = state.find(({ id }) => id == payload.columnId);
-  targetColumn.cards = targetColumn.cards.filter(
-    ({ id }) => id != payload.cardId
-  );
-  return state;
-};
+  const columnData = state.columnData;
+  const targetColumn = columnData.find(({ id }) => id === payload.columnId);
+  const deleteCard = targetColumn.cards.find(({ id }) => id !== payload.cardId);
+  targetColumn.cards = targetColumn.cards.filter((card) => card !== deleteCard);
 
-// todoStore.dispatch({
-//   type: "EDIT_TODO",
-//   parameter: [columnId],
-//   payload: {
-//     columnId: columnId,
-//     cardId: cardId,
-//     editedCard: {
-//       title: title,
-//       description: description,
-//     },
-//   },
-// });
+  // actionHistory state 변경
+  const newActionHistory = {
+    actionType: DELETE_TODO,
+    cardTitle: deleteCard.title,
+    prevColumn: targetColumn.columnName,
+    curColumn: targetColumn.columnName,
+    createdAt: new Date().getTime(),
+  };
+  return {
+    columnData: columnData,
+    actionHistory: [newActionHistory, ...state.actionHistory],
+  };
+};
 
 // 투두 카드 수정
 const editTodo = (state, payload) => {
-  const targetColumn = state.find(({ id }) => id == payload.columnId);
+  const columnData = state.columnData;
+  const targetColumn = columnData.find(({ id }) => id === payload.columnId);
   const targetCardIndex = targetColumn.cards.findIndex(
-    ({ id }) => id == payload.cardId
+    ({ id }) => id === payload.cardId
   );
 
   // 기존 카드 데이터 덮어쓰기
@@ -74,28 +78,45 @@ const editTodo = (state, payload) => {
     ...targetColumn.cards[targetCardIndex],
     ...payload.editedCard,
   };
-  return state;
-};
 
-// todoStore.dispatch({
-//   type: "MOVE_TODO",
-//   parameter: [originColumnId, movedColumnId]
-//   payload: {
-//     originColumnId: originColumnId,
-//     movedColumnId: movedColumn.getAttribute("data-column-id"),
-//     movedIndex: movedIndex,
-//     cardId: cardId,
-//   },
-// });
+  // actionHistory state 변경
+  const newActionHistory = {
+    actionType: EDIT_TODO,
+    cardTitle: payload.editedCard.title,
+    prevColumn: targetColumn.columnName,
+    curColumn: targetColumn.columnName,
+    createdAt: new Date().getTime(),
+  };
+
+  return {
+    columnData: columnData,
+    actionHistory: [newActionHistory, ...state.actionHistory],
+  };
+};
 
 // 투두 카드 이동
 const moveTodo = (state, payload) => {
-  const originColumn = state.find(({ id }) => id == payload.originColumnId);
-  const movedColumn = state.find(({ id }) => id == payload.movedColumnId);
+  const columnData = state.columnData;
+  const originColumn = columnData.find(
+    ({ id }) => id === payload.originColumnId
+  );
+  const movedColumn = columnData.find(({ id }) => id === payload.movedColumnId);
 
-  const movedCard = originColumn.cards.find(({ id }) => id == payload.cardId);
+  const movedCard = originColumn.cards.find(({ id }) => id === payload.cardId);
   originColumn.cards = originColumn.cards.filter((card) => movedCard !== card);
-
   movedColumn.cards.splice(payload.movedIndex, 0, movedCard);
-  return state;
+
+  // actionHistory state 변경
+  const newActionHistory = {
+    actionType: MOVE_TODO,
+    cardTitle: movedCard.title,
+    prevColumn: originColumn.columnName,
+    curColumn: movedColumn.columnName,
+    createdAt: new Date().getTime(),
+  };
+
+  return {
+    columnData: columnData,
+    actionHistory: [newActionHistory, ...state.actionHistory],
+  };
 };

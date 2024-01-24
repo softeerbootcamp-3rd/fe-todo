@@ -33,7 +33,7 @@ export const createStore = (initialState, reducer) => {
   const getState = () => state;
 
   const setState = (payload) => {
-    state = [...payload];
+    state = { ...payload };
   };
 
   return {

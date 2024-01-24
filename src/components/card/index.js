@@ -42,8 +42,8 @@ document.querySelector("#app").addEventListener("click", (event) => {
     message: "선택한 카드를 삭제할까요?",
     onConfirm: () => {
       const card = target.closest(".card");
-      const columnId = card.getAttribute("data-column-id");
-      const cardId = card.getAttribute("data-card-id");
+      const columnId = Number(card.getAttribute("data-column-id"));
+      const cardId = Number(card.getAttribute("data-card-id"));
 
       todoStore.dispatch({
         type: "DELETE_TODO",

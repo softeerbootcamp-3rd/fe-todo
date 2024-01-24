@@ -47,7 +47,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
   }
 
   // TODO: author를 user agent에서 추출하기
-  const columnId = target.getAttribute("data-column-id");
+  const columnId = Number(target.getAttribute("data-column-id"));
   const cardContent = document.querySelector(
     `.card__contents[data-column-id="${columnId}"]`
   );
