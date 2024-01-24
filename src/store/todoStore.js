@@ -1,5 +1,9 @@
 import { createStore } from "./store";
-import { addTodoListItem, editTodoListItem } from "../utils/API/todoList";
+import {
+  addTodoListItem,
+  editTodoListItem,
+  removeTodoListItem,
+} from "../utils/API/todoList";
 
 let initTodoList = {
   "해야할 일": [],
@@ -36,6 +40,14 @@ function reducer(state = {}, action) {
     const todoColTitle = action.payload.todoColTitle;
     store.setUpdateItem(todoColTitle, item);
     editTodoListItem(todoColTitle, item);
+    return {
+      ...state,
+    };
+  } else if (action.type === "deleteTodoItem") {
+    const item = action.payload.item;
+    const todoColTitle = action.payload.todoColTitle;
+    store.setDeleteItem(todoColTitle, item);
+    removeTodoListItem(todoColTitle, item);
     return {
       ...state,
     };

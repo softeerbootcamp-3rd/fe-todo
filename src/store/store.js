@@ -13,6 +13,9 @@ export function createStore(initStore, reducer) {
     updateTodoItem: [
       (todoColTitle, todoList) => todoColListRender(todoColTitle, todoList),
     ],
+    deleteTodoItem: [
+      (todoColTitle, todoList) => todoColListRender(todoColTitle, todoList),
+    ],
   };
 
   //디스패치에선 reducer와 리스너를 실행
@@ -48,6 +51,16 @@ export function createStore(initStore, reducer) {
       }
     }
   };
+  const setDeleteItem = (todoColTitle, item) => {
+    const todoList = getTodoList()[todoColTitle];
+    for (let idx = 0; idx < todoList.length; idx++) {
+      const todo = todoList[idx];
+      if (item.id === todo.id) {
+        state.todoList[todoColTitle].splice(idx, 1);
+        break;
+      }
+    }
+  };
 
   return {
     getState,
@@ -56,6 +69,7 @@ export function createStore(initStore, reducer) {
     getColTodoList,
     setPlusItem,
     setUpdateItem,
+    setDeleteItem,
     dispatch,
   };
 }

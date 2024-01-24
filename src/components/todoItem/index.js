@@ -1,9 +1,4 @@
 import { store } from "../../store/todoStore";
-import {
-  addTodoListItem,
-  editTodoListItem,
-  removeTodoListItem,
-} from "../../utils/API/todoList";
 
 import {
   addCheckInput,
@@ -91,12 +86,11 @@ export default function todoItem(parent, props) {
 
   // 삭제 시
   const onErase_view = () => {
-    console.log("onerase");
     createDeleteModal(parent, () => {
-      removeTodoListItem(props.todoColTitle, props.item);
-      parent.parentNode.removeChild(parent);
-      console.log(props);
-      props.onDeleteItem();
+      store.dispatch({
+        type: "deleteTodoItem",
+        payload: { todoColTitle: props.todoColTitle, item: props.item },
+      });
     });
   };
 
