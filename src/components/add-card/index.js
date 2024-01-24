@@ -1,27 +1,22 @@
-import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
-import * as Column from "../column/index.js";
-import { observe } from "../../store/observer.js";
 import todoStore from "../../store/todoStore.js";
 
 export function template({ columnId }) {
-  return `
+  return /*html*/ `
     <li class="card__editable rounded-8 surface-default shadow-normal"
         style="display: none;"
         data-column-id=${columnId}
     >
       <div class="card__contents" data-column-id=${columnId}>
-        <input
+          <textarea
             class="card__title-input display-bold14 text-strong"
-            type="text"
             placeholder="제목을 입력하세요"
-            value=""
-        />
-        <input
+            rows="1">
+          </textarea>
+          <textarea
             class="card__description-input display-medium14 text-default"
-            type="text"
             placeholder="내용을 입력하세요"
-            value=""
-        />
+            rows="1">
+          </textarea>
       </div>
       <div class="card__editable-buttons">
         <button 
@@ -34,6 +29,7 @@ export function template({ columnId }) {
         <button 
             data-column-id=${columnId}
             class="add-button button rounded-8 surface-brand display-bold14 text-white-default"
+            disabled
             type="button"
         >
           등록
@@ -50,6 +46,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
     return;
   }
 
+  // TODO: author를 user agent에서 추출하기
   const columnId = target.getAttribute("data-column-id");
   const cardContent = document.querySelector(
     `.card__contents[data-column-id="${columnId}"]`
@@ -59,22 +56,16 @@ document.querySelector("#app").addEventListener("click", (event) => {
     ".card__description-input"
   ).value;
 
-  // TODO: author를 user agent에서 추출하기
   const data = { id: new Date().getTime(), title, description, author: "web" };
 
-  const todolist = getLocalStorage("todolist");
-  const selectedColumnIndex = todolist.findIndex(
-    (item) => item.id === Number(columnId)
-  );
-  todolist[selectedColumnIndex].cards = [
-    data,
-    ...todolist[selectedColumnIndex].cards,
-  ];
-  setLocalStorage("todolist", todolist);
-
-  render(columnId, selectedColumnIndex);
+  todoStore.dispatch({
+    type: "ADD_TODO",
+    columnId: columnId,
+    payload: data,
+  });
 });
 
+// 카드 등록 취소
 document.querySelector("#app").addEventListener("click", (event) => {
   const target = event.target.closest(".add-cancel-button");
   if (target === null) {
@@ -89,12 +80,30 @@ document.querySelector("#app").addEventListener("click", (event) => {
   addCard.setAttribute("editable", "false");
 });
 
-// NOTE: 특정 칼럼에 대한 카드 리렌더링
-function render(columnId, selectedColumnIndex) {
-  const column = document.querySelector(
-    `.column[data-column-id="${columnId}"]`
-  );
-  column.innerHTML = `${Column.template({
-    column: getLocalStorage("todolist")[selectedColumnIndex],
-  })}`;
-}
+// 글자 수 확인 (버튼 활성화)
+document.querySelector("#app").addEventListener("input", (event) => {
+  const target = event.target.closest(".card__editable");
+  if (target === null) {
+    return;
+  }
+
+  // 추가 버튼 혹은 수정 버튼
+  let button = target.querySelector(".add-button");
+  if (!button) {
+    button = target.querySelector(".edit-button");
+  }
+
+  // 입력 중인 글자 가져오기
+  const cardContent = target.querySelector(".card__contents");
+  const title = cardContent.querySelector(".card__title-input").value;
+  const description = cardContent.querySelector(
+    ".card__description-input"
+  ).value;
+
+  // 글자 수 확인
+  if (title.length === 0 || description.length === 0) {
+    button.disabled = true;
+  } else {
+    button.disabled = false;
+  }
+});

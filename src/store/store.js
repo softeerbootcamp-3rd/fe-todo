@@ -1,4 +1,6 @@
-const createStore = (initialState, reducer) => {
+import { setLocalStorage } from "../utils/local-storage.js";
+
+export const createStore = (initialState, reducer) => {
   let state = initialState;
   const events = {};
 
@@ -22,15 +24,22 @@ const createStore = (initialState, reducer) => {
   // 상태에 이벤트와 필요한 데이터를 보내는 함수
   const dispatch = (action) => {
     // action: type(event), payload: data
+    // 변경된 state 받아옴
     state = reducer(state, action);
-    publish(action.type);
+    setLocalStorage("todolist", state);
+    publish(action.type + action.columnId);
   };
 
   const getState = () => state;
+
+  const setState = (payload) => {
+    state = [...payload];
+  };
 
   return {
     getState,
     subscribe,
     dispatch,
+    setState,
   };
 };
