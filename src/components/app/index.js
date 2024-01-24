@@ -4,18 +4,17 @@ import todoHistory from "../todoHistory";
 import todoListTable from "../todoListTable";
 import modal from "../modal";
 
-export default function App(renderTarget, initialData) {
-  const views = mount(renderTarget, initialData);
-  attachHandlers(views, initialData);
+export default function App(renderTarget) {
+  const views = mount(renderTarget);
+  attachHandlers(views);
 }
 
-function attachHandlers(
-  { renderTarget, headerSection, todoSection, historySection, modalSection },
-  initialData
-) {
+function attachHandlers({ renderTarget, historySection, modalSection }) {
+  let destroyTodoHistory;
   const toggleHistoryList = () => {
+    if (destroyTodoHistory) destroyTodoHistory();
     historySection.classList.toggle(styles["app__historySection--show"]);
-    todoHistory(historySection, {});
+    destroyTodoHistory = todoHistory(historySection);
   };
 
   const modalSectionClick = () => {
@@ -23,6 +22,7 @@ function attachHandlers(
   };
 
   const showDeleteModal = ({ detail }) => {
+    console.log("showdeleteModal");
     modalSection.style.display = "block";
     modal(modalSection, { msg: detail.msg, onDelete: detail.onDelete });
   };
