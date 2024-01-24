@@ -3,15 +3,29 @@ export const columnList = [
         id: "todo",
         title: "해야할 일",
         count: 1,
-        cardList: [{ title: "GitHub 공부하기", content: "add, commit, push" }],
+        cardList: [
+            {
+                id: "registeredCard_1",
+                title: "GitHub 공부하기",
+                content: "add, commit, push",
+            },
+        ],
     },
     {
         id: "doing",
         title: "하고있는 일",
         count: 2,
         cardList: [
-            { title: "GitHub 공부하기", content: "add, commit, push" },
-            { title: "GitHub 공부하기", content: "add, commit, push" },
+            {
+                id: "registeredCard_2",
+                title: "GitHub 공부하기",
+                content: "add, commit, push",
+            },
+            {
+                id: "registeredCard_3",
+                title: "GitHub 공부하기",
+                content: "add, commit, push",
+            },
         ],
     },
     {
