@@ -1,0 +1,20 @@
+{
+  "name": "fancy-fe-todo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "cd ./server && npm run server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ojj1123/fancy-fe-todo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ojj1123/fancy-fe-todo/issues"
+  },
+  "homepage": "https://github.com/ojj1123/fancy-fe-todo#readme"
+}
