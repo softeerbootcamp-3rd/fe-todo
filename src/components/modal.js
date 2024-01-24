@@ -1,4 +1,5 @@
 import { createModalTemplate } from "./templates.js";
+import { columnData } from "../../index.js";
 
 export default function createModal(column, card) {
   const modal = document.createElement("div");
@@ -16,6 +17,8 @@ export default function createModal(column, card) {
   deleteButton.addEventListener("click", () => {
     modal.remove();
     card.remove();
+    columnData.removeCardData(column.id, card.id);
+    console.log(columnData.getCardData(column.id));
 
     const countBox = column.querySelector(".countBox");
     const newCount = Number(countBox.textContent) - 1;

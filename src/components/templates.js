@@ -1,6 +1,6 @@
 export function createColumnTemplate(title, id, count) {
   return `  
-  <header id = "columnHeader">
+  <header id="columnHeader">
     <div class="columnInfo"> 
         <span>${title}</span>
         <span class="countBox">${count}</span>
@@ -8,6 +8,8 @@ export function createColumnTemplate(title, id, count) {
     <span class="add" ><i id="add" class="fa-solid fa-plus"></i></span>
     <span id="delete"><i id="deleteCards" class="fa-solid fa-xmark"></i></span>
   </header>
+  <section id="cardList">
+  </section>
   `;
 }
 export function createEditorTemplate(
