@@ -26,9 +26,9 @@ function createSingleColumn(baseElement, columnList) {
 
 function eventRegister(columnElement) {
     const eventTypes = ["click", "input"];
-    for (let eventType of eventTypes) {
+    eventTypes.forEach((eventType) => {
         columnElement.addEventListener(eventType, (e) => {
             customEventHandler(e);
         });
-    }
+    });
 }
