@@ -1,82 +1,143 @@
-export class Store {
-  constructor(createState) {
-    this.state = undefined;
-    this.listeners = new Set();
-    this.createState = createState;
-    this.initializeState();
+class Store {
+  constructor() {
+    // 초기 cardId를 0으로 설정
+    this.cardId = 0;
+    this._columns = {};
+    this._cards = {};
+    this._history = [];
   }
 
-  /**
-   * 상태 업데이트 함수
-   * @param {*} partial
-   * 다음 상태의 일부를 나타내는 값 또는 함수
-   * @param {*} replace
-   * 선택적 매개변수 불리언 값, true: partial이 아닌 nextState를 새로운 상태로 설정. false or 생략된 경우: partial이나 함수로부터 계산된 nextState가 현재 상태(this.state)에 병합
-   */
-  setState(partial, replace) {
-    const nextState = typeof partial === "function" ? partial(this.state) : partial;
-
-    if (Object.is(nextState, this.state)) {
-      console.log("state 형식이 다릅니다");
-      return;
-    }
-
-    const previousState = this.state;
-
-    this.state =
-      replace || typeof nextState !== "object" || nextState === null
-        ? nextState
-        : Object.assign({}, this.state, nextState);
-
-    this.listeners.forEach((listener) => listener(this.state));
-  }
-
-  getState() {
-    return this.state;
-  }
-
-  getInitialState() {
-    return this.initialState;
-  }
-
-  /**
-   * 리스너를 등록하는 함수
-   * @param {*} listener
-   * 구독하고 있는 핸들러에서 넘겨줄 렌더 함수
-   * @returns
-   * 리스너를 제거하는 함수 반환 (구독 취소에 사용)
-   */
-  subscribe(listener) {
-    this.listeners.add(listener);
-    return () => this.listeners.delete(listener);
-  }
-
-  initializeState() {
-    // 상태 생성 함수에 상태 업데이트 메서드와 상태 반환 메서드, 현재 인스턴스를 전달하여 초기 상태 설정
-    this.initialState = this.createState(this.setState.bind(this), this.getState.bind(this), this);
-    this.state = this.initialState;
-  }
-}
-
-// 비동기 작업 대비
-export class AsyncStore extends Store {
-  constructor(createState, apiEndpoint) {
-    super(createState);
-    this.apiEndpoint = apiEndpoint;
-  }
-
-  async fetchData() {
+  async initDataFromServer() {
+    const BASE_URL = "http://localhost:3000";
     try {
-      const response = await fetch(this.apiEndpoint);
-      const data = await response.json();
+      const columnDataResponse = await fetch(`${BASE_URL}/columns`);
+      const cardDataResponse = await fetch(`${BASE_URL}/cards`);
+      const historyDataResponse = await fetch(`${BASE_URL}/history`);
 
-      this.setState({ data });
+      if (!columnDataResponse.ok || !cardDataResponse.ok || !historyDataResponse.ok) {
+        throw new Error("Failed to fetch data from the server.");
+      }
+
+      const columnData = await columnDataResponse.json();
+      const cardData = await cardDataResponse.json();
+      const historyData = await historyDataResponse.json();
+
+      this._columns = columnData;
+      this._cards = cardData;
+      this._history = historyData;
     } catch (error) {
-      console.error("데이터 가져오기 오류:", error);
+      console.error("Error fetching data from the server:", error);
     }
   }
 
-  async updateServer() {
-    // 서버 업데이트 로직을 구현 (예: await fetch('서버/api', { method: 'POST', body: JSON.stringify(this.getState()) });)
+  get columnData() {
+    return this._columns;
+  }
+
+  get cardData() {
+    return this._cards;
+  }
+
+  get historyData() {
+    return this._history;
+  }
+
+  getColumn(columnId) {
+    return this._columns[columnId];
+  }
+
+  getCard(cardId) {
+    return this._cards[cardId];
+  }
+
+  addCard({ columnId, cardData }) {
+    const column = this.getColumn(columnId);
+    if (column) {
+      column.value.unshift(this.cardId);
+      this._cards[this.cardId] = cardData;
+    } else {
+      console.error(`Column with ID ${columnId} does not exist.`);
+    }
+  }
+
+  deleteCard({ columnId, cardId }) {
+    const column = this.getColumn(columnId);
+    if (column) {
+      column.value = column.value.filter((id) => id !== cardId);
+    } else {
+      console.error(`Column with ID ${columnId} does not exist.`);
+    }
+  }
+
+  editCard({ cardData: newCardData, cardId }) {
+    if (cardId) {
+      let oldCardData = this._cards[cardId];
+      this._cards[cardId] = { ...oldCardData, ...newCardData };
+    } else {
+      console.error(`Column with ID ${cardId} does not exist.`);
+    }
+  }
+
+  moveCard({ sourceColumnId, destinationColumnId, cardId }) {
+    const sourceColumn = this.getColumn(sourceColumnId);
+    const destinationColumn = this.getColumn(destinationColumnId);
+
+    if (sourceColumn && destinationColumn) {
+      this.deleteCard({ columnId: sourceColumnId, cardId });
+      this.addCard({ columnId: destinationColumnId, cardId });
+    } else {
+      console.error(`Column with ID ${sourceColumnId} or ${destinationColumnId} does not exist.`);
+    }
+  }
+
+  getHistoryTemplate() {
+    return {
+      username: "",
+      time: "",
+      cardTitle: "",
+      type: "",
+      from: "",
+      to: "",
+    };
+  }
+
+  setDeleteCardHistory(cardId) {
+    const { author: username, title: cardTitle } = this.getCard(cardId);
+    const newHistory = {
+      ...this.getHistoryTemplate(),
+      username,
+      time: Date.now(),
+      cardTitle,
+      type: "삭제",
+    };
+    this._history.unshift(newHistory);
+  }
+
+  setAddCardHistory(columnId) {
+    const { author: username, createdAt: time, title: cardTitle } = this.getCard(this.cardId++);
+    const columnTitle = this.getColumn(columnId).title;
+    const newHistory = {
+      ...this.getHistoryTemplate(),
+      username,
+      time,
+      cardTitle,
+      type: "등록",
+      from: columnTitle,
+    };
+    this._history.unshift(newHistory);
+  }
+
+  setEditCardHistory(cardId) {
+    const { author: username, updatedAt: time, title: cardTitle } = this.getCard(cardId);
+    const newHistory = {
+      ...this.getHistoryTemplate(),
+      username,
+      time,
+      cardTitle,
+      type: "변경",
+    };
+    this._history.unshift(newHistory);
   }
 }
+
+export const store = new Store();
