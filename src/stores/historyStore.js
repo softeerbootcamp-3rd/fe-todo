@@ -1,4 +1,4 @@
-import { getHistory } from "../utils/API/history";
+import { clearHistory, getHistory } from "../utils/API/history";
 import { createStore } from "../utils/store";
 
 export const historyStore = createStore((set, get) => ({
@@ -7,6 +7,7 @@ export const historyStore = createStore((set, get) => ({
     set((state) => ({ ...state, history: getHistory() }));
   },
   clear() {
+    clearHistory();
     set((state) => ({ ...state, history: [] }));
   },
 }));
