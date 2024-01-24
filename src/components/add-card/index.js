@@ -1,7 +1,6 @@
-import { store } from "../../store/index.js";
-import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
 import { setEvent } from "../../utils/set-event.js";
 import * as Column from "../column/index.js";
+import * as todos from "../../features/todos/index.js";
 
 const app = document.getElementById("app");
 
@@ -43,17 +42,12 @@ export function template({ columnId }) {
     `;
 }
 
-const render = () => {};
-store.subscribe(render);
-
 // 카드 등록
-setEvent(app, "click", (event) => {
-  const target = event.target.closest(".add-button");
-  if (target === null) {
-    return;
-  }
+setEvent(app, "click", async (event) => {
+  const addCardButton = event.target.closest(".add-button");
+  if (!addCardButton) return;
 
-  const columnId = target.getAttribute("data-column-id");
+  const columnId = addCardButton.getAttribute("data-column-id");
   const cardContent = document.querySelector(
     `.card__contents[data-column-id="${columnId}"]`
   );
@@ -62,29 +56,14 @@ setEvent(app, "click", (event) => {
     ".card__description-input"
   ).value;
 
-  // FIXME: replace with store.dispatch and middleware
-  const data = { id: new Date().getTime(), title, description, author: "web" };
-
-  const todolist = getLocalStorage("todolist");
-  const selectedColumnIndex = todolist.findIndex(
-    (item) => item.id === Number(columnId)
-  );
-  todolist[selectedColumnIndex].cards = [
-    data,
-    ...todolist[selectedColumnIndex].cards,
-  ];
-  setLocalStorage("todolist", todolist);
-
-  // TODO: user agent 파싱해서 author 추가하기
-  // store.dispatch(addCard({ columnId, title, description, author }));
-
-  // NOTE: 특정 칼럼에 대한 카드 리렌더링
-  const column = document.querySelector(
-    `.column[data-column-id="${columnId}"]`
-  );
-  column.innerHTML = `${Column.template({
-    column: getLocalStorage("todolist")[selectedColumnIndex],
-  })}`;
+  await todos.addCard({
+    // TODO: parse `navigator.agent` and then assign it to author
+    data: { columnId, title, description, author: "web" },
+    select: (state) => {
+      /** TODO: select only changed property for rendering optimally */
+    },
+    onChange: Column.render,
+  });
 });
 
 setEvent(app, "click", (event) => {

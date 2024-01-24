@@ -1,25 +1,24 @@
-import { getLocalStorage } from "../../utils/local-storage.js";
 import * as Column from "../column/index.js";
 
-export function template({ columns }) {
+export function template() {
   return `
-    <main class="columns surface-alt">
-      ${columns
-        .map((column) => {
-          return `
-            <section class="column" data-column-id="${column.id}">
-              ${Column.template({ column })}
-            </section>`;
-        })
-        .join("")}
-    </main>
+    <main class="columns surface-alt"></main>
     `;
 }
-export function render(parent) {
-  // TODO: fetch initial todolist data
-  // store.dispatch({ type: 'INIT_TODOLIST' })
-  parent.insertAdjacentHTML(
-    "beforeend",
-    template({ columns: getLocalStorage("todolist") })
+
+export function render({ columns }) {
+  const columnContainer = document.querySelector(".columns");
+  columnContainer.insertAdjacentHTML(
+    "afterbegin",
+    `${columns
+      .map((column) => {
+        return `
+        <section class="column" data-column-id="${column.id}">
+        ${Column.template({ column })}
+        </section>`;
+      })
+      .join("")}`
   );
+
+  // FIXME shoud I delete DOM node?
 }

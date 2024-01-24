@@ -1,6 +1,6 @@
-import { store } from "../../store/index.js";
-import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
 import { setEvent } from "../../utils/set-event.js";
+import * as Column from "../column/index.js";
+import * as todos from "../../features/todos/index.js";
 
 const app = document.getElementById("app");
 
@@ -27,14 +27,14 @@ export function template({ columnId, cardId, title, description }) {
       <div class="card__editable-buttons">
         <button 
             data-column-id=${columnId}
-            class="cancel-button button rounded-8 surface-alt display-bold14 text-default"
+            class="edit-cancel-button button rounded-8 surface-alt display-bold14 text-default"
             type="button"
         >
           취소
         </button>
         <button 
             data-column-id=${columnId}
-            class="edit-button button rounded-8 surface-brand display-bold14 text-white-default"
+            class="save-button button rounded-8 surface-brand display-bold14 text-white-default"
             type="button"
         >
           저장
@@ -44,18 +44,15 @@ export function template({ columnId, cardId, title, description }) {
     `;
 }
 
-const render = () => {};
-store.subscribe(render);
-
 setEvent(app, "click", (event) => {
-  const target = event.target.closest(
-    ".card__editable-buttons > .cancel-button"
-  );
-  if (target === null) {
+  const editCancelButton = event.target.closest(".edit-cancel-button");
+  if (editCancelButton === null) {
     return;
   }
 
-  const editableCard = target.closest(".card__editable[data-card-id]");
+  const editableCard = editCancelButton.closest(
+    ".card__editable[data-card-id]"
+  );
   const cardId = editableCard.getAttribute("data-card-id");
   const card = document.querySelector(`.card[data-card-id="${cardId}"]`);
 
@@ -64,12 +61,10 @@ setEvent(app, "click", (event) => {
 });
 
 setEvent(app, "click", (event) => {
-  const target = event.target.closest(".edit-button");
-  if (target === null) {
-    return;
-  }
+  const saveButton = event.target.closest(".save-button");
+  if (!saveButton) return;
 
-  const editableCard = target.closest(".card__editable[data-card-id]");
+  const editableCard = saveButton.closest(".card__editable[data-card-id]");
   const cardId = editableCard.getAttribute("data-card-id");
   const columnId = editableCard.getAttribute("data-column-id");
 
@@ -79,25 +74,16 @@ setEvent(app, "click", (event) => {
     ".card__description-input"
   ).value;
 
-  // FIXME: replace with store.dispatch and middleware
-  const todolist = getLocalStorage("todolist");
-  const columnIndex = todolist.findIndex(
-    (column) => column.id === Number(columnId)
-  );
-  const cards = todolist[columnIndex].cards;
-  const cardIndex = cards.findIndex((card) => card.id === Number(cardId));
-  const newCard = { ...cards[cardIndex], title, description };
-  cards[cardIndex] = newCard;
-  setLocalStorage("todolist", todolist);
+  todos.editCard({
+    data: { columnId, cardId, title, description, author },
+    select: () => {},
+    onChange: Column.render,
+  });
 
-  // store.dispatch({ type: "EDIT_CARD", payload: {} });
-  // or
-  // store.dispatch(editCard({ columnId, cardId, title, description }));
-
-  // render
-  const card = document.querySelector(`.card[data-card-id="${cardId}"]`);
-  editableCard.remove();
-  card.style.display = "flex";
-  card.querySelector(".card__title").innerHTML = title;
-  card.querySelector(".card__description").innerHTML = description;
+  // FIXME remove this comment later
+  // const card = document.querySelector(`.card[data-card-id="${cardId}"]`);
+  // editableCard.remove();
+  // card.style.display = "flex";
+  // card.querySelector(".card__title").innerHTML = title;
+  // card.querySelector(".card__description").innerHTML = description;
 });
