@@ -3,6 +3,7 @@ import {
   addTodoListItem,
   editTodoListItem,
   removeTodoListItem,
+  moveTodoListItem,
 } from "../utils/API/todoList";
 
 let initTodoList = {
@@ -51,13 +52,16 @@ function reducer(state = {}, action) {
     return {
       ...state,
     };
+  } else if (action.type === "changeTodoItem") {
+    const todoId = action.payload.todoId;
+    const todoColTitle = action.payload.todoColTitle.replace("todoCol_", "");
+    const whereColIdx = action.payload.whereColIdx;
+
+    store.setChangeItem(todoId, todoColTitle, whereColIdx);
+    moveTodoListItem(todoId, todoColTitle, whereColIdx);
   }
 
   return state;
-}
-
-function showState() {
-  console.log(store.getState());
 }
 
 export { store };

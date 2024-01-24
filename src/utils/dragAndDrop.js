@@ -1,3 +1,5 @@
+import { store } from "../store/todoStore";
+
 export function applyDragAndDrop(draggables, containers) {
   // 컨테이너 높이 동일하게 설정
   const maxHeight = Array.from(containers).reduce((max, container) => {
@@ -15,7 +17,22 @@ export function applyDragAndDrop(draggables, containers) {
       draggable.style.opacity = 0.4;
     });
 
-    draggable.addEventListener("dragend", () => {
+    draggable.addEventListener("dragend", ({ target }) => {
+      //자식 노드 객체를 배열로 바꿈.
+      const childrenNodeArr = Array.from(target.parentNode.children);
+
+      const colTitleDst = target.parentNode.id;
+      const moveIndex = childrenNodeArr.indexOf(target);
+      const moveTodoId = target.getAttribute("value");
+      store.dispatch({
+        type: "changeTodoItem",
+        payload: {
+          todoId: moveTodoId,
+          todoColTitle: colTitleDst,
+          whereColIdx: moveIndex,
+        },
+      });
+
       draggable.classList.remove("dragging");
       draggable.style.opacity = 1;
     });

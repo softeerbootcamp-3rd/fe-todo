@@ -14,14 +14,16 @@ export function createStore(initStore, reducer) {
       (todoColTitle, todoList) => todoColListRender(todoColTitle, todoList),
     ],
     deleteTodoItem: [
-      (todoColTitle, todoList) => todoColListRender(todoColTitle, todoList),
+      (todoId, todoColTitle, whereColIdx) =>
+        todoColListRender(todoColTitle, todoList),
     ],
+    moveTodoItem: [],
   };
 
   //디스패치에선 reducer와 리스너를 실행
   const dispatch = (action) => {
     state = reducer(state, action);
-    listeners[action.type].forEach((fn) =>
+    listeners[action.type]?.forEach((fn) =>
       fn(
         action.payload.todoColTitle,
         getColTodoList(action.payload.todoColTitle)
@@ -61,6 +63,24 @@ export function createStore(initStore, reducer) {
       }
     }
   };
+  const setChangeItem = (todoId, todoColTitle, whereColIdx) => {
+    const todoList = Object.entries(getTodoList());
+    let findColTitle, item;
+    for (let colIdx = 0; colIdx < todoList.length; colIdx++) {
+      const todoColList = todoList[colIdx][1];
+      for (let itemIdx = 0; itemIdx < todoColList.length; itemIdx++) {
+        if (todoColList[itemIdx].id === +todoId) {
+          findColTitle = todoList[colIdx][0];
+          item = todoColList[itemIdx];
+          //삭제 진행
+          state.todoList[findColTitle].splice(itemIdx, 1);
+          //수정 진행
+          state.todoList[todoColTitle].splice(whereColIdx, 0, item);
+          return;
+        }
+      }
+    }
+  };
 
   return {
     getState,
@@ -70,6 +90,7 @@ export function createStore(initStore, reducer) {
     setPlusItem,
     setUpdateItem,
     setDeleteItem,
+    setChangeItem,
     dispatch,
   };
 }
