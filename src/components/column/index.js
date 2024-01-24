@@ -56,9 +56,6 @@ document.querySelector("#app").addEventListener("dragstart", (event) => {
   }
 
   draggingCard.classList.add("dragging");
-  const columnId = draggingCard.getAttribute("data-column-id");
-  const cardId = draggingCard.getAttribute("data-card-id");
-  console.log("dragstart" + columnId + "/" + cardId);
 });
 
 document.querySelector("#app").addEventListener("dragend", (event) => {
@@ -70,6 +67,7 @@ document.querySelector("#app").addEventListener("dragend", (event) => {
 
   movedCard.classList.remove("dragging");
   const originColumnId = movedCard.getAttribute("data-column-id");
+  const movedColumnId = movedColumn.getAttribute("data-column-id");
   const cardId = movedCard.getAttribute("data-card-id");
 
   const cards = [...movedColumn.querySelectorAll("li.card")];
@@ -78,9 +76,10 @@ document.querySelector("#app").addEventListener("dragend", (event) => {
   // 보내줘야할 데이터: 기존 컬럼, 이동한 컬럼, 추가된 위치(인덱스)
   todoStore.dispatch({
     type: "MOVE_TODO",
+    parameter: [originColumnId, movedColumnId],
     payload: {
       originColumnId: originColumnId,
-      movedColumnId: movedColumn.getAttribute("data-column-id"),
+      movedColumnId: movedColumnId,
       movedIndex: movedIndex,
       cardId: cardId,
     },
@@ -96,11 +95,9 @@ document.querySelector("#app").addEventListener("dragover", (event) => {
 
   event.preventDefault();
 
-  console.log("dragover");
   const afterElement = getDragAfterElement(column, event.clientY);
   if (afterElement === undefined) {
     column.appendChild(draggingCard);
-    console.log("ssss");
   } else {
     column.insertBefore(draggingCard, afterElement);
   }

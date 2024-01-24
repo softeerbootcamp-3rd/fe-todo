@@ -60,8 +60,11 @@ document.querySelector("#app").addEventListener("click", (event) => {
 
   todoStore.dispatch({
     type: "ADD_TODO",
-    columnId: columnId,
-    payload: data,
+    parameter: [columnId],
+    payload: {
+      columnId: columnId,
+      newCard: data,
+    },
   });
 });
 

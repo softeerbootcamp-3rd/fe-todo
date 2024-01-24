@@ -47,8 +47,11 @@ document.querySelector("#app").addEventListener("click", (event) => {
 
       todoStore.dispatch({
         type: "DELETE_TODO",
-        columnId: columnId,
-        payload: cardId,
+        parameter: [columnId],
+        payload: {
+          columnId: columnId,
+          cardId: cardId,
+        },
       });
 
       Alert.close();

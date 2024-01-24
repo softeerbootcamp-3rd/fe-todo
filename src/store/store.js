@@ -13,12 +13,12 @@ export const createStore = (initialState, reducer) => {
   };
 
   // 이벤트에 해당하는 함수 모두 실행
-  const publish = (actionType) => {
+  const publish = (actionType, parameter) => {
     if (!events[actionType]) {
       return;
     }
 
-    events[actionType].map((cb) => cb());
+    events[actionType].map((cb) => cb(parameter));
   };
 
   // 상태에 이벤트와 필요한 데이터를 보내는 함수
@@ -27,7 +27,7 @@ export const createStore = (initialState, reducer) => {
     // 변경된 state 받아옴
     state = reducer(state, action);
     setLocalStorage("todolist", state);
-    publish(action.type + (action.columnId ? action.columnId : ""));
+    publish(action.type, action.parameter);
   };
 
   const getState = () => state;
