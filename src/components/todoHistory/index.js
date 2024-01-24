@@ -59,7 +59,7 @@ function attachHandlers(
       new CustomEvent("showDeleteModal", {
         detail: {
           msg: "모든 사용자 활동 기록을 삭제할까요?",
-          onDelete: state.clear,
+          onDeleteBtnClicked: state.clear,
         },
         bubbles: true,
       })

@@ -49,12 +49,12 @@ export function switchMode({ block, none, disable, enable }) {
 }
 
 //todoItem 삭제 모달을 생성하기 위한 이벤트 발생
-export function createDeleteModal(target, onDelete) {
+export function createDeleteModal(target, onDeleteBtnClicked) {
   target.dispatchEvent(
     new CustomEvent("showDeleteModal", {
       detail: {
         msg: "선택한 카드를 삭제할까요?",
-        onDelete,
+        onDeleteBtnClicked,
       },
       bubbles: true,
     })
