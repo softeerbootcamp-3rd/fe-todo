@@ -5,15 +5,15 @@ import { getData } from "../services/http.js";
 import { createCard } from "./cards.js";
 
 // Column 동적 생성 함수
-export async function mainColumns(baseElement) {
+export async function createColumns(baseElement) {
     const data = await getData();
     for (let column of data) {
-        createColumn(baseElement, column);
+        createSingleColumn(baseElement, column);
     }
 }
 
 // Column 생성 함수
-function createColumn(baseElement, columnList) {
+function createSingleColumn(baseElement, columnList) {
     const newColumn = document.createElement("div");
     newColumn.className = "column";
     newColumn.id = columnList.id;
