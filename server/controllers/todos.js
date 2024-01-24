@@ -40,6 +40,7 @@ const todosControllers = {
       cardTitle: title,
       previousColumn: null,
       currentColumn: todos[columnIndex].columnName,
+      createdAt: new Date().getTime(),
       action: historyActionMap["add"],
     };
     const newTodo = {
@@ -80,6 +81,7 @@ const todosControllers = {
       cardTitle: title,
       previousColumn: null,
       currentColumn: todos[columnIndex].columnName,
+      createdAt: new Date().getTime(),
       action: historyActionMap["edit"],
     };
     history.push(newHistory);
@@ -123,6 +125,7 @@ const todosControllers = {
       cardTitle: todos[columnIndex].cards[cardIndex].title,
       previousColumn: todos[columnIndex].columnName,
       currentColumn: todos[currentColumnIndex].columnName,
+      createdAt: new Date().getTime(),
       action: historyActionMap["move"],
     };
     history.push(newHistory);
@@ -161,6 +164,7 @@ const todosControllers = {
       cardTitle: todos[columnIndex].cards[cardIndex].title,
       previousColumn: null,
       currentColumn: null,
+      createdAt: new Date().getTime(),
       action: historyActionMap["delete"],
     };
     history.push(newHistory);
