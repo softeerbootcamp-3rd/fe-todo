@@ -17,6 +17,7 @@
     color: var(--text-strong);
     width: 100%;
     resize: none;
+    overflow: hidden;
     font-family: "Bold";
     font-size: 14px;
   }
@@ -24,6 +25,7 @@
   &__itemContent {
     color: var(--text-default);
     width: 100%;
+    overflow: hidden;
     resize: none;
     margin-top: 8px;
     font-family: "Medium";
