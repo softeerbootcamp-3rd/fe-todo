@@ -51,7 +51,6 @@ export default function todoList(parent, props) {
   const plusBtn = parent.querySelector('[todo-data="plusBtn"]');
   plusBtn.addEventListener("click", () => {
     if (newItemContainer.style.display === "none") {
-      newItemContainer.style.display = "block";
       todoItem(newItemContainer, {
         todoColTitle: props.title,
         addMode: true,
@@ -60,8 +59,8 @@ export default function todoList(parent, props) {
         },
         onAddItem,
       });
-    } else {
-      newItemContainer.style.display = "none";
     }
+    newItemContainer.style.display =
+      newItemContainer.style.display === "block" ? "none" : "block";
   });
 }
