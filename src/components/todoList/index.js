@@ -4,19 +4,19 @@ import plusIcon from "../../asset/img/plus.svg";
 import closedIcon from "../../asset/img/closed.svg";
 import todoItem from "../todoItem";
 
-export default function todoList(target, data) {
-  const views = mount(target, data);
-  attachHandlers(views, data);
+export default function todoList(renderTarget, initialData) {
+  const views = mount(renderTarget, initialData);
+  attachHandlers(views, initialData);
 }
 
 function attachHandlers(
-  { target, newItemContainer, itemCount, itemsContainer, plusBtn },
-  data
+  { renderTarget, newItemContainer, itemCount, itemsContainer, plusBtn },
+  initialData
 ) {
   const createAndAddItem = (item, beforeElement) => {
     const todoItemWrapper = document.createElement("div");
     todoItem(todoItemWrapper, {
-      todoColTitle: data.title,
+      todoColTitle: initialData.title,
       item,
       createAndAddItem,
     });
@@ -34,7 +34,7 @@ function attachHandlers(
     itemCount.innerText = itemsContainer.childElementCount - 1;
   };
 
-  target.addEventListener("updateItemCount", (e) => {
+  renderTarget.addEventListener("updateItemCount", (e) => {
     if (e.detail.propagate) {
       return;
     }
@@ -45,10 +45,10 @@ function attachHandlers(
   document.addEventListener("updateItemCount", updateItemCount);
 
   // 행 하나에 item으로 컴포넌트를 만들어서 마운트
-  for (const item of data.items) {
+  for (const item of initialData.items) {
     const todoItemWrapper = document.createElement("div");
     todoItem(todoItemWrapper, {
-      todoColTitle: data.title,
+      todoColTitle: initialData.title,
       item,
       createAndAddItem,
     });
@@ -56,7 +56,7 @@ function attachHandlers(
   }
 
   // drag events
-  target.addEventListener("dragover", (e) => {
+  renderTarget.addEventListener("dragover", (e) => {
     e.preventDefault();
     const dragging = document.querySelector(
       `div.${todoItemStyles["todoItem--dragging"]}`
@@ -70,7 +70,7 @@ function attachHandlers(
     if (newItemContainer.style.display === "none") {
       newItemContainer.style.display = "block";
       todoItem(newItemContainer, {
-        todoColTitle: data.title,
+        todoColTitle: initialData.title,
         addMode: true,
         onCancel: () => {
           newItemContainer.style.display = "none";
@@ -83,13 +83,13 @@ function attachHandlers(
   });
 }
 
-function mount(target, data) {
-  target.innerHTML = /*html*/ `
-    <div data-node="todoList" data-title="${data.title}" class="${styles.todoList}">
+function mount(renderTarget, initialData) {
+  renderTarget.innerHTML = /*html*/ `
+    <div data-node="todoList" data-title="${initialData.title}" class="${styles.todoList}">
       <div class="${styles.todoList__header}">
         <div class="${styles.todoList__countWrapper}">
-          <h2 class="${styles.todoList__headerTitle}">${data.title}</h2>
-          <p data-node="itemCount" class="${styles.todoList__count}">${data.items.length}</p>
+          <h2 class="${styles.todoList__headerTitle}">${initialData.title}</h2>
+          <p data-node="itemCount" class="${styles.todoList__count}">${initialData.items.length}</p>
         </div>
         <div class="${styles.todoList__btnContainer}">
           <button data-node="plusBtn" class="actionBtn">
@@ -106,12 +106,18 @@ function mount(target, data) {
     </div>
   `;
 
-  const newItemContainer = target.querySelector(
+  const newItemContainer = renderTarget.querySelector(
     '[data-node="newItemContainer"]'
   );
-  const itemCount = target.querySelector('[data-node="itemCount"]');
-  const itemsContainer = target.querySelector('[data-node="items"]');
-  const plusBtn = target.querySelector('[data-node="plusBtn"]');
+  const itemCount = renderTarget.querySelector('[data-node="itemCount"]');
+  const itemsContainer = renderTarget.querySelector('[data-node="items"]');
+  const plusBtn = renderTarget.querySelector('[data-node="plusBtn"]');
 
-  return { target, newItemContainer, itemCount, itemsContainer, plusBtn };
+  return {
+    renderTarget,
+    newItemContainer,
+    itemCount,
+    itemsContainer,
+    plusBtn,
+  };
 }

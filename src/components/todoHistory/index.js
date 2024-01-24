@@ -3,13 +3,52 @@ import closedIcon from "../../asset/img/closed.svg";
 import todoHistoryItem from "../todoHistoryItem";
 import { getHistory } from "../../utils/API/history";
 
-export default function todoHistory(target, data) {
-  const views = mount(target, data);
-  attachHandlers(views, data);
+export default function todoHistory(renderTarget, initialData) {
+  const views = mount(renderTarget, initialData);
+  return attachHandlers(views, initialData);
 }
 
-function mount(target, data) {
-  target.innerHTML = /*html*/ `
+function attachHandlers(
+  { renderTarget, historyList, historyCloseBtn, historyClearBtn },
+  initialData
+) {
+  const historyCloseBtnClick = () => {
+    document.dispatchEvent(new CustomEvent("toggleHistoryList"));
+  };
+
+  const historyClearBtnClick = () => {
+    document.dispatchEvent(
+      new CustomEvent("showDeleteModal", {
+        detail: {
+          msg: "모든 사용자 활동 기록을 삭제할까요?",
+          onDelete: () => {
+            //TODO: 사용자 활동 기록을 삭제할까요?
+          },
+        },
+      })
+    );
+  };
+
+  const historyArr = getHistory();
+  let historyDestroyers = [];
+  historyArr.forEach((history) => {
+    const container = document.createElement("div");
+    historyDestroyers.push(todoHistoryItem(container, history));
+    historyList.appendChild(container);
+  });
+
+  historyCloseBtn.addEventListener("click", historyCloseBtnClick);
+  historyClearBtn.addEventListener("click", historyClearBtnClick);
+
+  return () => {
+    historyCloseBtn.removeEventListener("click", historyCloseBtnClick);
+    historyClearBtn.removeEventListener("click", historyClearBtnClick);
+    historyDestroyers.forEach((v) => v());
+  };
+}
+
+function mount(renderTarget, initialData) {
+  renderTarget.innerHTML = /*html*/ `
   <div class="${styles["todoHistory"]}">
     <div class="${styles.todoHistory__header}">
       <h2 class="${styles.todoHistory__title}">사용자 활동 기록</h2>
@@ -25,37 +64,17 @@ function mount(target, data) {
     </div>
   </div>`;
 
-  const historyList = target.querySelector('[data-node="history_list"]');
-  const historyCloseBtn = target.querySelector('[data-node="historyCloseBtn"]');
-  const historyClearBtn = target.querySelector('[data-node="historyClearBtn"]');
-  return { target, historyList, historyCloseBtn, historyClearBtn };
-}
-
-function attachHandlers(
-  { target, historyList, historyCloseBtn, historyClearBtn },
-  data
-) {
-  historyCloseBtn.addEventListener("click", () => {
-    document.dispatchEvent(new CustomEvent("toggleHistoryList"));
-  });
-
-  historyClearBtn.addEventListener("click", () =>
-    document.dispatchEvent(
-      new CustomEvent("showDeleteModal", {
-        detail: {
-          msg: "모든 사용자 활동 기록을 삭제할까요?",
-          onDelete: () => {
-            //TODO: 사용자 활동 기록을 삭제할까요?
-          },
-        },
-      })
-    )
+  const historyList = renderTarget.querySelector('[data-node="history_list"]');
+  const historyCloseBtn = renderTarget.querySelector(
+    '[data-node="historyCloseBtn"]'
   );
-
-  const historyArr = getHistory();
-  historyArr.forEach((history) => {
-    const container = document.createElement("div");
-    todoHistoryItem(container, history);
-    historyList.appendChild(container);
-  });
+  const historyClearBtn = renderTarget.querySelector(
+    '[data-node="historyClearBtn"]'
+  );
+  return {
+    renderTarget,
+    historyList,
+    historyCloseBtn,
+    historyClearBtn,
+  };
 }
