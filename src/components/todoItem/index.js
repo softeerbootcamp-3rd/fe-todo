@@ -86,8 +86,6 @@ export default function todoItem(parent, props) {
         type: "updateTodoItem",
         payload: { todoColTitle: props.todoColTitle, item: newItem },
       });
-      //editTodoListItem(props.todoColTitle, newItem);
-      setViewMode();
     }
   };
 
