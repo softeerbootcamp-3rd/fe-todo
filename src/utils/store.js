@@ -12,7 +12,7 @@ export function createStore(initializer) {
     equalityFunction = Object.is
   ) => {
     // create listener
-    let prevSlice = selector(state);
+    let prevSlice = undefined;
     function newListener() {
       const newSlice = selector(state);
       if (!equalityFunction(prevSlice, newSlice)) {
