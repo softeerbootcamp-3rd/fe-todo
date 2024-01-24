@@ -121,9 +121,7 @@ class Column{
     static fromObject(obj){
         return new Column({
             title: obj.title,
-            title: obj.#title,
             cardIdList: obj.cardIdList,
-            cardIdList: obj.#cardIdList,
         });
     }
 }
@@ -208,6 +206,17 @@ class Store{
         if(Store.#instance){
             return Store.#instance;
         }
+        if(localStorage.getItem('cardTable') !== null && localStorage.getItem('columnTable') !== null){
+            const cardTableObj = JSON.parse(localStorage.getItem('cardTable'));
+            const columnTableObj = JSON.parse(localStorage.getItem('columnTable'));
+            this.cardTable = {};
+            this.columnTable = {};
+            Object.keys(cardTableObj).forEach(v => {this.cardTable[v] = Card.fromObject(cardTableObj[v])});
+            Object.keys(columnTableObj).forEach(v => {this.columnTable[v] = Column.fromObject(columnTableObj[v])});
+            this.historyList = [];
+            Store.#instance = this;
+            return this;
+        }
         this.columnTable = {
             column0: new Column({ title: "해야할 일", cardIdList: ["0"] }),
             column1: new Column({ title: "하고 있는 일", cardIdList: ["1"] }),
@@ -221,7 +230,9 @@ class Store{
         this.historyList = [
             new History({username: "멋진삼", cardTitle: "블로그에 포스팅 할 것", from: "하고 있는 일", to: "해야할 일", type: "이동", time: "213"}),
         ];
+        this.historyList = [];
         Store.#instance = this;
+        return this;
     }
 
     /* Card Method */
