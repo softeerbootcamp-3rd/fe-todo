@@ -1,5 +1,5 @@
 import { createStore } from "./store";
-import { addTodoListItem } from "../utils/API/todoList";
+import { addTodoListItem, editTodoListItem } from "../utils/API/todoList";
 
 let initTodoList = {
   "해야할 일": [],
@@ -20,14 +20,22 @@ if (!existenceTodoList) {
 
 const store = createStore(inStoreData, reducer);
 
-// reducer함수 구현
+// reducer함수 => 여기선 state를 변경 + API서버로의 변경까지 진행
 function reducer(state = {}, action) {
   //값을 받아서 state에 추가
   if (action.type === "plusTodoItem") {
-    const todoColTitle = action.payload.todoColTitle;
     const item = action.payload.item;
+    const todoColTitle = action.payload.todoColTitle;
     store.setPlusItem(todoColTitle, item);
     addTodoListItem(todoColTitle, item);
+    return {
+      ...state,
+    };
+  } else if (action.type === "updateTodoItem") {
+    const item = action.payload.item;
+    const todoColTitle = action.payload.todoColTitle;
+    store.setUpdateItem(todoColTitle, item);
+    editTodoListItem(todoColTitle, item);
     return {
       ...state,
     };
@@ -39,7 +47,5 @@ function reducer(state = {}, action) {
 function showState() {
   console.log(store.getState());
 }
-
-store.subscribe(showState);
 
 export { store };

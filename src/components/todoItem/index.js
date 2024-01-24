@@ -82,7 +82,11 @@ export default function todoItem(parent, props) {
     }
     //투두 수정 로직
     else {
-      editTodoListItem(props.todoColTitle, newItem);
+      store.dispatch({
+        type: "updateTodoItem",
+        payload: { todoColTitle: props.todoColTitle, item: newItem },
+      });
+      //editTodoListItem(props.todoColTitle, newItem);
       setViewMode();
     }
   };

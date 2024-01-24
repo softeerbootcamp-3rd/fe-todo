@@ -19,14 +19,3 @@ export default function todoListTable(parent, props) {
     todoListTable.appendChild(container);
   }
 }
-
-function renderCol(todoColTitle, todoColData) {
-  const container = document.createElement("div");
-  todoList(container, {
-    title: todoColTitle,
-    items: todoColData,
-  });
-  todoListTable.appendChild(container);
-}
-
-store.subscribe(renderCol);
