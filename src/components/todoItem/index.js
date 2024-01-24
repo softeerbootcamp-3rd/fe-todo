@@ -230,6 +230,7 @@ function mount(renderTarget, initialData) {
 }
 
 function enableDrag({ renderTarget, todoItem }, { data }, initialData) {
+  //todo: store 사용하도록 수정해야함
   renderTarget.addEventListener("dragstart", (e) => {
     e.dataTransfer.setData(
       "text/plain",

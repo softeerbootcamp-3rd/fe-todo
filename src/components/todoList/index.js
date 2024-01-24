@@ -71,11 +71,11 @@ function attachHandlers(
   // drag 이벤트
   const dragOver = (e) => {
     e.preventDefault();
+    // TODO: store 사용하도록 수정해야함
     const dragging = document.querySelector(
       `div.${todoItemStyles["todoItem--dragging"]}`
     ).parentNode;
     itemsContainer.appendChild(dragging);
-    updateItemCount();
   };
 
   // 등록 카드 생성 & 삭제
