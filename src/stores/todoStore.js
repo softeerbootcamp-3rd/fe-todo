@@ -11,7 +11,7 @@ import { createStore } from "../utils/store";
 
 export const todoStore = createStore((set, get) => ({
   todoList: getTodoList(), // initial todolist data
-  add: (title, item) => {
+  add(title, item) {
     console.log("add request", title, item);
     // add new Item to todoList
     const newItem = addTodoListItem(title, item);
@@ -22,7 +22,7 @@ export const todoStore = createStore((set, get) => ({
       return { ...state, todoList: { ...state.todoList, [title]: newList } };
     });
   },
-  remove: (title, item) => {
+  remove(title, item) {
     console.log("remove request", title, item);
     // find and remove item from todoList
     removeTodoListItem(title, item);
@@ -37,7 +37,7 @@ export const todoStore = createStore((set, get) => ({
       return { ...state, todoList: { ...state.todoList, [title]: newList } };
     });
   },
-  edit: (title, item) => {
+  edit(title, item) {
     console.log("edit", title, item);
     editTodoListItem(title, item);
     set((state) => {

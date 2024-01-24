@@ -23,7 +23,7 @@ function attachHandlers(
 
   const deleteBtnClick = () => {
     renderTarget.click();
-    initialData.onDelete();
+    initialData.onDeleteBtnClicked();
   };
 
   modalSection.addEventListener("click", modalSectionClick);
