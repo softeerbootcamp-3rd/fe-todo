@@ -1,3 +1,4 @@
+// 참고:
 // https://github.com/pmndrs/zustand/blob/main/src/vanilla.ts
 // https://ui.toast.com/weekly-pick/ko_20210812
 
