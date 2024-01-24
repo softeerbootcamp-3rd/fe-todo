@@ -1,3 +1,5 @@
+import { createCardInfoTemplate } from "./templates";
+
 export default class Store {
   #columnData = {};
 
@@ -37,5 +39,16 @@ export default class Store {
 
   getCardData(columnId) {
     return this.#columnData[columnId];
+  }
+
+  render(columnId) {
+    const cardList = document.getElementById(`cardList-${columnId}`);
+    this.#columnData[columnId].forEach((card) => {
+      const cardContent = document.createElement("div");
+      cardContent.className = "registeredCard";
+      cardContent.id = card.id;
+      cardContent.innerHTML = createCardInfoTemplate(card.title, card.content);
+      cardList.appendChild(cardContent);
+    });
   }
 }
