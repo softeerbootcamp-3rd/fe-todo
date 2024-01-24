@@ -34,7 +34,7 @@ export function template({ columnId, card }) {
 
 document.querySelector("#app").addEventListener("click", (event) => {
   const target = event.target.closest(".card__delete-button");
-  if (target === null) {
+  if (!target) {
     return;
   }
 
@@ -61,7 +61,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
 
 document.querySelector("#app").addEventListener("click", (event) => {
   const target = event.target.closest(".card__edit-button");
-  if (target === null) {
+  if (!target) {
     return;
   }
 
@@ -83,13 +83,11 @@ document.querySelector("#app").addEventListener("click", (event) => {
   card.style.display = "none";
 });
 
-document.querySelectorAll("#app").forEach((element) => {
-  element.addEventListener("keyup", (event) => {
-    const target = event.target.closest("textarea");
-    if (target) {
-      autoTextareaHeight(target);
-    }
-  });
+document.querySelector("#app").addEventListener("keyup", (event) => {
+  const target = event.target.closest("textarea");
+  if (target) {
+    autoTextareaHeight(target);
+  }
 });
 
 const autoTextareaHeight = (element) => {

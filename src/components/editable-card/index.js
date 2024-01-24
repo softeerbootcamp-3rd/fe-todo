@@ -43,7 +43,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
   const target = event.target.closest(
     ".card__editable-buttons > .cancel-button"
   );
-  if (target === null) {
+  if (!target) {
     return;
   }
 
@@ -57,7 +57,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
 
 document.querySelector("#app").addEventListener("click", (event) => {
   const target = event.target.closest(".edit-button");
-  if (target === null) {
+  if (!target) {
     return;
   }
 
