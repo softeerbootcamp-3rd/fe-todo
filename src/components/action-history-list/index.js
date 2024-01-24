@@ -53,6 +53,7 @@ export function render(parent) {
     .querySelector(".action-history__footer > button")
     .addEventListener("click", removeAllActionHistory);
 }
+
 export function show() {
   const dialog = document.querySelector(".action-history-dialog");
   dialog.showModal();

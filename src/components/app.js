@@ -21,17 +21,10 @@ function initializeColumnData() {
   }
 
   const todolist = getLocalStorage("todolist");
-  for (let i = 0; i < todolist.length; i++) {
-    todoStore.subscribe("ADD_TODO" + todolist[i].id, () => {
-      ColumnContainer.renderColumn(todolist[i].id);
-    });
-    todoStore.subscribe("DELETE_TODO" + todolist[i].id, () => {
-      ColumnContainer.renderColumn(todolist[i].id);
-    });
-    todoStore.subscribe("EDIT_TODO" + todolist[i].id, () => {
-      ColumnContainer.renderColumn(todolist[i].id);
-    });
-  }
+  todoStore.subscribe("ADD_TODO", ColumnContainer.renderColumns);
+  todoStore.subscribe("DELETE_TODO", ColumnContainer.renderColumns);
+  todoStore.subscribe("EDIT_TODO", ColumnContainer.renderColumns);
+  todoStore.subscribe("MOVE_TODO", ColumnContainer.renderColumns);
 
   todoStore.setState(todolist);
 }

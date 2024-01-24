@@ -71,11 +71,11 @@ document.querySelector("#app").addEventListener("click", (event) => {
     ".card__description-input"
   ).value;
 
-  // dispatch
   todoStore.dispatch({
     type: "EDIT_TODO",
-    columnId: columnId,
+    parameter: [columnId],
     payload: {
+      columnId: columnId,
       cardId: cardId,
       editedCard: {
         title: title,
