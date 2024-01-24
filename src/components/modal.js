@@ -16,9 +16,9 @@ export default function createModal(column, card) {
   const deleteButton = document.getElementById("deleteButton");
   deleteButton.addEventListener("click", () => {
     modal.remove();
-    card.remove();
+    const cardList = document.getElementById(`cardList-${column.id}`);
+    cardList.innerHTML = "";
     columnData.removeCardData(column.id, card.id);
-    console.log(columnData.getCardData(column.id));
 
     const countBox = column.querySelector(".countBox");
     const newCount = Number(countBox.textContent) - 1;
