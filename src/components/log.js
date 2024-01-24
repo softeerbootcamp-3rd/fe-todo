@@ -33,8 +33,8 @@ export const createLogContent = (title, action, time) => {
     const afterTime = getTimeAgo(time);
     //제목, 유저 엑션(추가, 삭제, 수정), 생성시간, 파라미터로 받아오기
     const logInfo = {
-        title: title,
-        action: action,
+        title,
+        action,
         time: afterTime,
     };
     const newLog = logContent(logInfo);
