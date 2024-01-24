@@ -17,10 +17,9 @@ export function createCard(column, { cardList }) {
     });
 }
 
-function registeredCard({ id, title, content }) {
+function registeredCard({ title, content }) {
     const card = document.createElement("div");
     card.className = "registeredCard";
-    card.id = id;
 
     card.innerHTML = createCardInfoTemplate(title, content);
     return card;
