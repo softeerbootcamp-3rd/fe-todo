@@ -1,5 +1,5 @@
-import { cardDataTable } from "../../../../model/model.js";
-import { EditCardFormView } from "../../../../view/Main/Column/Card/CardFormView.js";
+import { store } from "@/model/Store.js";
+import { EditCardFormView } from "@/view/Main/Column/Card/CardFormView.js";
 
 const insertForm = (targetCard) => {
   targetCard.insertAdjacentHTML("beforebegin", EditCardFormView("editCard"));
@@ -10,8 +10,9 @@ const fillForm = (cardId) => {
   editCardForm.id = "form-" + cardId;
   const cardTitle = editCardForm.querySelector(".card-form__title");
   const cardContent = editCardForm.querySelector(".card-form__content");
-  cardTitle.value = cardDataTable[cardId].title;
-  cardContent.value = cardDataTable[cardId].content;
+  const card = store.cardData[cardId];
+  cardTitle.value = card.title;
+  cardContent.value = card.content;
 };
 
 const hideCard = (targetCard) => {

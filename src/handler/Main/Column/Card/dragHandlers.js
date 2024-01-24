@@ -1,7 +1,6 @@
-import { cardDataTable, columnDataTable, historyDataList } from "../../../../model/model";
-
-import { historyDataTemplate } from "../../../../util/historyDataTemplate";
-import { renderListCount } from "../../../../view/Main/Column/renderListCount";
+import { store } from "@/model/Store";
+import { renderListCount } from "@/view/Main/Column/renderListCount";
+import { getColumnList } from "@/util/getColumnList";
 
 export const onDragStart = (event) => {
   const { target } = event;
@@ -49,44 +48,23 @@ export const onDragEnd = (event) => {
   event.target.classList.remove("dragging");
 };
 
-const addHistory = (targetCardId, startColumnId, endColumnId) => {
-  const { author: username, title: cardTitle } = cardDataTable[targetCardId];
-  const { title: from } = columnDataTable[startColumnId];
-  const { title: to } = columnDataTable[endColumnId];
-  const newHistory = {
-    ...historyDataTemplate,
-    username,
-    cardTitle,
-    time: new Date(),
-    from,
-    to,
-    type: "이동",
-  };
-
-  historyDataList.unshift(newHistory);
-};
-
-const updateColumnModel = (columnId) => {
-  columnDataTable[columnId].value = [...document.querySelector(`#${columnId}-list`).children].map(
-    (li) => li.id
-  );
-};
-
 export const onDrop = (event) => {
   if (!container) return;
 
   const targetCardId = event.dataTransfer.getData("dragCardId");
   const startColumnId = event.dataTransfer.getData("startColumnId");
   const endColumnId = container.parentElement.id;
+  const endColumnValue = getColumnList(endColumnId).map((li) => li.id);
 
-  updateColumnModel(endColumnId);
+  store.moveCard({ columnId: endColumnId, newColumnValue: endColumnValue });
 
   if (startColumnId !== endColumnId) {
-    updateColumnModel(startColumnId);
+    const stardColumnValue = getColumnList(startColumnId).map((li) => li.id);
+    store.moveCard({ columnId: startColumnId, newColumnValue: stardColumnValue });
 
     renderListCount(document.querySelector(`#${startColumnId}`));
     renderListCount(document.querySelector(`#${endColumnId}`));
 
-    addHistory(targetCardId, startColumnId, endColumnId);
+    store.setMoveCardHistory({ cardId: targetCardId, startColumnId, endColumnId });
   }
 };

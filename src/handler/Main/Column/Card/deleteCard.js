@@ -1,31 +1,12 @@
-import { cardDataTable, columnDataTable, historyDataList } from "../../../../model/model.js";
-import { historyDataTemplate } from "../../../../util/historyDataTemplate.js";
-import { renderCardList } from "../../../../view/Main/Column/renderCardList.js";
-import { renderListCount } from "../../../../view/Main/Column/renderListCount.js";
-
-const addNewHistory = (currentCardId) => {
-  const { author: username, title: cardTitle } = cardDataTable[currentCardId];
-  const newHistory = {
-    ...historyDataTemplate(),
-    username,
-    time: Date.now(),
-    cardTitle,
-    type: "삭제",
-  };
-  historyDataList.unshift(newHistory);
-};
-
-const updateModel = ({ currentColumnId, currentCardId }) => {
-  const colList = columnDataTable[currentColumnId].value;
-  columnDataTable[currentColumnId].value = colList.filter((cardId) => cardId !== currentCardId);
-  delete cardDataTable[currentCardId];
-};
+import { renderCardList } from "@/view/Main/Column/renderCardList.js";
+import { renderListCount } from "@/view/Main/Column/renderListCount.js";
+import { store } from "@/model/Store";
 
 const deleteCard = (target) => {
   const currentColumn = target.closest(".main__column");
-  const currentCardId = target.closest(".card").id;
-  addNewHistory(currentCardId);
-  updateModel({ currentColumnId: currentColumn.id, currentCardId });
+  const cardId = target.closest(".card").id;
+  store.setDeleteCardHistory(cardId);
+  store.deleteCard({ columnId: currentColumn.id, cardId });
   renderCardList(currentColumn);
   renderListCount(currentColumn);
 };

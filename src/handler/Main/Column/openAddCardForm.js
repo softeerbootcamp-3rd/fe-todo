@@ -1,4 +1,4 @@
-import { AddCardFormView } from "../../../view/Main/Column/Card/CardFormView.js";
+import { AddCardFormView } from "@/view/Main/Column/Card/CardFormView.js";
 
 const openForm = (currentColumnId) => {
   document
