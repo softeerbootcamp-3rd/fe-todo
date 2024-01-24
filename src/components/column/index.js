@@ -30,16 +30,24 @@ export function template({ column }) {
     `;
 }
 
+export const render = ({ columnId, cards }) => {
+  const column = document.querySelector(
+    `.column[data-column-id="${columnId}"]`
+  );
+  column.innerHTML = `${template({
+    column: cards,
+  })}`;
+};
+
 setEvent(app, "click", (event) => {
-  const target = event.target.closest(".column__head-plus");
-  if (target === null) {
-    return;
-  }
-  const columnId = target.getAttribute("data-column-id");
-  const editable = target.getAttribute("data-editable") === "true";
+  const addCardButton = event.target.closest(".column__head-plus");
+  if (!addCardButton) return;
+
+  const columnId = addCardButton.getAttribute("data-column-id");
+  const editable = addCardButton.getAttribute("data-editable") === "true";
   const editableCard = document.querySelector(
     `.card__editable[data-column-id="${columnId}"]`
   );
   editableCard.style.display = editable ? "none" : "flex";
-  target.setAttribute("data-editable", !editable);
+  addCardButton.setAttribute("data-editable", !editable);
 });

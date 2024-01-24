@@ -1,10 +1,9 @@
 import * as Column from "../column/index.js";
 import * as Alert from "../alert/index.js";
 import * as EditableCard from "../editable-card/index.js";
-import { getLocalStorage, setLocalStorage } from "../../utils/local-storage.js";
-import { store } from "../../store/index.js";
 import { getDragAfterElement } from "../../utils/get-drag-after-element.js";
 import { setEvent } from "../../utils/set-event.js";
+import * as todos from "../../features/todos/index.js";
 
 const app = document.getElementById("app");
 
@@ -38,42 +37,24 @@ export function template({ columnId, card }) {
     `;
 }
 
-const render = () => {};
-store.subscribe(render);
-
 setEvent(app, "click", (event) => {
-  const cardDeleteButton = event.target.closest(".card__delete-button");
-  if (cardDeleteButton === null) {
-    return;
-  }
+  const deleteButton = event.target.closest(".card__delete-button");
+  if (!deleteButton) return;
 
   Alert.show({
     message: "선택한 카드를 삭제할까요?",
-    onConfirm: () => {
-      const card = cardDeleteButton.closest(".card");
+    onConfirm: async () => {
+      const card = deleteButton.closest(".card");
       const columnId = card.getAttribute("data-column-id");
       const cardId = card.getAttribute("data-card-id");
 
-      // FIXME: replace with store.dispatch and middleware
-      const todolist = getLocalStorage("todolist");
-      const selectedColumnIndex = todolist.findIndex(
-        (item) => item.id === Number(columnId)
-      );
-      todolist[selectedColumnIndex].cards = todolist[
-        selectedColumnIndex
-      ].cards.filter((card) => card.id !== Number(cardId));
-      setLocalStorage("todolist", todolist);
-
-      // TODO: use dispatch and middleware
-      // store.dispatch(deleteCard({ columnId, cardId }));
-
-      // NOTE: 특정 칼럼에 대한 카드 리렌더링
-      const column = document.querySelector(
-        `.column[data-column-id="${columnId}"]`
-      );
-      column.innerHTML = `${Column.template({
-        column: getLocalStorage("todolist")[selectedColumnIndex],
-      })}`;
+      await todos.deleteCard({
+        data: { columnId, cardId },
+        select: (state) => {
+          /** TODO select only changed property for excuting `onChange` optimally */
+        },
+        onChange: Column.render,
+      });
 
       Alert.close();
     },
@@ -81,12 +62,12 @@ setEvent(app, "click", (event) => {
 });
 
 setEvent(app, "click", (event) => {
-  const cardEeleteButton = event.target.closest(".card__edit-button");
-  if (cardEeleteButton === null) {
+  const editButton = event.target.closest(".card__edit-button");
+  if (editButton === null) {
     return;
   }
 
-  const card = cardEeleteButton.closest(".card");
+  const card = editButton.closest(".card");
   const columnId = card.getAttribute("data-column-id");
   const cardId = card.getAttribute("data-card-id");
   const title = card.querySelector(".card__title").innerText;
@@ -124,6 +105,7 @@ setEvent(app, "dragover", (event) => {
     return;
   }
   event.preventDefault();
+  // FIXME afterElement 가 undefined인 상황 예외 처리
   const afterElement = getDragAfterElement({
     draggableElements: column.querySelectorAll(".card:not(.dragging)"),
     y: event.clientY,

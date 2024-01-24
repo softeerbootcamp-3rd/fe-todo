@@ -1,7 +1,10 @@
+import { setEvent } from "../../utils/set-event.js";
 import * as ActionHistoryItem from "../action-history-item/index.js";
 import * as Alert from "../alert/index.js";
 
-export function template(data) {
+const app = document.getElementById("app");
+
+export function template({ history } = { history: [] }) {
   return `
     <dialog class="action-history-dialog rounded-16 shadow-floating">
       <div class="action-history__container">
@@ -21,11 +24,11 @@ export function template(data) {
           </button>
         </div>
         <ul class="action-history__items">
-          ${data.map((item) => ActionHistoryItem.template()).join("")}
+          ${history.map((item) => ActionHistoryItem.template()).join("")}
         </ul>
         <div class="action-history__footer">
           <button
-            class="button text-danger display-bold14"
+            class="history-reset-button button text-danger display-bold14"
             style="width: 104px"
             type="button"
           >
@@ -37,34 +40,40 @@ export function template(data) {
     `;
 }
 
-export function render(parent) {
-  // FIXME 초기 데이터 받아서 넣어주기
-  parent.insertAdjacentHTML("beforeend", template([1, 2, 3]));
+export function render({ history }) {
+  const actionHistoryItems = document.querySelector(".action-history__items");
 
-  const dialog = document.querySelector(".action-history-dialog");
-
-  dialog
-    .querySelector(".action-history__close-button")
-    .addEventListener("click", () => {
-      dialog.close();
-    });
-
-  dialog
-    .querySelector(".action-history__footer > button")
-    .addEventListener("click", removeAllActionHistory);
+  actionHistoryItems.insertAdjacentHTML(
+    "afterbegin",
+    `${history
+      .map((item) => ActionHistoryItem.template({ history: item }))
+      .join("")}`
+  );
 }
+
 export function show() {
   const dialog = document.querySelector(".action-history-dialog");
   dialog.showModal();
 }
 
-export function updateActionHistory() {}
+setEvent(app, "click", (event) => {
+  const dialogCloseButton = event.target.closest(
+    ".action-history__close-button"
+  );
+  if (!dialogCloseButton) return;
 
-export function removeAllActionHistory() {
+  const dialog = document.querySelector(".action-history-dialog");
+  dialog.close();
+});
+
+setEvent(app, "click", (event) => {
+  const resetButton = event.target.closest(".history-reset-button");
+  if (!resetButton) return;
+
   Alert.show({
     message: "모든 사용자 활동 기록을 삭제할까요?",
     onConfirm: () => {
       console.log("사용자 활동 기록 삭제");
     },
   });
-}
+});

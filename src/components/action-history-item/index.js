@@ -1,5 +1,4 @@
-// TODO: data 받기
-export function template(data) {
+export function template({ history }) {
   return `
     <li class="action-history__item">
         <img
