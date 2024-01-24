@@ -7,6 +7,7 @@ const server = express();
 const port = 8000;
 
 server.use(cors());
+server.use(express.json());
 
 server.use("/todos", todosApi);
 server.use("/history", historyApi);
