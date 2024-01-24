@@ -1,7 +1,8 @@
-import { cardDataTable, columnDataTable, historyDataList } from "../../../../../model/model.js";
+import { historyDataList } from "../../../../../model/model.js";
 import { getDeviceInfo } from "../../../../../util/getDeviceInfo.js";
 import { historyDataTemplate } from "../../../../../model/historyDataTemplate.js";
 import { renderCardList, renderListCount } from "../../../../render.js";
+import { store, createCard } from "../../../../../model/store.js";
 
 let cardId = 3;
 
@@ -15,18 +16,18 @@ const createCardData = (target) => {
 
 const updateModel = ({ target, currentColumn }) => {
   const columnId = currentColumn.id;
-  columnDataTable[columnId].value.unshift(cardId + "");
-  cardDataTable[cardId] = createCardData(target);
+  const card = {...createCardData(target), columnId};
+  store.setCard(cardId, createCard(card));
 };
 
 // todo: make addHistoryCard util-fn
 const addNewHistory = (currentColumn) => {
-  const { author: username, createdAt: time, title: cardTitle } = cardDataTable[cardId++];
-  const columnTitle = columnDataTable[currentColumn.id].title;
+  const { author: username, title: cardTitle } = store.getCard(cardId++);
+  const columnTitle = store.getColumnTitle(currentColumn.id);
   const newHistory = {
     ...historyDataTemplate(),
     username,
-    time,
+    time: new Date(),
     cardTitle,
     type: "등록",
     from: columnTitle,

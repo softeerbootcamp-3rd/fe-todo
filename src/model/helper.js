@@ -1,8 +1,8 @@
-import { cardDataTable, columnDataTable } from "./model";
+import { store } from "./store";
 
 export const columnIdToCardList = (columnId) => {
-    const cardIdList = columnDataTable[columnId].value;
-    return cardIdList.map((cardId) => [cardId, cardDataTable[cardId]]);
+    const cardIdList = store.getCardIdList(columnId);
+    return cardIdList.map((cardId) => [cardId, store.getCard(cardId)]);
 }
 
 export const columnIdToIdx = (columnId) => {

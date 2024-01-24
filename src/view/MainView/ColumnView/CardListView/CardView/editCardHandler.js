@@ -1,4 +1,4 @@
-import { cardDataTable } from "../../../../../model/model.js";
+import { store } from "../../../../../model/store.js";
 import { EditCardFormView } from "../CardFormView/CardFormView.js";
 
 const insertForm = (targetCard) => {
@@ -10,8 +10,7 @@ const fillForm = (cardId) => {
   editCardForm.id = "form-" + cardId;
   const cardTitle = editCardForm.querySelector(".card-form__title");
   const cardContent = editCardForm.querySelector(".card-form__content");
-  cardTitle.value = cardDataTable[cardId].title;
-  cardContent.value = cardDataTable[cardId].content;
+  ({title: cardTitle.value, content: cardContent.value} = store.getCard(cardId));
 };
 
 const hideCard = (targetCard) => {

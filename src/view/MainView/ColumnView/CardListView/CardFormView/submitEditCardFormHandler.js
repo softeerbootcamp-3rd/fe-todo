@@ -1,4 +1,4 @@
-import { cardDataTable, historyDataList } from "../../../../../model/model.js";
+import { historyDataList } from "../../../../../model/model.js";
 import { historyDataTemplate } from "../../../../../model/historyDataTemplate.js";
 import { renderCardList, renderListCount } from "../../../../render.js";
 
@@ -9,14 +9,14 @@ const createCardData = (target) => {
 };
 
 const updateModel = ({ target, cardId }) => {
-  let oldCardData = cardDataTable[cardId];
+  let oldCardData = store.getCard(cardId)
   let newCardData = createCardData(target);
-  cardDataTable[cardId] = { ...oldCardData, ...newCardData };
+  store.setCard(cardId, { ...oldCardData, ...newCardData });
 };
 
 // todo: make addHistoryCard util-fn
 const addNewHistory = (cardId) => {
-  const { author: username, updatedAt: time, title: cardTitle } = cardDataTable[cardId];
+  const { author: username, updatedAt: time, title: cardTitle } = store.getCard(cardId)
   const newHistory = {
     ...historyDataTemplate(),
     username,

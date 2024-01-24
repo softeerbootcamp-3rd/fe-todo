@@ -1,15 +1,3 @@
-export const columnDataTable = {
-  column0: { title: "해야할 일", value: ["0"] },
-  column1: { title: "하고 있는 일", value: ["1"] },
-  column2: { title: "완료한 일", value: ["2"] },
-};
-
-export const cardDataTable = {
-  0: { title: "Github 공부하기", content: "add, commit, push", author: "web" },
-  1: { title: "Github 공부하기", content: "add, commit, push", author: "web" },
-  2: { title: "Github 공부하기", content: "add, commit, push", author: "web" },
-};
-
 export const historyDataList = [
   {
     username: "멋진삼",
