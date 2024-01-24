@@ -26,7 +26,7 @@ export function applyDragAndDrop(draggables, containers) {
       e.preventDefault();
       const afterElement = getDragAfterElement(container, e.clientY);
       const draggable = document.querySelector(".dragging");
-      if (afterElement == null) {
+      if (afterElement === null) {
         container.appendChild(draggable);
       } else {
         container.insertBefore(draggable, afterElement);
