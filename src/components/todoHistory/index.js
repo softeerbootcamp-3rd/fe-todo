@@ -44,16 +44,7 @@ function attachStore({ historyList }) {
   return store;
 }
 
-function attachHandlers(
-  { renderTarget, historyCloseBtn, historyClearBtn },
-  { state }
-) {
-  const historyCloseBtnClick = () => {
-    renderTarget.dispatchEvent(
-      new CustomEvent("toggleHistoryList", { bubbles: true })
-    );
-  };
-
+function attachHandlers({ renderTarget, historyClearBtn }, { state }) {
   const historyClearBtnClick = () => {
     renderTarget.dispatchEvent(
       new CustomEvent("showDeleteModal", {
@@ -66,7 +57,6 @@ function attachHandlers(
     );
   };
 
-  historyCloseBtn.addEventListener("click", historyCloseBtnClick);
   historyClearBtn.addEventListener("click", historyClearBtnClick);
 }
 
@@ -75,7 +65,7 @@ function mount(renderTarget, initialData) {
   <div class="${styles["todoHistory"]}">
     <div class="${styles.todoHistory__header}">
       <h2 class="${styles.todoHistory__title}">사용자 활동 기록</h2>
-      <button data-node="historyCloseBtn" class="${styles.todoHistory__closedBtn}">
+      <button data-node="historyToggleBtn" class="${styles.todoHistory__closedBtn}">
         <img class="${styles.todoHistory__closedIcon}" src="${closedIcon}"/>
         닫기
       </button>
