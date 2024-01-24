@@ -33,6 +33,13 @@
 
 body {
   background: var(--surface-alt);
+  width: 100%;
+  height: 100%;
+}
+
+html {
+  width: 100%;
+  height: 100%;
 }
 
 textarea,
@@ -105,3 +112,8 @@ button {
       brightness(104%) contrast(104%);
   }
 }
+
+#app {
+  height: 100%;
+}
+
