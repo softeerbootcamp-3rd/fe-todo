@@ -3,10 +3,11 @@ import * as EditableCard from "../editable-card/index.js";
 import todoStore from "../../store/todoStore.js";
 
 export function template({ columnId, card }) {
-  return `
+  return /*html*/ `
   <li data-column-id="${columnId}"
       data-card-id="${card.id}"
       class="card rounded-8 surface-default shadow-normal"
+      draggable="true"
     >
     <div class="card__contents">
         <h3 class="card__title text-strong display-bold14">

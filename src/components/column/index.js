@@ -46,3 +46,73 @@ document.querySelector("#app").addEventListener("click", (event) => {
   addCard.style.display = editable ? "none" : "flex";
   target.setAttribute("data-editable", !editable);
 });
+
+// drag and drop
+document.querySelector("#app").addEventListener("dragstart", (event) => {
+  const draggingCard = event.target.closest(".card");
+  if (draggingCard === null) {
+    return;
+  }
+
+  draggingCard.classList.add("dragging");
+  const columnId = draggingCard.getAttribute("data-column-id");
+  const cardId = draggingCard.getAttribute("data-card-id");
+  console.log("dragstart" + columnId + "/" + cardId);
+});
+
+document.querySelector("#app").addEventListener("dragend", (event) => {
+  const draggingCard = event.target.closest(".dragging");
+  const column = event.target.closest(".column__cards");
+  if (draggingCard === null) {
+    return;
+  }
+
+  draggingCard.classList.remove("dragging");
+  const columnId = draggingCard.getAttribute("data-column-id");
+  const cardId = draggingCard.getAttribute("data-card-id");
+  console.log(
+    "dragend" + columnId + "->" + column.getAttribute("data-column-id")
+  );
+});
+
+document.querySelector("#app").addEventListener("dragover", (event) => {
+  const column = event.target.closest(".column__cards");
+  const draggingCard = document.querySelector(".dragging");
+  if (column === null || draggingCard === null) {
+    return;
+  }
+
+  event.preventDefault();
+
+  const afterElement = getDragAfterElement(column, event.clientY);
+  if (afterElement === undefined) {
+    column.appendChild(draggingCard);
+  } else {
+    column.insertBefore(draggingCard, afterElement);
+  }
+});
+
+function getDragAfterElement(container, y) {
+  // .draggable 클래스를 가지며 .dragging 클래스를 가지지 않은 모든 자식 요소를 가져옴.
+  const draggableElements = [
+    ...container.querySelectorAll(".card:not(.dragging)"),
+  ];
+
+  // reduce 함수를 사용하여 가장 가까운 요소를 찾습니다.
+  return draggableElements.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+
+      // 드래그 중인 요소를 드롭되어야 할 위치에 대해 Y 좌표에서의 offset을 계산
+      const offset = y - box.top - box.height / 2;
+
+      // offset이 0보다 작고 closest.offset 보다 클 경우, 가장 가까운 요소를 업데이트
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    },
+    { offset: Number.NEGATIVE_INFINITY }
+  ).element;
+}
