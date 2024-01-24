@@ -1,11 +1,13 @@
 import { createColumnTemplate } from "../components/templates.js";
-import { columnList } from "../constants/columnData.js";
+// import { columnList } from "../constants/columnData.js";
 import customEventHandler from "../eventController/eventHandler.js";
+import { getData } from "../services/http.js";
 import { createCard } from "./cards.js";
 
 // Column 동적 생성 함수
-export function mainColumns(baseElement) {
-    for (let column of columnList) {
+export async function mainColumns(baseElement) {
+    const data = await getData();
+    for (let column of data) {
         createColumn(baseElement, column);
     }
 }
