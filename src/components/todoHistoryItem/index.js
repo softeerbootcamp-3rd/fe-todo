@@ -6,10 +6,10 @@ const HOUR = 3600000;
 const MINUTE = 60000;
 
 export default function todoHistoryItem(renderTarget, initialData) {
-  mount(renderTarget, initialData);
+  render(renderTarget, initialData);
 }
 
-function mount(renderTarget, initialData) {
+function render(renderTarget, initialData) {
   renderTarget.innerHTML = /*html*/ `
     <div class="${styles.todoHistoryItem}">
       <img class="${styles.todoHistoryItem__userImage}" src="${userImage}"/>

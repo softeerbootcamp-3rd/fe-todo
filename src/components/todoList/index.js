@@ -8,7 +8,7 @@ import { useStore } from "../../utils/store.js";
 import { createComponent } from "../../utils/ui.js";
 
 export default function todoList(renderTarget, initialData) {
-  const views = mount(renderTarget, initialData);
+  const views = render(renderTarget, initialData);
   const store = attachStore(views, initialData);
   attachHandlers(views, store, initialData);
   return store.destroy;
@@ -119,7 +119,7 @@ function attachHandlers(
   plusBtn.addEventListener("click", toggleAddModeCard);
 }
 
-function mount(renderTarget, initialData) {
+function render(renderTarget, initialData) {
   renderTarget.innerHTML = /*html*/ `
     <div data-node="todoList" class="${styles.todoList}">
       <div class="${styles.todoList__header}">

@@ -7,7 +7,7 @@ import { createComponent } from "../../utils/ui";
 
 export default function todoListTable(renderTarget, initialData) {
   //행 + 데이터를 모두 감싸고 있는 컨테이너 (테이블)
-  const views = mount(renderTarget, initialData);
+  const views = render(renderTarget, initialData);
   const store = attachStore(views, initialData);
   return store.destroy;
 }
@@ -59,7 +59,7 @@ function attachStore({ todoListTable }, initialData) {
   return store;
 }
 
-function mount(renderTarget, initialData) {
+function render(renderTarget, initialData) {
   renderTarget.innerHTML = /*html*/ `
     <div data-node="todoListTable" class="${styles.todoListTable}">
     </div>

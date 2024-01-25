@@ -19,7 +19,7 @@ import { useStore } from "../../utils/store.js";
   }
 */
 export default function todoItem(renderTarget, initialData) {
-  const views = mount(renderTarget, initialData);
+  const views = render(renderTarget, initialData);
   const store = attachStore(views, initialData);
   attachHandlers(views, store, initialData);
   return () => {
@@ -132,7 +132,7 @@ function attachHandlers(
 }
 
 // todoItem 컴포넌트 템플릿
-function mount(renderTarget, initialData) {
+function render(renderTarget, initialData) {
   renderTarget.innerHTML = /*html*/ `
   <div data-node="todoItem" data-todo-id="${
     initialData.id

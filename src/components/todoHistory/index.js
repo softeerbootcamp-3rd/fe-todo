@@ -6,7 +6,7 @@ import { historyStore } from "../../stores/historyStore";
 import { createComponent } from "../../utils/ui";
 
 export default function todoHistory(renderTarget) {
-  const views = mount(renderTarget);
+  const views = render(renderTarget);
   const store = attachStore(views);
   attachHandlers(views, store);
   return store.destroy;
@@ -60,7 +60,7 @@ function attachHandlers({ renderTarget, historyClearBtn }, { state }) {
   historyClearBtn.addEventListener("click", historyClearBtnClick);
 }
 
-function mount(renderTarget, initialData) {
+function render(renderTarget, initialData) {
   renderTarget.innerHTML = /*html*/ `
   <div class="${styles["todoHistory"]}">
     <div class="${styles.todoHistory__header}">
