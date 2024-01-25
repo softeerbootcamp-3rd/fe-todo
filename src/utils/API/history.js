@@ -7,6 +7,10 @@ export function getHistory() {
   return [];
 }
 
+export function clearHistory() {
+  localStorage.setItem("history", JSON.stringify([]));
+}
+
 export function addHistory(colTitle, item) {
   const historyList = JSON.parse(localStorage.getItem("history")) ?? [];
   // actionId = 0: 등록 / 1: 삭제 / 2: 변경 / 3: 이동

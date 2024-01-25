@@ -3,93 +3,112 @@ import todoItemStyles from "../todoItem/todoItem.module.scss";
 import plusIcon from "../../asset/img/plus.svg";
 import closedIcon from "../../asset/img/closed.svg";
 import todoItem from "../todoItem";
+import { todoStore } from "../../stores/todoStore.js";
+import { useStore } from "../../utils/store.js";
+import { createComponent } from "../../utils/ui.js";
 
 export default function todoList(renderTarget, initialData) {
   const views = mount(renderTarget, initialData);
-  attachHandlers(views, initialData);
+  const store = attachStore(views, initialData);
+  attachHandlers(views, store, initialData);
+  return store.destroy;
+}
+
+function attachStore({ newItemContainer, itemCount }, initialData) {
+  const childComponents = new Map();
+  // 스토어가 업데이트 될때마다 실행되는 함수
+  const updateView = (list) => {
+    if (list === undefined) return;
+    // reset mounted flag
+    for (const component of childComponents.values()) {
+      component.mounted = false;
+    }
+
+    // create & mount components in order one by one
+    let previousElement = newItemContainer;
+    for (const { id } of list) {
+      let component = childComponents.get(id);
+      if (!component) {
+        // 맵에 없음: 새로 생성
+        component = createComponent(todoItem, {
+          listTitle: initialData.title,
+          id,
+        });
+        childComponents.set(id, component);
+      }
+
+      previousElement.insertAdjacentElement("afterend", component.element);
+      component.mounted = true;
+      previousElement = component.element;
+    }
+
+    // destroy unmounted components
+    for (const [id, component] of childComponents.entries()) {
+      if (component.mounted) continue;
+      component.element.parentNode.removeChild(component.element);
+      component.destroy();
+      childComponents.delete(id);
+    }
+
+    // update count
+    itemCount.innerText = list.length;
+  };
+
+  const store = useStore(
+    todoStore,
+    updateView,
+    (state) => state.todoList[initialData.title]
+  );
+
+  return store;
 }
 
 function attachHandlers(
-  { renderTarget, newItemContainer, itemCount, itemsContainer, plusBtn },
+  { renderTarget, newItemContainer, itemsContainer, plusBtn },
+  {},
   initialData
 ) {
-  const createAndAddItem = (item, beforeElement) => {
-    const todoItemWrapper = document.createElement("div");
-    todoItem(todoItemWrapper, {
-      todoColTitle: initialData.title,
-      item,
-      createAndAddItem,
-    });
-    if (beforeElement === undefined) {
-      // 새로운 아이템 등록 및 추가
-      newItemContainer.insertAdjacentElement("afterend", todoItemWrapper);
-      newItemContainer.style.display = "none";
-      updateItemCount();
-    } else {
-      beforeElement.insertAdjacentElement("beforebegin", todoItemWrapper);
-    }
-  };
-
-  const updateItemCount = () => {
-    itemCount.innerText = itemsContainer.childElementCount - 1;
-  };
-
-  renderTarget.addEventListener("updateItemCount", (e) => {
-    if (e.detail.propagate) {
-      return;
-    }
-    e.stopPropagation();
-    updateItemCount();
-  });
-
-  document.addEventListener("updateItemCount", updateItemCount);
-
-  // 행 하나에 item으로 컴포넌트를 만들어서 마운트
-  for (const item of initialData.items) {
-    const todoItemWrapper = document.createElement("div");
-    todoItem(todoItemWrapper, {
-      todoColTitle: initialData.title,
-      item,
-      createAndAddItem,
-    });
-    itemsContainer.appendChild(todoItemWrapper);
-  }
-
-  // drag events
-  renderTarget.addEventListener("dragover", (e) => {
+  // drag 이벤트
+  const dragOver = (e) => {
     e.preventDefault();
+    // TODO: store 사용하도록 수정해야함
     const dragging = document.querySelector(
       `div.${todoItemStyles["todoItem--dragging"]}`
     ).parentNode;
     itemsContainer.appendChild(dragging);
-    updateItemCount();
-  });
+  };
 
-  //추가 컴포넌트 등장 이벤트 추가
-  plusBtn.addEventListener("click", () => {
+  // 등록 카드 생성 & 삭제
+  let destroyAddModeCard;
+  const toggleAddModeCard = () => {
+    // 존재한다면 삭제
+    if (destroyAddModeCard) destroyAddModeCard();
     if (newItemContainer.style.display === "none") {
-      newItemContainer.style.display = "block";
-      todoItem(newItemContainer, {
-        todoColTitle: initialData.title,
+      destroyAddModeCard = todoItem(newItemContainer, {
+        listTitle: initialData.title,
         addMode: true,
         onCancel: () => {
+          console.log("oncancel");
           newItemContainer.style.display = "none";
         },
-        createAndAddItem,
       });
+      newItemContainer.style.display = "block";
     } else {
       newItemContainer.style.display = "none";
     }
-  });
+  };
+
+  renderTarget.addEventListener("dragover", dragOver);
+  plusBtn.addEventListener("click", toggleAddModeCard);
 }
 
 function mount(renderTarget, initialData) {
   renderTarget.innerHTML = /*html*/ `
-    <div data-node="todoList" data-title="${initialData.title}" class="${styles.todoList}">
+    <div data-node="todoList" class="${styles.todoList}">
       <div class="${styles.todoList__header}">
         <div class="${styles.todoList__countWrapper}">
           <h2 class="${styles.todoList__headerTitle}">${initialData.title}</h2>
-          <p data-node="itemCount" class="${styles.todoList__count}">${initialData.items.length}</p>
+          <p data-node="itemCount" class="${styles.todoList__count}">-</p>
         </div>
         <div class="${styles.todoList__btnContainer}">
           <button data-node="plusBtn" class="actionBtn">

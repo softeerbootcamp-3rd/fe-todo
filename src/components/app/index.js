@@ -4,18 +4,19 @@ import todoHistory from "../todoHistory";
 import todoListTable from "../todoListTable";
 import modal from "../modal";
 
-export default function App(renderTarget, initialData) {
-  const views = mount(renderTarget, initialData);
-  return attachHandlers(views, initialData);
+export default function App(renderTarget) {
+  const views = mount(renderTarget);
+  attachHandlers(views);
 }
 
-function attachHandlers(
-  { renderTarget, headerSection, todoSection, historySection, modalSection },
-  initialData
-) {
-  const toggleHistoryList = () => {
+function attachHandlers({ renderTarget, historySection, modalSection }) {
+  let destroyTodoHistory;
+  const toggleHistoryList = (e) => {
+    // this event is delegated
+    if (e.target.closest('[data-node="historyToggleBtn"]') === null) return;
+    if (destroyTodoHistory) destroyTodoHistory();
     historySection.classList.toggle(styles["app__historySection--show"]);
-    todoHistory(historySection, {});
+    destroyTodoHistory = todoHistory(historySection);
   };
 
   const modalSectionClick = () => {
@@ -23,22 +24,20 @@ function attachHandlers(
   };
 
   const showDeleteModal = ({ detail }) => {
+    console.log("showdeleteModal");
     modalSection.style.display = "block";
-    modal(modalSection, { msg: detail.msg, onDelete: detail.onDelete });
+    modal(modalSection, {
+      msg: detail.msg,
+      onDeleteBtnClicked: detail.onDeleteBtnClicked,
+    });
   };
 
   renderTarget.addEventListener("showDeleteModal", showDeleteModal);
   modalSection.addEventListener("click", modalSectionClick);
-  document.addEventListener("toggleHistoryList", toggleHistoryList);
-
-  return () => {
-    renderTarget.removeEventListener("showDeleteModal", showDeleteModal);
-    modalSection.removeEventListener("click", modalSectionClick);
-    document.removeEventListener("toggleHistoryList", toggleHistoryList);
-  };
+  document.addEventListener("click", toggleHistoryList);
 }
 
-function mount(renderTarget, initialData) {
+function mount(renderTarget) {
   renderTarget.innerHTML = /*html*/ `
     <div class="${styles.app}">
       <div data-node="headerSection" class=${styles.app__headerSection}></div>

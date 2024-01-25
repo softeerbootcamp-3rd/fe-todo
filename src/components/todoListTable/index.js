@@ -1,26 +1,64 @@
 import todoList from "../todoList";
 import styles from "./todoListTable.module.scss";
-import { getTodoList } from "../../utils/API/todoList";
+import { todoStore } from "../../stores/todoStore";
+import { deepEqualList } from "../../utils/list";
+import { useStore } from "../../utils/store";
+import { createComponent } from "../../utils/ui";
 
 export default function todoListTable(renderTarget, initialData) {
   //행 + 데이터를 모두 감싸고 있는 컨테이너 (테이블)
   const views = mount(renderTarget, initialData);
-  attachHandlers(views, initialData);
+  const store = attachStore(views, initialData);
+  attachHandlers(views, store, initialData);
+  return store.destroy;
 }
 
-function attachHandlers({ renderTarget, todoListTable }, initialData) {
-  //데이터 API호출 후, 각 todoList에 넣어서 각각 만들어주고 그것을 마운트해준다.
-  const todoData = getTodoList();
-  const todoDataEntries = Object.entries(todoData);
-  for (const [todoColTitle, todoColData] of todoDataEntries) {
-    const container = document.createElement("div");
-    todoList(container, {
-      title: todoColTitle,
-      items: todoColData,
-    });
-    todoListTable.appendChild(container);
-  }
+function attachStore({ todoListTable }, initialData) {
+  const childComponents = new Map();
+  const updateView = (listTitles) => {
+    if (listTitles === undefined) return;
+    // reset mounted flag
+    for (const component of childComponents.values()) {
+      component.mounted = false;
+    }
+
+    // create & mount components in order one by one
+    let previousElement = undefined;
+    for (const title of listTitles) {
+      console.log("mount", title);
+      let component = childComponents.get(title);
+      if (!component) {
+        // 맵에 없음: 새로 생성
+        component = createComponent(todoList, { title });
+        childComponents.set(title, component);
+      }
+
+      if (!previousElement) todoListTable.appendChild(component.element);
+      else previousElement.insertAdjacentElement("afterend", component.element);
+      component.mounted = true;
+      previousElement = component.element;
+    }
+
+    // destroy unmounted components
+    for (const [title, component] of childComponents.entries()) {
+      if (component.mounted) continue;
+      component.element.parentNode.removeChild(component.element);
+      component.destroy();
+      childComponents.delete(title);
+    }
+  };
+
+  const store = useStore(
+    todoStore,
+    updateView,
+    (state) => Object.keys(state.todoList),
+    deepEqualList
+  );
+
+  return store;
 }
+
+function attachHandlers({}, {}, initialData) {}
 
 function mount(renderTarget, initialData) {
   renderTarget.innerHTML = /*html*/ `

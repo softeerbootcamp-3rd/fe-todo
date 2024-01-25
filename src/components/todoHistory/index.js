@@ -1,50 +1,63 @@
 import styles from "./todoHistory.module.scss";
 import closedIcon from "../../asset/img/closed.svg";
 import todoHistoryItem from "../todoHistoryItem";
-import { getHistory } from "../../utils/API/history";
+import { useStore } from "../../utils/store";
+import { historyStore } from "../../stores/historyStore";
+import { createComponent } from "../../utils/ui";
 
-export default function todoHistory(renderTarget, initialData) {
-  const views = mount(renderTarget, initialData);
-  return attachHandlers(views, initialData);
+export default function todoHistory(renderTarget) {
+  const views = mount(renderTarget);
+  const store = attachStore(views);
+  attachHandlers(views, store);
+  return store.destroy;
 }
 
-function attachHandlers(
-  { renderTarget, historyList, historyCloseBtn, historyClearBtn },
-  initialData
-) {
-  const historyCloseBtnClick = () => {
-    document.dispatchEvent(new CustomEvent("toggleHistoryList"));
+function attachStore({ historyList }) {
+  let childComponents = [];
+  const updateView = (list) => {
+    if (list === undefined) return;
+    // destroy previous components
+    childComponents.forEach((v) => {
+      v.element.parentNode.removeChild(v.element);
+      if (v.destroy) v.destroy();
+    });
+    childComponents = [];
+
+    // 순서대로 생성해서 삽입
+    let previousElement;
+    for (const history of list) {
+      const component = createComponent(todoHistoryItem, { ...history });
+      childComponents.push(component);
+      if (!previousElement) historyList.appendChild(component.element);
+      else previousElement.insertAdjacentElement("afterend", component.element);
+      previousElement = component.element;
+    }
   };
 
+  const store = useStore(historyStore, updateView, (state) => {
+    return state.history;
+  });
+
+  // 로드할때마다 history reload
+  store.state.fetch();
+
+  return store;
+}
+
+function attachHandlers({ renderTarget, historyClearBtn }, { state }) {
   const historyClearBtnClick = () => {
-    document.dispatchEvent(
+    renderTarget.dispatchEvent(
       new CustomEvent("showDeleteModal", {
         detail: {
           msg: "모든 사용자 활동 기록을 삭제할까요?",
-          onDelete: () => {
-            //TODO: 사용자 활동 기록을 삭제할까요?
-          },
+          onDeleteBtnClicked: state.clear,
         },
+        bubbles: true,
       })
     );
   };
 
-  const historyArr = getHistory();
-  let historyDestroyers = [];
-  historyArr.forEach((history) => {
-    const container = document.createElement("div");
-    historyDestroyers.push(todoHistoryItem(container, history));
-    historyList.appendChild(container);
-  });
-
-  historyCloseBtn.addEventListener("click", historyCloseBtnClick);
   historyClearBtn.addEventListener("click", historyClearBtnClick);
-
-  return () => {
-    historyCloseBtn.removeEventListener("click", historyCloseBtnClick);
-    historyClearBtn.removeEventListener("click", historyClearBtnClick);
-    historyDestroyers.forEach((v) => v());
-  };
 }
 
 function mount(renderTarget, initialData) {
@@ -52,7 +65,7 @@ function mount(renderTarget, initialData) {
   <div class="${styles["todoHistory"]}">
     <div class="${styles.todoHistory__header}">
       <h2 class="${styles.todoHistory__title}">사용자 활동 기록</h2>
-      <button data-node="historyCloseBtn" class="${styles.todoHistory__closedBtn}">
+      <button data-node="historyToggleBtn" class="${styles.todoHistory__closedBtn}">
         <img class="${styles.todoHistory__closedIcon}" src="${closedIcon}"/>
         닫기
       </button>

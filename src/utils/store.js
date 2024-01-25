@@ -1,3 +1,4 @@
+// 참고:
 // https://github.com/pmndrs/zustand/blob/main/src/vanilla.ts
 // https://ui.toast.com/weekly-pick/ko_20210812
 
@@ -12,7 +13,7 @@ export function createStore(initializer) {
     equalityFunction = Object.is
   ) => {
     // create listener
-    let prevSlice = selector(state);
+    let prevSlice = undefined;
     function newListener() {
       const newSlice = selector(state);
       if (!equalityFunction(prevSlice, newSlice)) {
@@ -35,6 +36,8 @@ export function createStore(initializer) {
         ? setterOrValue(state)
         : setterOrValue;
 
+    console.log("setState", nextState);
+
     if (nextState === state) return;
     // update state
     state = Object.assign({}, state, nextState);
@@ -45,4 +48,26 @@ export function createStore(initializer) {
   const api = { getState, subscribe };
   state = initializer(setState, getState);
   return api;
+}
+
+export function useStore(store, callback, selector, equalityFunction) {
+  const storeObj = {
+    data: undefined, // store에서 받아온 데이터가 저장되는 곳, 계속 업데이트됨
+    destroy: undefined, // store에 unsub 할때 실행할 함수
+    state: store.getState(), // state
+  };
+
+  const destroy = store.subscribe(
+    (data) => {
+      storeObj.data = data;
+      callback(data);
+    },
+    selector,
+    equalityFunction
+  );
+  storeObj.destroy = () => {
+    destroy();
+    console.log("destroyed:", storeObj.data);
+  };
+  return storeObj;
 }
