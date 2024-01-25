@@ -1,5 +1,6 @@
 import { createEditorTemplate, createCardInfoTemplate } from "./templates.js ";
 import createModal from "./modal.js";
+import todoStore, { CANCEL_CARD } from "./todoStore.js";
 // import { columnData } from "../../index.js";
 
 // Card element
@@ -16,19 +17,15 @@ export default function Card() {
   return newElement;
 }
 
-function cancelHandler({ target }) {
-  const card = target.closest(".newCard");
-  const currentStatus = card.querySelector(".register").textContent;
-  const status = currentStatus === "저장";
-
-  if (status) {
-    const title = localStorage.getItem(`originalTitle-${card.id}`);
-    const content = localStorage.getItem(`originalContent-${card.id}`);
-    card.className = "registeredCard";
-    card.innerHTML = createCardInfoTemplate(title, content);
-    return;
-  }
-  card.remove();
+function cancelHandler({ target, parentTarget }) {
+  console.log(target, parentTarget);
+  const cardId = target.closest(".newCard").id;
+  const columnId = parentTarget.id;
+  const action = {
+    type: CANCEL_CARD,
+    payload: { id: cardId, columnId: columnId },
+  };
+  todoStore.dispatch(action);
 }
 
 // Card 등록 함수

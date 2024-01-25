@@ -40,8 +40,9 @@ const reducer = (state, action) => {
       return newState;
     }
     case CANCEL_CARD: {
-      const columnId = action.payload["columnId"];
       const cardId = action.payload["id"];
+      const columnId = action.payload["columnId"];
+      const updateState = state;
       const newState = state[columnId].filter((card) => {
         if (card.id !== cardId) {
           return true;
@@ -51,7 +52,8 @@ const reducer = (state, action) => {
         }
         card.status = "registered";
       });
-      return newState;
+      updateState[columnId] = newState;
+      return updateState;
     }
     case DELETE_CARD: {
       const columnId = action.payload["columnId"];
@@ -100,6 +102,7 @@ function render(columnId) {
   cardListNode.innerHTML = "";
   for (const card of cardList) {
     const cardElement = document.createElement("div");
+    cardElement.id = card.id;
     if (card.status !== "registered") {
       cardElement.className = "newCard";
       cardElement.innerHTML = createEditorTemplate(
