@@ -32,7 +32,7 @@ export function createEditorTemplate(
     `;
 }
 
-export function createCardInfoTemplate(title, content) {
+export function createCardInfoTemplate({ title, content }) {
   return `
     <div class="cardInfo">
         <span class="registeredTitle">${title}</span>

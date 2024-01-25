@@ -1,6 +1,6 @@
 import { createEditorTemplate, createCardInfoTemplate } from "./templates.js ";
 import createModal from "./modal.js";
-import todoStore, { CANCEL_CARD } from "./todoStore.js";
+import todoStore, { CANCEL_CARD, REGISTER_CARD } from "./todoStore.js";
 // import { columnData } from "../../index.js";
 
 // Card element
@@ -18,7 +18,6 @@ export default function Card() {
 }
 
 function cancelHandler({ target, parentTarget }) {
-  console.log(target, parentTarget);
   const cardId = target.closest(".newCard").id;
   const columnId = parentTarget.id;
   const action = {
@@ -31,20 +30,20 @@ function cancelHandler({ target, parentTarget }) {
 // Card 등록 함수
 function registerCard({ target, parentTarget }) {
   const card = target.closest(".newCard");
+  const columnId = parentTarget.id;
   const title = card.querySelector(".title").value;
   const content = card.querySelector(".content").value;
-  const countBox = parentTarget.querySelector(".countBox");
-
-  const newCount = Number(countBox.textContent) + 1;
-  countBox.innerHTML = newCount;
-
-  const cardList = document.getElementById(`cardList-${parentTarget.id}`);
-  cardList.innerHTML = "";
-  columnData.addCardData(parentTarget.id, {
-    title,
-    content,
-  });
-  return card;
+  const action = {
+    type: REGISTER_CARD,
+    payload: {
+      id: card.id,
+      columnId: columnId,
+      title: title,
+      content: content,
+      status: "registered",
+    },
+  };
+  todoStore.dispatch(action);
 }
 
 function saveHandler({ target, parentTarget }) {
