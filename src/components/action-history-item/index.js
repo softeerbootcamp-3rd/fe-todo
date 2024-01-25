@@ -1,3 +1,5 @@
+import { differenceFormat } from "../../utils/difference-format.js";
+
 export function template({ history }) {
   return `
     <li class="action-history__item">
@@ -11,7 +13,10 @@ export function template({ history }) {
           <p class="display-medium14 text-default">
             ${historyDescriptionTemplate({ history })}
           </p>
-          <span class="text-weak display-medium12">10분 전</span>
+          <span class="text-weak display-medium12">${differenceFormat(
+            new Date().getTime(),
+            history.createdAt
+          )}</span>
         </div>
     </li>
     `;
