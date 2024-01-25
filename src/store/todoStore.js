@@ -18,17 +18,21 @@ const initTodoList = {
   "완료한 일": [],
 };
 
-const existenceTodoList = JSON.parse(localStorage.getItem("todoList"));
-const existenceHistory = JSON.parse(localStorage.getItem("history"));
-let resultTodoList = existenceTodoList;
-let resultHistory = existenceHistory;
-if (!existenceTodoList) {
+const todoList = localStorage.getItem("todoList");
+const historyList = localStorage.getItem("history");
+let resultTodoList;
+let resultHistory;
+if (!todoList) {
   resultTodoList = initTodoList;
   localStorage.setItem("todoList", JSON.stringify(resultTodoList));
+} else {
+  resultTodoList = JSON.parse(todoList);
 }
-if (!existenceHistory) {
+if (!historyList) {
   resultHistory = [];
   localStorage.setItem("history", JSON.stringify(resultHistory));
+} else {
+  resultHistory = JSON.parse(historyList);
 }
 
 let inStoreData = { todoList: resultTodoList, history: resultHistory };

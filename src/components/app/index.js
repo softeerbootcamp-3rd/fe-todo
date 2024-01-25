@@ -21,9 +21,6 @@ export default function App(parent, props) {
   header(headerSection, {});
 
   //todo컴포넌트 마운트
-  //=> 처음에 초기값, API 모든 데이터를 넣어줘야함.
-  //=> 생성, 수정, 삭제는 API요청은 있으나 다시 받아오지는 않음.
-
   const todoSection = parent.querySelector('[todo-section="todoSection"]');
   todoListTable(todoSection, { todoList: store.getTodoList() });
 
