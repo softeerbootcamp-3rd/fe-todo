@@ -73,6 +73,28 @@ function attachHandlers(
     e.preventDefault();
   };
 
+  let count = 0;
+  const dragEnter = (e) => {
+    e.preventDefault();
+    if (count++ !== 0) return;
+
+    const { drag, doDrag } = todoStore.getState();
+    if (drag === undefined) return;
+    const { src, dst } = drag;
+    const idSrc = src.id;
+    const titleSrc = dst?.title ?? src.title;
+    doDrag(titleSrc, idSrc, initialData.title, undefined);
+  };
+
+  const dragLeave = (e) => {
+    e.preventDefault();
+    count--;
+  };
+
+  const drop = () => {
+    count = 0;
+  };
+
   // 등록 카드 생성 & 삭제
   let destroyAddModeCard;
   const toggleAddModeCard = () => {
@@ -91,6 +113,9 @@ function attachHandlers(
   };
 
   renderTarget.addEventListener("dragover", dragOver);
+  renderTarget.addEventListener("dragenter", dragEnter);
+  renderTarget.addEventListener("dragleave", dragLeave);
+  renderTarget.addEventListener("drop", drop);
   plusBtn.addEventListener("click", toggleAddModeCard);
 }
 
