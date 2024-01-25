@@ -21,7 +21,6 @@ export default function todoHistory(parent, props) {
             store.dispatch({
               type: "deleteAllHistory",
             });
-            historyList.innerHTML = "";
           },
         },
       })
@@ -29,9 +28,20 @@ export default function todoHistory(parent, props) {
   });
 
   const historyArr = store.getHistory();
-  historyArr.forEach((history) => {
-    const container = document.createElement("div");
-    todoHistoryItem(container, history);
-    historyList.appendChild(container);
-  });
+  if (historyArr.length === 0) {
+    historyList.innerHTML =
+      "<p class='grayBasicText_14'>사용자 활동 기록이 없습니다.</p>";
+    historyClearBtn.style.display = "none";
+    historyList.style.marginTop = "20px";
+    historyList.style.marginBottom = "10px";
+  } else {
+    historyArr.forEach((history) => {
+      const container = document.createElement("div");
+      todoHistoryItem(container, history);
+      historyList.appendChild(container);
+      historyClearBtn.style.display = "block";
+      historyList.style.marginTop = "0px";
+      historyList.style.marginBottom = "0px";
+    });
+  }
 }
