@@ -85,6 +85,7 @@ setEvent(app, "click", (event) => {
           render({ history: state.history });
         },
       });
+      Alert.close();
     },
   });
 });

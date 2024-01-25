@@ -49,7 +49,7 @@ const todosControllers = {
       description,
       author,
     };
-    history.push(newHistory);
+    history.unshift(newHistory);
     todos[columnIndex].cards.push(newTodo);
     fs.writeFileSync(todosPath, JSON.stringify({ todos }));
     fs.writeFileSync(historyPath, JSON.stringify({ history }));
@@ -84,7 +84,7 @@ const todosControllers = {
       createdAt: new Date().getTime(),
       action: historyActionMap["edit"],
     };
-    history.push(newHistory);
+    history.unshift(newHistory);
 
     todos[columnIndex].cards[cardIndex] = {
       id: cardId,
@@ -128,7 +128,7 @@ const todosControllers = {
       createdAt: new Date().getTime(),
       action: historyActionMap["move"],
     };
-    history.push(newHistory);
+    history.unshift(newHistory);
 
     const newCard = todos[columnIndex].cards[cardIndex];
     todos[currentColumnIndex].cards.push(newCard);
@@ -167,7 +167,7 @@ const todosControllers = {
       createdAt: new Date().getTime(),
       action: historyActionMap["delete"],
     };
-    history.push(newHistory);
+    history.unshift(newHistory);
 
     todos[columnIndex].cards.splice(cardIndex, 1);
     fs.writeFileSync(todosPath, JSON.stringify({ todos }));
