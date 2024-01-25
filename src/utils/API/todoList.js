@@ -1,6 +1,12 @@
-import { httpDelete, httpGet, httpPatch, httpPost, httpPut } from "./http";
+import {
+  API_BASE_URL,
+  httpDelete,
+  httpGet,
+  httpPatch,
+  httpPost,
+  httpPut,
+} from "./http";
 
-const API_BASE_URL = "http://localhost:3333";
 export const insert_after = "after";
 export const insert_before = "before";
 

@@ -1,3 +1,5 @@
+export const API_BASE_URL = "http://localhost:3333";
+
 export async function httpGet(url, signal) {
   return await getRes(url, {
     method: "GET",
