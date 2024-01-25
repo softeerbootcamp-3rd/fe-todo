@@ -6,8 +6,8 @@ const app = document.getElementById("app");
 
 export function template({ columnId }) {
   return `
+  <dialog  class="card__editable-dialog" data-column-id=${columnId}>
     <li class="card__editable rounded-8 surface-default shadow-normal"
-        style="display: none;"
         data-column-id=${columnId}
     >
       <div class="card__contents" data-column-id=${columnId}>
@@ -24,7 +24,6 @@ export function template({ columnId }) {
       </div>
       <div class="card__editable-buttons">
         <button 
-            data-column-id=${columnId}
             class="cancel-button button rounded-8 surface-alt display-bold14 text-default"
             type="button"
         >
@@ -39,7 +38,18 @@ export function template({ columnId }) {
         </button>
       </div>
     </li>
+  </dialog>
     `;
+}
+
+export function toggle({ columnId }) {
+  const addCardDialog = document.querySelector(
+    `.card__editable-dialog[data-column-id="${columnId}"]`
+  );
+  addCardDialog.querySelector(".card__title-input").value = "";
+  addCardDialog.querySelector(".card__description-input").value = "";
+  const isOpen = addCardDialog.getAttribute("open") === "";
+  isOpen ? addCardDialog.close() : addCardDialog.show();
 }
 
 // 카드 등록
@@ -68,17 +78,9 @@ setEvent(app, "click", async (event) => {
 });
 
 setEvent(app, "click", (event) => {
-  const target = event.target.closest(".cancel-button");
-  if (target === null) {
-    return;
-  }
+  const cancelButton = event.target.closest(".cancel-button");
+  if (!cancelButton) return;
 
-  const columnId = target.getAttribute("data-column-id");
-  const cardContent = document.querySelector(
-    `.card__contents[data-column-id="${columnId}"]`
-  );
-  cardContent.querySelector(".card__title-input").value = "";
-  const description = cardContent.querySelector(
-    ".card__description-input"
-  ).value;
+  const dialog = cancelButton.closest(".card__editable-dialog");
+  dialog.close();
 });
