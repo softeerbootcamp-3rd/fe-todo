@@ -2,8 +2,10 @@ import {
   addTodoListItem,
   editTodoListItem,
   getTodoList,
+  moveTodoListItem,
   removeTodoListItem,
 } from "../utils/API/todoList";
+import { findItemFromTodoList, getIndexById } from "../utils/list";
 import { createStore } from "../utils/store";
 
 // requests external state update then update local state if succeeded
@@ -11,6 +13,7 @@ import { createStore } from "../utils/store";
 
 export const todoStore = createStore((set, get) => ({
   todoList: getTodoList(), // initial todolist data
+  drag: undefined,
   add(title, item) {
     console.log("add request", title, item);
     // add new Item to todoList
@@ -51,6 +54,56 @@ export const todoStore = createStore((set, get) => ({
       return { ...state, todoList: newTodoList };
     });
   },
-}));
+  applyDrag() {
+    if (get().drag.dst) {
+      // api call
+      moveTodoListItem(
+        get().drag.src.title,
+        get().drag.src.id,
+        get().drag.dst.title,
+        get().drag.dst.id
+      );
+    }
+    // reset drag state
+    set((state) => ({ ...state, drag: undefined }));
+  },
+  startDrag(title, id) {
+    set((state) => ({ ...state, drag: { src: { title, id } } }));
+  },
+  doDrag(titleSrc, idSrc, titleDst, idDst) {
+    set((state) => {
+      const newTodoList = { ...state.todoList };
+      const listSrc = [...newTodoList[titleSrc]];
+      const listDst = [...newTodoList[titleDst]];
+      const idxSrc = getIndexById(listSrc, idSrc);
+      const idxDst = getIndexById(listDst, idDst);
+      const item = listSrc[idxSrc];
 
-// TODO: moveItem
+      if (titleSrc === titleDst) {
+        // 인덱스가 큰거부터 수정
+        if (idxSrc < idxDst) {
+          listSrc.splice(idxDst + 1, 0, item);
+          listSrc.splice(idxSrc, 1);
+        } else {
+          listSrc.splice(idxSrc, 1);
+          listSrc.splice(idxDst, 0, item);
+        }
+        newTodoList[titleSrc] = listSrc;
+      } else {
+        listSrc.splice(idxSrc, 1);
+        listDst.splice(idxDst, 0, item);
+        newTodoList[titleSrc] = listSrc;
+        newTodoList[titleDst] = listDst;
+      }
+
+      return {
+        ...state,
+        todoList: newTodoList,
+        drag: {
+          ...state.drag,
+          dst: { title: titleDst, id: idDst },
+        },
+      };
+    });
+  },
+}));
