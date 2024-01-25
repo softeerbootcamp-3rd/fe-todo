@@ -1,6 +1,7 @@
 import todoHistoryItem from "../todoHistoryItem";
-import { getHistory, moveAllHistory } from "../../utils/API/history";
+import { moveAllHistory } from "../../utils/API/history";
 import { todoHistoryTemplate } from "./template";
+import { store } from "../../store/todoStore";
 
 export default function todoHistory(parent, props) {
   parent.innerHTML = todoHistoryTemplate();
@@ -26,10 +27,9 @@ export default function todoHistory(parent, props) {
     );
   });
 
-  const historyArr = getHistory();
+  const historyArr = store.getHistory();
   historyArr.forEach((history) => {
     const container = document.createElement("div");
-
     todoHistoryItem(container, history);
     historyList.appendChild(container);
   });

@@ -5,6 +5,12 @@ import {
   removeTodoListItem,
   moveTodoListItem,
 } from "../utils/API/todoList";
+import {
+  addHistory,
+  editHistory,
+  removeHistory,
+  moveHistory,
+} from "../utils/API/history";
 
 let initTodoList = {
   "해야할 일": [],
@@ -33,6 +39,8 @@ function reducer(state = {}, action) {
     const todoColTitle = action.payload.todoColTitle;
     store.setPlusItem(todoColTitle, item);
     addTodoListItem(todoColTitle, item);
+    store.setPlusHistory(todoColTitle, item);
+    addHistory(todoColTitle, item);
     return {
       ...state,
     };
@@ -41,6 +49,8 @@ function reducer(state = {}, action) {
     const todoColTitle = action.payload.todoColTitle;
     store.setUpdateItem(todoColTitle, item);
     editTodoListItem(todoColTitle, item);
+    store.setEditHistory(item);
+    editHistory(item);
     return {
       ...state,
     };
@@ -49,25 +59,33 @@ function reducer(state = {}, action) {
     const todoColTitle = action.payload.todoColTitle;
     store.setDeleteItem(todoColTitle, item);
     removeTodoListItem(todoColTitle, item);
+    store.setRemoveHistory(todoColTitle, item);
+    removeHistory(todoColTitle, item);
     return {
       ...state,
     };
-  } else if (action.type === "changeTodoItem") {
-    const { startColIndex, todoColTitleSrc, endColIndex, todoColTitleDst } =
-      action.payload;
-
+  } else if (action.type === "moveTodoItem") {
+    const {
+      todoTitle,
+      startColIndex,
+      todoColTitleSrc,
+      endColIndex,
+      todoColTitleDst,
+    } = action.payload;
     store.setChangeItem(
       startColIndex,
       todoColTitleSrc,
       endColIndex,
       todoColTitleDst
     );
+    store.setMoveHistory(todoTitle, todoColTitleSrc, todoColTitleDst);
     moveTodoListItem(
       startColIndex,
       todoColTitleSrc,
       endColIndex,
       todoColTitleDst
     );
+    moveHistory(todoColTitleSrc, todoColTitleDst, todoTitle);
   }
 
   return state;

@@ -17,6 +17,7 @@ export default function todoList(parent, props) {
     todoItemWrapper.setAttribute("todo-data", "todoItem");
     todoItemWrapper.setAttribute("draggable", "true");
     todoItemWrapper.setAttribute("value", item.id);
+    todoItemWrapper.id = item.title;
 
     todoItem(todoItemWrapper, {
       todoColTitle: props.title,

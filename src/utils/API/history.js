@@ -60,13 +60,13 @@ function editHistory(item) {
 }
 
 //3번 - 아이템 이동하기 히스토리 저장
-function moveHistory(colTitleSrc, colTitleDst, item) {
+function moveHistory(colTitleSrc, colTitleDst, todoTitle) {
   const historyList = JSON.parse(localStorage.getItem("history")) ?? [];
   const historyItem = {
     authorName: "멋진삼",
     timeStamp: new Date().getTime(),
     actionId: 3,
-    todoTitle: item.title,
+    todoTitle: todoTitle,
     todoSrc: colTitleSrc,
     todoDst: colTitleDst,
   };

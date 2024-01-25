@@ -28,8 +28,9 @@ export function applyDragAndDrop(draggables, containers) {
       const todoColTitleDst = target.parentNode.id;
       const endColIndex = childrenNodeArr.indexOf(target) - 1;
       store.dispatch({
-        type: "changeTodoItem",
+        type: "moveTodoItem",
         payload: {
+          todoTitle: target.id,
           startColIndex: startColIndex,
           todoColTitleSrc: todoColTitleSrc.replace("todoCol_", ""),
           endColIndex: endColIndex,
