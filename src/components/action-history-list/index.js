@@ -84,7 +84,7 @@ export function removeAllActionHistory() {
 }
 
 // render actionHistory items
-function renderActionHistoryItems() {
+export function renderActionHistoryItems() {
   const historyItems = document.querySelector(".action-history__items");
   const actionHistory = todoStore.getState().actionHistory;
 
