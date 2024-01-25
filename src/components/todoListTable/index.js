@@ -55,6 +55,9 @@ function attachStore({ todoListTable }, initialData) {
     deepEqualList
   );
 
+  // fetch initial todo data
+  todoStore.getState().fetch();
+
   return store;
 }
 
