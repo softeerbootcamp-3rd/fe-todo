@@ -1,359 +1,106 @@
-//Todo - Remove Setter!!!!!!
-
-class Card{
-    #title; 
-    #content; 
-    #author; 
-    #columnId;
-
-    constructor({title, content = '', author, columnId}){
-        if(!columnId){throw new Error(`ColumnID (${columnId}) is required`);}
-        this.#title = title;
-        this.#content = content;
-        this.#author = author;
-        this.#columnId = columnId;
-    }
-    set (){throw new Error(`Card is immutable`);}
-    get (){
-        return {
-            title: this.#title,
-            content: this.#content,
-            author: this.#author,
-        };
-    }
-    getTitle(){
-        return this.#title;
-    }
-    getContent(){
-        return this.#content;
-    }
-    getAuthor(){
-        return this.#author;
-    }
-    getColumnId(){
-        return this.#columnId;
-    }
-
-    toObject(){
-        return Object.freeze({
-            columnId: this.#columnId,
-            title: this.#title,
-            content: this.#content,
-            author: this.#author,
-        });
-    }
-
-    static fromObject(obj){
-        return new Card({
-            title: obj.title,
-            content: obj.content,
-            author: obj.author,
-            columnId: obj.columnId,
-        });
-    }
-}
-
-export const createCard = (cardData) => {
-    return new Card(cardData);
-}
-const remakeCard = (oldCard, newCardData) => {
-    return new Card({...oldCard.toObject(), ...newCardData});
-}
-
-class Column{
-    #title; 
-    #cardIdList;
-
-    constructor({title, cardIdList = []}){
-        this.#title = title;
-        this.#cardIdList = cardIdList;
-    }
-    appendCard(cardId){
-        this.#cardIdList.push(cardId);
-    }
-    appendFrontCard(cardId){
-        this.#cardIdList.unshift(cardId);
-    }
-    insertCard(cardId, idx){
-        this.#cardIdList.splice(idx, 0, cardId);
-    }
-    deleteCard(cardId){
-        const ind = this.#cardIdList.indexOf(cardId);
-        if(ind !== -1){
-            this.#cardIdList.splice(ind, 1);
-        }
-        else {throw new Error(`CardID (${cardId}) is not in column`);}
-    }
-
-    getCardIdList(){
-        return this.#cardIdList;
-    }
-
-    hasCard(id){
-        const index = this.#cardIdList.indexOf(id);
-        return (index !== -1) ? true : false;
-    }
-
-    getColumnTitle(){
-        return this.#title;
-    }
-
-    getColumnLength(){
-        return this.#cardIdList.length;
-    }
-
-    get (){
-        return {
-            title: this.#title,
-            cardIdList: this.#cardIdList,
-        };
-    }
-
-    set (){throw new Error(`Column is immutable`);}
-
-    toObject(){
-        return Object.freeze({
-            title: this.#title,
-            cardIdList: [...this.#cardIdList],
-        });
-    }
-
-    static fromObject(obj){
-        return new Column({
-            title: obj.title,
-            cardIdList: obj.cardIdList,
-        });
-    }
-}
-
-export const createColumn = (columnData) => {
-    return new Column(columnData);
-}
-
-const remakeColumn = (oldColumn, newColumnData) => {
-    return new Column({...oldColumn.toObject(), ...newColumnData});
-}
-
-
-class History{
-    #username;
-    #cardTitle;
-    #from;
-    #to;
-    #type;
-    #time;
-    constructor ({username, cardTitle, from=undefined, to=undefined, type, time}){
-        this.#username = username;
-        this.#cardTitle =cardTitle;
-        this.#from = from;
-        this.#to = to;
-        this.#type = type;
-        this.#time = time;
-    }
-
-    get(){
-        return {
-            username: this.username,
-            cardTitle: this.cardTitle,
-            from: this.from,
-            to: this.to,
-            type: this.type,
-            time: this.time,
-        };
-    }
-
-    get username(){return this.#username;}
-    get cardTitle(){return this.#cardTitle;}
-    get from(){return this.#from;}
-    get to(){return this.#to;}
-    get type(){return this.#type;}
-    get time(){return this.#time;}
-
-
-    set(){throw new Error(`History is immutable`);};
-
-    toObject(){
-        return Object.freeze({
-            username: this.#username,
-            cardTitle: this.#cardTitle,
-            from: this.#from,
-            to: this.#to,
-            type: this.#type,
-            time: this.#time,
-        });
-    }
-
-    static fromObject(obj){
-        return new History({
-            username: obj.username,
-            cardTitle: obj.cardTitle,
-            from: obj.from,
-            to: obj.to,
-            type: obj.type,
-            time: obj.time,
-        });
-    }
-}
-
-export const makeHistory = (hidtoryData) => {
-    return new History(hidtoryData);
-}
+import { Column } from './column.js';
+import { Card } from './card.js';
 
 class Store{
     static #instance;
 
     constructor(){
-        if(Store.#instance){
-            return Store.#instance;
-        }
-        if(localStorage.getItem('cardTable') !== null && localStorage.getItem('columnTable') !== null){
-            const cardTableObj = JSON.parse(localStorage.getItem('cardTable'));
-            const columnTableObj = JSON.parse(localStorage.getItem('columnTable'));
-            this.cardTable = {};
-            this.columnTable = {};
-            Object.keys(cardTableObj).forEach(v => {this.cardTable[v] = Card.fromObject(cardTableObj[v])});
-            Object.keys(columnTableObj).forEach(v => {this.columnTable[v] = Column.fromObject(columnTableObj[v])});
-            this.historyList = [];
-            Store.#instance = this;
-            return this;
-        }
+        // if(Store.#instance){
+        //     return Store.#instance;
+        // }
+        // if(localStorage.getItem('cardTable') !== null && localStorage.getItem('columnTable') !== null){
+        //     const cardTableObj = JSON.parse(localStorage.getItem('cardTable'));
+        //     const columnTableObj = JSON.parse(localStorage.getItem('columnTable'));
+        //     this.cardTable = {};
+        //     this.columnTable = {};
+        //     Object.keys(cardTableObj).forEach(v => {this.cardTable[v] = Card.fromObject(cardTableObj[v])});
+        //     Object.keys(columnTableObj).forEach(v => {this.columnTable[v] = Column.fromObject(columnTableObj[v])});
+        //     this.historyList = [];
+        //     Store.#instance = this;
+        //     return this;
+        // }
         this.columnTable = {
-            column0: new Column({ title: "해야할 일", cardIdList: ["0"] }),
-            column1: new Column({ title: "하고 있는 일", cardIdList: ["1"] }),
-            column2: new Column({ title: "완료한 일", cardIdList: ["2"] }),
+            column0: new Column({ 
+                title: "해야할 일", 
+                cardIdList: ["card0"], 
+                cardList: new Map([["card0", new Card({ cardId: "card0", columnId:'column0', title: "Github 공부하기", content: "add", author: "web" })]]),
+                columnId: "column0"}),
+            column1: new Column({ 
+                title: "하고 있는 일", 
+                cardIdList: ["card1"], 
+                cardList: new Map([["card1", new Card({ cardId: "card1", columnId:'column1', title: "Github 공부하기", content: "commit", author: "web"})]]),
+                columnId: "column1"}),
+            column2: new Column({ 
+                title: "완료한 일", 
+                cardIdList: ["card2"], 
+                cardList: new Map([["card2", new Card({ cardId: "card2", columnId:'column2', title: "Github 공부하기", content: "push", author: "web" })]]),
+                columnId : "column2"}),
         };
-        this.cardTable = {
-            0: new Card({ columnId:'column0', title: "Github 공부하기", content: "add", author: "web" }),
-            1: new Card({ columnId:'column1', title: "Github 공부하기", content: "commit", author: "web"}),
-            2: new Card({ columnId:'column2', title: "Github 공부하기", content: "push", author: "web" }),
-        };
-        this.historyList = [
-            new History({username: "멋진삼", cardTitle: "블로그에 포스팅 할 것", from: "하고 있는 일", to: "해야할 일", type: "이동", time: "213"}),
-        ];
-        this.historyList = [];
         Store.#instance = this;
         return this;
     }
 
+    //ToDo - true 받으면 히스토리 만들기!
     /* Card Method */
+    setCard({cardId, title, content, author, columnId}){
+        const card = new Card({cardId, title, content, author, columnId});
+        if(card === false) return false;
+        const res = this.columnTable[columnId].appendCard(card);
 
-    getCard(id){
-        return this.cardTable[id];
-    }
+        if(res){
 
-    getCardTitle(id){
-        return this.cardTable[id].getTitle();
-    }
-
-    getCardContent(id){
-        return this.cardTable[id].getContent();
-    }
-
-    getCardAuthor(id){
-        return this.cardTable[id].getAuthor();
-    }
-
-    getCardColumnId(id){
-        return this.cardTable[id].getColumnId();
-    }
-
-    getCardData(id){
-        return this.cardTable[id].toObject();
-    }
-
-    setCard(id, card){
-        if(card instanceof Card === false){throw new Error(`Card (${card}) is not instance of Card`);}
-        if(this.cardTable[id] !== undefined){throw new Error(`CardID (${id}) is already exist`);}
-        this.cardTable[id] = card;
-        this.columnTable[card.getColumnId()].appendFrontCard(id);
-        this.#updateLocalStorage();
-    }
-
-    editCard(id, newCardData){
-        const oldCardData = this.cardTable[id].toObject()
-        this.deleteCard(id)
-        this.setCard(id, new Card({ ...oldCardData, ...newCardData}));
-        this.#updateLocalStorage();
-    }
-
-    deleteCard(id){
-        const colId = this.cardTable[id].getColumnId();
-        this.columnTable[colId].deleteCard(id);
-        delete this.cardTable[id];
-        this.#updateLocalStorage();
-    }
-
-    moveCard(cardId, toColId, idx){
-        this.columnTable[this.cardTable[cardId].getColumnId()].deleteCard(cardId);
-        this.columnTable[toColId].insertCard(cardId, idx);
-        this.cardTable[cardId] = remakeCard(this.cardTable[cardId], {columnId: toColId});
-        this.#updateLocalStorage();
-    }
-
-    /* Column Method */
-    getColumn(columnId){
-        return this.columnTable[columnId];
-    }
-    getColumnTitle(columnId){
-        return this.columnTable[columnId].getColumnTitle();
-    }
-
-    setColumnTitle(columnId, title){
-        this.columnTable[columnId].set({title});
-        localStorage.setItem('columnTable', JSON.stringify(this.columnTable.toObject()));
-    }
-
-    getColumnLength(columnId){
-        return this.columnTable[columnId].getColumnLength();
-    }
-
-    getColumnIdList(){
-        return [...Object.keys(this.columnTable)];
-    }
-
-    getCardIdList(columnId = undefined){
-        if(columnId !== undefined){
-            return [...this.columnTable[columnId].getCardIdList()];
         }
-        return [...Object.keys(this.cardTable)];
+        return true;
     }
 
-    shuffleColumn(columnId, column){
-        const oldColumn = this.columnTable[columnId];
-        if(oldColumn.getColumnLength() !== column.length 
-            || !oldColumn.getCardIdList().every((v) => column.includes(v)))
-        {
-            throw new Error(`Column (${columnId}) has lost some cards`);
+    editCard({cardId, columnId, newCardData}){
+        const res = this.columnTable[columnId].editCard(cardId, newCardData);
+        if(res){
+
         }
-        const newColumn = new Column({title: oldColumn.getColumnTitle(), cardIdList: column});
-        this.columnTable[columnId] = newColumn;
-        this.#updateLocalStorage();
     }
 
-    /* History Method */
-    setHistory(history){
-        this.historyList.unshift(history);
+    deleteCard({cardId, columnId}){
+        const res = this.columnTable[columnId].deleteCard(cardId);
+        if(res){
+
+        }
     }
 
-    getHistoryList(){
-        return [...this.historyList];
+    moveCard({cardId, fromColumnId, toColumnId, index}){
+        const card = this.columnTable[fromColumnId].moveCard(cardId, toColumnId);
+        this.columnTable[toColumnId].insertCard(card, index);
+        const cardData = card.toObject();
     }
 
-    getHistoryLength(){
-        return this.historyList.length;
+    openAddForm(columnId){
+        this.columnTable[columnId].openAddForm();
     }
 
-    purgeHistory(){
-        this.historyList.splice(0, this.historyList.length);
+    openEditForm(cardId, columnId){
+        this.columnTable[columnId].openEditForm(cardId);
     }
 
     /* LocalStorage Method */
     #updateLocalStorage(){
+        //ToDo - 각 카드로 쪼개어 저장하기 -> 여기 말고 Card로 가야함!
         const obj = this.toObject();
         localStorage.setItem('cardTable', JSON.stringify(obj.cardTable));
         localStorage.setItem('columnTable', JSON.stringify(obj.columnTable));
     }
 
+    addHistory({username, cardTitle, from = undefined, to = undefined, type}){
+        const newhistory = {
+            username,
+            cardTitle,
+            from,
+            to,
+            type,
+            time: Date.now(),
+        }
+    }
+
+    //완전 변경 필요
     toObject(){
         let column = {};
         let card = {};
@@ -365,11 +112,27 @@ class Store{
         };
     }
 
+    //완전 변경 필요
     static fromObject(obj){
         const store = new Store();
         store.columnTable = obj.columnTable;
         store.cardTable = obj.cardTable;
         return store;
+    }
+
+    initRender(){
+        const HTML = 
+        `
+        <header class="header">
+            <h1 class="header__title">TODO LIST</h1>
+            <button class="js-openHistory header__history-btn">
+            </button>
+        </header>
+        <main id='main' class="main">
+        </main>
+        `
+        app.insertAdjacentHTML('beforeend', HTML);
+        Object.values(this.columnTable).map((v, i) => v.initRender(i));
     }
 }
 
