@@ -1,6 +1,11 @@
 const { todo } = require("../model");
 const { getIndexById } = require("../utils");
-const { moveHistory, removeHistory, addHistory } = require("./history");
+const {
+  moveHistory,
+  removeHistory,
+  addHistory,
+  editHistory,
+} = require("./history");
 
 let idCount = 1000;
 const insert_after = "after";
