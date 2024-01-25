@@ -1,4 +1,4 @@
-import { getInitialData, postNewCard, postNewHistory, putColumn } from "../api/APIs";
+import { getInitialData, patchCard, postNewCard, postNewHistory, putColumn } from "../api/APIs";
 import { deepCopy } from "../util/deepCopy";
 import { getCardsObject, getColumnsObject } from "../util/syncData";
 
@@ -97,9 +97,14 @@ class Store {
     column.value = column.value.filter((id) => id !== cardId);
   }
 
-  editCard({ cardData: newCardData, cardId }) {
-    let oldCardData = this._cards[cardId];
-    this._cards[cardId] = { ...oldCardData, ...newCardData };
+  async editCardInServer(cardId, cardData) {
+    const id = this._cards[cardId].id;
+    return await patchCard(id, cardData);
+  }
+
+  editCard(newCard) {
+    let oldCardData = this._cards[newCard.cardId];
+    this._cards[newCard.cardId] = { ...oldCardData, ...newCard };
   }
 
   moveCard({ columnId, newColumnValue }) {

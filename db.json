@@ -4,7 +4,6 @@
       "id": "column0",
       "title": "해야할 일",
       "value": [
-        "4",
         "3",
         "0"
       ]
@@ -13,8 +12,6 @@
       "id": "column1",
       "title": "하고 있는 일",
       "value": [
-        "6",
-        "4",
         "1"
       ]
     },
@@ -52,36 +49,13 @@
       "cardId": "2"
     },
     {
-      "id": "208a",
+      "id": "2ba6",
       "title": "안녕",
-      "content": "안녕\n",
+      "content": "안녕하세요",
       "author": "Web",
-      "createdAt": "Thu Jan 25 2024 17:29:50 GMT+0900 (한국 표준시)",
-      "cardId": "3"
-    },
-    {
-      "id": "0f99",
-      "title": "asd",
-      "content": "fasdf",
-      "author": "Web",
-      "createdAt": "Thu Jan 25 2024 17:40:30 GMT+0900 (한국 표준시)",
-      "cardId": "4"
-    },
-    {
-      "id": "2363",
-      "title": "fasdf",
-      "content": "asd",
-      "author": "Web",
-      "createdAt": "Thu Jan 25 2024 17:40:33 GMT+0900 (한국 표준시)",
-      "cardId": "4"
-    },
-    {
-      "id": "b1cd",
-      "title": "asdfa",
-      "content": "sdfasdf",
-      "author": "Web",
-      "createdAt": "Thu Jan 25 2024 17:40:40 GMT+0900 (한국 표준시)",
-      "cardId": "6"
+      "createdAt": "Thu Jan 25 2024 17:59:46 GMT+0900 (한국 표준시)",
+      "cardId": "3",
+      "updatedAt": "Thu Jan 25 2024 17:59:57 GMT+0900 (한국 표준시)"
     }
   ],
   "history": [
@@ -94,30 +68,21 @@
       "time": "213"
     },
     {
-      "id": "0bbe",
+      "id": "b079",
       "author": "Web",
-      "time": "Thu Jan 25 2024 17:40:30 GMT+0900 (한국 표준시)",
-      "cardTitle": "asd",
+      "time": "Thu Jan 25 2024 17:59:46 GMT+0900 (한국 표준시)",
+      "cardTitle": "안녕",
       "type": "등록",
       "from": "해야할 일",
       "to": ""
     },
     {
-      "id": "8238",
+      "id": "8095",
       "author": "Web",
-      "time": "Thu Jan 25 2024 17:40:33 GMT+0900 (한국 표준시)",
-      "cardTitle": "fasdf",
-      "type": "등록",
-      "from": "하고 있는 일",
-      "to": ""
-    },
-    {
-      "id": "6501",
-      "author": "Web",
-      "time": "Thu Jan 25 2024 17:40:40 GMT+0900 (한국 표준시)",
-      "cardTitle": "asdfa",
-      "type": "등록",
-      "from": "하고 있는 일",
+      "time": "Thu Jan 25 2024 17:59:57 GMT+0900 (한국 표준시)",
+      "cardTitle": "안녕",
+      "type": "변경",
+      "from": "",
       "to": ""
     }
   ]

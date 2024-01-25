@@ -65,3 +65,16 @@ export const putColumn = (columnData, columnId) => {
     throw error;
   }
 };
+export const patchCard = (id, cardData) => {
+  try {
+    return sendData({
+      url: `/cards/${id}`,
+      name: `card${id}`,
+      data: cardData,
+      method: "PATCH",
+    });
+  } catch (error) {
+    console.error("Error edit card to the server:", error.message);
+    throw error;
+  }
+};
