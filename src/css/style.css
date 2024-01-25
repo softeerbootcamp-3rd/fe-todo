@@ -192,6 +192,9 @@
 }
 
 .history {
+  position: absolute;
+  top: calc(100vh - 64px);
+  right: calc(100vw - 56px);
   width: 366px;
   max-height: 680px;
   top: 64px;

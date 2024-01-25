@@ -1,19 +1,17 @@
 import { ModalView, confirmHandlerInjector } from "../ModalView/ModalView.js";
 import { historyListRender } from "../render.js";
-import { store } from "../../model/store.js";
+import {history} from "../../model/history.js";
 
 export const showHistory = () => {
-  historyListRender();
-  document.querySelector(".history").showModal();
+  history.show();
 };
 
 export const closeHistory = () => {
-  document.querySelector(".history").close();
+  history.hide();
 };
 
 const deleteHistory = () => {
-  store.purgeHistory();
-  historyListRender();
+  history.purge();
 }
 
 export const deleteHistoryHandler = (target) => {

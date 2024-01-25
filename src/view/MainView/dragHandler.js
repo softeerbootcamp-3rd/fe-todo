@@ -50,23 +50,6 @@ export const onDragEnd = (event) => {
   event.target.classList.remove("dragging");
 };
 
-const addHistory = (targetCardId, startColumnId, endColumnId) => {
-  const card = store.getCard(targetCardId);
-  const from = store.getColumnTitle(startColumnId)
-  const to = store.getColumnTitle(endColumnId)
-  const newHistory = {
-    ...historyDataTemplate,
-    username: card.getAuthor(),
-    cardTitle: card.getTitle(),
-    time: new Date(),
-    from,
-    to,
-    type: "이동",
-  };
-
-  store.setHistory(newHistory);
-};
-
 const getMovedIndex = (cardId, columnId) => {
   return [...document.querySelector(`#${columnId}-list`).children].findIndex(
     (li) => li.id === cardId
@@ -74,34 +57,13 @@ const getMovedIndex = (cardId, columnId) => {
   //store.moveCard()
 };
 
-const updateCard = (cardId, endColumnId, index) => {
-  store.moveCard(cardId, endColumnId, index);
-}
-
-const updateColumnModel = (columnId) => {
-  const column = store.getColumn(columnId);
-  store.shuffleColumn(columnId, [...document.querySelector(`#${columnId}-list`).children].map(li => li.id));
-}
-
 export const onDrop = (event) => {
   if (!container) return;
 
-  const targetCardId = event.dataTransfer.getData("dragCardId");
-  const startColumnId = event.dataTransfer.getData("startColumnId");
-  const endColumnId = container.parentElement.id;
+  const cardId = event.dataTransfer.getData("dragCardId");
+  const fromColumnId = event.dataTransfer.getData("startColumnId");
+  const toColumnId = container.parentElement.id;
 
-  
-
-  if (startColumnId !== endColumnId) {
-    const index = getMovedIndex(targetCardId, endColumnId);
-    updateCard(targetCardId, endColumnId, index);
-
-    renderListCount(document.querySelector(`#${startColumnId}`));
-    renderListCount(document.querySelector(`#${endColumnId}`));
-
-    addHistory(targetCardId, startColumnId, endColumnId);
-  }
-  else{
-    updateColumnModel(endColumnId);
-  }
+  const index = getMovedIndex(cardId, toColumnId);
+  store.moveCard({cardId, fromColumnId, toColumnId, index});
 };
