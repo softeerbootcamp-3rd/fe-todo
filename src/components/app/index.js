@@ -24,7 +24,6 @@ function attachHandlers({ renderTarget, historySection, modalSection }) {
   };
 
   const showDeleteModal = ({ detail }) => {
-    console.log("showdeleteModal");
     modalSection.style.display = "block";
     modal(modalSection, {
       msg: detail.msg,

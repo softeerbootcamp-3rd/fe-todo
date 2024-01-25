@@ -1,3 +1,4 @@
+import { getIndexById } from "../list";
 import { addHistory, editHistory, moveHistory, removeHistory } from "./history";
 
 let idCount = 0;
@@ -58,10 +59,32 @@ export function editTodoListItem(colTitle, item) {
   editHistory(item);
 }
 
-export function moveTodoListItem(titleSrc, indexSrc, titleDst, indexDst) {
+export function moveTodoListItem(titleSrc, idSrc, titleDst, idDst) {
   const todoData = JSON.parse(localStorage.getItem("todoList"));
-  const item = todoData[titleSrc].splice(indexSrc, 1)[0];
-  todoData[titleDst].splice(indexDst, 0, item);
+
+  const listSrc = todoData[titleSrc];
+  const listDst = todoData[titleDst];
+  const idxSrc = getIndexById(listSrc, idSrc);
+  const idxDst = getIndexById(listDst, idDst);
+  const item = listSrc[idxSrc];
+  console.log("move save", titleSrc, idxSrc, titleDst, idxDst);
+
+  if (titleSrc === titleDst) {
+    // 인덱스가 큰거부터 수정
+    if (idxSrc < idxDst) {
+      listSrc.splice(idxDst + 1, 0, item);
+      listSrc.splice(idxSrc, 1);
+    } else {
+      listSrc.splice(idxSrc, 1);
+      listSrc.splice(idxDst, 0, item);
+    }
+    todoData[titleSrc] = listSrc;
+  } else {
+    listSrc.splice(idxSrc, 1);
+    listDst.splice(idxDst + 1, 0, item);
+    todoData[titleSrc] = listSrc;
+    todoData[titleDst] = listDst;
+  }
   localStorage.setItem("todoList", JSON.stringify(todoData));
   moveHistory(titleSrc, titleDst, item);
 }

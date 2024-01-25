@@ -16,3 +16,13 @@ export function deepEqualList(listA, listB) {
   }
   return true;
 }
+
+export function findItemFromTodoList(item, todoList) {
+  for (const title of Object.keys(todoList)) {
+    for (let i = 0; i < todoList[title].length; i++) {
+      if (todoList[title][i].id === item.id) {
+        return { title, i };
+      }
+    }
+  }
+}
