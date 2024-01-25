@@ -10,6 +10,7 @@ import {
   editHistory,
   removeHistory,
   moveHistory,
+  moveAllHistory,
 } from "../utils/API/history";
 
 const initTodoList = {
@@ -93,6 +94,9 @@ function reducer(state = {}, action) {
       todoColTitleDst
     );
     moveHistory(todoColTitleSrc, todoColTitleDst, todoTitle);
+  } else if (action.type === "deleteAllHistory") {
+    store.setRemoveAllHistory();
+    moveAllHistory();
   }
 
   return state;

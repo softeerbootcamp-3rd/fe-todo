@@ -37,6 +37,11 @@ export function createStore(initStore, reducer) {
         renderHistoryList(getHistory());
       },
     ],
+    deleteAllHistory: [
+      () => {
+        renderHistoryList(getHistory());
+      },
+    ],
   };
 
   //디스패치에선 reducer와 리스너를 실행
@@ -143,6 +148,10 @@ export function createStore(initStore, reducer) {
     state.history.unshift(historyItem);
   };
 
+  const setRemoveAllHistory = () => {
+    state.history = [];
+  };
+
   return {
     getState,
     getTodoList,
@@ -156,6 +165,7 @@ export function createStore(initStore, reducer) {
     setUpdateItem,
     setDeleteItem,
     setChangeItem,
+    setRemoveAllHistory,
     dispatch,
   };
 }
