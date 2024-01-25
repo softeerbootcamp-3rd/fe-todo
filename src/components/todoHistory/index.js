@@ -39,7 +39,7 @@ function attachStore({ historyList }) {
   });
 
   // 로드할때마다 history reload
-  store.state.fetch();
+  historyStore.getState().fetch();
 
   return store;
 }

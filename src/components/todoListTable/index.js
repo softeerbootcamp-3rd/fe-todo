@@ -9,7 +9,6 @@ export default function todoListTable(renderTarget, initialData) {
   //행 + 데이터를 모두 감싸고 있는 컨테이너 (테이블)
   const views = mount(renderTarget, initialData);
   const store = attachStore(views, initialData);
-  attachHandlers(views, store, initialData);
   return store.destroy;
 }
 
@@ -55,10 +54,11 @@ function attachStore({ todoListTable }, initialData) {
     deepEqualList
   );
 
+  // fetch initial todo data
+  todoStore.getState().fetch();
+
   return store;
 }
-
-function attachHandlers({}, {}, initialData) {}
 
 function mount(renderTarget, initialData) {
   renderTarget.innerHTML = /*html*/ `

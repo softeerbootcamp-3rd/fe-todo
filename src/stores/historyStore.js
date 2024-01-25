@@ -2,12 +2,13 @@ import { clearHistory, getHistory } from "../utils/API/history";
 import { createStore } from "../utils/store";
 
 export const historyStore = createStore((set, get) => ({
-  history: getHistory(),
-  fetch() {
-    set((state) => ({ ...state, history: getHistory() }));
+  history: [],
+  async fetch() {
+    const newHistory = await getHistory();
+    set((state) => ({ ...state, history: newHistory }));
   },
-  clear() {
-    clearHistory();
+  async clear() {
+    await clearHistory();
     set((state) => ({ ...state, history: [] }));
   },
 }));

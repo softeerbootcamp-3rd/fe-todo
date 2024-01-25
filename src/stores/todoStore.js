@@ -2,6 +2,8 @@ import {
   addTodoListItem,
   editTodoListItem,
   getTodoList,
+  insert_after,
+  insert_before,
   moveTodoListItem,
   removeTodoListItem,
 } from "../utils/API/todoList";
@@ -12,12 +14,16 @@ import { createStore } from "../utils/store";
 // views should be subscribed and change on local state change
 
 export const todoStore = createStore((set, get) => ({
-  todoList: getTodoList(), // initial todolist data
+  todoList: {},
   drag: undefined,
-  add(title, item) {
+  async fetch() {
+    const newTodoList = await getTodoList();
+    set((state) => ({ ...state, todoList: newTodoList }));
+  },
+  async add(title, item) {
     console.log("add request", title, item);
     // add new Item to todoList
-    const newItem = addTodoListItem(title, item);
+    const newItem = await addTodoListItem(title, item);
     // returns newly created item (with id)
     set((state) => {
       const newList = [...state.todoList[title]];
@@ -25,10 +31,10 @@ export const todoStore = createStore((set, get) => ({
       return { ...state, todoList: { ...state.todoList, [title]: newList } };
     });
   },
-  remove(title, item) {
+  async remove(title, item) {
     console.log("remove request", title, item);
     // find and remove item from todoList
-    removeTodoListItem(title, item);
+    await removeTodoListItem(title, item);
     set((state) => {
       const newList = [...state.todoList[title]];
       for (let i = 0; i < newList.length; i++) {
@@ -40,28 +46,29 @@ export const todoStore = createStore((set, get) => ({
       return { ...state, todoList: { ...state.todoList, [title]: newList } };
     });
   },
-  edit(title, item) {
+  async edit(title, item) {
     console.log("edit", title, item);
-    editTodoListItem(title, item);
+    const newItem = await editTodoListItem(title, item);
     set((state) => {
       const newTodoList = { ...state.todoList };
       for (let i = 0; i < newTodoList[title].length; i++) {
         if (newTodoList[title][i].id === item.id) {
-          newTodoList[title][i] = item;
+          newTodoList[title][i] = newItem;
           break;
         }
       }
       return { ...state, todoList: newTodoList };
     });
   },
-  applyDrag() {
+  async applyDrag() {
     if (get().drag.dst) {
       // api call
-      moveTodoListItem(
+      await moveTodoListItem(
         get().drag.src.title,
         get().drag.src.id,
         get().drag.dst.title,
-        get().drag.dst.id
+        get().drag.dst.id,
+        get().drag.position
       );
     }
     // reset drag state
@@ -79,11 +86,18 @@ export const todoStore = createStore((set, get) => ({
       const idxDst = getIndexById(listDst, idDst);
       const item = listSrc[idxSrc];
 
+      const newDrag = {
+        ...state.drag,
+        dst: { title: titleDst, id: idDst },
+        position: insert_before,
+      };
+
       if (titleSrc === titleDst) {
         // 인덱스가 큰거부터 수정
         if (idxSrc < idxDst) {
           listSrc.splice(idxDst + 1, 0, item);
           listSrc.splice(idxSrc, 1);
+          newDrag.position = insert_after;
         } else {
           listSrc.splice(idxSrc, 1);
           listSrc.splice(idxDst, 0, item);
@@ -99,10 +113,7 @@ export const todoStore = createStore((set, get) => ({
       return {
         ...state,
         todoList: newTodoList,
-        drag: {
-          ...state.drag,
-          dst: { title: titleDst, id: idDst },
-        },
+        drag: newDrag,
       };
     });
   },
