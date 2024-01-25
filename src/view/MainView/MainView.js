@@ -1,13 +1,13 @@
 import { columnIdToCardList } from "../../model/helper.js";
-import { columnDataTable } from "../../model/model.js";
+import { store } from "../../model/store.js";
 import { ColumnView } from "./ColumnView/ColumnView.js";
 
 export const MainView = () => {
   return `
-<main class="main">
-    ${Object.keys(columnDataTable)
-      .map((columnId, idx) => {
-        return ColumnView(idx, columnDataTable[columnId].title, columnIdToCardList(columnId));
+<main id='main' class="main">
+    ${store.getColumnIdList()
+      .map((columnId) => {
+        return ColumnView(columnId, store.getColumnTitle(columnId), columnIdToCardList(columnId));
       })
       .join("")}   
   </main>

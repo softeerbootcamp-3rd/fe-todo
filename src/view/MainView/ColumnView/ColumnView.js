@@ -3,7 +3,7 @@ import { CardListView } from "./CardListView/CardListView.js";
 //export const ColumnView = (columnId, idx) => {
 export const ColumnView = (idx, title, cardDataList) => {
   return `
-  <section class="main__column" id="column${idx}">
+  <section class="main__column" id="${idx}">
     <nav class="main__column__nav">
       <div class="column__nav__info">
         ${ColumnTitleView(title)}

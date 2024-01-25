@@ -1,6 +1,8 @@
-import { cardDataTable, columnDataTable, historyDataList } from "../../model/model.js";
+import { store } from "../../model/store.js";
 import { renderListCount } from "../render.js";
 import { historyDataTemplate } from "../../model/historyDataTemplate.js";
+
+//Fixme: 이동이 취소되었을 때 Ghost 위치로 View가 이동하지만 Store는 갱신되지 않는다.
 
 export const onDragStart = (event) => {
   const { target } = event;
@@ -48,44 +50,20 @@ export const onDragEnd = (event) => {
   event.target.classList.remove("dragging");
 };
 
-const addHistory = (targetCardId, startColumnId, endColumnId) => {
-  const { author: username, title: cardTitle } = cardDataTable[targetCardId];
-  const { title: from } = columnDataTable[startColumnId];
-  const { title: to } = columnDataTable[endColumnId];
-  const newHistory = {
-    ...historyDataTemplate,
-    username,
-    cardTitle,
-    time: new Date(),
-    from,
-    to,
-    type: "이동",
-  };
-
-  historyDataList.unshift(newHistory);
-};
-
-const updateColumnModel = (columnId) => {
-  columnDataTable[columnId].value = [...document.querySelector(`#${columnId}-list`).children].map(
-    (li) => li.id
+const getMovedIndex = (cardId, columnId) => {
+  return [...document.querySelector(`#${columnId}-list`).children].findIndex(
+    (li) => li.id === cardId
   );
+  //store.moveCard()
 };
 
 export const onDrop = (event) => {
   if (!container) return;
 
-  const targetCardId = event.dataTransfer.getData("dragCardId");
-  const startColumnId = event.dataTransfer.getData("startColumnId");
-  const endColumnId = container.parentElement.id;
+  const cardId = event.dataTransfer.getData("dragCardId");
+  const fromColumnId = event.dataTransfer.getData("startColumnId");
+  const toColumnId = container.parentElement.id;
 
-  updateColumnModel(endColumnId);
-
-  if (startColumnId !== endColumnId) {
-    updateColumnModel(startColumnId);
-
-    renderListCount(document.querySelector(`#${startColumnId}`));
-    renderListCount(document.querySelector(`#${endColumnId}`));
-
-    addHistory(targetCardId, startColumnId, endColumnId);
-  }
+  const index = getMovedIndex(cardId, toColumnId);
+  store.moveCard({cardId, fromColumnId, toColumnId, index});
 };

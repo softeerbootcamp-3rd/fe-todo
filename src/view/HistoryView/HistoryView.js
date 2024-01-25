@@ -1,4 +1,4 @@
-import { historyDataList } from "../../model/model.js";
+import { store } from "../../model/store.js";
 import { HistoryCardView } from "./HistoryCardView/HistoryCardView.js";
 
 export const HistoryView = () => {
@@ -19,7 +19,7 @@ export const HistoryView = () => {
 };
 
 export const HistoryListView = () => {
-  if(historyDataList.length === 0) {
+  if(store.getHistoryLength() === 0) {
     return `
     <section class='history__list--empty'>
       <p>사용자 활동 기록이 없습니다.</p>
@@ -29,7 +29,7 @@ export const HistoryListView = () => {
   else{
     return `
       <ul class="history__list">
-        ${historyDataList.map((history) => HistoryCardView(history)).join("")}
+        ${store.getHistoryList().map((history) => HistoryCardView(history)).join("")}
       </ul>
       <button class="js-deleteHistory history__delete-all-btn">기록 전체 삭제</button>
     `;

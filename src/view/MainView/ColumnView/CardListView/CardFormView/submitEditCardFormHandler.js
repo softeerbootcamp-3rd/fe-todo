@@ -1,39 +1,20 @@
-import { cardDataTable, historyDataList } from "../../../../../model/model.js";
-import { historyDataTemplate } from "../../../../../model/historyDataTemplate.js";
-import { renderCardList, renderListCount } from "../../../../render.js";
+import { store } from "../../../../../model/store.js";
 
 const createCardData = (target) => {
-  const formData = new FormData(target);
-  formData.set("updatedAt", new Date());
-  return Object.fromEntries(formData);
+  return Object.fromEntries(new FormData(target));
 };
 
 const updateModel = ({ target, cardId }) => {
-  let oldCardData = cardDataTable[cardId];
+  const columnId = target.closest('.main__column').id;
   let newCardData = createCardData(target);
-  cardDataTable[cardId] = { ...oldCardData, ...newCardData };
-};
-
-// todo: make addHistoryCard util-fn
-const addNewHistory = (cardId) => {
-  const { author: username, updatedAt: time, title: cardTitle } = cardDataTable[cardId];
-  const newHistory = {
-    ...historyDataTemplate(),
-    username,
-    time,
-    cardTitle,
-    type: "변경",
-  };
-  historyDataList.unshift(newHistory);
+  store.editCard({cardId, columnId, newCardData});
 };
 
 export const submitEditCardFormHandler = (target) => {
-  const currentColumn = target.closest("section");
-  const cardId = target.id.split("-")[1];
+  //ToDo - 이 부분 개선할 수 없을까?
+  const cardId = target.id.split("-")[0];
+  //
   updateModel({ target, cardId });
-  renderCardList(currentColumn);
-  renderListCount(currentColumn);
-  addNewHistory(cardId);
 
   target.remove();
 };

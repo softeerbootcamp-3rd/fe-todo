@@ -1,173 +1,138 @@
-//Todo - Remove Setter!!!!!!
-
-class Card{
-    #title; 
-    #content; 
-    #author; 
-    #columnId;
-
-    constructor({title = '', content = '', author = '',columnId =  undefined}){
-        if(!columnId){throw new Error(`ColumnID (${columnId}) is required`);}
-        this.#title = title;
-        this.#content = content;
-        this.#author = author;
-        this.#columnId = columnId;
-    }
-    set ({title = undefined, content=undefined, author=undefined}){
-        if(title !== undefined){
-            this.#title = title;
-        }
-        if(content !== undefined){
-            this.#content = content;
-        }
-        if(author !== undefined){
-            this.#author = author;
-        }
-    }
-    get (){
-        return {
-            title: this.#title,
-            content: this.#content,
-            author: this.#author,
-        };
-    }
-    get columnId(){
-        return this.#columnId;
-    }
-
-    toObject(){
-        return {
-            columnId: this.#columnId,
-            title: this.#title,
-            content: this.#content,
-            author: this.#author,
-        }
-    }
-    static fromObject(obj){
-        return new Card({
-            title: obj.title,
-            content: obj.content,
-            author: obj.author,
-            id: obj.id,
-            columnId: obj.columnId,
-        });
-    }
-}
-
-class Column{
-    #title; 
-    #cardIdList;
-
-    constructor({title = '', cardIdList = []}){
-        this.#title = title;
-        this.#cardIdList = cardIdList;
-    }
-    set ({title = undefined, cardIdList = undefined}){
-        if(title !== undefined){
-            this.#title = title;
-        }
-        if(cardIdList !== undefined){
-            this.#cardIdList.splice(0, this.#cardIdList.length);
-            this.#cardIdList.concat(cardIdList);
-        }
-    }
-    appendCard(cardId){
-        this.#cardIdList.push(cardId);
-    }
-    insertCard(cardId, idx){
-        this.#cardIdList.splice(idx, 0, cardId);
-    }
-    deleteCard(cardId){
-        const ind = this.#cardIdList.indexOf(cardId);
-        if(ind !== -1){this.#cardIdList.splice(this.#cardIdList.indexOf(cardId), 1);}
-    }
-
-    get cardIdList(){
-        return this.#cardIdList;
-    }
-
-    get (){
-        return {
-            title: this.#title,
-            cardIdList: this.#cardIdList,
-        };
-    }
-
-    toObject(){
-        return {
-            title: this.#title,
-            cardIdList: this.#cardIdList,
-        };
-    }
-
-    static fromObject(obj){
-        return new Column({
-            title: obj.title,
-            cardIdList: obj.cardIdList,
-            columnId: obj.columnId,
-        });
-    }
-}
+import { Column } from './column.js';
+import { Card } from './card.js';
 
 class Store{
     static #instance;
 
     constructor(){
-        if(Store.#instance){
-            return Store.#instance;
-        }
+        // if(Store.#instance){
+        //     return Store.#instance;
+        // }
+        // if(localStorage.getItem('cardTable') !== null && localStorage.getItem('columnTable') !== null){
+        //     const cardTableObj = JSON.parse(localStorage.getItem('cardTable'));
+        //     const columnTableObj = JSON.parse(localStorage.getItem('columnTable'));
+        //     this.cardTable = {};
+        //     this.columnTable = {};
+        //     Object.keys(cardTableObj).forEach(v => {this.cardTable[v] = Card.fromObject(cardTableObj[v])});
+        //     Object.keys(columnTableObj).forEach(v => {this.columnTable[v] = Column.fromObject(columnTableObj[v])});
+        //     this.historyList = [];
+        //     Store.#instance = this;
+        //     return this;
+        // }
         this.columnTable = {
-            column0: Object.freeze(new Column({ title: "해야할 일", value: ["0"] })),
-            column1: Object.freeze(new Column({ title: "하고 있는 일", value: ["1"] })),
-            column2: Object.freeze(new Column({ title: "완료한 일", value: ["2"] })),
+            column0: new Column({ 
+                title: "해야할 일", 
+                cardIdList: ["card0"], 
+                cardList: new Map([["card0", new Card({ cardId: "card0", columnId:'column0', title: "Github 공부하기", content: "add", author: "web" })]]),
+                columnId: "column0"}),
+            column1: new Column({ 
+                title: "하고 있는 일", 
+                cardIdList: ["card1"], 
+                cardList: new Map([["card1", new Card({ cardId: "card1", columnId:'column1', title: "Github 공부하기", content: "commit", author: "web"})]]),
+                columnId: "column1"}),
+            column2: new Column({ 
+                title: "완료한 일", 
+                cardIdList: ["card2"], 
+                cardList: new Map([["card2", new Card({ cardId: "card2", columnId:'column2', title: "Github 공부하기", content: "push", author: "web" })]]),
+                columnId : "column2"}),
         };
-        this.cardTable = {
-            0: Object.freeze(new Card({ columnId:'column0', title: "Github 공부하기", content: "add", author: "web" })),
-            1: Object.freeze(new Card({ columnId:'column1', title: "Github 공부하기", content: "commit", author: "web" })),
-            2: Object.freeze(new Card({ columnId:'column2', title: "Github 공부하기", content: "push", author: "web" })),
-        };
+        Store.#instance = this;
+        return this;
     }
 
-    getCard(id){
-        return this.cardTable[id];
+    //ToDo - true 받으면 히스토리 만들기!
+    /* Card Method */
+    setCard({cardId, title, content, author, columnId}){
+        const card = new Card({cardId, title, content, author, columnId});
+        if(card === false) return false;
+        const res = this.columnTable[columnId].appendCard(card);
+
+        if(res){
+
+        }
+        return true;
     }
 
-    setCard(id, card){
-        if(card instanceof Card === false){throw new Error(`Card (${card}) is not instance of Card`);}
-        this.cardTable[id] = Object.freeze(card);
-        this.columnTable[card.getColumn()].value.push(id);
-        localStorage.setItem('cardTable', JSON.stringify(this.cardTable));
-        localStorage.setItem('columnTable', JSON.stringify(this.columnTable.toObject()));
+    editCard({cardId, columnId, newCardData}){
+        const res = this.columnTable[columnId].editCard(cardId, newCardData);
+        if(res){
+
+        }
     }
 
-    deleteCard(id){
-        colId = this.cardTable[id].columnId;
-        this.columnTable[colId].deleteCard(id);
-        delete this.cardTable[id];
-        localStorage.setItem('cardTable', JSON.stringify(this.cardTable.toObject()));
-        localStorage.setItem('columnTable', JSON.stringify(this.columnTable.toObject()));
+    deleteCard({cardId, columnId}){
+        const res = this.columnTable[columnId].deleteCard(cardId);
+        if(res){
+
+        }
     }
 
-    getColumn(id){
-        return this.columnTable[id];
+    moveCard({cardId, fromColumnId, toColumnId, index}){
+        const card = this.columnTable[fromColumnId].moveCard(cardId, toColumnId);
+        this.columnTable[toColumnId].insertCard(card, index);
+        const cardData = card.toObject();
     }
 
-    setColumn(id, column){
-        this.columnTable[id] = column;
+    openAddForm(columnId){
+        this.columnTable[columnId].openAddForm();
     }
 
+    openEditForm(cardId, columnId){
+        this.columnTable[columnId].openEditForm(cardId);
+    }
+
+    /* LocalStorage Method */
+    #updateLocalStorage(){
+        //ToDo - 각 카드로 쪼개어 저장하기 -> 여기 말고 Card로 가야함!
+        const obj = this.toObject();
+        localStorage.setItem('cardTable', JSON.stringify(obj.cardTable));
+        localStorage.setItem('columnTable', JSON.stringify(obj.columnTable));
+    }
+
+    addHistory({username, cardTitle, from = undefined, to = undefined, type}){
+        const newhistory = {
+            username,
+            cardTitle,
+            from,
+            to,
+            type,
+            time: Date.now(),
+        }
+    }
+
+    //완전 변경 필요
     toObject(){
+        let column = {};
+        let card = {};
+        Object.keys(this.columnTable).forEach(v => {column[v] = this.columnTable[v].toObject()});
+        Object.keys(this.cardTable).forEach(v => {card[v[0]] = this.cardTable[v].toObject()});
         return {
-            columnTable: this.columnTable,
-            cardTable: this.cardTable,
+            columnTable: Object.freeze(column),
+            cardTable: Object.freeze(card),
         };
     }
 
+    //완전 변경 필요
     static fromObject(obj){
         const store = new Store();
         store.columnTable = obj.columnTable;
         store.cardTable = obj.cardTable;
         return store;
+    }
+
+    initRender(){
+        const HTML = 
+        `
+        <header class="header">
+            <h1 class="header__title">TODO LIST</h1>
+            <button class="js-openHistory header__history-btn">
+            </button>
+        </header>
+        <main id='main' class="main">
+        </main>
+        `
+        app.insertAdjacentHTML('beforeend', HTML);
+        Object.values(this.columnTable).map((v, i) => v.initRender(i));
     }
 }
 
