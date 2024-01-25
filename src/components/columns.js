@@ -1,13 +1,11 @@
 import { createColumnTemplate } from "../components/templates.js";
 // import { columnList } from "../constants/columnData.js";
 import customEventHandler from "../eventController/eventHandler.js";
-import { getData } from "../services/http.js";
 import { createCard } from "./cards.js";
 
 // Column 동적 생성 함수
-export function createColumns(baseElement, store) {
-    let columnData = store.columnList;
-    for (let column of columnData) {
+export function createColumns(baseElement, getColumnData) {
+    for (let column of getColumnData) {
         createSingleColumn(baseElement, column);
     }
 }
@@ -21,7 +19,9 @@ function createSingleColumn(baseElement, columnList) {
 
     eventRegister(newColumn);
     baseElement.appendChild(newColumn);
-    createCard(newColumn, columnList);
+
+    const cardWrapper = newColumn.querySelector(".cardWrapper");
+    createCard(cardWrapper, columnList);
 }
 
 function eventRegister(columnElement) {
