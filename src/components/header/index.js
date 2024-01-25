@@ -15,13 +15,9 @@ export function template() {
   `;
 }
 
-export function render(parent) {
-  parent.insertAdjacentHTML("afterbegin", template());
-}
+setEvent(app, "click", (event) => {
+  const target = event.target.closest(".action-history-open-button");
+  if (!target) return;
 
-setEvent(app, "click", (e) => {
-  const target = e.target.closest("button");
-  if (target && target.classList.contains("action-history-open-button")) {
-    ActionHistoryListDialog.show();
-  }
+  ActionHistoryListDialog.show();
 });
