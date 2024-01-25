@@ -14,7 +14,13 @@ const clickHandlerMap = {
   "js-deleteCardBtn": column.card.clickDeleteCard,
   "js-addFormCancel": column.cardForm.closeAddCardForm,
   "js-editFormCancel": column.cardForm.closeEditCardForm,
+  // 추후 적용 할 예정입니다.
+  // "js-deleteHistory": history.clickDeleteHistory,
   "js-deleteHistory": history.deleteHistory,
+  "js-deleteHistoryConfirm": history.deleteHistory,
+  "js-deleteHistoryCancel": history.cancelDeleteHistory,
+  "js-deleteCancel": column.card.cancelDeleteCard,
+  "js-deleteConfirm": column.card.deleteCard,
 };
 
 const submitHandlerMap = {

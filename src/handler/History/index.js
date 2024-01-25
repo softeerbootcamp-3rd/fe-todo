@@ -1,2 +1,2 @@
 export { closeHistory } from "./closeHistory";
-export { deleteHistory } from "./deleteHistory";
+export { deleteHistory, clickDeleteHistory, cancelDeleteHistory } from "./deleteHistory";

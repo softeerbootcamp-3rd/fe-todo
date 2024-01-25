@@ -3,24 +3,20 @@
     {
       "id": "column0",
       "title": "해야할 일",
-      "value": [
-        "3",
-        "4"
-      ]
+      "value": []
     },
     {
       "id": "column1",
       "title": "하고 있는 일",
       "value": [
-        "0"
+        "7"
       ]
     },
     {
       "id": "column2",
       "title": "완료한 일",
       "value": [
-        "1",
-        "2"
+        "1"
       ]
     }
   ],
@@ -81,7 +77,25 @@
       "author": "Web",
       "createdAt": "Thu Jan 25 2024 18:30:35 GMT+0900 (한국 표준시)",
       "cardId": "6"
+    },
+    {
+      "id": "80b0",
+      "title": "ㅁㄴㅇㄹ",
+      "content": "ㅁㄴㅇㄹ",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 23:02:59 GMT+0900 (한국 표준시)",
+      "cardId": "7"
     }
   ],
-  "history": []
+  "history": [
+    {
+      "id": "ab65",
+      "author": "Web",
+      "time": "Thu Jan 25 2024 23:02:59 GMT+0900 (한국 표준시)",
+      "cardTitle": "ㅁㄴㅇㄹ",
+      "type": "등록",
+      "from": "하고 있는 일",
+      "to": ""
+    }
+  ]
 }
