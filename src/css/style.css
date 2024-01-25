@@ -279,6 +279,12 @@
   display: none;
 }
 
+.history__list__text--empty {
+  width: 100%;
+  text-align: center;
+  color: var(--text_weak);
+}
+
 .history-card {
   width: 100%;
   min-height: 96px;

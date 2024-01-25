@@ -6,7 +6,7 @@ export const HistoryListView = (historyList) => {
         ${
           historyList.length
             ? historyList.map((history) => HistoryCardView(history)).join("")
-            : "<span>사용자 활동 기록이 없습니다.</span>"
+            : "<span class='history__list__text--empty'>사용자 활동 기록이 없습니다.</span>"
         }
       </ul>
     `;
