@@ -14,6 +14,7 @@ body {
 .app {
     display: flex;
     flex-direction: row;
+    gap: var(--Number-300, 10px);
 }
 
 ul {
