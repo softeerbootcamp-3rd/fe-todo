@@ -21,10 +21,6 @@ export function template() {
     `;
 }
 
-export function render(parent) {
-  parent.insertAdjacentHTML("beforeend", template());
-}
-
 export function show({ message, onConfirm }) {
   const dialog = document.querySelector(".alert-dialog");
   dialog.querySelector(".alert__message").innerText = message;

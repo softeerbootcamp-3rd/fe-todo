@@ -50,10 +50,10 @@ setEvent(app, "click", (event) => {
 
       await todos.deleteCard({
         data: { columnId, cardId },
-        select: (state) => {
-          /** TODO select only changed property for excuting `onChange` optimally */
-        },
-        onChange: Column.render,
+        onChange: (state) =>
+          Column.render({
+            column: state.todos.find((column) => column.id === columnId),
+          }),
       });
 
       Alert.close();
@@ -83,20 +83,28 @@ setEvent(app, "click", (event) => {
 setEvent(app, "dragstart", (event) => {
   const draggable = event.target.closest(".card");
   draggable.classList.add("dragging");
-
-  // TODO: patch card
-  // store.dispatch(moveCard({ columnId, cardId }));
-
-  // TODO: render todo
 });
-setEvent(app, "dragend", (event) => {
+
+setEvent(app, "dragend", async (event) => {
   const draggable = event.target.closest(".card");
   draggable.classList.remove("dragging");
 
-  // TODO: patch card
-  // store.dispatch(moveCard({ columnId, cardId }));
+  const columnId = draggable.getAttribute("data-column-id");
+  const cardId = draggable.getAttribute("data-card-id");
+  const currentColumn = draggable.closest(".column__cards");
+  const currentColumnId = currentColumn.getAttribute("data-column-id");
 
-  // TODO: render todo
+  // FIXME
+  // where can i inject the logic for `success` or `error` case
+  // `onSuccess` or `onError`?
+  await todos.moveCard({
+    data: { columnId, cardId, currentColumnId },
+    onChange: (state) => {},
+    onSuccess: () => {},
+    onError: () => {},
+  });
+  // FIXME when just `success` case
+  draggable.setAttribute("data-column-id", columnId);
 });
 
 setEvent(app, "dragover", (event) => {

@@ -60,7 +60,7 @@ setEvent(app, "click", (event) => {
   card.style.display = "flex";
 });
 
-setEvent(app, "click", (event) => {
+setEvent(app, "click", async (event) => {
   const saveButton = event.target.closest(".save-button");
   if (!saveButton) return;
 
@@ -68,22 +68,17 @@ setEvent(app, "click", (event) => {
   const cardId = editableCard.getAttribute("data-card-id");
   const columnId = editableCard.getAttribute("data-column-id");
 
-  // 수정된 데이터 가져오기
   const title = editableCard.querySelector(".card__title-input").value;
   const description = editableCard.querySelector(
     ".card__description-input"
   ).value;
 
-  todos.editCard({
-    data: { columnId, cardId, title, description, author },
-    select: () => {},
-    onChange: Column.render,
+  await todos.editCard({
+    data: { columnId, cardId, title, description, author: "web" },
+    onChange: (state) => {
+      Column.render({
+        column: state.todos.find((column) => column.id === columnId),
+      });
+    },
   });
-
-  // FIXME remove this comment later
-  // const card = document.querySelector(`.card[data-card-id="${cardId}"]`);
-  // editableCard.remove();
-  // card.style.display = "flex";
-  // card.querySelector(".card__title").innerHTML = title;
-  // card.querySelector(".card__description").innerHTML = description;
 });
