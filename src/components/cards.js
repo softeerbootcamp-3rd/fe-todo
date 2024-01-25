@@ -10,10 +10,10 @@ export function Card() {
     return card;
 }
 
-export function createCard(column, { cardList }) {
+export function createCard(cardWrapper, { cardList }) {
     cardList.forEach((cardInfo) => {
         const registerCard = registeredCard(cardInfo);
-        column.appendChild(registerCard);
+        cardWrapper.appendChild(registerCard);
     });
 }
 
@@ -27,10 +27,12 @@ function registeredCard({ title, content }) {
 
 export function addNewCard({ target }) {
     const column = target.closest(".column");
-    const isExistCard = column.querySelector(".newCard");
+    const wrapper = column.querySelector(".cardWrapper");
+
+    const isExistCard = wrapper.querySelector(".newCard");
     if (!isExistCard) {
         const card = Card();
-        column.appendChild(card);
+        wrapper.insertAdjacentElement("afterbegin", card);
         return;
     }
     isExistCard.remove();
@@ -38,7 +40,6 @@ export function addNewCard({ target }) {
 
 export function registerCard({ parentTarget }) {
     const ADD = "에 등록";
-
     const columnTitle = parentTarget.querySelector(".columnTitle").textContent;
     const title = parentTarget.querySelector(".title");
     const content = parentTarget.querySelector(".content");
