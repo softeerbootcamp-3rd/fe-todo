@@ -1,3 +1,4 @@
+import { setEvent } from "../../utils/handler.js";
 import * as ActionHistoryListDialog from "../action-history-list/index.js";
 
 export function template() {
@@ -11,11 +12,15 @@ export function template() {
   `;
 }
 
+const app = document.querySelector("#app");
+
+setEvent(app, "click", (event) => openHistory(event));
+
 export function render(parent) {
   parent.insertAdjacentHTML("afterbegin", template());
 }
 
-document.querySelector("#app").onclick = (e) => {
+const openHistory = (e) => {
   const target = e.target.closest("button");
   if (target && target.classList.contains("action-history-open-button")) {
     ActionHistoryListDialog.show();

@@ -51,7 +51,7 @@ const addTodo = (state, payload) => {
 const deleteTodo = (state, payload) => {
   const columnData = state.columnData;
   const targetColumn = columnData.find(({ id }) => id === payload.columnId);
-  const deleteCard = targetColumn.cards.find(({ id }) => id !== payload.cardId);
+  const deleteCard = targetColumn.cards.find(({ id }) => id === payload.cardId);
   targetColumn.cards = targetColumn.cards.filter((card) => card !== deleteCard);
 
   // actionHistory state 변경

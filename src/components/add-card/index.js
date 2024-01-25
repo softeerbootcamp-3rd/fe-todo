@@ -1,4 +1,5 @@
 import todoStore from "../../store/todoStore.js";
+import { setEvent } from "../../utils/handler.js";
 
 export function template({ columnId }) {
   return /*html*/ `
@@ -39,8 +40,14 @@ export function template({ columnId }) {
     `;
 }
 
-// 카드 등록
-document.querySelector("#app").addEventListener("click", (event) => {
+const app = document.querySelector("#app");
+
+// handler등록
+setEvent(app, "click", (event) => addCard(event));
+setEvent(app, "click", (event) => addCancle(event));
+setEvent(app, "input", (event) => checkTextLengthValidate(event));
+
+const addCard = (event) => {
   const target = event.target.closest(".add-button");
   if (!target) {
     return;
@@ -56,20 +63,25 @@ document.querySelector("#app").addEventListener("click", (event) => {
     ".card__description-input"
   ).value;
 
-  const data = { id: new Date().getTime(), title, description, author: "web" };
+  const newCard = {
+    id: new Date().getTime(),
+    title,
+    description,
+    author: "web",
+  };
 
   todoStore.dispatch({
     type: "ADD_TODO",
     parameter: [columnId],
     payload: {
       columnId: columnId,
-      newCard: data,
+      newCard: newCard,
     },
   });
-});
+};
 
 // 카드 등록 취소
-document.querySelector("#app").addEventListener("click", (event) => {
+const addCancle = (event) => {
   const target = event.target.closest(".add-cancel-button");
   if (!target) {
     return;
@@ -81,10 +93,10 @@ document.querySelector("#app").addEventListener("click", (event) => {
   );
   addCard.style.display = "none";
   addCard.setAttribute("editable", "false");
-});
+};
 
 // 글자 수 확인 (버튼 활성화)
-document.querySelector("#app").addEventListener("input", (event) => {
+const checkTextLengthValidate = (event) => {
   const target = event.target.closest(".card__editable");
   if (!target) {
     return;
@@ -103,4 +115,4 @@ document.querySelector("#app").addEventListener("input", (event) => {
 
   // 글자 수 확인
   button.disabled = !(title.length > 0 && description.length > 0);
-});
+};
