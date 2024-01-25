@@ -69,6 +69,7 @@ const reducer = (state, action) => {
       const cardId = action.payload["id"];
       const columnId = action.payload["columnId"];
       const updateState = state;
+      console.log(cardId, columnId);
       const newState = state[columnId].map((card) => {
         if (card.id === cardId) {
           card.status = "edit";
@@ -79,15 +80,17 @@ const reducer = (state, action) => {
       return updateState;
     }
     case SAVE_CARD: {
-      const columnId = action.payload["columnId"];
       const cardId = action.payload["id"];
-      const newState = state[columnId].filter((card) => {
-        if (card.id === +cardId) {
+      const columnId = action.payload["columnId"];
+      const updateState = state;
+      const newState = state[columnId].map((card) => {
+        if (card.id === cardId) {
           card = action.payload;
         }
-        return true;
+        return card;
       });
-      return newState;
+      updateState[columnId] = newState;
+      return updateState;
     }
     default:
       return state;
@@ -109,6 +112,7 @@ function render(columnId) {
   for (const card of cardList) {
     const cardElement = document.createElement("div");
     cardElement.id = card.id;
+    console.log(card);
     if (card.status !== "registered") {
       cardElement.className = "newCard";
       cardElement.innerHTML = createEditorTemplate(

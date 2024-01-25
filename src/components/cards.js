@@ -1,6 +1,11 @@
 import { createEditorTemplate, createCardInfoTemplate } from "./templates.js ";
 import createModal from "./modal.js";
-import todoStore, { CANCEL_CARD, REGISTER_CARD } from "./todoStore.js";
+import todoStore, {
+  CANCEL_CARD,
+  EDIT_CARD,
+  REGISTER_CARD,
+  SAVE_CARD,
+} from "./todoStore.js";
 // import { columnData } from "../../index.js";
 
 // Card element
@@ -51,9 +56,17 @@ function saveHandler({ target, parentTarget }) {
   const newTitle = card.querySelector(".title").value;
   const newContent = card.querySelector(".content").value;
 
-  const cardList = document.getElementById(`cardList-${parentTarget.id}`);
-  cardList.innerHTML = "";
-  columnData.editCardData(parentTarget.id, card.id, newTitle, newContent);
+  const action = {
+    type: SAVE_CARD,
+    payload: {
+      id: card.id,
+      columnId: parentTarget.id,
+      title: newTitle,
+      content: newContent,
+      status: "registered",
+    },
+  };
+  todoStore.dispatch(action);
 }
 
 function deleteHandler({ target, parentTarget }) {
@@ -61,16 +74,16 @@ function deleteHandler({ target, parentTarget }) {
   createModal(parentTarget, registeredCard);
 }
 
-function editCard({ target }) {
+function editCard({ parentTarget, target }) {
   const card = target.closest(".registeredCard");
   const title = card.querySelector(".registeredTitle").textContent;
   const content = card.querySelector(".registeredContent").textContent;
 
-  localStorage.setItem(`originalTitle-${card.id}`, title);
-  localStorage.setItem(`originalContent-${card.id}`, content);
-
-  card.className = "newCard";
-  card.innerHTML = createEditorTemplate(title, content, true);
+  const action = {
+    type: EDIT_CARD,
+    payload: { id: card.id, columnId: parentTarget.id },
+  };
+  todoStore.dispatch(action);
 }
 
 export { cancelHandler, registerCard, saveHandler, deleteHandler, editCard };
