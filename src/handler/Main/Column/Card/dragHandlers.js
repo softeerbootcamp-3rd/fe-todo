@@ -1,6 +1,7 @@
 import { store } from "@/model/Store";
 import { renderListCount } from "@/view/Main/Column/renderListCount";
 import { getColumnList } from "@/util/getColumnList";
+import { getHistoryTemplate } from "@/util/getHistoryTemplate";
 
 export const onDragStart = (event) => {
   const { target } = event;
@@ -48,6 +49,22 @@ export const onDragEnd = (event) => {
   event.target.classList.remove("dragging");
 };
 
+const getNewHistory = ({ cardId, startColumnId, endColumnId }) => {
+  const { author: username, title: cardTitle } = store.cardData[cardId];
+  const { title: from } = store.columnData[startColumnId];
+  const { title: to } = store.columnData[endColumnId];
+  const newHistory = {
+    ...getHistoryTemplate(),
+    username,
+    cardTitle,
+    time: new Date(),
+    from,
+    to,
+    type: "이동",
+  };
+  return newHistory;
+};
+
 export const onDrop = (event) => {
   if (!container) return;
 
@@ -65,6 +82,7 @@ export const onDrop = (event) => {
     renderListCount(document.querySelector(`#${startColumnId}`));
     renderListCount(document.querySelector(`#${endColumnId}`));
 
-    store.setMoveCardHistory({ cardId: targetCardId, startColumnId, endColumnId });
+    const newHistory = getNewHistory({ cardId: targetCardId, startColumnId, endColumnId });
+    store.addHistory(newHistory);
   }
 };

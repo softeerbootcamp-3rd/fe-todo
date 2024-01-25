@@ -1,6 +1,18 @@
 import { store } from "@/model/Store.js";
-import { renderCardList } from "../../../../view/Main/Column/renderCardList.js";
-import { renderListCount } from "../../../../view/Main/Column/renderListCount.js";
+import { renderCardList } from "@/view/Main/Column/renderCardList.js";
+import { renderListCount } from "@/view/Main/Column/renderListCount.js";
+
+const getNewHistory = (cardId) => {
+  const { author: username, updatedAt: time, title: cardTitle } = store.cardData[cardId];
+  const newHistory = {
+    ...getHistoryTemplate(),
+    username,
+    time,
+    cardTitle,
+    type: "변경",
+  };
+  return newHistory;
+};
 
 const createCardData = (target) => {
   const formData = new FormData(target);
@@ -13,7 +25,8 @@ export const submitEditCardForm = (target) => {
   const cardId = target.id.split("-")[1];
   const cardData = createCardData(target);
   store.editCard({ cardData, cardId });
-  store.setEditCardHistory(cardId);
+  const newHistory = getNewHistory(cardId);
+  store.addHistory(newHistory);
   renderCardList(currentColumn);
   renderListCount(currentColumn);
   target.remove();
