@@ -7,7 +7,7 @@ export function createStore(initStore, reducer) {
     ...initStore,
   };
 
-  //리스너에선 어떤 액션일때 어떤 렌더링 함수를 시킬지 정함
+  //리스너에선 어떤 액션일때 어떤 렌더링 함수를 시킬지 정한다.
   const listeners = {
     plusTodoItem: [
       ({ todoColTitle }) => {
@@ -135,7 +135,7 @@ export function createStore(initStore, reducer) {
     const historyItem = {
       authorName: "멋진삼",
       timeStamp: new Date().getTime(),
-      actionKind: "삭제",
+      actionKind: "이동",
       todoTitle: todoTitle,
       todoSrc: todoColTitleSrc,
       todoDst: todoColTitleDst,
