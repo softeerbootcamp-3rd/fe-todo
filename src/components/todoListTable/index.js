@@ -24,7 +24,6 @@ function attachStore({ todoListTable }, initialData) {
     // create & mount components in order one by one
     let previousElement = undefined;
     for (const title of listTitles) {
-      console.log("mount", title);
       let component = childComponents.get(title);
       if (!component) {
         // 맵에 없음: 새로 생성

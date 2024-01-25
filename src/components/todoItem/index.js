@@ -253,7 +253,6 @@ function enableDrag({ renderTarget }, { dragStore }, initialData) {
     if (count++ === 0) {
       const idSrc = dragStore.data.src.id;
       const titleSrc = dragStore.data.dst?.title ?? dragStore.data.src.title;
-      console.log("src info", idSrc, titleSrc);
       if (idSrc === initialData.id) return;
       dragStore.state.doDrag(
         titleSrc,

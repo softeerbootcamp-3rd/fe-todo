@@ -21,7 +21,6 @@ export const todoStore = createStore((set, get) => ({
     set((state) => ({ ...state, todoList: newTodoList }));
   },
   async add(title, item) {
-    console.log("add request", title, item);
     // add new Item to todoList
     const newItem = await addTodoListItem(title, item);
     // returns newly created item (with id)
@@ -32,7 +31,6 @@ export const todoStore = createStore((set, get) => ({
     });
   },
   async remove(title, item) {
-    console.log("remove request", title, item);
     // find and remove item from todoList
     await removeTodoListItem(title, item);
     set((state) => {
@@ -47,7 +45,6 @@ export const todoStore = createStore((set, get) => ({
     });
   },
   async edit(title, item) {
-    console.log("edit", title, item);
     const newItem = await editTodoListItem(title, item);
     set((state) => {
       const newTodoList = { ...state.todoList };
