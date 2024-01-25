@@ -4,6 +4,7 @@ export const ADD_TODO = "ADD_TODO";
 export const DELETE_TODO = "DELETE_TODO";
 export const EDIT_TODO = "EDIT_TODO";
 export const MOVE_TODO = "MOVE_TODO";
+export const DELETE_ACTION_HISTORY = "DELETE_ACTION_HISTORY";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -15,6 +16,8 @@ const reducer = (state, action) => {
       return editTodo(state, action.payload);
     case MOVE_TODO:
       return moveTodo(state, action.payload);
+    case DELETE_ACTION_HISTORY:
+      return deleteActionHistory(state, action.payload);
     default:
       return state;
   }
@@ -119,4 +122,9 @@ const moveTodo = (state, payload) => {
     columnData: columnData,
     actionHistory: [newActionHistory, ...state.actionHistory],
   };
+};
+
+const deleteActionHistory = (state, payload) => {
+  state.actionHistory = [];
+  return state;
 };
