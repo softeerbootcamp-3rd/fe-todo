@@ -23,11 +23,6 @@ export function render(parent) {
   );
 }
 
-export function renderColumn(columnId, column) {
-  const target = document.querySelector(`.column[data-column-id="${columnId}"`);
-  target.innerHTML = Column.template({ column });
-}
-
 export function renderColumns(parameter) {
   parameter.forEach((columnId) => {
     const column = todoStore
@@ -37,3 +32,8 @@ export function renderColumns(parameter) {
     renderColumn(columnId, column);
   });
 }
+
+const renderColumn = (columnId, column) => {
+  const target = document.querySelector(`.column[data-column-id="${columnId}"`);
+  target.innerHTML = Column.template({ column });
+};

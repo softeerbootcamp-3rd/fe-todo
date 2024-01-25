@@ -1,6 +1,7 @@
 import * as Card from "../card/index.js";
 import * as AddCard from "../add-card/index.js";
 import todoStore from "../../store/todoStore.js";
+import { setEvent } from "../../utils/handler.js";
 
 export function template({ column }) {
   return `
@@ -28,7 +29,16 @@ export function template({ column }) {
     `;
 }
 
-document.querySelector("#app").addEventListener("click", (event) => {
+const app = document.querySelector("#app");
+
+// handler 등록
+setEvent(app, "click", (event) => getAddCard(event));
+setEvent(app, "dragstart", (event) => cardDragStart(event));
+setEvent(app, "dragend", (event) => cardDragend(event));
+setEvent(app, "dragover", (event) => cardDragover(event));
+
+// addCard 화면에 가져오기
+const getAddCard = (event) => {
   const target = event.target.closest(".column__head-plus");
   if (!target) {
     return;
@@ -46,19 +56,20 @@ document.querySelector("#app").addEventListener("click", (event) => {
 
   addCard.style.display = editable ? "none" : "flex";
   target.setAttribute("data-editable", !editable);
-});
+};
 
-// drag and drop
-document.querySelector("#app").addEventListener("dragstart", (event) => {
+// drag start
+const cardDragStart = (event) => {
   const draggingCard = event.target.closest(".card");
   if (draggingCard === null) {
     return;
   }
 
   draggingCard.classList.add("dragging");
-});
+};
 
-document.querySelector("#app").addEventListener("dragend", (event) => {
+// drag end : 변경된 데이터 전송
+const cardDragend = (event) => {
   const movedCard = event.target.closest(".dragging");
   const movedColumn = event.target.closest(".column__cards");
   if (movedCard === null || movedColumn == null) {
@@ -87,9 +98,10 @@ document.querySelector("#app").addEventListener("dragend", (event) => {
       cardId: cardId,
     },
   });
-});
+};
 
-document.querySelector("#app").addEventListener("dragover", (event) => {
+// dragover
+const cardDragover = (event) => {
   const column = event.target.closest(".column__cards");
   const draggingCard = document.querySelector(".dragging");
   if (column === null || draggingCard === null) {
@@ -104,9 +116,10 @@ document.querySelector("#app").addEventListener("dragover", (event) => {
   } else {
     column.insertBefore(draggingCard, afterElement);
   }
-});
+};
 
-function getDragAfterElement(container, y) {
+// dragover 시 카드를 위치시킬 곳 바로 뒤의 카드를 가져옴
+const getDragAfterElement = (container, y) => {
   // .draggable 클래스를 가지며 .dragging 클래스를 가지지 않은 모든 자식 요소를 가져옴.
   const draggableElements = [
     ...container.querySelectorAll(".card:not(.dragging)"),
@@ -129,4 +142,4 @@ function getDragAfterElement(container, y) {
     },
     { offset: Number.NEGATIVE_INFINITY }
   ).element;
-}
+};
