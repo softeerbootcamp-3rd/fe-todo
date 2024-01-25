@@ -5,7 +5,7 @@ function getHistory() {
 }
 
 function clearHistory() {
-  history = [];
+  history.splice(0, history.length);
 }
 
 function addHistory(colTitle, item) {
