@@ -99,7 +99,7 @@ export function createStore(initStore, reducer) {
     const historyItem = {
       authorName: "멋진삼",
       timeStamp: new Date().getTime(),
-      actionId: 0,
+      actionKind: "등록",
       todoTitle: item.title,
       todoSrc: todoColTitle,
       todoDst: null,
@@ -111,7 +111,7 @@ export function createStore(initStore, reducer) {
     const historyItem = {
       authorName: "멋진삼",
       timeStamp: new Date().getTime(),
-      actionId: 1,
+      actionKind: "삭제",
       todoTitle: item.title,
       todoSrc: todoColTitle,
       todoDst: null,
@@ -123,7 +123,7 @@ export function createStore(initStore, reducer) {
     const historyItem = {
       authorName: "멋진삼",
       timeStamp: new Date().getTime(),
-      actionId: 2,
+      actionKind: "수정",
       todoTitle: item.title,
       todoSrc: null,
       todoDst: null,
@@ -135,7 +135,7 @@ export function createStore(initStore, reducer) {
     const historyItem = {
       authorName: "멋진삼",
       timeStamp: new Date().getTime(),
-      actionId: 3,
+      actionKind: "삭제",
       todoTitle: todoTitle,
       todoSrc: todoColTitleSrc,
       todoDst: todoColTitleDst,

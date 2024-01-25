@@ -12,7 +12,7 @@ import {
   moveHistory,
 } from "../utils/API/history";
 
-let initTodoList = {
+const initTodoList = {
   "해야할 일": [],
   "하고 있는 일": [],
   "완료한 일": [],
@@ -20,15 +20,18 @@ let initTodoList = {
 
 const existenceTodoList = JSON.parse(localStorage.getItem("todoList"));
 const existenceHistory = JSON.parse(localStorage.getItem("history"));
-let inStoreData;
-//이미 존재하는 값이 없으면 초기값으로 설정
+let resultTodoList = existenceTodoList;
+let resultHistory = existenceHistory;
 if (!existenceTodoList) {
-  localStorage.setItem("todoList", JSON.stringify(initTodoList));
-  inStoreData = { initStore, history: existenceHistory };
-} else {
-  inStoreData = { todoList: existenceTodoList, history: existenceHistory };
+  resultTodoList = initTodoList;
+  localStorage.setItem("todoList", JSON.stringify(resultTodoList));
+}
+if (!existenceHistory) {
+  resultHistory = [];
+  localStorage.setItem("history", JSON.stringify(resultHistory));
 }
 
+let inStoreData = { todoList: resultTodoList, history: resultHistory };
 const store = createStore(inStoreData, reducer);
 
 // reducer함수 => 여기선 state를 변경 + API서버로의 변경까지 진행

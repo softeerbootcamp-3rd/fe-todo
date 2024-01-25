@@ -6,15 +6,14 @@ export default function todoHistoryItem(parent, props) {
 }
 
 function formatHistoryText(props) {
-  // actionId = 0: 등록 / 1: 삭제 / 2: 변경 / 3: 이동
-  switch (props.actionId) {
-    case 0:
+  switch (props.actionKind) {
+    case "등록":
       return `<b>${props.todoTitle}</b>을(를) <b>${props.todoSrc}</b>에 <b>등록</b>하였습니다.`;
-    case 1:
+    case "삭제":
       return `<b>${props.todoTitle}</b>을(를) <b>${props.todoSrc}</b>에서 <b>삭제</b>하였습니다.`;
-    case 2:
+    case "수정":
       return `<b>${props.todoTitle}</b>을(를) <b>수정</b>하였습니다.`;
-    case 3:
+    case "이동":
       return `<b>${props.todoTitle}</b>을(를) <b>${props.todoSrc}</b>에서 <b>${props.todoDst}</b>으로 <b>이동</b>하였습니다.`;
   }
   return "";

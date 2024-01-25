@@ -8,17 +8,14 @@ function getHistory() {
   return [];
 }
 
-// actionId = 0: 등록 / 1: 삭제 / 2: 변경 / 3: 이동
-
-//0번 - 아이템 등록하기 히스토리 저장
+// 아이템 등록하기 히스토리 저장
 function addHistory(colTitle, item) {
   const historyData = localStorage.getItem("history");
   const historyList = historyData ? JSON.parse(historyData) : [];
-  // actionId = 0: 등록 / 1: 삭제 / 2: 수정 / 3: 이동
   const historyItem = {
     authorName: "멋진삼",
     timeStamp: new Date().getTime(),
-    actionId: 0,
+    actionKind: "등록",
     todoTitle: item.title,
     todoSrc: colTitle,
     todoDst: null,
@@ -27,14 +24,14 @@ function addHistory(colTitle, item) {
   localStorage.setItem("history", JSON.stringify(historyList));
 }
 
-//1번 - 아이템 삭제하기 히스토리 저장
+// 아이템 삭제하기 히스토리 저장
 function removeHistory(colTitle, item) {
   const historyData = localStorage.getItem("history");
   const historyList = historyData ? JSON.parse(historyData) : [];
   const historyItem = {
     authorName: "멋진삼",
     timeStamp: new Date().getTime(),
-    actionId: 1,
+    actionKind: "삭제",
     todoTitle: item.title,
     todoSrc: colTitle,
     todoDst: null,
@@ -43,13 +40,13 @@ function removeHistory(colTitle, item) {
   localStorage.setItem("history", JSON.stringify(historyList));
 }
 
-//2번 - 아이템 수정하기 히스토리 저장
+// 아이템 수정하기 히스토리 저장
 function editHistory(item) {
   const historyList = JSON.parse(localStorage.getItem("history")) ?? [];
   const historyItem = {
     authorName: "멋진삼",
     timeStamp: new Date().getTime(),
-    actionId: 2,
+    actionKind: "수정",
     todoTitle: item.title,
     todoSrc: null,
     todoDst: null,
@@ -59,13 +56,13 @@ function editHistory(item) {
   localStorage.setItem("history", JSON.stringify(historyList));
 }
 
-//3번 - 아이템 이동하기 히스토리 저장
+// 아이템 이동하기 히스토리 저장
 function moveHistory(colTitleSrc, colTitleDst, todoTitle) {
   const historyList = JSON.parse(localStorage.getItem("history")) ?? [];
   const historyItem = {
     authorName: "멋진삼",
     timeStamp: new Date().getTime(),
-    actionId: 3,
+    actionKind: "이동",
     todoTitle: todoTitle,
     todoSrc: colTitleSrc,
     todoDst: colTitleDst,
