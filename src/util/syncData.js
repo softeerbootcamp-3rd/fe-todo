@@ -5,7 +5,7 @@ export const getColumnsObject = (columnData) =>
   }, {});
 
 export const getCardsObject = (cardData) =>
-  cardData.reduce((acc, card, index) => {
-    acc[index] = card;
+  cardData.reduce((acc, card) => {
+    acc[card.cardId] = card;
     return acc;
   }, {});

@@ -1,7 +1,7 @@
 import { store } from "@/model/Store.js";
 import { renderCardList } from "@/view/Main/Column/renderCardList.js";
 import { renderListCount } from "@/view/Main/Column/renderListCount.js";
-import { getHistoryTemplate } from "../../../../util/getHistoryTemplate";
+import { getHistoryTemplate } from "@/util/getHistoryTemplate";
 
 const getNewHistory = (newCard) => {
   const { author, updatedAt: time, title: cardTitle } = newCard;

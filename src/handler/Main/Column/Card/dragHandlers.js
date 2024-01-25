@@ -65,7 +65,7 @@ const getNewHistory = ({ cardId, startColumnId, endColumnId }) => {
   return newHistory;
 };
 
-export const onDrop = (event) => {
+export const onDrop = async (event) => {
   if (!container) return;
 
   const targetCardId = event.dataTransfer.getData("dragCardId");
@@ -73,16 +73,25 @@ export const onDrop = (event) => {
   const endColumnId = container.parentElement.id;
   const endColumnValue = getColumnList(endColumnId).map((li) => li.id);
 
-  store.moveCard({ columnId: endColumnId, newColumnValue: endColumnValue });
+  const movedColumn = await store.moveCardInServer({
+    columnId: endColumnId,
+    newColumnValue: endColumnValue,
+  });
+  store.moveCard(movedColumn);
 
   if (startColumnId !== endColumnId) {
     const stardColumnValue = getColumnList(startColumnId).map((li) => li.id);
-    store.moveCard({ columnId: startColumnId, newColumnValue: stardColumnValue });
+    const movedColumn = await store.moveCardInServer({
+      columnId: startColumnId,
+      newColumnValue: stardColumnValue,
+    });
+    store.moveCard(movedColumn);
 
     renderListCount(document.querySelector(`#${startColumnId}`));
     renderListCount(document.querySelector(`#${endColumnId}`));
 
     const newHistory = getNewHistory({ cardId: targetCardId, startColumnId, endColumnId });
-    store.addHistory(newHistory);
+    const historyData = await store.addHistoryToServer(newHistory);
+    store.addHistory(historyData);
   }
 };

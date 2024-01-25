@@ -5,20 +5,21 @@
       "title": "해야할 일",
       "value": [
         "3",
-        "0"
+        "4"
       ]
     },
     {
       "id": "column1",
       "title": "하고 있는 일",
       "value": [
-        "1"
+        "0"
       ]
     },
     {
       "id": "column2",
       "title": "완료한 일",
       "value": [
+        "1",
         "2"
       ]
     }
@@ -56,6 +57,30 @@
       "createdAt": "Thu Jan 25 2024 17:59:46 GMT+0900 (한국 표준시)",
       "cardId": "3",
       "updatedAt": "Thu Jan 25 2024 17:59:57 GMT+0900 (한국 표준시)"
+    },
+    {
+      "id": "5387",
+      "title": "asdfa",
+      "content": "sdf",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 18:28:00 GMT+0900 (한국 표준시)",
+      "cardId": "4"
+    },
+    {
+      "id": "855c",
+      "title": "fasdf",
+      "content": "asd",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 18:29:34 GMT+0900 (한국 표준시)",
+      "cardId": "5"
+    },
+    {
+      "id": "213f",
+      "title": "asdf",
+      "content": "asdf",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 18:30:35 GMT+0900 (한국 표준시)",
+      "cardId": "6"
     }
   ],
   "history": [
@@ -84,6 +109,42 @@
       "type": "변경",
       "from": "",
       "to": ""
+    },
+    {
+      "id": "b9cf",
+      "author": "Web",
+      "time": "Thu Jan 25 2024 18:28:00 GMT+0900 (한국 표준시)",
+      "cardTitle": "asdfa",
+      "type": "등록",
+      "from": "해야할 일",
+      "to": ""
+    },
+    {
+      "id": "65ea",
+      "author": "Web",
+      "time": "Thu Jan 25 2024 18:29:34 GMT+0900 (한국 표준시)",
+      "cardTitle": "fasdf",
+      "type": "등록",
+      "from": "해야할 일",
+      "to": ""
+    },
+    {
+      "id": "e078",
+      "author": "Web",
+      "time": "Thu Jan 25 2024 18:30:35 GMT+0900 (한국 표준시)",
+      "cardTitle": "asdf",
+      "type": "등록",
+      "from": "해야할 일",
+      "to": ""
+    },
+    {
+      "id": "c309",
+      "author": "Web",
+      "time": "2024-01-25T09:57:28.297Z",
+      "cardTitle": "Github 공부하기",
+      "type": "이동",
+      "from": "하고 있는 일",
+      "to": "완료한 일"
     }
   ]
 }

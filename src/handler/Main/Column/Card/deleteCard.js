@@ -3,8 +3,8 @@ import { renderListCount } from "@/view/Main/Column/renderListCount.js";
 import { store } from "@/model/Store";
 import { getHistoryTemplate } from "@/util/getHistoryTemplate";
 
-const getNewHistory = (cardId) => {
-  const { author, title: cardTitle } = store.cardData[cardId];
+const getNewHistory = (deletedCard) => {
+  const { author, title: cardTitle } = deletedCard;
   const newHistory = {
     ...getHistoryTemplate(),
     author,
@@ -15,14 +15,19 @@ const getNewHistory = (cardId) => {
   return newHistory;
 };
 
-const deleteCard = (target) => {
+const deleteCard = async (target) => {
   const currentColumn = target.closest(".main__column");
   const cardId = target.closest(".card").id;
-  const newHistory = getNewHistory(cardId);
-  store.addHistory(newHistory);
-  store.deleteCard({ columnId: currentColumn.id, cardId });
+  const deletedCard = store.cardData[cardId];
+  const newHistory = getNewHistory(deletedCard);
+
+  const newColumn = await store.deleteCardInServer(currentColumn.id, cardId);
+  store.deleteCard(newColumn);
   renderCardList(currentColumn);
   renderListCount(currentColumn);
+
+  const historyData = await store.addHistoryToServer(newHistory);
+  store.addHistory(historyData);
 };
 
 export const clickDeleteCard = (target) => {

@@ -92,9 +92,14 @@ class Store {
     this._cards[card.cardId] = card;
   }
 
-  deleteCard({ columnId, cardId }) {
-    const column = this._columns[columnId];
-    column.value = column.value.filter((id) => id !== cardId);
+  async deleteCardInServer(columnId, cardId) {
+    const newColumnData = deepCopy(this._columns[columnId]);
+    newColumnData.value = newColumnData.value.filter((id) => id !== cardId);
+    return await putColumn(newColumnData, columnId);
+  }
+
+  deleteCard(column) {
+    this._columns[column.id] = column;
   }
 
   async editCardInServer(cardId, cardData) {
@@ -107,8 +112,14 @@ class Store {
     this._cards[newCard.cardId] = { ...oldCardData, ...newCard };
   }
 
-  moveCard({ columnId, newColumnValue }) {
-    this._columns[columnId].value = newColumnValue;
+  async moveCardInServer({ columnId, newColumnValue }) {
+    const newColumnData = deepCopy(this._columns[columnId]);
+    newColumnData.value = newColumnValue;
+    return await putColumn(newColumnData, columnId);
+  }
+
+  moveCard(movedColumn) {
+    this._columns[movedColumn.id] = movedColumn;
   }
 
   async addHistoryToServer(newHistory) {
