@@ -1,8 +1,4 @@
-import {
-  addTodoListItem,
-  editTodoListItem,
-  removeTodoListItem,
-} from "../../utils/API/todoList";
+import { store } from "../../store/todoStore";
 
 import {
   addCheckInput,
@@ -72,27 +68,29 @@ export default function todoItem(parent, props) {
       createdOn: detectDeviceType(),
     };
 
-    //투두 등록 로직
+    //투두 등록 로직 => 디스패치 발생
     if (props.addMode) {
-      const newReturnItem = addTodoListItem(props.todoColTitle, newItem);
-      //추가하고 추가 컴포넌트 삭제 및
-      props.onAddItem(true, newReturnItem);
+      store.dispatch({
+        type: "plusTodoItem",
+        payload: { todoColTitle: props.todoColTitle, item: newItem },
+      });
     }
     //투두 수정 로직
     else {
-      editTodoListItem(props.todoColTitle, newItem);
-      setViewMode();
+      store.dispatch({
+        type: "updateTodoItem",
+        payload: { todoColTitle: props.todoColTitle, item: newItem },
+      });
     }
   };
 
   // 삭제 시
   const onErase_view = () => {
-    console.log("onerase");
     createDeleteModal(parent, () => {
-      removeTodoListItem(props.todoColTitle, props.item);
-      parent.parentNode.removeChild(parent);
-      console.log(props);
-      props.onDeleteItem();
+      store.dispatch({
+        type: "deleteTodoItem",
+        payload: { todoColTitle: props.todoColTitle, item: props.item },
+      });
     });
   };
 

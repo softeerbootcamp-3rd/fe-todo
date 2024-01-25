@@ -3,7 +3,7 @@ import { modalTemplate } from "./template";
 export default function modal(parent, props) {
   parent.innerHTML = modalTemplate(props);
 
-  const modalSection = parent.querySelector('[todo-data="modalSection"]');
+  const modalSection = parent.querySelector('[todo-section="modalSection"]');
   modalSection.addEventListener("click", (e) => {
     //app/index.js에서 선언해준 modal전체 영역을 눌렀을 때, 모달이 꺼지는 함수를 방지
     e.stopPropagation();

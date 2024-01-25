@@ -1,3 +1,5 @@
+import { store } from "../store/todoStore";
+
 export function applyDragAndDrop(draggables, containers) {
   // 컨테이너 높이 동일하게 설정
   const maxHeight = Array.from(containers).reduce((max, container) => {
@@ -9,13 +11,32 @@ export function applyDragAndDrop(draggables, containers) {
     container.style.height = `${maxHeight}px`;
   });
 
+  let todoColTitleSrc, startColIndex;
   draggables.forEach((draggable) => {
-    draggable.addEventListener("dragstart", () => {
+    draggable.addEventListener("dragstart", ({ target }) => {
+      const childrenNodeArr = Array.from(target.parentNode.children);
+      todoColTitleSrc = target.parentNode.id;
+      startColIndex = childrenNodeArr.indexOf(target) - 1;
       draggable.classList.add("dragging");
       draggable.style.opacity = 0.4;
     });
 
-    draggable.addEventListener("dragend", () => {
+    draggable.addEventListener("dragend", ({ target }) => {
+      //자식 노드 객체를 배열로 바꿈.
+      const childrenNodeArr = Array.from(target.parentNode.children);
+
+      const todoColTitleDst = target.parentNode.id;
+      const endColIndex = childrenNodeArr.indexOf(target) - 1;
+      store.dispatch({
+        type: "changeTodoItem",
+        payload: {
+          startColIndex: startColIndex,
+          todoColTitleSrc: todoColTitleSrc.replace("todoCol_", ""),
+          endColIndex: endColIndex,
+          todoColTitleDst: todoColTitleDst.replace("todoCol_", ""),
+        },
+      });
+
       draggable.classList.remove("dragging");
       draggable.style.opacity = 1;
     });
@@ -26,7 +47,7 @@ export function applyDragAndDrop(draggables, containers) {
       e.preventDefault();
       const afterElement = getDragAfterElement(container, e.clientY);
       const draggable = document.querySelector(".dragging");
-      if (afterElement == null) {
+      if (afterElement === null) {
         container.appendChild(draggable);
       } else {
         container.insertBefore(draggable, afterElement);

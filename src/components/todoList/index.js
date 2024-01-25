@@ -1,6 +1,6 @@
 import todoItem from "../todoItem";
-import { onAddCountUp, onDeleteCountDown } from "./helper";
 import { todoListTemplate } from "./template";
+import { applyDragAndDrop } from "../../utils/dragAndDrop";
 
 export default function todoList(parent, props) {
   parent.innerHTML = todoListTemplate(props);
@@ -9,7 +9,8 @@ export default function todoList(parent, props) {
     '[todo-data="newItemContainer"]'
   );
 
-  const itemCount = parent.querySelector('[todo-data="itemCount"]');
+  //행 하나에 item으로 컴포넌트를 만들어서 마운트
+  const itemsContainer = parent.querySelector(`[todo-data="items"]`);
 
   const onAddItem = (isNew, item) => {
     const todoItemWrapper = document.createElement("div");
@@ -20,23 +21,22 @@ export default function todoList(parent, props) {
     todoItem(todoItemWrapper, {
       todoColTitle: props.title,
       item,
-      onDeleteItem: () => {
-        onDeleteCountDown(itemCount);
-      },
     });
     if (isNew) {
       // 새로운 아이템 등록 및 추가
-      newItemContainer.insertAdjacentElement("afterend", todoItemWrapper);
+      const referenceNode = newItemContainer.nextSibling;
+      itemsContainer.insertBefore(todoItemWrapper, referenceNode);
       newItemContainer.style.display = "none";
-      onAddCountUp(itemCount);
+
+      const draggables = parent.querySelectorAll('[todo-data="todoItem"]');
+      const containers = parent.querySelectorAll("[todo-data='items']");
+      applyDragAndDrop(draggables, containers);
     } else {
       // 초기 데이터의 아이템 렌더시 사용
       itemsContainer.appendChild(todoItemWrapper);
     }
   };
 
-  //행 하나에 item으로 컴포넌트를 만들어서 마운트
-  const itemsContainer = parent.querySelector('[todo-data="items"]');
   for (const item of props.items) {
     onAddItem(false, item);
   }
@@ -45,7 +45,6 @@ export default function todoList(parent, props) {
   const plusBtn = parent.querySelector('[todo-data="plusBtn"]');
   plusBtn.addEventListener("click", () => {
     if (newItemContainer.style.display === "none") {
-      newItemContainer.style.display = "block";
       todoItem(newItemContainer, {
         todoColTitle: props.title,
         addMode: true,
@@ -54,8 +53,8 @@ export default function todoList(parent, props) {
         },
         onAddItem,
       });
-    } else {
-      newItemContainer.style.display = "none";
     }
+    newItemContainer.style.display =
+      newItemContainer.style.display === "block" ? "none" : "block";
   });
 }
