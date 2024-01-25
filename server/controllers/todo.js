@@ -1,7 +1,8 @@
 const { todo } = require("../model");
 const { getIndexById } = require("../utils");
+const { moveHistory, removeHistory, addHistory } = require("./history");
 
-let idCount = 0;
+let idCount = 1000;
 const insert_after = "after";
 const insert_before = "before";
 
@@ -12,18 +13,21 @@ function getTodoList() {
 function addTodoListItem(title, item) {
   const newItem = { ...item, id: ++idCount };
   todo[title]?.unshift(newItem);
-  // addHistory(title, newItem);
+  addHistory(title, newItem);
   return newItem;
 }
 
-function removeTodoListItem(colTitle, id) {
-  for (let idx = 0; idx < todo[colTitle].length; idx++) {
-    if (todo[colTitle][idx].id === id) {
-      todo[colTitle].splice(idx, 1);
-      break;
+function findAndRemoveItem(list, id) {
+  for (let idx = 0; idx < list.length; idx++) {
+    if (list[idx].id === id) {
+      return list.splice(idx, 1)[0];
     }
   }
-  // removeHistory(colTitle, item);
+}
+
+function removeTodoListItem(colTitle, id) {
+  const item = findAndRemoveItem(todo[colTitle], id);
+  removeHistory(colTitle, item);
 }
 
 function editTodoListItem(colTitle, item) {
@@ -33,7 +37,7 @@ function editTodoListItem(colTitle, item) {
       break;
     }
   }
-  // editHistory(item);
+  editHistory(item);
   return item;
 }
 
@@ -61,7 +65,7 @@ function moveTodoListItem(titleSrc, idSrc, titleDst, idDst, position) {
     todo[titleSrc] = listSrc;
     todo[titleDst] = listDst;
   }
-  // moveHistory(titleSrc, titleDst, item);
+  moveHistory(titleSrc, titleDst, item);
 }
 
 module.exports = {

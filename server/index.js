@@ -7,6 +7,7 @@ const {
   removeTodoListItem,
   moveTodoListItem,
 } = require("./controllers/todo");
+const { clearHistory, getHistory } = require("./controllers/history");
 const app = express();
 
 app.use((req, res, next) => {
@@ -40,7 +41,7 @@ app.patch("/todos/:listName/:id", (req, res) => {
 });
 
 app.delete("/todos/:listName/:id", (req, res) => {
-  removeTodoListItem(req.params.listName, req.params.id);
+  removeTodoListItem(req.params.listName, parseInt(req.params.id));
   res.status(200).end();
 });
 
@@ -52,6 +53,14 @@ app.put("/todos/:listName/:id", (req, res) => {
     parseInt(req.query.idDst),
     req.query.position
   );
+  res.status(200).end();
+});
+
+app.get("/history", (req, res) => {
+  res.status(200).send(getHistory());
+});
+app.delete("/history", (req, res) => {
+  clearHistory();
   res.status(200).end();
 });
 
