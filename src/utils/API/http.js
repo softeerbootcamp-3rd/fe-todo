@@ -3,14 +3,14 @@ export const API_BASE_URL = "http://localhost:3333";
 export function httpGet(url, signal) {
   return getRes(url, {
     method: "GET",
-    signal: signal,
+    signal,
   });
 }
 
 export function httpPost(url, body, signal) {
   return getRes(url, {
     method: "POST",
-    signal: signal,
+    signal,
     headers: {
       "Content-Type": "application/json",
     },
@@ -21,14 +21,14 @@ export function httpPost(url, body, signal) {
 export function httpDelete(url, signal) {
   return getRes(url, {
     method: "DELETE",
-    signal: signal,
+    signal,
   });
 }
 
 export function httpPut(url, body, signal) {
   return getRes(url, {
     method: "PUT",
-    signal: signal,
+    signal,
     headers: {
       "Content-Type": "application/json",
     },
@@ -39,7 +39,7 @@ export function httpPut(url, body, signal) {
 export function httpPatch(url, body, signal) {
   return getRes(url, {
     method: "PATCH",
-    signal: signal,
+    signal,
     headers: {
       "Content-Type": "application/json",
     },
