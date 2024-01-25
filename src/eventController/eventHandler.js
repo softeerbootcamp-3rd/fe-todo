@@ -1,4 +1,4 @@
-import Card from "../components/cards.js";
+import { addNewCard, registerCard } from "../components/cards.js";
 import {
     createCardInfoTemplate,
     createEditorTemplate,
@@ -7,93 +7,39 @@ import createModal from "../components/modal.js";
 import { createLogContent } from "../components/log.js";
 
 const eventHandlers = {
-    add: addCard,
+    add: addNewCard,
     inputTitle: checkRegisterStatus,
     inputContent: checkRegisterStatus,
     registerBtn: registerCard,
-    cancelBtn: (target) => cancelHandler(target.closest(".newCard")),
-    saveBtn: (target) => saveHandler(target.closest(".newCard")),
-    deleteBtn: (parentTarget, target) => createModal(parentTarget, target),
-    editBtn: (target) => editCard(target.closest(".registeredCard")),
-};
-
-const action = {
-    ADD: "에 등록",
-    EDIT: "로 변경",
+    cancelBtn: cancelHandler,
+    saveBtn: saveHandler,
+    deleteBtn: createModalHandler,
+    editBtn: editCard,
 };
 
 export default function customEventHandler(event) {
-    const target = event.target;
-    const parentTarget = event.currentTarget;
-
+    const { target, currentTarget } = event;
     const handler = eventHandlers[target.id];
-
     if (handler) {
-        if (["add", "cancelBtn", "saveBtn", "editBtn"].includes(target.id)) {
-            handler(target);
-            return;
-        } else if (target.id === "deleteBtn") {
-            handler(parentTarget, target.closest(".registeredCard"));
-            return;
-        }
-        handler(parentTarget);
+        handler({ target, parentTarget: currentTarget });
     }
-}
-
-// Column의 '+' 버튼 클릭시 카드 추가 함수
-function addCard(target) {
-    const column = target.closest(".column");
-    const isExistCard = column.querySelector(".newCard");
-    if (!isExistCard) {
-        const card = Card();
-        column.appendChild(card);
-    } else {
-        isExistCard.remove();
-    }
-}
-
-// 제목, 내용의 입력 값 유무 판단 함수
-function checkInputsFilled(title, content, register) {
-    let status = !(title.value.trim() && content.value.trim());
-
-    register.disabled = status;
-    register.style.opacity = status ? 0.3 : 1;
 }
 
 // 등록 함수 활성화 판단 함수
-function checkRegisterStatus(parentTarget) {
+function checkRegisterStatus({ parentTarget }) {
+    const TURNON = 1;
+    const TURNOFF = 0.3;
     const titleInput = parentTarget.querySelector(".title");
     const contentInput = parentTarget.querySelector(".content");
     const registerButton = parentTarget.querySelector(".register");
 
-    checkInputsFilled(titleInput, contentInput, registerButton);
+    let status = !(titleInput.value.trim() && contentInput.value.trim());
+    registerButton.disabled = status;
+    registerButton.style.opacity = status ? TURNOFF : TURNON;
 }
 
-// Card 등록 함수
-function registerCard(column) {
-    const columnTitle = column.querySelector(".columnTitle").textContent;
-    const title = column.querySelector(".title");
-    const content = column.querySelector(".content");
-    const countBox = column.querySelector(".countBox");
-    const card = column.querySelector(".newCard");
-
-    const newCount = parseInt(countBox.textContent) + 1;
-    countBox.innerHTML = newCount;
-
-    card.className = "registeredCard";
-
-    const originalTitle = title.value;
-    const originalContent = content.value;
-
-    card.innerHTML = createCardInfoTemplate(originalTitle, originalContent);
-    createLogContent(
-        `${originalTitle}을(를)`,
-        `${columnTitle}${action.ADD}`,
-        Date.now()
-    );
-}
-
-function editCard(card) {
+function editCard({ target }) {
+    const card = target.closest(".registeredCard");
     const title = card.querySelector(".registeredTitle").textContent;
     const content = card.querySelector(".registeredContent").textContent;
     localStorage.setItem("originalTitle", title);
@@ -103,7 +49,9 @@ function editCard(card) {
     card.innerHTML = createEditorTemplate(title, content, true);
 }
 
-function saveHandler(card) {
+function saveHandler({ target }) {
+    const EDIT = "로 수정";
+    const card = target.closest(".newCard");
     const newTitle = card.querySelector(".title").value;
     const newContent = card.querySelector(".content").value;
 
@@ -111,10 +59,11 @@ function saveHandler(card) {
     card.classList.add("registeredCard");
 
     card.innerHTML = createCardInfoTemplate(newTitle, newContent);
-    createLogContent(newTitle, `${action.EDIT}`, Date.now());
+    createLogContent(newTitle, `${EDIT}`, Date.now());
 }
 
-function cancelHandler(card) {
+function cancelHandler({ target }) {
+    const card = target.closest(".newCard");
     const currentStatus = card.querySelector(".register").textContent;
     const status = currentStatus === "저장";
 
@@ -127,4 +76,9 @@ function cancelHandler(card) {
         return;
     }
     card.remove();
+}
+
+function createModalHandler({ target, parentTarget }) {
+    const card = target.closest(".registeredCard");
+    createModal(parentTarget, card);
 }
