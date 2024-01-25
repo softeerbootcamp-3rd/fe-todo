@@ -78,3 +78,21 @@ export const patchCard = (id, cardData) => {
     throw error;
   }
 };
+
+export const deleteAllHistory = (historyIdList) => {
+  try {
+    return Promise.all(
+      historyIdList.map((id) =>
+        sendData({
+          url: `/history/${id}`,
+          name: `/history${id}`,
+          data: null,
+          method: "DELETE",
+        })
+      )
+    );
+  } catch (error) {
+    console.error("Error delete history in server:", error.message);
+    throw error;
+  }
+};

@@ -14,6 +14,7 @@ const clickHandlerMap = {
   "js-deleteCardBtn": column.card.clickDeleteCard,
   "js-addFormCancel": column.cardForm.closeAddCardForm,
   "js-editFormCancel": column.cardForm.closeEditCardForm,
+  "js-deleteHistory": history.deleteHistory,
 };
 
 const submitHandlerMap = {

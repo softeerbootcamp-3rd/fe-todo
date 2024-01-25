@@ -1,4 +1,11 @@
-import { getInitialData, patchCard, postNewCard, postNewHistory, putColumn } from "../api/APIs";
+import {
+  deleteAllHistory,
+  getInitialData,
+  patchCard,
+  postNewCard,
+  postNewHistory,
+  putColumn,
+} from "../api/APIs";
 import { deepCopy } from "../util/deepCopy";
 import { getCardsObject, getColumnsObject } from "../util/syncData";
 
@@ -128,6 +135,14 @@ class Store {
 
   addHistory(historyData) {
     this._history.unshift(historyData);
+  }
+
+  async deleteHistoryInServer() {
+    const historyIdList = this._history.map((history) => history.id);
+    return await deleteAllHistory(historyIdList);
+  }
+  deleteHistory(deletedList) {
+    this._history = [];
   }
 }
 
