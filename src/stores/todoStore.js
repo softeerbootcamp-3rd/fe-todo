@@ -30,9 +30,8 @@ export const todoStore = createStore((set, get) => ({
       return { ...state, todoList: { ...state.todoList, [title]: newList } };
     });
   },
-  async remove(title, item) {
+  remove(title, item) {
     // find and remove item from todoList
-    await removeTodoListItem(title, item);
     set((state) => {
       const newList = [...state.todoList[title]];
       for (let i = 0; i < newList.length; i++) {
@@ -43,6 +42,8 @@ export const todoStore = createStore((set, get) => ({
       }
       return { ...state, todoList: { ...state.todoList, [title]: newList } };
     });
+    // 삭제는 상태 변경하고 요청 보냄
+    removeTodoListItem(title, item);
   },
   async edit(title, item) {
     const newItem = await editTodoListItem(title, item);
