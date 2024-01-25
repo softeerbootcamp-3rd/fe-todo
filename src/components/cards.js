@@ -36,14 +36,12 @@ function registerCard({ target, parentTarget }) {
   const newCount = Number(countBox.textContent) + 1;
   countBox.innerHTML = newCount;
 
-  card.className = "registeredCard";
-
-  const cardId = columnData.addCardData(parentTarget.id, {
+  const cardList = document.getElementById(`cardList-${parentTarget.id}`);
+  cardList.innerHTML = "";
+  columnData.addCardData(parentTarget.id, {
     title,
     content,
   });
-  card.id = cardId;
-  card.innerHTML = createCardInfoTemplate(title, content);
   return card;
 }
 
@@ -51,9 +49,9 @@ function saveHandler({ target, parentTarget }) {
   const card = target.closest(".newCard");
   const newTitle = card.querySelector(".title").value;
   const newContent = card.querySelector(".content").value;
-  card.className = "registeredCard";
 
-  card.innerHTML = createCardInfoTemplate(newTitle, newContent);
+  const cardList = document.getElementById(`cardList-${parentTarget.id}`);
+  cardList.innerHTML = "";
   columnData.editCardData(parentTarget.id, card.id, newTitle, newContent);
 }
 

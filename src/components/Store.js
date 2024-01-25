@@ -1,3 +1,5 @@
+import { createCardInfoTemplate } from "./templates.js";
+
 export default class Store {
   #columnData = {};
 
@@ -11,6 +13,7 @@ export default class Store {
     }
     cardData["id"] = this.cardId;
     this.#columnData[columnId].unshift(cardData);
+    this.render(columnId);
     return this.cardId++;
   }
 
@@ -19,6 +22,7 @@ export default class Store {
       this.#columnData[columnId] = this.#columnData[columnId].filter(
         (card) => card.id !== +cardId
       );
+      this.render(columnId);
     }
   }
 
@@ -32,10 +36,22 @@ export default class Store {
         this.#columnData[columnId][index].title = newTitle;
         this.#columnData[columnId][index].content = newContent;
       }
+      this.render(columnId);
     }
   }
 
   getCardData(columnId) {
     return this.#columnData[columnId];
+  }
+
+  render(columnId) {
+    const cardList = document.getElementById(`cardList-${columnId}`);
+    this.#columnData[columnId].forEach((card) => {
+      const cardContent = document.createElement("div");
+      cardContent.className = "registeredCard";
+      cardContent.id = card.id;
+      cardContent.innerHTML = createCardInfoTemplate(card.title, card.content);
+      cardList.appendChild(cardContent);
+    });
   }
 }

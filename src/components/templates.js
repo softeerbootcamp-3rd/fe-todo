@@ -8,7 +8,7 @@ export function createColumnTemplate(title, id, count) {
     <span class="add" ><i id="add" class="fa-solid fa-plus"></i></span>
     <span id="delete"><i id="deleteCards" class="fa-solid fa-xmark"></i></span>
   </header>
-  <section id="cardList">
+  <section id="cardList-${id}">
   </section>
   `;
 }

@@ -15,7 +15,7 @@ export default function Column({ title, id, count }) {
 // Column의 '+' 버튼 클릭시 카드 추가 함수
 export function addCard({ target }) {
   const column = target.closest(".column");
-  const cardList = column.querySelector("#cardList");
+  const cardList = column.querySelector(`#cardList-${column.id}`);
   const isExistCard = column.querySelector(".newCard");
   if (!isExistCard) {
     const card = Card();
