@@ -3,10 +3,11 @@ import * as EditableCard from "../editable-card/index.js";
 import todoStore from "../../store/todoStore.js";
 
 export function template({ columnId, card }) {
-  return `
+  return /*html*/ `
   <li data-column-id="${columnId}"
       data-card-id="${card.id}"
       class="card rounded-8 surface-default shadow-normal"
+      draggable="true"
     >
     <div class="card__contents">
         <h3 class="card__title text-strong display-bold14">
@@ -33,7 +34,7 @@ export function template({ columnId, card }) {
 
 document.querySelector("#app").addEventListener("click", (event) => {
   const target = event.target.closest(".card__delete-button");
-  if (target === null) {
+  if (!target) {
     return;
   }
 
@@ -41,13 +42,16 @@ document.querySelector("#app").addEventListener("click", (event) => {
     message: "선택한 카드를 삭제할까요?",
     onConfirm: () => {
       const card = target.closest(".card");
-      const columnId = card.getAttribute("data-column-id");
-      const cardId = card.getAttribute("data-card-id");
+      const columnId = Number(card.getAttribute("data-column-id"));
+      const cardId = Number(card.getAttribute("data-card-id"));
 
       todoStore.dispatch({
         type: "DELETE_TODO",
-        columnId: columnId,
-        payload: cardId,
+        parameter: [columnId],
+        payload: {
+          columnId: columnId,
+          cardId: cardId,
+        },
       });
 
       Alert.close();
@@ -57,7 +61,7 @@ document.querySelector("#app").addEventListener("click", (event) => {
 
 document.querySelector("#app").addEventListener("click", (event) => {
   const target = event.target.closest(".card__edit-button");
-  if (target === null) {
+  if (!target) {
     return;
   }
 
@@ -79,13 +83,11 @@ document.querySelector("#app").addEventListener("click", (event) => {
   card.style.display = "none";
 });
 
-document.querySelectorAll("#app").forEach((element) => {
-  element.addEventListener("keyup", (event) => {
-    const target = event.target.closest("textarea");
-    if (target) {
-      autoTextareaHeight(target);
-    }
-  });
+document.querySelector("#app").addEventListener("keyup", (event) => {
+  const target = event.target.closest("textarea");
+  if (target) {
+    autoTextareaHeight(target);
+  }
 });
 
 const autoTextareaHeight = (element) => {

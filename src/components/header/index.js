@@ -15,7 +15,6 @@ export function render(parent) {
   parent.insertAdjacentHTML("afterbegin", template());
 }
 
-// FIXME 이벤트 위임이 괜찮은가?
 document.querySelector("#app").onclick = (e) => {
   const target = e.target.closest("button");
   if (target && target.classList.contains("action-history-open-button")) {

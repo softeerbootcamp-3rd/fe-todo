@@ -17,27 +17,26 @@ export function initializeApp() {
 
 function initializeColumnData() {
   if (!getLocalStorage("todolist")) {
-    setLocalStorage("todolist", initialColumnData);
+    setLocalStorage("todolist", initialData);
   }
 
-  const todolist = getLocalStorage("todolist");
-  for (let i = 0; i < todolist.length; i++) {
-    todoStore.subscribe("ADD_TODO" + todolist[i].id, () => {
-      ColumnContainer.renderColumn(todolist[i].id);
-    });
-    todoStore.subscribe("DELETE_TODO" + todolist[i].id, () => {
-      ColumnContainer.renderColumn(todolist[i].id);
-    });
-    todoStore.subscribe("EDIT_TODO" + todolist[i].id, () => {
-      ColumnContainer.renderColumn(todolist[i].id);
-    });
-  }
+  todoStore.setState(getLocalStorage("todolist"));
 
-  todoStore.setState(todolist);
+  todoStore.subscribe("ADD_TODO", ColumnContainer.renderColumns);
+  todoStore.subscribe("DELETE_TODO", ColumnContainer.renderColumns);
+  todoStore.subscribe("EDIT_TODO", ColumnContainer.renderColumns);
+  todoStore.subscribe("MOVE_TODO", ColumnContainer.renderColumns);
+  todoStore.subscribe(
+    "DELETE_ACTION_HISTORY",
+    ActionHistoryListDialog.renderActionHistoryItems
+  );
 }
 
-const initialColumnData = [
-  { id: 1, columnName: "해야할 일", cards: [] },
-  { id: 2, columnName: "하고 있는 일", cards: [] },
-  { id: 3, columnName: "완료한 일", cards: [] },
-];
+const initialData = {
+  columnData: [
+    { id: 1, columnName: "해야할 일", cards: [] },
+    { id: 2, columnName: "하고 있는 일", cards: [] },
+    { id: 3, columnName: "완료한 일", cards: [] },
+  ],
+  actionHistory: [],
+};
