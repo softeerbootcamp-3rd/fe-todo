@@ -66,15 +66,17 @@ const reducer = (state, action) => {
       return updateState;
     }
     case EDIT_CARD: {
-      const columnId = action.payload["columnId"];
       const cardId = action.payload["id"];
-      const newState = state[columnId].filter((card) => {
-        if (card.id === +cardId) {
+      const columnId = action.payload["columnId"];
+      const updateState = state;
+      const newState = state[columnId].map((card) => {
+        if (card.id === cardId) {
           card.status = "edit";
         }
-        return true;
+        return card;
       });
-      return newState;
+      updateState[columnId] = newState;
+      return updateState;
     }
     case SAVE_CARD: {
       const columnId = action.payload["columnId"];
@@ -100,7 +102,6 @@ function generateUniqueId() {
 }
 
 function render(columnId) {
-  console.log(todoStore.getState());
   const cardListNode = document.getElementById(`cardList-${columnId}`);
   const state = todoStore.getState();
   const cardList = state[columnId]; //해당 column에 저장되어 있는 카드들
@@ -116,7 +117,6 @@ function render(columnId) {
         card.status === "edit"
       );
     } else {
-      console.log(card);
       cardElement.className = "registeredCard";
       cardElement.innerHTML = createCardInfoTemplate(card);
     }
