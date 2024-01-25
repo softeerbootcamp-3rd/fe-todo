@@ -1,16 +1,16 @@
 export const API_BASE_URL = "http://localhost:3333";
 
-export async function httpGet(url, signal) {
-  return await getRes(url, {
+export function httpGet(url, signal) {
+  return fetch(url, {
     method: "GET",
-    signal: signal,
+    signal,
   });
 }
 
-export async function httpPost(url, body, signal) {
-  return await getRes(url, {
+export function httpPost(url, body, signal) {
+  return fetch(url, {
     method: "POST",
-    signal: signal,
+    signal,
     headers: {
       "Content-Type": "application/json",
     },
@@ -18,17 +18,17 @@ export async function httpPost(url, body, signal) {
   });
 }
 
-export async function httpDelete(url, signal) {
-  return await getRes(url, {
+export function httpDelete(url, signal) {
+  return fetch(url, {
     method: "DELETE",
-    signal: signal,
+    signal,
   });
 }
 
-export async function httpPut(url, body, signal) {
-  return await getRes(url, {
+export function httpPut(url, body, signal) {
+  return fetch(url, {
     method: "PUT",
-    signal: signal,
+    signal,
     headers: {
       "Content-Type": "application/json",
     },
@@ -36,23 +36,13 @@ export async function httpPut(url, body, signal) {
   });
 }
 
-export async function httpPatch(url, body, signal) {
-  return await getRes(url, {
+export function httpPatch(url, body, signal) {
+  return fetch(url, {
     method: "PATCH",
-    signal: signal,
+    signal,
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(body),
   });
-}
-
-async function getRes(url, options) {
-  try {
-    const res = await fetch(url, options);
-    return res;
-  } catch (e) {
-    console.log(e);
-  }
-  return undefined;
 }

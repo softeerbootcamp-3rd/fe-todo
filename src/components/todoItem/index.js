@@ -15,7 +15,7 @@ import { useStore } from "../../utils/store.js";
   {
     addMode: true 일 경우 추가 모드
     listTitle: 투두 리스트 컬럼 제목(키)
-    id: 투두 아이템 인덱스
+    id: 투두 아이템 아이디
   }
 */
 export default function todoItem(renderTarget, initialData) {
@@ -238,6 +238,11 @@ function mount(renderTarget, initialData) {
 
 function enableDrag({ renderTarget }, { dragStore }, initialData) {
   renderTarget.addEventListener("dragstart", (e) => {
+    if (dragStore.data) {
+      // another drag is in progress
+      e.preventDefault();
+      return;
+    }
     dragStore.state.startDrag(initialData.listTitle, initialData.id);
     e.dataTransfer.dropEffect = "move";
   });
