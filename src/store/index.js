@@ -14,12 +14,11 @@ export const store = createStore(
   applyMiddleware(thunk)
 );
 
-export const observableStore = (store, select, onChange) => {
+export const observableStore = (store, select = (state) => state, onChange) => {
   let currentState = {};
 
   const handleChange = () => {
-    // FIXME use select
-    const nextState = store.getState();
+    const nextState = select(store.getState());
     if (nextState !== currentState) {
       currentState = nextState;
       onChange(store.getState());

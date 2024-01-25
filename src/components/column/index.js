@@ -30,12 +30,12 @@ export function template({ column }) {
     `;
 }
 
-export const render = ({ columnId, cards }) => {
-  const column = document.querySelector(
-    `.column[data-column-id="${columnId}"]`
+export const render = ({ column }) => {
+  const columnEle = document.querySelector(
+    `.column[data-column-id="${column.id}"]`
   );
-  column.innerHTML = `${template({
-    column: cards,
+  columnEle.innerHTML = `${template({
+    column,
   })}`;
 };
 

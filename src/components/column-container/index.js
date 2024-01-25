@@ -8,17 +8,13 @@ export function template() {
 
 export function render({ columns }) {
   const columnContainer = document.querySelector(".columns");
-  columnContainer.insertAdjacentHTML(
-    "afterbegin",
-    `${columns
-      .map((column) => {
-        return `
+
+  columnContainer.innerHTML = `${columns
+    .map((column) => {
+      return `
         <section class="column" data-column-id="${column.id}">
         ${Column.template({ column })}
         </section>`;
-      })
-      .join("")}`
-  );
-
-  // FIXME shoud I delete DOM node?
+    })
+    .join("")}`;
 }

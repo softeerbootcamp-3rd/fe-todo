@@ -43,12 +43,9 @@ export function template({ history } = { history: [] }) {
 export function render({ history }) {
   const actionHistoryItems = document.querySelector(".action-history__items");
 
-  actionHistoryItems.insertAdjacentHTML(
-    "afterbegin",
-    `${history
-      .map((item) => ActionHistoryItem.template({ history: item }))
-      .join("")}`
-  );
+  actionHistoryItems.innerHTML = `${history
+    .map((item) => ActionHistoryItem.template({ history: item }))
+    .join("")}`;
 }
 
 export function show() {

@@ -59,10 +59,11 @@ setEvent(app, "click", async (event) => {
   await todos.addCard({
     // TODO: parse `navigator.agent` and then assign it to author
     data: { columnId, title, description, author: "web" },
-    select: (state) => {
-      /** TODO: select only changed property for rendering optimally */
+    onChange: (state) => {
+      Column.render({
+        column: state.todos.find((column) => column.id === columnId),
+      });
     },
-    onChange: Column.render,
   });
 });
 
@@ -73,4 +74,11 @@ setEvent(app, "click", (event) => {
   }
 
   const columnId = target.getAttribute("data-column-id");
+  const cardContent = document.querySelector(
+    `.card__contents[data-column-id="${columnId}"]`
+  );
+  cardContent.querySelector(".card__title-input").value = "";
+  const description = cardContent.querySelector(
+    ".card__description-input"
+  ).value;
 });
