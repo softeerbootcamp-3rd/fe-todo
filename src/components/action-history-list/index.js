@@ -22,11 +22,6 @@ export function template({ actionHistorys }) {
           </button>
         </div>
         <ul class="action-history__items">
-          ${actionHistorys
-            .map((actionHistory) =>
-              ActionHistoryItem.template({ actionHistory })
-            )
-            .join("")}
         </ul>
         <div class="action-history__footer">
           <button
@@ -54,7 +49,17 @@ export function render(parent) {
   dialog
     .querySelector(".action-history__close-button")
     .addEventListener("click", () => {
-      dialog.close();
+      dialog.classList.add("hide");
+
+      // dialog 닫힐 시 hide 붙여줌 => 애니메이션 끝나면 dialog close
+      const animationEndHandler = function () {
+        console.log(dialog.classList);
+        dialog.classList.remove("hide");
+        dialog.close();
+        dialog.removeEventListener("animationend", animationEndHandler, false);
+      };
+
+      dialog.addEventListener("animationend", animationEndHandler, false);
     });
 
   dialog
@@ -65,10 +70,31 @@ export function render(parent) {
 export function renderActionHistoryItems() {
   const historyItems = document.querySelector(".action-history__items");
   const actionHistory = todoStore.getState().actionHistory;
-  historyItems.innerHTML = actionHistory
-    .map((actionHistory) => ActionHistoryItem.template({ actionHistory }))
-    .join("");
+
+  // 기록이 없을 때 <-> 있을 때의 view 차이
+  if (actionHistory.length === 0) {
+    historyItems.innerHTML = emptyActionHistoryItemTemplate();
+    actionHistoryFooternHidden(true);
+  } else {
+    historyItems.innerHTML = actionHistory
+      .map((actionHistory) => ActionHistoryItem.template({ actionHistory }))
+      .join("");
+    actionHistoryFooternHidden(false);
+  }
 }
+
+const emptyActionHistoryItemTemplate = () => {
+  return `
+    <div class="action-history__none text-weak display-medium14">
+      <p>사용자 활동 기록이 없습니다.</p>
+    </div>
+  `;
+};
+
+const actionHistoryFooternHidden = (isHidden) => {
+  const deleteButton = document.querySelector(".action-history__footer");
+  deleteButton.style.display = isHidden ? "none" : "flex";
+};
 
 export function show() {
   const dialog = document.querySelector(".action-history-dialog");
@@ -82,7 +108,8 @@ export function removeAllActionHistory() {
   Alert.show({
     message: "모든 사용자 활동 기록을 삭제할까요?",
     onConfirm: () => {
-      console.log("사용자 활동 기록 삭제");
+      todoStore.dispatch({ type: "DELETE_ACTION_HISTORY" });
+      Alert.close();
     },
   });
 }
