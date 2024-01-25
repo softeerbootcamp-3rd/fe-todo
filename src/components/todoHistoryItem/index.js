@@ -1,6 +1,6 @@
 import { todoHistoryItemTemplate } from "./template";
 export default function todoHistoryItem(parent, props) {
-  props.timeStamp = currentTimestampReturn(props.timeStamp);
+  props.timeStampText = currentTimestampReturn(props.timeStamp);
   props.text = formatHistoryText(props);
   parent.innerHTML = todoHistoryItemTemplate(props);
 }
