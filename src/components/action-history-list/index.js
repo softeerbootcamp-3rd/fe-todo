@@ -37,8 +37,6 @@ export function template({ actionHistorys }) {
 }
 
 export function render(parent) {
-  // FIXME 초기 데이터 받아서 넣어주기
-
   parent.insertAdjacentHTML(
     "beforeend",
     template({ actionHistorys: todoStore.getState().actionHistory })
@@ -53,7 +51,6 @@ export function render(parent) {
 
       // dialog 닫힐 시 hide 붙여줌 => 애니메이션 끝나면 dialog close
       const animationEndHandler = function () {
-        console.log(dialog.classList);
         dialog.classList.remove("hide");
         dialog.close();
         dialog.removeEventListener("animationend", animationEndHandler, false);
@@ -101,8 +98,6 @@ export function show() {
   renderActionHistoryItems();
   dialog.showModal();
 }
-
-export function updateActionHistory() {}
 
 export function removeAllActionHistory() {
   Alert.show({

@@ -15,6 +15,11 @@
   margin-left: auto;
 }
 
+.column__head-plus:hover {
+  filter: invert(45%) sepia(38%) saturate(6860%) hue-rotate(340deg)
+    brightness(99%) contrast(104%);
+}
+
 .column__head-close {
   margin-left: 8px;
 }

@@ -23,6 +23,11 @@
   flex-direction: column;
 }
 
+.card__delete-button:hover {
+  filter: invert(45%) sepia(38%) saturate(6860%) hue-rotate(340deg)
+    brightness(99%) contrast(104%);
+}
+
 .card__editable {
   display: flex;
   width: 300px;
