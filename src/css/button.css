@@ -9,6 +9,10 @@
   font-weight: 700;
 }
 
+.block-button:hover {
+  opacity: 0.8;
+}
+
 .btn:disabled {
   opacity: 0.3;
 }
