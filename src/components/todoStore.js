@@ -60,8 +60,10 @@ const reducer = (state, action) => {
     case DELETE_CARD: {
       const columnId = action.payload["columnId"];
       const cardId = action.payload["id"];
+      const updateState = state;
       const newState = state[columnId].filter((card) => card.id !== cardId);
-      return newState;
+      updateState[columnId] = newState;
+      return updateState;
     }
     case EDIT_CARD: {
       const columnId = action.payload["columnId"];
