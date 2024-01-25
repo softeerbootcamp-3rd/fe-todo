@@ -6,6 +6,7 @@ import {
   deleteHandler,
   editCard,
 } from "../components/cards.js";
+
 const targetIdList = {
   add: addCard,
   inputTitle: checkRegisterStatus,
