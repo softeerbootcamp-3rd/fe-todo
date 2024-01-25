@@ -1,14 +1,14 @@
 export const API_BASE_URL = "http://localhost:3333";
 
 export function httpGet(url, signal) {
-  return getRes(url, {
+  return fetch(url, {
     method: "GET",
     signal,
   });
 }
 
 export function httpPost(url, body, signal) {
-  return getRes(url, {
+  return fetch(url, {
     method: "POST",
     signal,
     headers: {
@@ -19,14 +19,14 @@ export function httpPost(url, body, signal) {
 }
 
 export function httpDelete(url, signal) {
-  return getRes(url, {
+  return fetch(url, {
     method: "DELETE",
     signal,
   });
 }
 
 export function httpPut(url, body, signal) {
-  return getRes(url, {
+  return fetch(url, {
     method: "PUT",
     signal,
     headers: {
@@ -37,7 +37,7 @@ export function httpPut(url, body, signal) {
 }
 
 export function httpPatch(url, body, signal) {
-  return getRes(url, {
+  return fetch(url, {
     method: "PATCH",
     signal,
     headers: {
@@ -45,14 +45,4 @@ export function httpPatch(url, body, signal) {
     },
     body: JSON.stringify(body),
   });
-}
-
-async function getRes(url, options) {
-  try {
-    const res = await fetch(url, options);
-    return res;
-  } catch (e) {
-    console.log(e);
-  }
-  return undefined;
 }
