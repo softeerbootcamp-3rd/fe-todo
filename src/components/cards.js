@@ -1,14 +1,19 @@
 import { createEditorTemplate, createCardInfoTemplate } from "./templates.js ";
 import createModal from "./modal.js";
-import { columnData } from "../../index.js";
+// import { columnData } from "../../index.js";
 
 // Card element
 export default function Card() {
-  const card = document.createElement("div");
-  card.className = "newCard";
+  // 문자열로부터 DOMParser 객체 생성
+  const parser = new DOMParser();
 
-  card.innerHTML = createEditorTemplate();
-  return card;
+  // 문자열을 HTML 문서로 파싱
+  const htmlString = createEditorTemplate();
+  const doc = parser.parseFromString(htmlString, "text/html");
+  // 파싱된 문서에서 원하는 요소 얻기
+  const newElement = doc.body.firstChild;
+
+  return newElement;
 }
 
 function cancelHandler({ target }) {

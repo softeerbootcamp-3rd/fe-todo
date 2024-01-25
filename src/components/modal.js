@@ -1,5 +1,5 @@
 import { createModalTemplate } from "./templates.js";
-import { columnData } from "../../index.js";
+// import { columnData } from "../../index.js";
 
 export default function createModal(column, card) {
   const modal = document.createElement("div");
