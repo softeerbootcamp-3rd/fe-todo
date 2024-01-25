@@ -94,14 +94,13 @@ setEvent(app, "dragend", async (event) => {
   const currentColumn = draggable.closest(".column__cards");
   const currentColumnId = currentColumn.getAttribute("data-column-id");
 
+  if (currentColumnId === columnId) return;
   // FIXME
   // where can i inject the logic for `success` or `error` case
   // `onSuccess` or `onError`?
   await todos.moveCard({
     data: { columnId, cardId, currentColumnId },
     onChange: (state) => {},
-    onSuccess: () => {},
-    onError: () => {},
   });
   // FIXME when just `success` case
   draggable.setAttribute("data-column-id", columnId);
