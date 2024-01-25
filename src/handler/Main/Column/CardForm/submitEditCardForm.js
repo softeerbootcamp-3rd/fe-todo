@@ -1,5 +1,4 @@
-import { cardDataTable, historyDataList } from "../../../../model/model.js";
-import { historyDataTemplate } from "../../../../util/historyDataTemplate.js";
+import { store } from "@/model/Store.js";
 import { renderCardList } from "../../../../view/Main/Column/renderCardList.js";
 import { renderListCount } from "../../../../view/Main/Column/renderListCount.js";
 
@@ -9,32 +8,13 @@ const createCardData = (target) => {
   return Object.fromEntries(formData);
 };
 
-const updateModel = ({ target, cardId }) => {
-  let oldCardData = cardDataTable[cardId];
-  let newCardData = createCardData(target);
-  cardDataTable[cardId] = { ...oldCardData, ...newCardData };
-};
-
-// todo: make addHistoryCard util-fn
-const addNewHistory = (cardId) => {
-  const { author: username, updatedAt: time, title: cardTitle } = cardDataTable[cardId];
-  const newHistory = {
-    ...historyDataTemplate(),
-    username,
-    time,
-    cardTitle,
-    type: "변경",
-  };
-  historyDataList.unshift(newHistory);
-};
-
 export const submitEditCardForm = (target) => {
   const currentColumn = target.closest("section");
   const cardId = target.id.split("-")[1];
-  updateModel({ target, cardId });
+  const cardData = createCardData(target);
+  store.editCard({ cardData, cardId });
+  store.setEditCardHistory(cardId);
   renderCardList(currentColumn);
   renderListCount(currentColumn);
-  addNewHistory(cardId);
-
   target.remove();
 };
