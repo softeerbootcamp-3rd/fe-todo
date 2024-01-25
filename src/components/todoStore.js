@@ -73,6 +73,7 @@ const reducer = (state, action) => {
       const newState = state[columnId].map((card) => {
         if (card.id === cardId) {
           card.status = "edit";
+          console.log("sad");
         }
         return card;
       });
@@ -114,7 +115,7 @@ function render(columnId) {
     cardElement.id = card.id;
     console.log(card);
     if (card.status !== "registered") {
-      cardElement.className = "newCard";
+      cardElement.className = card.status === "edit" ? "editCard" : "newCard";
       cardElement.innerHTML = createEditorTemplate(
         card.title,
         card.content,
