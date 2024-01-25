@@ -1,14 +1,14 @@
 export const API_BASE_URL = "http://localhost:3333";
 
-export async function httpGet(url, signal) {
-  return await getRes(url, {
+export function httpGet(url, signal) {
+  return getRes(url, {
     method: "GET",
     signal: signal,
   });
 }
 
-export async function httpPost(url, body, signal) {
-  return await getRes(url, {
+export function httpPost(url, body, signal) {
+  return getRes(url, {
     method: "POST",
     signal: signal,
     headers: {
@@ -18,15 +18,15 @@ export async function httpPost(url, body, signal) {
   });
 }
 
-export async function httpDelete(url, signal) {
-  return await getRes(url, {
+export function httpDelete(url, signal) {
+  return getRes(url, {
     method: "DELETE",
     signal: signal,
   });
 }
 
-export async function httpPut(url, body, signal) {
-  return await getRes(url, {
+export function httpPut(url, body, signal) {
+  return getRes(url, {
     method: "PUT",
     signal: signal,
     headers: {
@@ -36,8 +36,8 @@ export async function httpPut(url, body, signal) {
   });
 }
 
-export async function httpPatch(url, body, signal) {
-  return await getRes(url, {
+export function httpPatch(url, body, signal) {
+  return getRes(url, {
     method: "PATCH",
     signal: signal,
     headers: {
