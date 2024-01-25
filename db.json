@@ -3,44 +3,122 @@
     {
       "id": "column0",
       "title": "해야할 일",
-      "value": ["0"]
+      "value": [
+        "4",
+        "3",
+        "0"
+      ]
     },
     {
       "id": "column1",
       "title": "하고 있는 일",
-      "value": ["1"]
+      "value": [
+        "6",
+        "4",
+        "1"
+      ]
     },
     {
       "id": "column2",
       "title": "완료한 일",
-      "value": ["2"]
+      "value": [
+        "2"
+      ]
     }
   ],
   "cards": [
     {
-      "title": "Github 공부하기",
-      "content": "add, commit, push",
-      "author": "web"
-    },
-    {
-      "title": "Store",
-      "content": "class 문법",
-      "author": "web"
-    },
-    {
+      "id": "e8fb",
       "title": "비동기",
       "content": "프로미스, async await",
-      "author": "web"
+      "author": "web",
+      "createdAt": "Thu Jan 25 2024 14:18:40 GMT+0900 (한국 표준시)",
+      "cardId": "0"
+    },
+    {
+      "id": "e8fb",
+      "title": "Store",
+      "content": "class 문법",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 14:18:40 GMT+0900 (한국 표준시)",
+      "cardId": "1"
+    },
+    {
+      "id": "e8fb",
+      "title": "Github 공부하기",
+      "content": "add, commit, push",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 14:18:40 GMT+0900 (한국 표준시)",
+      "cardId": "2"
+    },
+    {
+      "id": "208a",
+      "title": "안녕",
+      "content": "안녕\n",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 17:29:50 GMT+0900 (한국 표준시)",
+      "cardId": "3"
+    },
+    {
+      "id": "0f99",
+      "title": "asd",
+      "content": "fasdf",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 17:40:30 GMT+0900 (한국 표준시)",
+      "cardId": "4"
+    },
+    {
+      "id": "2363",
+      "title": "fasdf",
+      "content": "asd",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 17:40:33 GMT+0900 (한국 표준시)",
+      "cardId": "4"
+    },
+    {
+      "id": "b1cd",
+      "title": "asdfa",
+      "content": "sdfasdf",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 17:40:40 GMT+0900 (한국 표준시)",
+      "cardId": "6"
     }
   ],
   "history": [
     {
-      "username": "멋진삼",
+      "author": "멋진삼",
       "cardTitle": "블로그에 포스팅 할 것",
       "from": "하고 있는 일",
       "to": "해야할 일",
       "type": "이동",
       "time": "213"
+    },
+    {
+      "id": "0bbe",
+      "author": "Web",
+      "time": "Thu Jan 25 2024 17:40:30 GMT+0900 (한국 표준시)",
+      "cardTitle": "asd",
+      "type": "등록",
+      "from": "해야할 일",
+      "to": ""
+    },
+    {
+      "id": "8238",
+      "author": "Web",
+      "time": "Thu Jan 25 2024 17:40:33 GMT+0900 (한국 표준시)",
+      "cardTitle": "fasdf",
+      "type": "등록",
+      "from": "하고 있는 일",
+      "to": ""
+    },
+    {
+      "id": "6501",
+      "author": "Web",
+      "time": "Thu Jan 25 2024 17:40:40 GMT+0900 (한국 표준시)",
+      "cardTitle": "asdfa",
+      "type": "등록",
+      "from": "하고 있는 일",
+      "to": ""
     }
   ]
 }

@@ -4,12 +4,11 @@ import { renderCardList } from "@/view/Main/Column/renderCardList.js";
 import { renderListCount } from "@/view/Main/Column/renderListCount.js";
 import { getHistoryTemplate } from "@/util/getHistoryTemplate";
 
-const getNewHistory = (columnId) => {
-  const { author: username, createdAt: time, title: cardTitle } = store.cardData[store.cardId];
-  const columnTitle = store.columnData[columnId].title;
+const getNewHistory = ({ columnTitle, card }) => {
+  const { author, createdAt: time, title: cardTitle } = card;
   const newHistory = {
     ...getHistoryTemplate(),
-    username,
+    author,
     time,
     cardTitle,
     type: "등록",
@@ -26,14 +25,21 @@ const createCardData = (target) => {
   return Object.fromEntries(formData);
 };
 
-export const submitAddCardForm = (target) => {
+export const submitAddCardForm = async (target) => {
   const currentColumn = target.closest("section");
   const cardData = createCardData(target);
-  // store.addCardToServer({ columnId: currentColumn.id, cardData });
-  store.addCard({ columnId: currentColumn.id, cardData });
-  const newHistory = getNewHistory(currentColumn.id);
-  store.addHistory(newHistory);
+  const { newCard, newColumn } = await store.addCardToServer({
+    columnId: currentColumn.id,
+    cardData,
+  });
+
+  store.addCard({ column: newColumn, card: newCard });
+
   renderCardList(currentColumn);
   renderListCount(currentColumn);
   target.remove();
+
+  const newHistory = getNewHistory({ columnTitle: newColumn.title, card: newCard });
+  const historyData = await store.addHistoryToServer(newHistory);
+  store.addHistory(historyData);
 };

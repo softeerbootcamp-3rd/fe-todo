@@ -1,6 +1,6 @@
 export const getHistoryTemplate = () => {
   return {
-    username: "",
+    author: "",
     time: "",
     cardTitle: "",
     type: "",

@@ -4,10 +4,10 @@ import { store } from "@/model/Store";
 import { getHistoryTemplate } from "@/util/getHistoryTemplate";
 
 const getNewHistory = (cardId) => {
-  const { author: username, title: cardTitle } = store.cardData[cardId];
+  const { author, title: cardTitle } = store.cardData[cardId];
   const newHistory = {
     ...getHistoryTemplate(),
-    username,
+    author,
     time: Date.now(),
     cardTitle,
     type: "삭제",

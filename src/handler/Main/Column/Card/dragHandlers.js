@@ -50,12 +50,12 @@ export const onDragEnd = (event) => {
 };
 
 const getNewHistory = ({ cardId, startColumnId, endColumnId }) => {
-  const { author: username, title: cardTitle } = store.cardData[cardId];
+  const { author, title: cardTitle } = store.cardData[cardId];
   const { title: from } = store.columnData[startColumnId];
   const { title: to } = store.columnData[endColumnId];
   const newHistory = {
     ...getHistoryTemplate(),
-    username,
+    author,
     cardTitle,
     time: new Date(),
     from,

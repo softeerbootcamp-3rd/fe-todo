@@ -3,10 +3,10 @@ import { renderCardList } from "@/view/Main/Column/renderCardList.js";
 import { renderListCount } from "@/view/Main/Column/renderListCount.js";
 
 const getNewHistory = (cardId) => {
-  const { author: username, updatedAt: time, title: cardTitle } = store.cardData[cardId];
+  const { author, updatedAt: time, title: cardTitle } = store.cardData[cardId];
   const newHistory = {
     ...getHistoryTemplate(),
-    username,
+    author,
     time,
     cardTitle,
     type: "변경",
