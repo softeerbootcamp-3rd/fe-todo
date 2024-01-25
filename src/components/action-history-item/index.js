@@ -1,7 +1,7 @@
 // TODO: data 받기
 export function template({ actionHistory }) {
   return `
-    <li class="action-history__item">
+    <li class="action-history__item border-default">
         <img
           src="./assets/icons/avatar.png"
           class="rounded-1/2"

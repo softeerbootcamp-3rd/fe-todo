@@ -26,6 +26,10 @@ function initializeColumnData() {
   todoStore.subscribe("DELETE_TODO", ColumnContainer.renderColumns);
   todoStore.subscribe("EDIT_TODO", ColumnContainer.renderColumns);
   todoStore.subscribe("MOVE_TODO", ColumnContainer.renderColumns);
+  todoStore.subscribe(
+    "DELETE_ACTION_HISTORY",
+    ActionHistoryListDialog.renderActionHistoryItems
+  );
 }
 
 const initialData = {
