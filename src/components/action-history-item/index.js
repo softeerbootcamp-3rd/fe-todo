@@ -18,7 +18,6 @@ export function template({ history }) {
 }
 
 function historyDescriptionTemplate({ history }) {
-  console.log(history.action);
   switch (history.action) {
     case "ADD":
       return addTemplate(history);
