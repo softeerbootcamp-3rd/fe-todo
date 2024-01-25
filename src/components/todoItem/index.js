@@ -250,17 +250,18 @@ function enableDrag({ renderTarget }, { dragStore }, initialData) {
   let count = 0;
   renderTarget.addEventListener("dragenter", (e) => {
     e.preventDefault();
-    if (count++ === 0) {
-      const idSrc = dragStore.data.src.id;
-      const titleSrc = dragStore.data.dst?.title ?? dragStore.data.src.title;
-      if (idSrc === initialData.id) return;
-      dragStore.state.doDrag(
-        titleSrc,
-        idSrc,
-        initialData.listTitle,
-        initialData.id
-      );
-    }
+    e.stopPropagation();
+    if (count++ !== 0) return;
+
+    const idSrc = dragStore.data.src.id;
+    const titleSrc = dragStore.data.dst?.title ?? dragStore.data.src.title;
+    if (idSrc === initialData.id) return;
+    dragStore.state.doDrag(
+      titleSrc,
+      idSrc,
+      initialData.listTitle,
+      initialData.id
+    );
   });
 
   renderTarget.addEventListener("drop", () => {
@@ -269,6 +270,7 @@ function enableDrag({ renderTarget }, { dragStore }, initialData) {
 
   renderTarget.addEventListener("dragleave", (e) => {
     e.preventDefault();
+    e.stopPropagation();
     count--;
   });
 

@@ -1,4 +1,5 @@
 export function getIndexById(list, id) {
+  if (id === undefined) return list.length;
   for (let i = 0; i < list.length; i++) {
     if (list[i].id === id) return i;
   }
