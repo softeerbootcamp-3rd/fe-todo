@@ -5,6 +5,7 @@ import todoListTable from "../todoListTable";
 import modal from "../modal";
 import { applyDragAndDrop } from "../../utils/dragAndDrop";
 import { store } from "../../store/todoStore";
+import styles from "./app.module.scss";
 
 export default function App(parent, props) {
   parent.innerHTML = AppTemplate(props);
