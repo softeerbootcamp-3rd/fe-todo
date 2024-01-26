@@ -1,5 +1,5 @@
 import { createColumnTemplate } from "../components/templates.js";
-// import { columnList } from "../constants/columnData.js";
+// import { columnList } from "../constants/columnData.js"
 import customEventHandler from "../eventController/eventHandler.js";
 import { createCard } from "./cards.js";
 
@@ -21,7 +21,11 @@ function createSingleColumn(baseElement, columnList) {
     baseElement.appendChild(newColumn);
 
     const cardWrapper = newColumn.querySelector(".cardWrapper");
-    createCard(cardWrapper, columnList);
+    const payload = {
+        element: cardWrapper,
+        cardList: columnList["cardList"],
+    };
+    createCard(payload);
 }
 
 function eventRegister(columnElement) {
