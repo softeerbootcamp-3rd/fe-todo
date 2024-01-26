@@ -22,14 +22,14 @@ export function applyDragAndDrop(draggables, containers) {
     });
 
     draggable.addEventListener("dragend", ({ target }) => {
-      //자식 노드 객체를 배열로 바꿈.
       const childrenNodeArr = Array.from(target.parentNode.children);
 
       const todoColTitleDst = target.parentNode.id;
       const endColIndex = childrenNodeArr.indexOf(target) - 1;
       store.dispatch({
-        type: "changeTodoItem",
+        type: "moveTodoItem",
         payload: {
+          todoTitle: target.id,
           startColIndex: startColIndex,
           todoColTitleSrc: todoColTitleSrc.replace("todoCol_", ""),
           endColIndex: endColIndex,

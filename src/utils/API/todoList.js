@@ -1,6 +1,3 @@
-import { addHistory, editHistory, moveHistory, removeHistory } from "./history";
-//list에 고유한 번호를 부여하기 위한 임시 변수
-
 // 전체 투두리스트 불러와서 리턴
 function getTodoList() {
   const todoList = localStorage.getItem("todoList");
@@ -26,7 +23,6 @@ function addTodoListItem(title, item) {
   const todoData = JSON.parse(localStorage.getItem("todoList"));
   todoData[title].unshift(newItem);
   localStorage.setItem("todoList", JSON.stringify(todoData));
-  addHistory(title, newItem);
   return newItem;
 }
 
@@ -41,7 +37,6 @@ function removeTodoListItem(colTitle, item) {
     }
   }
   localStorage.setItem("todoList", JSON.stringify(todoData));
-  removeHistory(colTitle, item);
 }
 
 // 투두 리스트 아이템 수정
@@ -54,7 +49,6 @@ function editTodoListItem(colTitle, item) {
     }
   }
   localStorage.setItem("todoList", JSON.stringify(todoData));
-  editHistory(item);
 }
 
 // 투두 리스트 아이템 옮기기

@@ -8,7 +8,7 @@ export function todoHistoryItemTemplate(props) {
         <div class="${styles.todoHistoryItem__contentContainer}">
             <p class="${styles.todoHistoryItem__author}">@${props.authorName}</p>
             <p class="${styles.todoHistoryItem__content}">${props.text}</p>
-            <p class="${styles.todoHistoryItem__timeStamp}">${props.timeStamp}</p>
+            <p class="${styles.todoHistoryItem__timeStamp}">${props.timeStampText}</p>
         </div>
     </div>
   `;
