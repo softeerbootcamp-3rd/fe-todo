@@ -1,5 +1,5 @@
 import { ButtonView } from "../view/components/ButtonView.js";
-import { historyDataTemplate } from "./historyDataTemplate.js";
+import * as Server from "../util/getFromServer.js";
 import { history } from "./history.js";
 
 /*
@@ -32,6 +32,7 @@ export class Card{
     get (){return this.#cardId;}
 
     add(){
+        Server.setCardToServer(this.toObject());
         this.render(0);
     }
 
@@ -41,6 +42,7 @@ export class Card{
         //아니면 column에서 생성 당시에 넣어주거나...
         //빼기 전 뷰 지우기 + 넣으며 뷰 그리기
         //근데 빼기 전에 서버에 물어봤나요?
+        Server.moveCardToServer({...this.toObject(), to:newColumnId});
         window[this.#cardId].remove();
         this.#columnId = newColumnId;
         return this;
@@ -52,7 +54,8 @@ export class Card{
         //확인과정 
         if(!this.#checkInput({title, content})) return false;        
         //바꾸기 전에 서버에 물어보고 바꾸기!
-        history.addHistory(newHistory);
+        Server.editCardToServer({...this.toObject(), title, content, author});
+        history.addHistory({...this.toObject(), type:'변경', from:this.#title});
         title && (this.#title = title);
         content && (this.#content = content);
         author && (this.#author = author);
@@ -62,10 +65,11 @@ export class Card{
 
     delete(){
         //확인 끝났으면 서버에 물어보고 지우기!
+        Server.deleteCardFromServer(this.toObject());
         window[this.#cardId].remove();
     }
 
-    //완전 변경 필요
+    
     toObject(){
         return {
             cardId: this.#cardId,
@@ -76,7 +80,7 @@ export class Card{
         };
     }
 
-    //완전 변경 필요
+
     static fromObject(obj){
         return new Card({
             cardId: obj.cardId,
@@ -85,6 +89,27 @@ export class Card{
             author: obj.author,
             columnId: obj.columnId,
         });
+    }
+
+    static async fromServer(cardId){
+        /*
+            cardId를 통해 card를 요청 -> (get /api/card/cardId)
+            받은 카드 데이터로 Card instance 생성 후 반환
+        */
+        const newCard = await fetch(`/api/card/${cardId}`).then(res => {
+              if(res.ok){
+                return res.json();
+              }
+              else{
+                throw new Error(`Card ${cardId} is not exist`);
+              }
+        }).then(data => { 
+            return Card.fromObject(data);
+        }).catch(err => {
+                console.log(err);
+        });
+
+        return newCard;
     }
 
     #checkInput({title, content}){
@@ -101,6 +126,13 @@ export class Card{
             document.getElementById(`${this.#columnId}-list`).children[index-1].insertAdjacentHTML('afterend', HTML);
         else
             document.getElementById(`${this.#columnId}-list`).insertAdjacentHTML('afterbegin', HTML);
+    }
+
+    closeForm(index = 0){
+        const form = window[`${this.#cardId}-form`]
+        if(form === undefined) {this.render(index); return ;}
+        form.remove();
+        this.render(index);
     }
 
     render(index = 0){
