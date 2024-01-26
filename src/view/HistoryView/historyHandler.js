@@ -15,6 +15,6 @@ const deleteHistory = () => {
 }
 
 export const deleteHistoryHandler = (target) => {
-  document.getElementById('history').insertAdjacentHTML('afterbegin', ModalView({content:"모든 사용자 활동 기록을 삭제할까요?", btnText:"삭제"}));
+  document.getElementById('history').insertAdjacentHTML('afterend', ModalView({content:"모든 사용자 활동 기록을 삭제할까요?", btnText:"삭제"}));
   confirmHandlerInjector(deleteHistory);
 }
