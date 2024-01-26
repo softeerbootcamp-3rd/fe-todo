@@ -13,7 +13,7 @@ export default function todoHistory(renderTarget) {
 }
 
 function attachStore({ historyList }) {
-  let childComponents = [];
+  const childComponents = [];
   const updateView = (list) => {
     if (list === undefined) return;
     // destroy previous components
@@ -21,7 +21,7 @@ function attachStore({ historyList }) {
       v.element.parentNode.removeChild(v.element);
       if (v.destroy) v.destroy();
     });
-    childComponents = [];
+    childComponents.splice(0, childComponents.length);
 
     // 순서대로 생성해서 삽입
     let previousElement;
