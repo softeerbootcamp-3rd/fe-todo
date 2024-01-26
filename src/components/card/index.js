@@ -1,6 +1,7 @@
 import * as Alert from "../alert/index.js";
 import * as EditableCard from "../editable-card/index.js";
 import todoStore from "../../store/todoStore.js";
+import { setEvent } from "../../utils/handler.js";
 
 export function template({ columnId, card }) {
   return /*html*/ `
@@ -32,7 +33,15 @@ export function template({ columnId, card }) {
     `;
 }
 
-document.querySelector("#app").addEventListener("click", (event) => {
+const app = document.querySelector("#app");
+
+// handler 등록
+setEvent(app, "click", (event) => deleteCard(event));
+setEvent(app, "click", (event) => getEditCard(event));
+setEvent(app, "keyup", (event) => checkTextareaHeight(event));
+
+// 카드 삭제
+const deleteCard = (event) => {
   const target = event.target.closest(".card__delete-button");
   if (!target) {
     return;
@@ -57,9 +66,10 @@ document.querySelector("#app").addEventListener("click", (event) => {
       Alert.close();
     },
   });
-});
+};
 
-document.querySelector("#app").addEventListener("click", (event) => {
+// 카드 수정
+const getEditCard = (event) => {
   const target = event.target.closest(".card__edit-button");
   if (!target) {
     return;
@@ -81,14 +91,15 @@ document.querySelector("#app").addEventListener("click", (event) => {
   });
 
   card.style.display = "none";
-});
+};
 
-document.querySelector("#app").addEventListener("keyup", (event) => {
+// textarea 높이 자동 조절
+const checkTextareaHeight = (event) => {
   const target = event.target.closest("textarea");
   if (target) {
     autoTextareaHeight(target);
   }
-});
+};
 
 const autoTextareaHeight = (element) => {
   element.style.height = "auto";

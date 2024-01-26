@@ -1,4 +1,5 @@
 import todoStore from "../../store/todoStore.js";
+import { setEvent } from "../../utils/handler.js";
 
 export function template({ columnId, cardId, title, description }) {
   return /*html*/ `
@@ -39,7 +40,12 @@ export function template({ columnId, cardId, title, description }) {
     `;
 }
 
-document.querySelector("#app").addEventListener("click", (event) => {
+const app = document.querySelector("#app");
+
+setEvent(app, "click", (event) => cancelEditCard(event));
+setEvent(app, "click", (event) => editCard(event));
+
+const cancelEditCard = (event) => {
   const target = event.target.closest(
     ".card__editable-buttons > .cancel-button"
   );
@@ -53,9 +59,9 @@ document.querySelector("#app").addEventListener("click", (event) => {
 
   editableCard.remove();
   card.style.display = "flex";
-});
+};
 
-document.querySelector("#app").addEventListener("click", (event) => {
+const editCard = (event) => {
   const target = event.target.closest(".edit-button");
   if (!target) {
     return;
@@ -83,4 +89,4 @@ document.querySelector("#app").addEventListener("click", (event) => {
       },
     },
   });
-});
+};
