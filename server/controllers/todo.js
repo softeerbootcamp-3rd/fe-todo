@@ -33,7 +33,7 @@ function removeTodoListItem(colTitle, id) {
 }
 
 function editTodoListItem(colTitle, item) {
-  const idx = getIndexById(todo[(colTitle, item.id)]);
+  const idx = getIndexById(todo[colTitle], item.id);
   todo[colTitle][idx] = item;
   editHistory(item);
   return item;
