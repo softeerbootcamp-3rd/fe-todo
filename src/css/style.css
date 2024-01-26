@@ -144,6 +144,7 @@
   font-size: 14px;
   font-weight: 500;
   color: var(--text_default);
+  padding-right: 24px;
 }
 
 .card__author {
