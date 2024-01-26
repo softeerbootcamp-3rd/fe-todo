@@ -4,6 +4,10 @@ const openForm = (currentColumnId) => {
   document
     .querySelector(`#${currentColumnId}-list`)
     .insertAdjacentHTML("afterbegin", AddCardFormView("addForm"));
+
+  const inputElement = document.querySelector(".card-form__title");
+
+  inputElement?.focus();
 };
 
 const closeForm = () => {

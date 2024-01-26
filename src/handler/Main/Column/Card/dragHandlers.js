@@ -1,6 +1,7 @@
 import { store } from "@/model/Store";
 import { renderListCount } from "@/view/Main/Column/renderListCount";
 import { getColumnList } from "@/util/getColumnList";
+import { getHistoryTemplate } from "@/util/getHistoryTemplate";
 
 export const onDragStart = (event) => {
   const { target } = event;
@@ -48,7 +49,23 @@ export const onDragEnd = (event) => {
   event.target.classList.remove("dragging");
 };
 
-export const onDrop = (event) => {
+const getNewHistory = ({ cardId, startColumnId, endColumnId }) => {
+  const { author, title: cardTitle } = store.cardData[cardId];
+  const { title: from } = store.columnData[startColumnId];
+  const { title: to } = store.columnData[endColumnId];
+  const newHistory = {
+    ...getHistoryTemplate(),
+    author,
+    cardTitle,
+    time: new Date(),
+    from,
+    to,
+    type: "이동",
+  };
+  return newHistory;
+};
+
+export const onDrop = async (event) => {
   if (!container) return;
 
   const targetCardId = event.dataTransfer.getData("dragCardId");
@@ -56,15 +73,25 @@ export const onDrop = (event) => {
   const endColumnId = container.parentElement.id;
   const endColumnValue = getColumnList(endColumnId).map((li) => li.id);
 
-  store.moveCard({ columnId: endColumnId, newColumnValue: endColumnValue });
+  const movedColumn = await store.moveCardInServer({
+    columnId: endColumnId,
+    newColumnValue: endColumnValue,
+  });
+  store.moveCard(movedColumn);
 
   if (startColumnId !== endColumnId) {
     const stardColumnValue = getColumnList(startColumnId).map((li) => li.id);
-    store.moveCard({ columnId: startColumnId, newColumnValue: stardColumnValue });
+    const movedColumn = await store.moveCardInServer({
+      columnId: startColumnId,
+      newColumnValue: stardColumnValue,
+    });
+    store.moveCard(movedColumn);
 
     renderListCount(document.querySelector(`#${startColumnId}`));
     renderListCount(document.querySelector(`#${endColumnId}`));
 
-    store.setMoveCardHistory({ cardId: targetCardId, startColumnId, endColumnId });
+    const newHistory = getNewHistory({ cardId: targetCardId, startColumnId, endColumnId });
+    const historyData = await store.addHistoryToServer(newHistory);
+    store.addHistory(historyData);
   }
 };
