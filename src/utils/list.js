@@ -1,29 +1,22 @@
 export function getIndexById(list, id) {
   if (id === undefined) return list.length;
-  for (let i = 0; i < list.length; i++) {
-    if (list[i].id === id) return i;
-  }
-  return undefined;
+  return list.findIndex((item) => item.id === id);
 }
 
 export function deepEqualList(listA, listB) {
   if (listA === undefined && listB === undefined) return true;
   if (listA === undefined || listB === undefined) return false;
   if (listA.length !== listB.length) return false;
-  for (let i = 0; i < listA.length; i++) {
-    const a = listA[i];
+  return listA.every((a, i) => {
     const b = listB[i];
     if (a !== b) return false;
-  }
-  return true;
+    return true;
+  });
 }
 
 export function findItemFromTodoList(item, todoList) {
   for (const title of Object.keys(todoList)) {
-    for (let i = 0; i < todoList[title].length; i++) {
-      if (todoList[title][i].id === item.id) {
-        return { title, i };
-      }
-    }
+    const idx = getIndexById(todoList[title], item.id);
+    return { title, i: idx };
   }
 }

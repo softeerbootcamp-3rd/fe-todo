@@ -23,11 +23,8 @@ function addTodoListItem(title, item) {
 }
 
 function findAndRemoveItem(list, id) {
-  for (let idx = 0; idx < list.length; idx++) {
-    if (list[idx].id === id) {
-      return list.splice(idx, 1)[0];
-    }
-  }
+  const idx = getIndexById(list, id);
+  return list.splice(idx, 1)[0];
 }
 
 function removeTodoListItem(colTitle, id) {
@@ -36,12 +33,8 @@ function removeTodoListItem(colTitle, id) {
 }
 
 function editTodoListItem(colTitle, item) {
-  for (let idx = 0; idx < todo[colTitle].length; idx++) {
-    if (todo[colTitle][idx].id === item.id) {
-      todo[colTitle][idx] = item;
-      break;
-    }
-  }
+  const idx = getIndexById(todo[(colTitle, item.id)]);
+  todo[colTitle][idx] = item;
   editHistory(item);
   return item;
 }

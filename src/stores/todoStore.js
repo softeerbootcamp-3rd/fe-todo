@@ -34,12 +34,8 @@ export const todoStore = createStore((set, get) => ({
     // find and remove item from todoList
     set((state) => {
       const newList = [...state.todoList[title]];
-      for (let i = 0; i < newList.length; i++) {
-        if (newList[i].id === item.id) {
-          newList.splice(i, 1);
-          break;
-        }
-      }
+      const idx = getIndexById(newList, item.id);
+      newList.splice(idx, 1);
       return { ...state, todoList: { ...state.todoList, [title]: newList } };
     });
     // 삭제는 상태 변경하고 요청 보냄
@@ -49,12 +45,8 @@ export const todoStore = createStore((set, get) => ({
     const newItem = await editTodoListItem(title, item);
     set((state) => {
       const newTodoList = { ...state.todoList };
-      for (let i = 0; i < newTodoList[title].length; i++) {
-        if (newTodoList[title][i].id === item.id) {
-          newTodoList[title][i] = newItem;
-          break;
-        }
-      }
+      const idx = getIndexById(newTodoList[title], item.id);
+      newTodoList[title][idx] = newItem;
       return { ...state, todoList: newTodoList };
     });
   },
