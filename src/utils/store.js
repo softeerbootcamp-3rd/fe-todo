@@ -36,8 +36,6 @@ export function createStore(initializer) {
         ? setterOrValue(state)
         : setterOrValue;
 
-    console.log("setState", nextState);
-
     if (nextState === state) return;
     // update state
     state = Object.assign({}, state, nextState);
@@ -64,9 +62,6 @@ export function useStore(store, callback, selector, equalityFunction) {
     selector,
     equalityFunction
   );
-  storeObj.destroy = () => {
-    destroy();
-    console.log("destroyed:", storeObj.data);
-  };
+  storeObj.destroy = destroy;
   return storeObj;
 }
