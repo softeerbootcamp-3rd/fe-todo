@@ -44,13 +44,13 @@ function attachStore({ historyList }) {
   return store;
 }
 
-function attachHandlers({ renderTarget, historyClearBtn }, { state }) {
+function attachHandlers({ renderTarget, historyClearBtn }, {}) {
   const historyClearBtnClick = () => {
     renderTarget.dispatchEvent(
       new CustomEvent("showDeleteModal", {
         detail: {
           msg: "모든 사용자 활동 기록을 삭제할까요?",
-          onDeleteBtnClicked: state.clear,
+          onDeleteBtnClicked: historyStore.getState().clear,
         },
         bubbles: true,
       })

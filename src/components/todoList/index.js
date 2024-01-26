@@ -63,7 +63,7 @@ function attachStore({ newItemContainer, itemCount }, initialData) {
 }
 
 function attachHandlers(
-  { renderTarget, newItemContainer, itemsContainer, plusBtn },
+  { renderTarget, newItemContainer, plusBtn },
   {},
   initialData
 ) {

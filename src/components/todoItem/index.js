@@ -33,8 +33,7 @@ function attachStore(
   initialData
 ) {
   // dont subscribe if add mode
-  if (initialData.addMode)
-    return { itemStore: { state: todoStore.getState() } };
+  if (initialData.addMode) return {};
 
   // state가 업데이트 될때마다 뷰 업데이트
   const updateView = (item) => {
@@ -99,17 +98,17 @@ function attachHandlers(
     };
 
     if (initialData.addMode) {
-      itemStore.state.add(initialData.listTitle, newItem);
+      todoStore.getState().add(initialData.listTitle, newItem);
       initialData.onCancel();
     } else {
-      itemStore.state.edit(initialData.listTitle, newItem);
+      todoStore.getState().edit(initialData.listTitle, newItem);
     }
   };
 
   // 삭제 시
   const onErase = () => {
     createDeleteModal(renderTarget, () => {
-      itemStore.state.remove(initialData.listTitle, itemStore.data);
+      todoStore.getState().remove(initialData.listTitle, itemStore.data);
     });
   };
 
@@ -237,18 +236,18 @@ function render(renderTarget, initialData) {
 }
 
 function enableDrag({ renderTarget }, { dragStore }, initialData) {
-  renderTarget.addEventListener("dragstart", (e) => {
+  let count = 0;
+  const dragstart = (e) => {
     if (dragStore.data) {
       // another drag is in progress
       e.preventDefault();
       return;
     }
-    dragStore.state.startDrag(initialData.listTitle, initialData.id);
+    todoStore.getState().startDrag(initialData.listTitle, initialData.id);
     e.dataTransfer.dropEffect = "move";
-  });
-
-  let count = 0;
-  renderTarget.addEventListener("dragenter", (e) => {
+  };
+  const dragend = () => todoStore.getState().applyDrag();
+  const dragenter = (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (count++ !== 0) return;
@@ -256,27 +255,20 @@ function enableDrag({ renderTarget }, { dragStore }, initialData) {
     const idSrc = dragStore.data.src.id;
     const titleSrc = dragStore.data.dst?.title ?? dragStore.data.src.title;
     if (idSrc === initialData.id) return;
-    dragStore.state.doDrag(
-      titleSrc,
-      idSrc,
-      initialData.listTitle,
-      initialData.id
-    );
-  });
-
-  renderTarget.addEventListener("drop", () => {
-    count = 0;
-  });
-
-  renderTarget.addEventListener("dragleave", (e) => {
+    todoStore
+      .getState()
+      .doDrag(titleSrc, idSrc, initialData.listTitle, initialData.id);
+  };
+  const drop = () => (count = 0);
+  const dragleave = (e) => {
     e.preventDefault();
     e.stopPropagation();
     count--;
-  });
+  };
 
-  renderTarget.addEventListener("dragend", () => {
-    dragStore.state.applyDrag();
-  });
+  renderTarget.addEventListener("dragstart", dragstart);
+  renderTarget.addEventListener("dragenter", dragenter);
+  renderTarget.addEventListener("drop", drop);
+  renderTarget.addEventListener("dragleave", dragleave);
+  renderTarget.addEventListener("dragend", dragend);
 }
-
-//TODO: refactor this
