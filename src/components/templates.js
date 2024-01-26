@@ -29,10 +29,10 @@ export function createEditorTemplate(
         <button id="${isEditMode ? "saveBtn" : "registerBtn"}" class="register"
   }">${isEditMode ? "저장" : "등록"}</button>
     </div>
-  `;
+    `;
 }
 
-export function createCardInfoTemplate(title, content) {
+export function createCardInfoTemplate({ title, content }) {
   return `
     <div class="cardInfo">
         <span class="registeredTitle">${title}</span>

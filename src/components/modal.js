@@ -1,5 +1,5 @@
 import { createModalTemplate } from "./templates.js";
-import { columnData } from "../../index.js";
+import todoStore, { DELETE_CARD } from "./todoStore.js";
 
 export default function createModal(column, card) {
   const modal = document.createElement("div");
@@ -16,12 +16,13 @@ export default function createModal(column, card) {
   const deleteButton = document.getElementById("deleteButton");
   deleteButton.addEventListener("click", () => {
     modal.remove();
-    const cardList = document.getElementById(`cardList-${column.id}`);
-    cardList.innerHTML = "";
-    columnData.removeCardData(column.id, card.id);
-
-    const countBox = column.querySelector(".countBox");
-    const newCount = Number(countBox.textContent) - 1;
-    countBox.innerHTML = newCount;
+    const action = {
+      type: DELETE_CARD,
+      payload: {
+        id: card.id,
+        columnId: column.id,
+      },
+    };
+    todoStore.dispatch(action);
   });
 }
