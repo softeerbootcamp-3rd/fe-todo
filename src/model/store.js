@@ -4,21 +4,19 @@ import { Card } from './card.js';
 class Store{
     static #instance;
 
-    constructor(){
-        // if(Store.#instance){
-        //     return Store.#instance;
-        // }
-        // if(localStorage.getItem('cardTable') !== null && localStorage.getItem('columnTable') !== null){
-        //     const cardTableObj = JSON.parse(localStorage.getItem('cardTable'));
-        //     const columnTableObj = JSON.parse(localStorage.getItem('columnTable'));
-        //     this.cardTable = {};
-        //     this.columnTable = {};
-        //     Object.keys(cardTableObj).forEach(v => {this.cardTable[v] = Card.fromObject(cardTableObj[v])});
-        //     Object.keys(columnTableObj).forEach(v => {this.columnTable[v] = Column.fromObject(columnTableObj[v])});
-        //     this.historyList = [];
-        //     Store.#instance = this;
-        //     return this;
-        // }
+    constructor(columnTable = {}){
+        if(Store.#instance){
+            return Store.#instance;
+        }
+        if(localStorage.getItem('cardTable') !== null){
+            const columnTableObj = JSON.parse(localStorage.getItem('columnTable'));
+            this.columnTable = {};
+            Object.keys(cardTableObj).forEach(v => {this.cardTable[v] = Card.fromObject(cardTableObj[v])});
+            Object.keys(columnTableObj).forEach(v => {this.columnTable[v] = Column.fromObject(columnTableObj[v])});
+            this.historyList = [];
+            Store.#instance = this;
+            return this;
+        }
         this.columnTable = {
             column0: new Column({ 
                 title: "해야할 일", 
@@ -40,7 +38,6 @@ class Store{
         return this;
     }
 
-    //ToDo - true 받으면 히스토리 만들기!
     /* Card Method */
     setCard({cardId, title, content, author, columnId}){
         const card = new Card({cardId, title, content, author, columnId});
@@ -81,6 +78,10 @@ class Store{
         this.columnTable[columnId].openEditForm(cardId);
     }
 
+    closeEditForm(cardId, columnId){
+        this.columnTable[columnId].closeEditForm(cardId);
+    }
+
     /* LocalStorage Method */
     #updateLocalStorage(){
         //ToDo - 각 카드로 쪼개어 저장하기 -> 여기 말고 Card로 가야함!
@@ -100,24 +101,29 @@ class Store{
         }
     }
 
-    //완전 변경 필요
     toObject(){
         let column = {};
-        let card = {};
-        Object.keys(this.columnTable).forEach(v => {column[v] = this.columnTable[v].toObject()});
-        Object.keys(this.cardTable).forEach(v => {card[v[0]] = this.cardTable[v].toObject()});
+        Object.entries(this.columnTable).forEach((v) => {column[v[0]] = v[1].toObject()});
         return {
-            columnTable: Object.freeze(column),
-            cardTable: Object.freeze(card),
+            columnTable: column,
         };
     }
 
-    //완전 변경 필요
     static fromObject(obj){
-        const store = new Store();
-        store.columnTable = obj.columnTable;
-        store.cardTable = obj.cardTable;
+        let column = Column.fromObject(obj.columnTable);
+        const store = new Store(column);
+        this.#instance = store;
         return store;
+    }
+
+    static fromServer(){
+        /*
+            서버에서 Object로 받아와 Card instance로 반환 -> (get /api/store)
+            columnTable을 해독하여 columnKey 찾기
+            찾은 ColumnKey를 이용해 Column instance 생성 (static method Column.fromServer(columnId))
+            Column instance를 받아 Store 구성
+        */
+       
     }
 
     initRender(){

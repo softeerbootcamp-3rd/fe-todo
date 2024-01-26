@@ -81,11 +81,13 @@
 }
 
 .column__nav__info__count {
-  width: 24px;
+  width: auto;
+  min-width: 24px;
   height: 24px;
   border-radius: 8px;
+  padding: 0 4px;
   border: 1px solid var(--border_color);
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   font-size: 12px;
@@ -112,6 +114,9 @@
 }
 .column__nav__btn-list__delete-cloumn-btn {
   background-image: url("/assets/delete.svg");
+}
+.column__nav__btn-list__delete-cloumn-btn:hover {
+  background-image: url("/assets/delete-hover.svg");
 }
 
 .card-list {
@@ -194,7 +199,6 @@
 .history {
   position: absolute;
   top: calc(100vh - 64px);
-  right: calc(100vw - 56px);
   width: 366px;
   max-height: 680px;
   top: 64px;
@@ -389,7 +393,8 @@
 }
 
 .dragging {
-  opacity: 0.6;
+  opacity: 0.3;
+  box-shadow: 0px 16px 16px 0px rgba(110, 128, 145, 0.24), 0px 0px 4px 0px rgba(110, 128, 145, 0.08);
 }
 
 .modal__container {

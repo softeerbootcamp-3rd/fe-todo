@@ -1,12 +1,15 @@
 import { getElapsedTime } from "../util/getElapsedTime";
 
 class History{
-    #historyList
+    #historyList;
+    #isShowing;
     constructor ({historyList = []}){
         this.#historyList = historyList;
+        this.#isShowing = false;
     }
 
     #historyType = ['이동', '삭제', '변경', '등록'];
+
 
 
     #makeHistory({author, title, type, from = '', to = ''}){
@@ -40,29 +43,30 @@ class History{
         this.#historyList = [];
         document.getElementById('history-list').remove();
         document.getElementById('history-header').insertAdjacentHTML('afterend', this.#historyListRender());
-        
-        //this.initRender(true);
     }
 
     show(){
-        const history = document.getElementById('history');
-        if(history.style.display === '') {
-            history.style.display = 'none';
+      if(this.#isShowing === true) {
+          this.hide();
             return;
         }
         const HTML = this.#historyListRender()
         document.getElementById('history-list').remove();
         document.getElementById('history-header').insertAdjacentHTML('afterend', HTML);
-        history.style.display = '';
+        document.getElementById('history').style.transform = 'translateX(calc(0px))';
+        document.getElementById('history').style.transition = 'all ease 1s';
+        this.#isShowing = true;
     }
 
     hide(){
-        document.getElementById('history').style.display = 'none';
+        document.getElementById('history').style.transform = 'translateX(calc(+422px))';
+        document.getElementById('history').style.transition = 'all ease 1s';
+        this.#isShowing = false;
     }
 
-    initRender(isOpen = false){
+    initRender(){
         const HTML = `
-        <div class="js-closeHistory history" id='history' style='display:${isOpen ? '' : 'none'}'>
+        <div class="js-closeHistory history" id='history'>
         <div class="history__wrapper">
         <header class="history__header" id='history-header'>
           <h3 class="history__header__title">사용자 활동 기록</h3>
@@ -76,6 +80,7 @@ class History{
       </div>
         `;
         app.insertAdjacentHTML('beforeend', HTML);
+        this.hide();
     }
 
     #historyListRender = () => {
