@@ -1,5 +1,4 @@
 import styles from "./todoList.module.scss";
-import todoItemStyles from "../todoItem/todoItem.module.scss";
 import plusIcon from "../../asset/img/plus.svg";
 import closedIcon from "../../asset/img/closed.svg";
 import todoItem from "../todoItem";
