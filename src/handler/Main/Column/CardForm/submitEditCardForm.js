@@ -1,6 +1,20 @@
 import { store } from "@/model/Store.js";
-import { renderCardList } from "../../../../view/Main/Column/renderCardList.js";
-import { renderListCount } from "../../../../view/Main/Column/renderListCount.js";
+import { renderCardList } from "@/view/Main/Column/renderCardList.js";
+import { renderListCount } from "@/view/Main/Column/renderListCount.js";
+import { getHistoryTemplate } from "@/util/getHistoryTemplate";
+import { addHistoryToServer, editCardInServer } from "@/api/fetchServer";
+
+const getNewHistory = (newCard) => {
+  const { author, updatedAt: time, title: cardTitle } = newCard;
+  const newHistory = {
+    ...getHistoryTemplate(),
+    author,
+    time,
+    cardTitle,
+    type: "변경",
+  };
+  return newHistory;
+};
 
 const createCardData = (target) => {
   const formData = new FormData(target);
@@ -8,13 +22,18 @@ const createCardData = (target) => {
   return Object.fromEntries(formData);
 };
 
-export const submitEditCardForm = (target) => {
+export const submitEditCardForm = async (target) => {
   const currentColumn = target.closest("section");
   const cardId = target.id.split("-")[1];
   const cardData = createCardData(target);
-  store.editCard({ cardData, cardId });
-  store.setEditCardHistory(cardId);
+  const newCard = await editCardInServer(cardId, cardData);
+  store.editCard(newCard);
+
   renderCardList(currentColumn);
   renderListCount(currentColumn);
   target.remove();
+
+  const newHistory = getNewHistory(newCard);
+  const historyData = await addHistoryToServer(newHistory);
+  store.addHistory(historyData);
 };

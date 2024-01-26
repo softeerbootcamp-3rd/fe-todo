@@ -5,8 +5,8 @@ import { MainView } from "../view/Main/MainView.js";
 
 export const initViews = () => {
   const app = document.getElementById("app");
-
+  const history = document.querySelector(".history");
   app.insertAdjacentHTML("afterbegin", MainView(store.columnData));
   app.insertAdjacentHTML("afterbegin", HeaderView());
-  app.insertAdjacentHTML("beforeend", HistoryView());
+  history.insertAdjacentHTML("beforeend", HistoryView());
 };

@@ -3,44 +3,162 @@
     {
       "id": "column0",
       "title": "해야할 일",
-      "value": ["0"]
+      "value": [
+        "12",
+        "13"
+      ]
     },
     {
       "id": "column1",
       "title": "하고 있는 일",
-      "value": ["1"]
+      "value": [
+        "7"
+      ]
     },
     {
       "id": "column2",
       "title": "완료한 일",
-      "value": ["2"]
+      "value": [
+        "8",
+        "9",
+        "10",
+        "11"
+      ]
     }
   ],
   "cards": [
     {
-      "title": "Github 공부하기",
-      "content": "add, commit, push",
-      "author": "web"
-    },
-    {
-      "title": "Store",
-      "content": "class 문법",
-      "author": "web"
-    },
-    {
+      "id": "e8fb",
       "title": "비동기",
       "content": "프로미스, async await",
-      "author": "web"
+      "author": "web",
+      "createdAt": "Thu Jan 25 2024 14:18:40 GMT+0900 (한국 표준시)",
+      "cardId": "0"
+    },
+    {
+      "id": "e8fb",
+      "title": "Store",
+      "content": "class 문법",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 14:18:40 GMT+0900 (한국 표준시)",
+      "cardId": "1"
+    },
+    {
+      "id": "e8fb",
+      "title": "Github 공부하기",
+      "content": "add, commit, push",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 14:18:40 GMT+0900 (한국 표준시)",
+      "cardId": "2"
+    },
+    {
+      "id": "2ba6",
+      "title": "안녕",
+      "content": "안녕하세요",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 17:59:46 GMT+0900 (한국 표준시)",
+      "cardId": "3",
+      "updatedAt": "Thu Jan 25 2024 17:59:57 GMT+0900 (한국 표준시)"
+    },
+    {
+      "id": "5387",
+      "title": "asdfa",
+      "content": "sdf",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 18:28:00 GMT+0900 (한국 표준시)",
+      "cardId": "4"
+    },
+    {
+      "id": "855c",
+      "title": "fasdf",
+      "content": "asd",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 18:29:34 GMT+0900 (한국 표준시)",
+      "cardId": "5"
+    },
+    {
+      "id": "213f",
+      "title": "asdf",
+      "content": "asdf",
+      "author": "Web",
+      "createdAt": "Thu Jan 25 2024 18:30:35 GMT+0900 (한국 표준시)",
+      "cardId": "6"
+    },
+    {
+      "id": "9de6",
+      "title": "영상찍기",
+      "content": "프론트엔드 미션 완료한 소감",
+      "author": "Web",
+      "createdAt": "Fri Jan 26 2024 08:21:10 GMT+0900 (한국 표준시)",
+      "cardId": "7"
+    },
+    {
+      "id": "a3bb",
+      "title": "JS에 많이 익숙해지기",
+      "content": "많이 만들어보고 또 많이 고쳐보기",
+      "author": "Web",
+      "createdAt": "Fri Jan 26 2024 08:22:30 GMT+0900 (한국 표준시)",
+      "cardId": "8"
+    },
+    {
+      "id": "c638",
+      "title": "페어프로그래밍",
+      "content": "프론트엔드 개발자랑 같이 해본 경험이 많이없어서 같이 의논하고, 코드 컨벤션도 맞춰서 해보고 싶었습니다.",
+      "author": "Web",
+      "createdAt": "Fri Jan 26 2024 08:24:10 GMT+0900 (한국 표준시)",
+      "cardId": "9"
+    },
+    {
+      "id": "b979",
+      "title": "클린코드 신경써서 코드 작성해보기",
+      "content": "분기문, 타입, 함수, 배열, 객체 다루기",
+      "author": "Web",
+      "createdAt": "Fri Jan 26 2024 08:28:00 GMT+0900 (한국 표준시)",
+      "cardId": "10"
+    },
+    {
+      "id": "0a07",
+      "title": "구조 생각해서 코드 짜보기",
+      "content": "서비스의 흐름을 한 방향으로 만들어보자",
+      "author": "Web",
+      "createdAt": "Fri Jan 26 2024 08:28:53 GMT+0900 (한국 표준시)",
+      "cardId": "11"
+    },
+    {
+      "id": "3ba4",
+      "title": "adf",
+      "content": "asdf",
+      "author": "Web",
+      "createdAt": "Fri Jan 26 2024 11:50:18 GMT+0900 (한국 표준시)",
+      "cardId": "12"
+    },
+    {
+      "id": "4776",
+      "title": "sdsd",
+      "content": "sdsd",
+      "author": "Web",
+      "createdAt": "Fri Jan 26 2024 11:54:35 GMT+0900 (한국 표준시)",
+      "cardId": "13"
     }
   ],
   "history": [
     {
-      "username": "멋진삼",
-      "cardTitle": "블로그에 포스팅 할 것",
-      "from": "하고 있는 일",
-      "to": "해야할 일",
-      "type": "이동",
-      "time": "213"
+      "id": "3b19",
+      "author": "Web",
+      "time": "Fri Jan 26 2024 11:50:18 GMT+0900 (한국 표준시)",
+      "cardTitle": "adf",
+      "type": "등록",
+      "from": "해야할 일",
+      "to": ""
+    },
+    {
+      "id": "35e8",
+      "author": "Web",
+      "time": "Fri Jan 26 2024 11:54:35 GMT+0900 (한국 표준시)",
+      "cardTitle": "sdsd",
+      "type": "등록",
+      "from": "해야할 일",
+      "to": ""
     }
   ]
 }

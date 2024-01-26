@@ -43,7 +43,7 @@ export const HistoryCardView = (history) => {
 <li class="history-card">
   <img src="/assets/frog.svg" alt="profile" class="history-card__profile" />
   <section class="history-card__main">
-    <h5 class="history-card__username">@${history.username}</h5>
+    <h5 class="history-card__username">@${history.author}</h5>
     <p class="history-card__content">
       ${getHistoryContents(history)}
     </p>
