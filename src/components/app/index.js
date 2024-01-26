@@ -5,7 +5,7 @@ import todoListTable from "../todoListTable";
 import modal from "../modal";
 
 export default function App(renderTarget) {
-  const views = mount(renderTarget);
+  const views = render(renderTarget);
   attachHandlers(views);
 }
 
@@ -24,7 +24,6 @@ function attachHandlers({ renderTarget, historySection, modalSection }) {
   };
 
   const showDeleteModal = ({ detail }) => {
-    console.log("showdeleteModal");
     modalSection.style.display = "block";
     modal(modalSection, {
       msg: detail.msg,
@@ -37,7 +36,7 @@ function attachHandlers({ renderTarget, historySection, modalSection }) {
   document.addEventListener("click", toggleHistoryList);
 }
 
-function mount(renderTarget) {
+function render(renderTarget) {
   renderTarget.innerHTML = /*html*/ `
     <div class="${styles.app}">
       <div data-node="headerSection" class=${styles.app__headerSection}></div>

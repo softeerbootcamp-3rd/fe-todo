@@ -16,13 +16,15 @@
     z-index: 5;
     top: 72px;
     right: 64px;
-    transition: transform 1.2s;
+    transition: transform 0.5s;
     transform: translateX(120%);
   }
+
   &__todoSection {
+    display: flex;
     width: 100%;
     flex-grow: 1;
-    overflow-x: auto;
+    overflow: auto;
   }
 
   &__historySection--show {

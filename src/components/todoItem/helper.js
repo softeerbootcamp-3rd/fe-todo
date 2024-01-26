@@ -26,8 +26,7 @@ export function addCheckInput(checkArr, statusNode) {
 
 // element(textarea 노드)에 리스너를 추가하여 높이가 내용에 따라 변하도록 해줍니다
 export function dynamicTextAreaHeight(element) {
-  element.addEventListener("keyup", () => {
-    element.style.height = "auto";
+  element.addEventListener("input", () => {
     element.style.height = element.scrollHeight + "px";
   });
 }

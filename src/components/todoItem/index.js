@@ -6,8 +6,6 @@ import {
   dynamicTextAreaHeight,
   switchMode,
   createDeleteModal,
-  requestUpdateItemCount,
-  getClosestElement,
 } from "./helper";
 import { todoStore } from "../../stores/todoStore";
 import { getIndexById } from "../../utils/list";
@@ -17,22 +15,25 @@ import { useStore } from "../../utils/store.js";
   {
     addMode: true 일 경우 추가 모드
     listTitle: 투두 리스트 컬럼 제목(키)
-    id: 투두 아이템 인덱스
+    id: 투두 아이템 아이디
   }
 */
 export default function todoItem(renderTarget, initialData) {
-  const views = mount(renderTarget, initialData);
+  const views = render(renderTarget, initialData);
   const store = attachStore(views, initialData);
   attachHandlers(views, store, initialData);
-  return store.destroy;
+  return () => {
+    store.item?.destroy();
+    store.drag?.destroy();
+  };
 }
 
 function attachStore(
-  { titleNode, contentNode, authorByNode, setViewMode },
+  { todoItem, titleNode, contentNode, authorByNode, setViewMode },
   initialData
 ) {
   // dont subscribe if add mode
-  if (initialData.addMode) return { state: todoStore.getState() };
+  if (initialData.addMode) return {};
 
   // state가 업데이트 될때마다 뷰 업데이트
   const updateView = (item) => {
@@ -43,19 +44,31 @@ function attachStore(
     setViewMode();
   };
 
-  const store = useStore(todoStore, updateView, (state) => {
+  // subscribe to item updates
+  const itemStore = useStore(todoStore, updateView, (state) => {
     const list = state.todoList[initialData.listTitle];
     const i = getIndexById(list, initialData.id);
-    return list[i];
+    const item = list[i];
+    return item;
   });
 
-  return store;
+  // subscribe to drag status
+  const dragStore = useStore(
+    todoStore,
+    (drag) => {
+      const dragging = drag?.src.id === initialData.id;
+      if (dragging) todoItem.classList.add(styles["todoItem--dragging"]);
+      else todoItem.classList.remove(styles["todoItem--dragging"]);
+    },
+    (state) => state.drag
+  );
+
+  return { itemStore, dragStore };
 }
 
 function attachHandlers(
   {
     renderTarget,
-    todoItem,
     titleNode,
     contentNode,
     eraseBtnNode,
@@ -65,37 +78,37 @@ function attachHandlers(
     setViewMode,
     setEditMode,
   },
-  { data, state },
+  { itemStore, dragStore },
   initialData
 ) {
   // 취소 버튼 클릭 시 기존 data로 롤백
   const onEditCancel = () => {
-    titleNode.value = data.title;
-    contentNode.value = data.content;
+    titleNode.value = itemStore.data.title;
+    contentNode.value = itemStore.data.content;
     setViewMode();
   };
 
   // 수정/등록 하고 제출 시
   const onEditSubmit = () => {
     const newItem = {
-      ...data,
+      ...itemStore?.data,
       title: titleNode.value,
       content: contentNode.value,
       createdOn: "web",
     };
 
     if (initialData.addMode) {
-      state.add(initialData.listTitle, newItem);
+      todoStore.getState().add(initialData.listTitle, newItem);
       initialData.onCancel();
     } else {
-      state.edit(initialData.listTitle, newItem);
+      todoStore.getState().edit(initialData.listTitle, newItem);
     }
   };
 
   // 삭제 시
   const onErase = () => {
     createDeleteModal(renderTarget, () => {
-      state.remove(initialData.listTitle, data);
+      todoStore.getState().remove(initialData.listTitle, itemStore.data);
     });
   };
 
@@ -113,16 +126,18 @@ function attachHandlers(
 
   // 드래그 이벤트 처리 (생성 모드 제외)
   if (!initialData.addMode) {
-    enableDrag({ renderTarget, todoItem }, { data }, initialData);
+    enableDrag({ renderTarget }, { dragStore }, initialData);
   }
 }
 
 // todoItem 컴포넌트 템플릿
-function mount(renderTarget, initialData) {
+function render(renderTarget, initialData) {
   renderTarget.innerHTML = /*html*/ `
-  <div data-node="todoItem" class="${styles.todoItem}" ${
-    initialData?.addMode ? "" : 'draggable="true"'
-  }>
+  <div data-node="todoItem" data-todo-id="${
+    initialData.id
+  }" data-todo-list-title="${initialData.listTitle}" class="${
+    styles.todoItem
+  }" ${initialData?.addMode ? "" : 'draggable="true"'}>
     <div>
       <textarea
         type="text"
@@ -220,38 +235,40 @@ function mount(renderTarget, initialData) {
   };
 }
 
-function enableDrag({ renderTarget, todoItem }, { data }, initialData) {
-  //todo: store 사용하도록 수정해야함
-  renderTarget.addEventListener("dragstart", (e) => {
-    e.dataTransfer.setData(
-      "text/plain",
-      JSON.stringify({
-        ...data,
-        listTitle: initialData.listTitle,
-      })
-    );
+function enableDrag({ renderTarget }, { dragStore }, initialData) {
+  let count = 0;
+  const dragstart = (e) => {
+    if (dragStore.data) {
+      // another drag is in progress
+      e.preventDefault();
+      return;
+    }
+    todoStore.getState().startDrag(initialData.listTitle, initialData.id);
     e.dataTransfer.dropEffect = "move";
-    todoItem.classList.add(styles["todoItem--dragging"]);
-  });
-
-  renderTarget.addEventListener("dragend", (e) => {
+  };
+  const dragend = () => todoStore.getState().applyDrag();
+  const dragenter = (e) => {
     e.preventDefault();
-    todoItem.classList.remove(styles["todoItem--dragging"]);
-    requestUpdateItemCount(renderTarget, true);
-  });
-
-  renderTarget.addEventListener("dragover", (e) => {
     e.stopPropagation();
+    if (count++ !== 0) return;
+
+    const idSrc = dragStore.data.src.id;
+    const titleSrc = dragStore.data.dst?.title ?? dragStore.data.src.title;
+    if (idSrc === initialData.id) return;
+    todoStore
+      .getState()
+      .doDrag(titleSrc, idSrc, initialData.listTitle, initialData.id);
+  };
+  const drop = () => (count = 0);
+  const dragleave = (e) => {
     e.preventDefault();
-    const elem = getClosestElement(
-      [...renderTarget.parentNode.querySelectorAll(`[data-node="todoItem"]`)],
-      e.clientY
-    );
-    const dragging = document.querySelector(
-      `div.${styles["todoItem--dragging"]}`
-    ).parentNode;
-    renderTarget.parentNode.insertBefore(dragging, elem?.parentNode);
-    //TODO: implement this using store
-    //requestUpdateItemCount(renderTarget, true);
-  });
+    e.stopPropagation();
+    count--;
+  };
+
+  renderTarget.addEventListener("dragstart", dragstart);
+  renderTarget.addEventListener("dragenter", dragenter);
+  renderTarget.addEventListener("drop", drop);
+  renderTarget.addEventListener("dragleave", dragleave);
+  renderTarget.addEventListener("dragend", dragend);
 }

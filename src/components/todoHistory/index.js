@@ -6,14 +6,14 @@ import { historyStore } from "../../stores/historyStore";
 import { createComponent } from "../../utils/ui";
 
 export default function todoHistory(renderTarget) {
-  const views = mount(renderTarget);
+  const views = render(renderTarget);
   const store = attachStore(views);
   attachHandlers(views, store);
   return store.destroy;
 }
 
 function attachStore({ historyList }) {
-  let childComponents = [];
+  const childComponents = [];
   const updateView = (list) => {
     if (list === undefined) return;
     // destroy previous components
@@ -21,7 +21,7 @@ function attachStore({ historyList }) {
       v.element.parentNode.removeChild(v.element);
       if (v.destroy) v.destroy();
     });
-    childComponents = [];
+    childComponents.splice(0, childComponents.length);
 
     // 순서대로 생성해서 삽입
     let previousElement;
@@ -39,18 +39,18 @@ function attachStore({ historyList }) {
   });
 
   // 로드할때마다 history reload
-  store.state.fetch();
+  historyStore.getState().fetch();
 
   return store;
 }
 
-function attachHandlers({ renderTarget, historyClearBtn }, { state }) {
+function attachHandlers({ renderTarget, historyClearBtn }, {}) {
   const historyClearBtnClick = () => {
     renderTarget.dispatchEvent(
       new CustomEvent("showDeleteModal", {
         detail: {
           msg: "모든 사용자 활동 기록을 삭제할까요?",
-          onDeleteBtnClicked: state.clear,
+          onDeleteBtnClicked: historyStore.getState().clear,
         },
         bubbles: true,
       })
@@ -60,7 +60,7 @@ function attachHandlers({ renderTarget, historyClearBtn }, { state }) {
   historyClearBtn.addEventListener("click", historyClearBtnClick);
 }
 
-function mount(renderTarget, initialData) {
+function render(renderTarget, initialData) {
   renderTarget.innerHTML = /*html*/ `
   <div class="${styles["todoHistory"]}">
     <div class="${styles.todoHistory__header}">

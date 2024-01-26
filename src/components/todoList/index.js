@@ -1,5 +1,4 @@
 import styles from "./todoList.module.scss";
-import todoItemStyles from "../todoItem/todoItem.module.scss";
 import plusIcon from "../../asset/img/plus.svg";
 import closedIcon from "../../asset/img/closed.svg";
 import todoItem from "../todoItem";
@@ -8,7 +7,7 @@ import { useStore } from "../../utils/store.js";
 import { createComponent } from "../../utils/ui.js";
 
 export default function todoList(renderTarget, initialData) {
-  const views = mount(renderTarget, initialData);
+  const views = render(renderTarget, initialData);
   const store = attachStore(views, initialData);
   attachHandlers(views, store, initialData);
   return store.destroy;
@@ -64,18 +63,35 @@ function attachStore({ newItemContainer, itemCount }, initialData) {
 }
 
 function attachHandlers(
-  { renderTarget, newItemContainer, itemsContainer, plusBtn },
+  { renderTarget, newItemContainer, plusBtn },
   {},
   initialData
 ) {
   // drag 이벤트
   const dragOver = (e) => {
     e.preventDefault();
-    // TODO: store 사용하도록 수정해야함
-    const dragging = document.querySelector(
-      `div.${todoItemStyles["todoItem--dragging"]}`
-    ).parentNode;
-    itemsContainer.appendChild(dragging);
+  };
+
+  let count = 0;
+  const dragEnter = (e) => {
+    e.preventDefault();
+    if (count++ !== 0) return;
+
+    const { drag, doDrag } = todoStore.getState();
+    if (drag === undefined) return;
+    const { src, dst } = drag;
+    const idSrc = src.id;
+    const titleSrc = dst?.title ?? src.title;
+    doDrag(titleSrc, idSrc, initialData.title, undefined);
+  };
+
+  const dragLeave = (e) => {
+    e.preventDefault();
+    count--;
+  };
+
+  const drop = () => {
+    count = 0;
   };
 
   // 등록 카드 생성 & 삭제
@@ -87,10 +103,7 @@ function attachHandlers(
       destroyAddModeCard = todoItem(newItemContainer, {
         listTitle: initialData.title,
         addMode: true,
-        onCancel: () => {
-          console.log("oncancel");
-          newItemContainer.style.display = "none";
-        },
+        onCancel: () => (newItemContainer.style.display = "none"),
       });
       newItemContainer.style.display = "block";
     } else {
@@ -99,10 +112,13 @@ function attachHandlers(
   };
 
   renderTarget.addEventListener("dragover", dragOver);
+  renderTarget.addEventListener("dragenter", dragEnter);
+  renderTarget.addEventListener("dragleave", dragLeave);
+  renderTarget.addEventListener("drop", drop);
   plusBtn.addEventListener("click", toggleAddModeCard);
 }
 
-function mount(renderTarget, initialData) {
+function render(renderTarget, initialData) {
   renderTarget.innerHTML = /*html*/ `
     <div data-node="todoList" class="${styles.todoList}">
       <div class="${styles.todoList__header}">

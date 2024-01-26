@@ -3,7 +3,7 @@ import styles from "./modal.module.scss";
 // data: detail....
 
 export default function modal(renderTarget, initialData) {
-  const views = mount(renderTarget, initialData);
+  const views = render(renderTarget, initialData);
   attachHandlers(views, initialData);
 }
 
@@ -31,7 +31,7 @@ function attachHandlers(
   deleteBtn.addEventListener("click", deleteBtnClick);
 }
 
-function mount(renderTarget, initialData) {
+function render(renderTarget, initialData) {
   renderTarget.innerHTML = /*html*/ `
     <div data-node="modalSection" class="${styles.modal}">
       <p class="${styles.modal__modalText}">${initialData.msg}</p>
