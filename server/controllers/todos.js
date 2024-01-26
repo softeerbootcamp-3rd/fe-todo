@@ -11,6 +11,7 @@ const historyActionMap = {
   delete: "DELETE",
   move: "MOVE",
 };
+const noop = "noop";
 
 const todosControllers = {
   handleGetAllTodo: (req, res) => {
@@ -50,7 +51,7 @@ const todosControllers = {
       author,
     };
     history.unshift(newHistory);
-    todos[columnIndex].cards.push(newTodo);
+    todos[columnIndex].cards.unshift(newTodo);
     fs.writeFileSync(todosPath, JSON.stringify({ todos }));
     fs.writeFileSync(historyPath, JSON.stringify({ history }));
     res.status(201);
@@ -98,14 +99,14 @@ const todosControllers = {
   },
   handleMoveTodo: (req, res) => {
     const { columnId, cardId } = req.params;
-    const { currentColumnId } = req.body;
+    const { nextColumnId, nextCardId } = req.body;
 
     const { todos } = JSON.parse(
       fs.readFileSync(todosPath, { encoding: "utf8" })
     );
     const columnIndex = todos.findIndex((column) => column.id === columnId);
-    const currentColumnIndex = todos.findIndex(
-      (column) => column.id === currentColumnId
+    const nextColumnIndex = todos.findIndex(
+      (column) => column.id === nextColumnId
     );
     if (columnIndex === -1) {
       res.status(404).json(`No column ${columnId}`);
@@ -124,15 +125,33 @@ const todosControllers = {
       id: uuidv4(),
       cardTitle: todos[columnIndex].cards[cardIndex].title,
       previousColumn: todos[columnIndex].columnName,
-      currentColumn: todos[currentColumnIndex].columnName,
+      currentColumn: todos[nextColumnIndex].columnName,
       createdAt: new Date().getTime(),
       action: historyActionMap["move"],
     };
     history.unshift(newHistory);
 
     const newCard = todos[columnIndex].cards[cardIndex];
-    todos[currentColumnIndex].cards.push(newCard);
-    todos[columnIndex].cards.splice(cardIndex, 1);
+    if (nextCardId === noop) {
+      todos[columnIndex].cards.splice(cardIndex, 1);
+      todos[nextColumnIndex].cards.push(newCard);
+    } else {
+      const nextCardIndex = todos[nextColumnIndex].cards.findIndex(
+        (card) => card.id === nextCardId
+      );
+      if (columnIndex === nextColumnIndex) {
+        if (cardIndex > nextCardIndex) {
+          todos[columnIndex].cards.splice(cardIndex, 1);
+          todos[columnIndex].cards.splice(nextCardIndex, 0, newCard);
+        } else {
+          todos[columnIndex].cards.splice(nextCardIndex, 0, newCard);
+          todos[columnIndex].cards.splice(cardIndex, 1);
+        }
+      } else {
+        todos[columnIndex].cards.splice(cardIndex, 1);
+        todos[nextColumnIndex].cards.splice(nextCardIndex, 0, newCard);
+      }
+    }
 
     fs.writeFileSync(todosPath, JSON.stringify({ todos }));
     fs.writeFileSync(historyPath, JSON.stringify({ history }));
