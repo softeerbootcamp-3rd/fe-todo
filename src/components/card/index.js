@@ -91,17 +91,26 @@ setEvent(app, "dragend", async (event) => {
 
   const columnId = draggable.getAttribute("data-column-id");
   const cardId = draggable.getAttribute("data-card-id");
-  const currentColumn = draggable.closest(".column__cards");
-  const currentColumnId = currentColumn.getAttribute("data-column-id");
 
-  // FIXME
-  // where can i inject the logic for `success` or `error` case
-  // `onSuccess` or `onError`?
+  const nextCard = draggable.nextElementSibling;
+  const nextCardId = nextCard ? nextCard.getAttribute("data-card-id") : "noop";
+
+  const nextColumn = draggable.closest(".column__cards");
+  const nextColumnId = nextColumn.getAttribute("data-column-id");
+
+  // FIXME where can i inject the logic for `success` or `error` case
   await todos.moveCard({
-    data: { columnId, cardId, currentColumnId },
-    onChange: (state) => {},
-    onSuccess: () => {},
-    onError: () => {},
+    data: { columnId, cardId, nextColumnId, nextCardId },
+    onChange: (state) => {
+      Column.render({
+        column: state.todos.find((column) => column.id === columnId),
+      });
+      if (columnId !== nextColumnId) {
+        Column.render({
+          column: state.todos.find((column) => column.id === nextColumnId),
+        });
+      }
+    },
   });
   // FIXME when just `success` case
   draggable.setAttribute("data-column-id", columnId);

@@ -8,11 +8,11 @@ export const moveCard = async ({ data, select, onChange }) => {
   unsubscribe(onChange);
 };
 
-const moveCardThunk = ({ columnId, cardId, currentColumnId }) => {
+const moveCardThunk = ({ columnId, cardId, nextColumnId, nextCardId }) => {
   return (dispatch) => {
     return checkedFetch(`http://localhost:8000/todos/${columnId}/${cardId}`, {
       method: "PATCH",
-      body: JSON.stringify({ currentColumnId }),
+      body: JSON.stringify({ nextColumnId, nextCardId }),
     })
       .then(() => dispatch(initializeCardsThunk()))
       .catch(console.error);
