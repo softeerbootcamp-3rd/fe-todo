@@ -92,7 +92,13 @@ const addCancle = (event) => {
     `.card__editable[data-column-id="${columnId}"]`
   );
   addCard.style.display = "none";
-  addCard.setAttribute("editable", "false");
+  const column = document.querySelector(
+    `.column[data-column-id="${columnId}"]`
+  );
+  console.log(column.querySelector(".column__head-plus"));
+  column
+    .querySelector(".column__head-plus")
+    .setAttribute("data-editable", "false");
 };
 
 // 글자 수 확인 (버튼 활성화)
