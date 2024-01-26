@@ -1,4 +1,4 @@
-import styles from "./app.module.scss";
+import { AppTemplate } from "./template";
 import header from "../header";
 import todoHistory from "../todoHistory";
 import todoListTable from "../todoListTable";
@@ -7,14 +7,7 @@ import { applyDragAndDrop } from "../../utils/dragAndDrop";
 import { store } from "../../store/todoStore";
 
 export default function App(parent, props) {
-  parent.innerHTML = `
-        <div class="${styles.app}">
-          <div todo-section="headerSection"></div>
-          <div todo-section="todoSection"></div>
-          <div todo-section="historySection" class="${styles.app__historySection}"></div>
-          <div todo-section="modalSection" class="${styles.app__modalSection}"></div>
-        </div>
-    `;
+  parent.innerHTML = AppTemplate(props);
 
   //헤더 컴포넌트 마운트
   const headerSection = parent.querySelector('[todo-section="headerSection"]');
@@ -24,7 +17,7 @@ export default function App(parent, props) {
   const todoSection = parent.querySelector('[todo-section="todoSection"]');
   todoListTable(todoSection, { todoList: store.getTodoList() });
 
-  //클릭 시 History 컴포넌트 마운트
+  //History 컴포넌트 마운트
   const historySection = parent.querySelector(
     '[todo-section="historySection"]'
   );
@@ -42,12 +35,11 @@ export default function App(parent, props) {
 
   //showDeleteModal 이벤트 발생 시 모달 마운트
   document.addEventListener("showDeleteModal", ({ detail }) => {
-    // 모달 생성
     modalSection.style.display = "block";
     modal(modalSection, { msg: detail.msg, onDelete: detail.onDelete });
   });
 
-  //drag and drop 구현 부분
+  //drag and drop 컴포넌트에 적용
   const draggables = parent.querySelectorAll('[todo-data="todoItem"]');
   const containers = parent.querySelectorAll("[todo-data='items']");
   applyDragAndDrop(draggables, containers);
