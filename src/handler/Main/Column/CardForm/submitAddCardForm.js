@@ -3,6 +3,7 @@ import { getDeviceInfo } from "@/util/getDeviceInfo.js";
 import { renderCardList } from "@/view/Main/Column/renderCardList.js";
 import { renderListCount } from "@/view/Main/Column/renderListCount.js";
 import { getHistoryTemplate } from "@/util/getHistoryTemplate";
+import { addCardToServer, addHistoryToServer } from "@/api/fetchServer";
 
 const getNewHistory = ({ columnTitle, card }) => {
   const { author, createdAt: time, title: cardTitle } = card;
@@ -28,7 +29,8 @@ const createCardData = (target) => {
 export const submitAddCardForm = async (target) => {
   const currentColumn = target.closest("section");
   const cardData = createCardData(target);
-  const { newCard, newColumn } = await store.addCardToServer({
+
+  const { newCard, newColumn } = await addCardToServer({
     columnId: currentColumn.id,
     cardData,
   });
@@ -40,6 +42,6 @@ export const submitAddCardForm = async (target) => {
   target.remove();
 
   const newHistory = getNewHistory({ columnTitle: newColumn.title, card: newCard });
-  const historyData = await store.addHistoryToServer(newHistory);
+  const historyData = await addHistoryToServer(newHistory);
   store.addHistory(historyData);
 };

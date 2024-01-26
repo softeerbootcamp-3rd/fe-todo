@@ -2,6 +2,7 @@ import { store } from "@/model/Store";
 import { renderListCount } from "@/view/Main/Column/renderListCount";
 import { getColumnList } from "@/util/getColumnList";
 import { getHistoryTemplate } from "@/util/getHistoryTemplate";
+import { addHistoryToServer, moveCardInServer } from "@/api/fetchServer";
 
 export const onDragStart = (event) => {
   const { target } = event;
@@ -73,7 +74,7 @@ export const onDrop = async (event) => {
   const endColumnId = container.parentElement.id;
   const endColumnValue = getColumnList(endColumnId).map((li) => li.id);
 
-  const movedColumn = await store.moveCardInServer({
+  const movedColumn = await moveCardInServer({
     columnId: endColumnId,
     newColumnValue: endColumnValue,
   });
@@ -81,7 +82,7 @@ export const onDrop = async (event) => {
 
   if (startColumnId !== endColumnId) {
     const stardColumnValue = getColumnList(startColumnId).map((li) => li.id);
-    const movedColumn = await store.moveCardInServer({
+    const movedColumn = await moveCardInServer({
       columnId: startColumnId,
       newColumnValue: stardColumnValue,
     });
@@ -91,7 +92,7 @@ export const onDrop = async (event) => {
     renderListCount(document.querySelector(`#${endColumnId}`));
 
     const newHistory = getNewHistory({ cardId: targetCardId, startColumnId, endColumnId });
-    const historyData = await store.addHistoryToServer(newHistory);
+    const historyData = await addHistoryToServer(newHistory);
     store.addHistory(historyData);
   }
 };
