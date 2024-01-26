@@ -1,4 +1,5 @@
-# 바닐라 JS로 투두 리스트 만들기
+# 바닐라 JS 투두 리스트
+![screenshot](https://github.com/junhea/fe-todo/assets/97426534/40cd079a-1c9d-4310-babd-235bd36171f8)
 
 ## 개발 기간
 2024.01.15 ~ 2024.01.19 (페어)
