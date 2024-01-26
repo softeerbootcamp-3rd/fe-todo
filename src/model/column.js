@@ -13,6 +13,7 @@ export class Column{
         this.#title = title;
         this.#cardIdList = cardIdList;
     }
+
     openAddForm()
     {
         const form = window[`${this.#columnId}-form`]
@@ -20,6 +21,7 @@ export class Column{
         const HTML = this.#renderFormTemplate();
         window[this.#columnId+'-list'].insertAdjacentHTML('afterbegin', HTML);
     }
+
     appendCard(card){
         //추가하고 카운트 변경!
         this.#cardList.set(card.get(), card);
@@ -44,6 +46,15 @@ export class Column{
             history.addHistory({...card.toObject(), type:'등록', from:this.#title});
         }
         else {throw new Error(`OpenEditForm Failed - CardID (${cardId}) is not in column (${this.#columnId})`);}
+    }
+
+    closeEditForm(cardId){
+        const card = this.#cardList.get(cardId);
+        const index = this.#findCardIdx(cardId);
+        if(card !== undefined){
+            card.closeForm(index);
+        }
+        else {throw new Error(`CloseEditForm Failed - CardID (${cardId}) is not in column (${this.#columnId})`);}
     }
 
     editCard(cardId, newCardData){
@@ -102,28 +113,70 @@ export class Column{
 
     getTitle() {return this.#title;}
 
-    //완전 변경 필요
+    /* Serialize */
     toObject(){
+        let idList = [];
+        let cards = {}
+        for(let [cardId, card] of this.#cardList){
+            cards[cardId] = card.toObject();
+        }
         return {
             title: this.#title,
+            columnId: this.#columnId,
             cardIdList: [...this.#cardIdList],
+            cardList : cards,
         };
     }
 
-    //완전 변경 필요
+    
     static fromObject(obj){
+        let cardMap = new Map(Object.entries(obj.cardList));
+        cardMap.forEach((v, i) => cardMap.set(i, Card.fromObject(v)));
         return new Column({
             title: obj.title,
             cardIdList: obj.cardIdList,
+            cardList: new Map(),
+            columnId: obj.columnId,
         });
     }
 
+    static async fromServer(columnId){
+        /*
+            columnId를 받아 서버로 요청 -> (get /api/column/columnId)
+            받은 데이터 중 cardIdList를 통해 card를 요청 -> (static method Card.fromServer(cardId)))
+            받은 카드 데이터로 Column instance 생성 후 반환
+        */
+        const newColumn = await fetch(`/api/column/${columnId}`).then(res => {
+            if(res.ok){
+                return res.json();
+            }
+            else{
+                throw new Error(`Column ${columnId} is not exist`);
+            }
+        }).then(data => { 
+            const cardIdList = data.cardIdList;
+            const cardList = new Map();
+            cardIdList.forEach((v, i) => cardList.set(v, Card.fromServer(v)));
+            return new Column({
+                title: data.title,
+                cardIdList,
+                cardList,
+                columnId : data.columnId,
+            });
+        }).catch(err => {
+                console.log(err);
+        });
+
+    }
+
+
+    /* Render */
     renderTitle(){
         window[`${this.#columnId}-title`].innerText = this.#title;
     }
 
     renderLength(){
-        window[`${this.#columnId}-count`].innerText = this.#cardIdList.length;
+        window[`${this.#columnId}-count`].innerText = this.#cardIdList.length < 100 ? this.#cardIdList.length : '99+';
     }
 
     render(index = 0){
@@ -154,7 +207,7 @@ export class Column{
         <nav class="main__column__nav">
           <div class="column__nav__info">
             <h2 class="column__nav__info__title" id='${this.#columnId}-title'>${this.#title}</h2>
-            <h6 class="column__nav__info__count" id='${this.#columnId}-count'>${this.#cardIdList.length}</h6>
+            <h6 class="column__nav__info__count" id='${this.#columnId}-count'>${this.#cardIdList.length < 100 ? this.#cardIdList.length : '99+'}</h6>
           </div>
           <div class="column__nav__btn-list">
             <button class="js-addCardBtn column__nav__btn-list__add-card-btn"></button>
