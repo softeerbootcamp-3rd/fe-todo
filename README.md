@@ -1,5 +1,9 @@
 # 바닐라 JS로 투두 리스트 만들기
 
+## 개발 기간
+2024.01.15 ~ 2024.01.19 (페어 프로그래밍)
+2024.01.22 ~ 2024.01.26
+
 ## 사용해 보기
 ### client
 ```bash
@@ -26,7 +30,7 @@ store를 구현하여 데이터가 단방향으로 흐르도록 했습니다. (z
 ![image](https://github.com/junhea/fe-todo/assets/97426534/b07c0a0e-0f75-4a6d-8a93-08b4ab9f51fd)
 
 ### 흐름도
-예시로 TodoListTable 컴포넌트만 보았을때, 데이터의 변경과 흐름은 다음과 같습니다.
+TodoListTable 컴포넌트를 보았을때, 데이터의 흐름은 다음과 같습니다.
 ![image](https://github.com/junhea/fe-todo/assets/97426534/f5318943-5d7f-4a14-ad31-df48128be810)
 
 ## 기타
