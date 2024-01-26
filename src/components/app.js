@@ -3,6 +3,7 @@ import * as ColumnContainer from "./column-container/index.js";
 import * as ActionHistoryListDialog from "./action-history-list/index.js";
 import * as Alert from "./alert/index.js";
 import * as todos from "../features/todos/index.js";
+import * as history from "../features/action-history/index.js";
 
 const app = document.getElementById("app");
 
@@ -15,6 +16,11 @@ export async function initializeApp() {
   await todos.initializeCards({
     onChange: (state) => {
       ColumnContainer.render({ columns: state.todos });
+    },
+  });
+  await history.initializeHistory({
+    onChange: (state) => {
+      ActionHistoryListDialog.render({ history: state.history });
     },
   });
 }

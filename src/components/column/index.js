@@ -11,13 +11,14 @@ export function template({ column }) {
           ${column.columnName}
       </span>
       <div class="badge rounded-8 text-weak">${column.cards.length}</div>
-      <button class="column__head-plus" data-editable=false data-column-id="${
-        column.id
-      }" type="button">
+        <button class="column__head-plus"
+                type="button"
+                data-column-id="${column.id}"
+        >
           <img src="./assets/icons/plus.svg" width='24' height='24' />
-      <button class="column__head-close" type="button">
+        <button class="column__head-close" type="button">
           <img src="./assets/icons/close.svg" width='24' height='24' />
-      </button>
+        </button>
       </h2>
       <div class="column__cards-container" data-column-id="${column.id}">
         <ul class="column__cards" data-column-id="${column.id}">
@@ -30,12 +31,12 @@ export function template({ column }) {
     `;
 }
 
-export const render = ({ columnId, cards }) => {
-  const column = document.querySelector(
-    `.column[data-column-id="${columnId}"]`
+export const render = ({ column }) => {
+  const columnEle = document.querySelector(
+    `.column[data-column-id="${column.id}"]`
   );
-  column.innerHTML = `${template({
-    column: cards,
+  columnEle.innerHTML = `${template({
+    column,
   })}`;
 };
 
@@ -44,10 +45,6 @@ setEvent(app, "click", (event) => {
   if (!addCardButton) return;
 
   const columnId = addCardButton.getAttribute("data-column-id");
-  const editable = addCardButton.getAttribute("data-editable") === "true";
-  const editableCard = document.querySelector(
-    `.card__editable[data-column-id="${columnId}"]`
-  );
-  editableCard.style.display = editable ? "none" : "flex";
-  addCardButton.setAttribute("data-editable", !editable);
+
+  AddCard.toggle({ columnId });
 });
