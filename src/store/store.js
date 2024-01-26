@@ -149,7 +149,6 @@ export function createStore(initStore, reducer) {
   };
 
   const setRemoveAllHistory = () => {
-    console.log(state.history);
     state.history = [];
   };
 
