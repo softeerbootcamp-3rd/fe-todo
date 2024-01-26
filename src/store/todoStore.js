@@ -39,7 +39,7 @@ if (!historyList) {
 let inStoreData = { todoList: resultTodoList, history: resultHistory };
 const store = createStore(inStoreData, reducer);
 
-// reducer함수 => 여기선 state를 변경 + API서버로의 변경까지 진행
+// reducer함수 => 여기선 state를 변경 + API서버로의 변경까지 진행 => 낙관적 업데이트 방식 적용
 function reducer(state = {}, action) {
   //값을 받아서 state에 추가
   if (action.type === "plusTodoItem") {
