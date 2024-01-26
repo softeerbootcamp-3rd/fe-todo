@@ -2,7 +2,8 @@ import { renderCardList } from "@/view/Main/Column/renderCardList.js";
 import { renderListCount } from "@/view/Main/Column/renderListCount.js";
 import { store } from "@/model/Store";
 import { getHistoryTemplate } from "@/util/getHistoryTemplate";
-import { deleteModalView } from "../../../../view/Main/Column/Card/deleteModal";
+import { deleteModalView } from "@/view/Main/Column/Card/deleteModal";
+import { deleteCardInServer, addHistoryToServer } from "@/api/fetchServer";
 
 const getNewHistory = (deletedCard) => {
   const { author, title: cardTitle } = deletedCard;
@@ -29,12 +30,12 @@ export const deleteCard = async (target) => {
   const deletedCard = store.cardData[cardId];
   const newHistory = getNewHistory(deletedCard);
 
-  const newColumn = await store.deleteCardInServer(currentColumn.id, cardId);
+  const newColumn = await deleteCardInServer(currentColumn.id, cardId);
   store.deleteCard(newColumn);
   renderCardList(currentColumn);
   renderListCount(currentColumn);
   cancelDeleteCard(target);
-  const historyData = await store.addHistoryToServer(newHistory);
+  const historyData = await addHistoryToServer(newHistory);
   store.addHistory(historyData);
 };
 

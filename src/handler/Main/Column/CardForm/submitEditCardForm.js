@@ -2,6 +2,7 @@ import { store } from "@/model/Store.js";
 import { renderCardList } from "@/view/Main/Column/renderCardList.js";
 import { renderListCount } from "@/view/Main/Column/renderListCount.js";
 import { getHistoryTemplate } from "@/util/getHistoryTemplate";
+import { addHistoryToServer, editCardInServer } from "@/api/fetchServer";
 
 const getNewHistory = (newCard) => {
   const { author, updatedAt: time, title: cardTitle } = newCard;
@@ -25,7 +26,7 @@ export const submitEditCardForm = async (target) => {
   const currentColumn = target.closest("section");
   const cardId = target.id.split("-")[1];
   const cardData = createCardData(target);
-  const newCard = await store.editCardInServer(cardId, cardData);
+  const newCard = await editCardInServer(cardId, cardData);
   store.editCard(newCard);
 
   renderCardList(currentColumn);
@@ -33,6 +34,6 @@ export const submitEditCardForm = async (target) => {
   target.remove();
 
   const newHistory = getNewHistory(newCard);
-  const historyData = await store.addHistoryToServer(newHistory);
+  const historyData = await addHistoryToServer(newHistory);
   store.addHistory(historyData);
 };
