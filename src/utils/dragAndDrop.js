@@ -22,7 +22,6 @@ export function applyDragAndDrop(draggables, containers) {
     });
 
     draggable.addEventListener("dragend", ({ target }) => {
-      //자식 노드 객체를 배열로 바꿈.
       const childrenNodeArr = Array.from(target.parentNode.children);
 
       const todoColTitleDst = target.parentNode.id;
