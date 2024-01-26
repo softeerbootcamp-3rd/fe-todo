@@ -3,18 +3,18 @@ const limitedTextLen = 500;
 // checkArr의 모든 노드(인풋)의 value를 확인하고 부적절할 경우 statusNode를 disabled 상태로 만들어 줍니다
 function checkInput(checkArr, statusNode) {
   //flag = true => checkArr 모두 입력 상태
-  let flag = true;
+  let isAllIn = true;
   for (const element of checkArr) {
-    if (flag && element.value.length === 0) {
+    if (isAllIn && element.value.length === 0) {
       //제목, 내용 두개 중 하나라도 입력이 안되면 false
-      flag = false;
+      isAllIn = false;
     } else if (element.value.length > limitedTextLen) {
       //글자수 500자 수 제한
       element.value = element.value.substring(0, limitedTextLen);
       alert("최대 500자 까지 입력 가능합니다!");
     }
   }
-  flag
+  isAllIn
     ? statusNode.removeAttribute("disabled")
     : statusNode.setAttribute("disabled", "");
 }
