@@ -7,9 +7,9 @@ export const getDeviceInfo = () => {
 
   if (isMobile && isiOS) {
     return "iOS";
-  } else if (isMobile && isAndroid) {
-    return "Android";
-  } else {
-    return "Web";
   }
+  if (isMobile && isAndroid) {
+    return "Android";
+  }
+  return "Web";
 };
